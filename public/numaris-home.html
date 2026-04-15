@@ -147,7 +147,7 @@
 
     <div class="hidden lg:flex items-center gap-3 shrink-0">
       <a href="tel:+525556509228" class="text-[13px] text-white/40 hover:text-white/70 transition-colors">+52 55 5650 9228</a>
-      <a href="#contacto" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
+      <button onclick="openDemoModal()" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</button>
     </div>
 
     <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
@@ -164,7 +164,7 @@
       <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
         <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <a href="#contacto" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full">Contacto</a>
+        <button onclick="openDemoModal()" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full">Contacto</button>
       </div>
     </div>
   </div>
@@ -205,10 +205,10 @@
         </p>
 
         <div class="fi mt-7 flex flex-wrap items-center gap-3">
-          <a href="#contacto" class="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-medium text-white">
+          <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-medium text-white">
             Solicitar demo gratis
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+          </button>
           <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-medium text-white/70">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             WhatsApp
@@ -1163,6 +1163,200 @@ const so = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { countUp(e.target); so.unobserve(e.target); }
 }), { threshold: 0.5 });
 document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
+</script>
+
+<!-- ═══════════════════════════════════════════
+     DEMO MODAL
+════════════════════════════════════════════ -->
+<div id="demo-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4"
+     style="display:none!important;background:rgba(3,11,23,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+
+  <!-- Card -->
+  <div id="modal-card"
+       class="relative w-full max-w-lg rounded-2xl overflow-hidden"
+       style="background:#070F1C;border:1px solid rgba(36,95,165,.25);
+              box-shadow:0 0 60px rgba(36,95,165,.15),0 32px 64px rgba(0,0,0,.7);
+              transform:scale(.95) translateY(12px);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s ease">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-7 py-5" style="border-bottom:1px solid rgba(36,95,165,.15)">
+      <div>
+        <p class="text-[11px] font-medium uppercase tracking-widest mb-0.5" style="color:rgba(110,176,255,.55)">Demo gratuita</p>
+        <h3 class="text-[18px] font-bold text-white/88 leading-tight tracking-tight">
+          <span class="glow-text">Transforma</span> tu operación
+        </h3>
+      </div>
+      <button onclick="closeDemoModal()"
+              class="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/8"
+              style="border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body — scrollable -->
+    <div class="px-7 py-6 overflow-y-auto" style="max-height:calc(90vh - 140px)">
+
+      <form id="modal-form" action="https://formspree.io/f/xyzgpojb" method="POST" class="space-y-4">
+
+        <!-- Nombre + Email -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="form-label">Nombre completo</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" name="email" placeholder="correo@empresa.com" class="form-input" required />
+          </div>
+        </div>
+
+        <!-- Celular -->
+        <div>
+          <label class="form-label">Celular</label>
+          <div class="flex gap-2">
+            <div class="flex items-center gap-2 px-3 rounded-[10px] shrink-0 text-[13px] font-medium"
+                 style="background:rgba(255,255,255,.04);border:1px solid rgba(36,95,165,.2);color:rgba(255,255,255,.7);min-width:80px;height:44px">
+              <span>🇲🇽</span><span>+52</span>
+            </div>
+            <input type="tel" name="celular" placeholder="Celular" class="form-input" />
+          </div>
+        </div>
+
+        <!-- Como nos encontraste -->
+        <div>
+          <label class="form-label">¿Cómo te enteraste de nosotros?</label>
+          <select name="fuente" class="form-input">
+            <option value="" disabled selected>Selecciona una opción</option>
+            <option value="google">Google / Búsqueda web</option>
+            <option value="redes">Redes sociales</option>
+            <option value="recomendacion">Recomendación</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="evento">Evento / Feria</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+
+        <!-- Empresa -->
+        <div>
+          <label class="form-label">Empresa</label>
+          <input type="text" name="empresa" placeholder="Nombre de tu empresa" class="form-input" />
+        </div>
+
+        <!-- Unidades + Servicio -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="form-label">Número de unidades</label>
+            <select name="unidades" class="form-input">
+              <option value="" disabled selected>Unidades</option>
+              <option value="1-10">1 – 10</option>
+              <option value="11-50">11 – 50</option>
+              <option value="51-100">51 – 100</option>
+              <option value="101-500">101 – 500</option>
+              <option value="500+">Más de 500</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Servicio de interés</label>
+            <select name="servicio" class="form-input">
+              <option value="" disabled selected>Servicio</option>
+              <option value="gps">GPS Satelital</option>
+              <option value="video">Video IA</option>
+              <option value="combustible">Control de Combustible</option>
+              <option value="mantenimiento">Mantenimiento</option>
+              <option value="todos">Todos los servicios</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-1">
+          <button type="submit" id="modal-submit"
+                  class="btn-primary w-full flex items-center justify-center gap-2 py-3.5 rounded-full text-[14px] font-semibold text-white">
+            Solicitar demo gratis
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+
+        <p class="text-center text-[11px] font-light" style="color:rgba(74,106,136,.45)">
+          Sin spam · Sin tarjeta de crédito ·
+          <a href="#" style="color:rgba(110,176,255,.45)" class="hover:underline">Privacidad</a>
+        </p>
+
+      </form>
+
+      <!-- Success -->
+      <div id="modal-success" class="hidden text-center py-10">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+             style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5">
+            <polyline points="20,6 9,17 4,12"/>
+          </svg>
+        </div>
+        <h3 class="text-[20px] font-semibold text-white/85 mb-2">¡Listo! 🎉</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:var(--muted)">
+          Recibimos tu solicitud. Nos pondremos en contacto<br/>contigo en menos de 24 horas.
+        </p>
+        <button onclick="closeDemoModal()"
+                class="btn-ghost inline-flex items-center gap-2 mt-7 px-6 py-2.5 rounded-full text-[13px] font-medium text-white/65">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function openDemoModal() {
+  const overlay = document.getElementById('demo-modal');
+  const card    = document.getElementById('modal-card');
+  overlay.style.setProperty('display','flex','important');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    card.style.transform = 'scale(1) translateY(0)';
+    card.style.opacity   = '1';
+  }));
+}
+function closeDemoModal() {
+  const overlay = document.getElementById('demo-modal');
+  const card    = document.getElementById('modal-card');
+  card.style.transform = 'scale(.95) translateY(12px)';
+  card.style.opacity   = '0';
+  setTimeout(() => {
+    overlay.style.setProperty('display','none','important');
+    document.body.style.overflow = '';
+    // reset form
+    const f = document.getElementById('modal-form');
+    const s = document.getElementById('modal-success');
+    const b = document.getElementById('modal-submit');
+    if(f){ f.reset(); f.classList.remove('hidden'); }
+    if(s){ s.classList.add('hidden'); }
+    if(b){ b.disabled=false; b.innerHTML='Solicitar demo gratis <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; }
+  }, 280);
+}
+// Close on overlay click
+document.getElementById('demo-modal').addEventListener('click', function(e){
+  if(e.target === this) closeDemoModal();
+});
+// Close on Escape
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeDemoModal(); });
+// Form submit
+document.getElementById('modal-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('modal-submit');
+  btn.textContent = 'Enviando…'; btn.disabled = true;
+  try {
+    const res = await fetch(this.action,{method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}});
+    if(res.ok){
+      this.classList.add('hidden');
+      document.getElementById('modal-success').classList.remove('hidden');
+    } else { btn.textContent='Error — intenta de nuevo'; btn.disabled=false; }
+  } catch { btn.textContent='Error — intenta de nuevo'; btn.disabled=false; }
+});
 </script>
 </body>
 </html>
