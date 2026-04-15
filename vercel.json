@@ -1,0 +1,9 @@
+{
+  "framework": null,
+  "buildCommand": null,
+  "devCommand": null,
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/", "destination": "/numaris-home.html" }
+  ]
+}

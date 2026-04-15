@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Numaris — Control total de tu flota en tiempo real. Rastreo satelital, control de combustible, video-IA y mantenimiento para flotillas en México." />
+  <meta name="keywords" content="flotillas, rastreo GPS, telemetría, control combustible, videotelemetría, México" />
+  <title>Numaris — Control total de tu flota. En tiempo real.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:   { DEFAULT:'#1A3C6E', dark:'#0D1F3C', mid:'#1E4A82' },
+            accent: { DEFAULT:'#2E75B6', light:'#EAF1FA' },
+            cta:    '#F97316',
+          },
+          fontFamily: { sans:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --navy:   #1A3C6E;
+      --navy-d: #0D1F3C;
+      --accent: #2E75B6;
+      --cta:    #F97316;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:#0D1F3C; color:#F0F4F8; overflow-x:hidden; }
+
+    /* ── Glow orbs ─────────────────────────────────────────── */
+    @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.65} }
+    .glow-orb {
+      position:absolute; border-radius:50%; pointer-events:none; filter:blur(80px);
+      animation: glow-pulse 5s ease-in-out infinite;
+    }
+
+    /* ── Dot grid ──────────────────────────────────────────── */
+    .dot-grid {
+      background-image: radial-gradient(rgba(46,117,182,.25) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    /* ── Liquid glass ──────────────────────────────────────── */
+    .glass {
+      background: rgba(255,255,255,.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      position: relative;
+    }
+    .glass::before {
+      content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+      background: linear-gradient(160deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 40%,rgba(255,255,255,.08) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+    }
+
+    /* ── Gradient text ─────────────────────────────────────── */
+    .text-grd {
+      background: linear-gradient(135deg, #e0ecff 0%, #2E75B6 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Marquee ───────────────────────────────────────────── */
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-track { display:flex; width:max-content; animation: marquee 32s linear infinite; gap:12px; }
+
+    /* ── Pulse dot ─────────────────────────────────────────── */
+    @keyframes pdot {0%,100%{box-shadow:0 0 0 0 rgba(46,117,182,.7)} 50%{box-shadow:0 0 0 10px rgba(46,117,182,0)}}
+    .pdot { animation: pdot 2.2s ease-in-out infinite; }
+
+    /* ── Fade-in on scroll ─────────────────────────────────── */
+    .fi { opacity:0; transform:translateY(22px); transition:opacity .6s ease,transform .6s ease; }
+    .fi.on { opacity:1; transform:translateY(0); }
+
+    /* ── Buttons ───────────────────────────────────────────── */
+    .btn { transition:transform .15s ease, box-shadow .15s ease; cursor:pointer; }
+    .btn:hover { transform:scale(1.025); }
+
+    /* ── Navbar ────────────────────────────────────────────── */
+    #navbar { transition: background .25s ease, box-shadow .25s ease; }
+    #navbar.scrolled { background: rgba(13,31,60,.92)!important; backdrop-filter:blur(14px); box-shadow:0 1px 20px rgba(0,0,0,.4); }
+
+    /* ── Range slider ──────────────────────────────────────── */
+    input[type=range] { -webkit-appearance:none; appearance:none; height:4px; border-radius:2px; outline:none; cursor:pointer; background: rgba(255,255,255,.1); }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#2E75B6; border:2px solid #5A9FD4; cursor:pointer; transition:background .15s; }
+    input[type=range]::-webkit-slider-thumb:hover { background:#5A9FD4; }
+
+    /* ── Mobile menu ───────────────────────────────────────── */
+    .mob-menu { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+    .mob-menu.open { max-height:520px; }
+
+    /* ── Card hover ────────────────────────────────────────── */
+    .sol-card { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .sol-card:hover { transform:translateY(-4px); border-color:rgba(46,117,182,.5); box-shadow:0 0 30px rgba(46,117,182,.12); }
+
+    /* ── Neon glow on CTA button ───────────────────────────── */
+    .btn-cta { box-shadow:0 0 30px rgba(249,115,22,.35); }
+    .btn-cta:hover { box-shadow:0 0 46px rgba(249,115,22,.55); }
+    .btn-neon { box-shadow:0 0 24px rgba(46,117,182,.3); }
+    .btn-neon:hover { box-shadow:0 0 40px rgba(46,117,182,.5); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ NAVBAR ══════════════════════ -->
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50" style="background:rgba(13,31,60,.6)">
+  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+    <!-- Logo -->
+    <a href="#" aria-label="Numaris" class="shrink-0">
+      <img src="/logo-horizontal-dark.jpg" alt="Numaris" class="h-8 w-auto object-contain rounded-sm" />
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-0.5">
+      <a href="#soluciones" class="relative px-3.5 py-2 text-sm font-medium text-white/70 hover:text-white rounded-md transition-colors">
+        Soluciones
+        <span class="absolute bottom-0 left-3 right-3 h-px" style="background:linear-gradient(90deg,transparent,#2E75B6,transparent)"></span>
+      </a>
+      <a href="#seguridad"  class="px-3.5 py-2 text-sm font-medium text-white/60 hover:text-white rounded-md transition-colors">Seguridad</a>
+      <a href="#plataforma" class="px-3.5 py-2 text-sm font-medium text-white/60 hover:text-white rounded-md transition-colors">Plataforma</a>
+      <a href="#clientes"   class="px-3.5 py-2 text-sm font-medium text-white/60 hover:text-white rounded-md transition-colors">Clientes</a>
+      <a href="#nosotros"   class="px-3.5 py-2 text-sm font-medium text-white/60 hover:text-white rounded-md transition-colors line-through opacity-50 pointer-events-none">Blog</a>
+    </div>
+
+    <!-- CTA -->
+    <div class="hidden md:flex items-center gap-3 shrink-0">
+      <button class="btn px-4 py-2 text-sm font-medium text-white/70 hover:text-white border border-white/20 rounded hover:border-white/40 transition-all" style="border-radius:4px">Iniciar sesión</button>
+      <button class="btn btn-cta px-4 py-2 text-sm font-semibold text-white rounded" style="background:#F97316;border-radius:4px">Solicitar demo</button>
+    </div>
+
+    <!-- Hamburger -->
+    <button id="ham" class="md:hidden p-2 text-white/70 hover:text-white" aria-label="Menú" aria-expanded="false">
+      <svg id="ico-open"  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </nav>
+  <div class="mob-menu md:hidden px-6" id="mob-menu" style="background:rgba(13,31,60,.97);border-top:1px solid rgba(255,255,255,.06)">
+    <div class="py-3 flex flex-col gap-0.5">
+      <a href="#soluciones" class="py-2.5 text-sm text-white/70 hover:text-white font-medium">Soluciones</a>
+      <a href="#seguridad"  class="py-2.5 text-sm text-white/70 hover:text-white font-medium">Seguridad</a>
+      <a href="#plataforma" class="py-2.5 text-sm text-white/70 hover:text-white font-medium">Plataforma</a>
+      <a href="#clientes"   class="py-2.5 text-sm text-white/70 hover:text-white font-medium">Clientes</a>
+      <div class="pt-3 flex flex-col gap-2 border-t border-white/10 mt-1">
+        <button class="w-full py-2.5 text-sm text-white/70 border border-white/20 rounded">Iniciar sesión</button>
+        <button class="w-full py-2.5 text-sm font-semibold text-white rounded btn-cta" style="background:#F97316;border-radius:4px">Solicitar demo</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background:#0D1F3C">
+
+  <!-- Background video -->
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover" style="opacity:.22">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260308_114720_3dabeb9e-2c39-4907-b747-bc3544e2d5b7.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Gradient overlays -->
+  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom,#0D1F3C 0%,rgba(13,31,60,.55) 40%,rgba(13,31,60,.8) 85%,#0D1F3C 100%)"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to right,rgba(13,31,60,.9) 0%,rgba(13,31,60,.3) 60%,rgba(13,31,60,.5) 100%)"></div>
+
+  <!-- Glow orbs -->
+  <div class="glow-orb" style="width:700px;height:700px;background:radial-gradient(circle,rgba(46,117,182,.22) 0%,transparent 70%);top:-200px;left:-150px;animation-delay:0s"></div>
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(30,74,130,.18) 0%,transparent 70%);bottom:-100px;right:-100px;animation-delay:2.5s"></div>
+  <div class="glow-orb" style="width:350px;height:350px;background:radial-gradient(circle,rgba(46,117,182,.12) 0%,transparent 70%);top:40%;right:20%;animation-delay:1s"></div>
+
+  <!-- Dot grid -->
+  <div class="dot-grid absolute inset-0 opacity-30 pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
+    <div class="grid lg:grid-cols-5 gap-14 items-center">
+
+      <!-- Left 60% -->
+      <div class="lg:col-span-3">
+        <!-- Eyebrow badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 glass" style="border-color:rgba(46,117,182,.35)">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#2E75B6;box-shadow:0 0 6px #2E75B6;animation:glow-pulse 2s infinite"></span>
+          <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Tecnología para el Transporte de Carga</span>
+        </div>
+
+        <h1 class="text-5xl lg:text-[58px] font-extrabold leading-[1.1] tracking-tight mb-6 text-white">
+          Control total de tu flota.<br />
+          <span class="text-grd">En tiempo real.</span>
+        </h1>
+
+        <p class="text-lg leading-relaxed mb-8 max-w-[530px]" style="color:#94B8D8">
+          Conectamos tus unidades, tus operadores y tu operación en una sola plataforma.
+          Menos costos, más seguridad, mejores decisiones.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-7">
+          <button class="btn btn-cta flex items-center gap-2 px-7 py-3.5 text-base font-semibold text-white rounded" style="background:#F97316;border-radius:4px">
+            Solicitar demo gratis
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn btn-neon flex items-center gap-2 px-7 py-3.5 text-base font-medium text-white glass rounded" style="border-radius:4px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            Ver la plataforma
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm" style="color:#6A90B0">
+          <span class="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E75B6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+            +5,000 empresas confían en Numaris
+          </span>
+          <span class="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E75B6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+            +100,000 unidades conectadas
+          </span>
+        </div>
+      </div>
+
+      <!-- Right 40% — Dashboard mockup -->
+      <div class="lg:col-span-2">
+        <div class="glass rounded-2xl shadow-2xl overflow-hidden" style="border-color:rgba(46,117,182,.3);box-shadow:0 0 60px rgba(46,117,182,.15),0 25px 50px rgba(0,0,0,.5)">
+          <!-- Window chrome -->
+          <div class="flex items-center gap-2 px-4 py-3 border-b" style="background:rgba(26,58,110,.6);border-color:rgba(255,255,255,.08)">
+            <span class="w-3 h-3 rounded-full" style="background:#FF5F56"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#FFBD2E"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#27C93F"></span>
+            <span class="ml-3 text-xs font-mono" style="color:#4A7BA8">app.numaris.io/dashboard</span>
+          </div>
+          <div class="p-4" style="background:rgba(13,31,60,.8)">
+            <!-- Map -->
+            <div class="rounded-lg relative overflow-hidden mb-3" style="background:#071525;height:185px">
+              <div class="absolute inset-0 opacity-15" style="background-image:linear-gradient(rgba(46,117,182,1) 1px,transparent 1px),linear-gradient(90deg,rgba(46,117,182,1) 1px,transparent 1px);background-size:28px 28px"></div>
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 320 185" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="routeGrd" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#2E75B6" stop-opacity=".4"/>
+                    <stop offset="100%" stop-color="#5BA8DE" stop-opacity=".9"/>
+                  </linearGradient>
+                </defs>
+                <polyline points="30,150 75,120 125,95 175,105 225,72 275,52" fill="none" stroke="url(#routeGrd)" stroke-width="2.5" stroke-dasharray="5 3"/>
+              </svg>
+              <!-- Pulsing vehicle dot -->
+              <div class="pdot absolute w-3.5 h-3.5 rounded-full" style="background:#2E75B6;top:calc(52% - 7px);left:calc(54% - 7px)"></div>
+              <div class="absolute w-2.5 h-2.5 rounded-full" style="background:#F97316;top:63%;left:28%"></div>
+              <div class="absolute w-2.5 h-2.5 rounded-full" style="background:#27C93F;top:32%;left:76%"></div>
+              <!-- Label -->
+              <div class="absolute top-2 left-2 text-[10px] font-mono px-2 py-0.5 rounded" style="background:rgba(46,117,182,.25);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">
+                EN VIVO — 247 unidades
+              </div>
+              <!-- Glow around pulse dot -->
+              <div class="absolute w-8 h-8 rounded-full" style="background:radial-gradient(circle,rgba(46,117,182,.4) 0%,transparent 70%);top:calc(52% - 16px);left:calc(54% - 16px);pointer-events:none"></div>
+            </div>
+            <!-- Stat row -->
+            <div class="grid grid-cols-3 gap-2">
+              <div class="rounded-lg p-3 text-center" style="background:rgba(7,21,37,.8);border:1px solid rgba(46,117,182,.15)">
+                <p class="text-xs font-mono font-bold" style="color:#7DD3FC">87 km/h</p>
+                <p class="text-[10px] mt-0.5" style="color:#4A7BA8">Velocidad</p>
+              </div>
+              <div class="rounded-lg p-3 text-center" style="background:rgba(7,21,37,.8);border:1px solid rgba(46,117,182,.15)">
+                <p class="text-xs font-mono font-bold" style="color:#34D399">68%</p>
+                <p class="text-[10px] mt-0.5" style="color:#4A7BA8">Combustible</p>
+              </div>
+              <div class="rounded-lg p-3 text-center" style="background:rgba(7,21,37,.8);border:1px solid rgba(249,115,22,.2)">
+                <p class="text-xs font-mono font-bold" style="color:#FCA5A5">2 alertas</p>
+                <p class="text-[10px] mt-0.5" style="color:#4A7BA8">Activas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ STATS ══════════════════════ -->
+<section class="relative overflow-hidden" style="background:#0A1929;border-top:1px solid rgba(46,117,182,.2);border-bottom:1px solid rgba(46,117,182,.2)">
+  <div class="glow-orb" style="width:500px;height:200px;background:radial-gradient(ellipse,rgba(46,117,182,.1) 0%,transparent 70%);top:0;left:50%;transform:translateX(-50%)"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x divide-white/8">
+      <div class="text-center px-6 fi">
+        <p class="stat-n text-4xl font-extrabold text-white" data-t="5000" data-p="+" data-s="">0</p>
+        <p class="text-sm mt-1" style="color:#6A90B0">Empresas activas</p>
+      </div>
+      <div class="text-center px-6 fi">
+        <p class="stat-n text-4xl font-extrabold text-white" data-t="12000" data-p="+" data-s="">0</p>
+        <p class="text-sm mt-1" style="color:#6A90B0">Unidades rastreadas</p>
+      </div>
+      <div class="text-center px-6 fi">
+        <p class="stat-n text-4xl font-extrabold text-white" data-t="99.9" data-p="" data-s="%">0</p>
+        <p class="text-sm mt-1" style="color:#6A90B0">Uptime garantizado</p>
+      </div>
+      <div class="text-center px-6 fi">
+        <p class="stat-n text-4xl font-extrabold text-white" data-t="30" data-p="" data-s="% ahorro">0</p>
+        <p class="text-sm mt-1" style="color:#6A90B0">Promedio en combustible</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SOCIAL PROOF MARQUEE ══════════════════════ -->
+<section class="relative overflow-hidden py-12" style="background:#0D1F3C;border-bottom:1px solid rgba(255,255,255,.05)">
+  <p class="text-center text-[11px] font-semibold uppercase tracking-widest mb-8" style="color:#3A6080">Confiado por empresas líderes en México · +5,000 flotillas administradas a nivel nacional</p>
+  <div class="relative">
+    <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(to right,#0D1F3C,transparent)"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(to left,#0D1F3C,transparent)"></div>
+    <div class="marquee-track">
+      <!-- 20 pills = 10 brands × 2 for seamless loop -->
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">U</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Unilever</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">P</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">PepsiCo</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">F</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">FEMSA</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">C</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Grupo Carso</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">O</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">OXXO</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">A</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Alsea</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">B</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Bimbo</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">L</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Liverpool</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">S</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Soriana</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">Co</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Coppel</span></div>
+      <!-- duplicate -->
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">U</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Unilever</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">P</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">PepsiCo</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">F</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">FEMSA</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">C</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Grupo Carso</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">O</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">OXXO</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">A</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Alsea</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">B</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Bimbo</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">L</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Liverpool</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">S</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Soriana</span></div>
+      <div class="glass flex items-center gap-2 px-4 py-2.5 rounded-full shrink-0" style="border-color:rgba(46,117,182,.25)"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(46,117,182,.2);color:#7DB8E8;border:1px solid rgba(46,117,182,.3)">Co</span><span class="text-sm font-medium whitespace-nowrap" style="color:rgba(255,255,255,.5)">Coppel</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SOLUTIONS ══════════════════════ -->
+<section id="soluciones" class="relative py-24 overflow-hidden" style="background:#0D1F3C">
+  <div class="glow-orb" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(46,117,182,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="dot-grid absolute inset-0 opacity-20 pointer-events-none"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 fi">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 glass" style="border-color:rgba(46,117,182,.3)">
+        <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Soluciones</span>
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
+        Todo lo que tu flota necesita,<br/><span class="text-grd">en una plataforma.</span>
+      </h2>
+      <p class="text-lg max-w-2xl mx-auto" style="color:#6A90B0">
+        Desde el control de combustible hasta la seguridad vial con IA, Numaris unifica cada aspecto de la gestión de flotillas.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Card 1 -->
+      <article class="fi sol-card glass rounded-2xl p-6 overflow-hidden" style="border-color:rgba(46,117,182,.2)">
+        <div class="absolute top-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,#2E75B6,transparent)"></div>
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(46,117,182,.15);border:1px solid rgba(46,117,182,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E75B6" stroke-width="2"><path d="M3 22V8l9-6 9 6v14"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-2">Control de Combustible</h3>
+        <p class="text-sm leading-relaxed mb-5" style="color:#6A90B0">Monitorea consumos en tiempo real, detecta desvíos y reduce hasta 30% el gasto con alertas automáticas.</p>
+        <ul class="space-y-1.5">
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#2E75B6"></span>Sensores de nivel</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#2E75B6"></span>Alertas de desvío</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#2E75B6"></span>Reportes CFDI</li>
+        </ul>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="fi sol-card glass rounded-2xl p-6 overflow-hidden" style="border-color:rgba(46,182,120,.15)">
+        <div class="absolute top-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,#27C93F,transparent)"></div>
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(39,201,63,.12);border:1px solid rgba(39,201,63,.25)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#27C93F" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-2">Rastreo Satelital</h3>
+        <p class="text-sm leading-relaxed mb-5" style="color:#6A90B0">GPS de alta precisión con historial de rutas, geocercas configurables y seguimiento de conductores en vivo.</p>
+        <ul class="space-y-1.5">
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#27C93F"></span>GPS en tiempo real</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#27C93F"></span>Geocercas</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#27C93F"></span>Historial 90 días</li>
+        </ul>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="fi sol-card glass rounded-2xl p-6 overflow-hidden" style="border-color:rgba(249,115,22,.15)">
+        <div class="absolute top-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,#F97316,transparent)"></div>
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/></svg>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-2">Control y Registro</h3>
+        <p class="text-sm leading-relaxed mb-5" style="color:#6A90B0">Centraliza bitácoras, órdenes de servicio, checklist de operador y documentación de cada unidad.</p>
+        <ul class="space-y-1.5">
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#F97316"></span>Bitácora digital</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#F97316"></span>Checklist NOM-087</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#F97316"></span>Órdenes de trabajo</li>
+        </ul>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="fi sol-card glass rounded-2xl p-6 overflow-hidden" style="border-color:rgba(168,85,247,.15)">
+        <div class="absolute top-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,#A855F7,transparent)"></div>
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.25)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2"><rect x="2" y="7" width="15" height="12" rx="2"/><path d="M17 11l5-3v8l-5-3"/><circle cx="8" cy="13" r="1.5" fill="#A855F7" stroke="none"/></svg>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-2">Video-IA y Seguridad</h3>
+        <p class="text-sm leading-relaxed mb-5" style="color:#6A90B0">Cámaras con IA que detectan fatiga, distracción y eventos de riesgo antes de que ocurran accidentes.</p>
+        <ul class="space-y-1.5">
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#A855F7"></span>Detección de fatiga</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#A855F7"></span>Evento en segundos</li>
+          <li class="flex items-center gap-2 text-xs" style="color:#4A7BA8"><span class="w-1 h-1 rounded-full" style="background:#A855F7"></span>Evidencia en nube</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SEGURIDAD ══════════════════════ -->
+<section id="seguridad" class="relative py-24 overflow-hidden" style="background:#08141F">
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(249,115,22,.08) 0%,transparent 70%);top:0;right:0"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(46,117,182,.12) 0%,transparent 70%);bottom:0;left:0;animation-delay:2s"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="fi">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3)">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#F97316;box-shadow:0 0 6px #F97316"></span>
+          <span class="text-xs font-bold tracking-widest uppercase" style="color:#FB923C">Seguridad</span>
+        </div>
+        <h2 class="text-4xl lg:text-[42px] font-extrabold text-white leading-tight mb-6">
+          Tu flota, visible y <span class="text-grd">protegida las 24 horas.</span>
+        </h2>
+        <p class="text-base leading-relaxed mb-8" style="color:#6A90B0">
+          Numaris te da visibilidad completa sobre cada unidad, conductor y ruta — desde camiones de carga hasta vehículos ligeros y maquinaria especial.
+        </p>
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-start gap-3">
+            <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>
+            </span>
+            <span class="text-sm" style="color:#94B8D8">Monitoreo patrimonial 24/7 con geocercas configurables</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>
+            </span>
+            <span class="text-sm" style="color:#94B8D8">Protocolo de respuesta ante robo con coordinación en tiempo real</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>
+            </span>
+            <span class="text-sm" style="color:#94B8D8">Detección de fatiga y distracción al volante</span>
+          </li>
+        </ul>
+        <div class="flex gap-8">
+          <div><p class="text-3xl font-extrabold text-white">12,000+</p><p class="text-xs mt-1" style="color:#4A7BA8">unidades rastreadas</p></div>
+          <div><p class="text-3xl font-extrabold text-white">99.9%</p><p class="text-xs mt-1" style="color:#4A7BA8">uptime garantizado</p></div>
+        </div>
+      </div>
+
+      <div class="fi flex flex-col gap-4">
+        <div class="glass rounded-2xl p-6" style="border-color:rgba(46,117,182,.25);box-shadow:0 0 30px rgba(46,117,182,.08)">
+          <p class="text-3xl font-extrabold text-white mb-1">16,000+</p>
+          <p class="text-sm" style="color:#4A7BA8">Accidentes en carretera al año en México <span class="text-xs opacity-60">(INEGI)</span></p>
+        </div>
+        <div class="glass rounded-2xl p-6" style="border-color:rgba(249,115,22,.2);box-shadow:0 0 30px rgba(249,115,22,.06)">
+          <p class="text-3xl font-extrabold text-white mb-1">$1,200M</p>
+          <p class="text-sm" style="color:#4A7BA8">Pérdidas anuales por robo de carga en México</p>
+        </div>
+        <div class="glass rounded-2xl p-6" style="border-color:rgba(39,201,63,.2);box-shadow:0 0 30px rgba(39,201,63,.06)">
+          <p class="text-3xl font-extrabold text-white mb-1">70%</p>
+          <p class="text-sm" style="color:#4A7BA8">De accidentes son prevenibles con monitoreo activo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ PLATFORM ══════════════════════ -->
+<section id="plataforma" class="relative py-24 overflow-hidden" style="background:#0D1F3C">
+  <div class="dot-grid absolute inset-0 opacity-15 pointer-events-none"></div>
+  <div class="glow-orb" style="width:500px;height:300px;background:radial-gradient(ellipse,rgba(46,117,182,.1) 0%,transparent 70%);top:0;right:0"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <!-- Dashboard -->
+      <div class="fi glass rounded-2xl overflow-hidden" style="border-color:rgba(46,117,182,.3);box-shadow:0 0 60px rgba(46,117,182,.12)">
+        <div class="flex items-center gap-2 px-4 py-3 border-b" style="background:rgba(26,58,110,.5);border-color:rgba(255,255,255,.07)">
+          <span class="w-3 h-3 rounded-full" style="background:#FF5F56"></span>
+          <span class="w-3 h-3 rounded-full" style="background:#FFBD2E"></span>
+          <span class="w-3 h-3 rounded-full" style="background:#27C93F"></span>
+          <span class="ml-2 text-xs font-mono" style="color:#4A7BA8">app.numaris.io/plataforma</span>
+        </div>
+        <div class="p-5" style="background:rgba(7,21,37,.9)">
+          <div class="rounded-lg relative mb-4" style="background:#071525;height:200px;overflow:hidden">
+            <div class="absolute inset-0 opacity-12" style="background-image:linear-gradient(rgba(46,117,182,1) 1px,transparent 1px),linear-gradient(90deg,rgba(46,117,182,1) 1px,transparent 1px);background-size:25px 25px"></div>
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 380 200" preserveAspectRatio="none">
+              <polyline points="40,165 95,135 150,100 205,115 260,78 320,55" fill="none" stroke="url(#routeGrd)" stroke-width="2.5" stroke-dasharray="5 3"/>
+            </svg>
+            <div class="pdot absolute w-3.5 h-3.5 rounded-full" style="background:#F97316;top:48%;left:50%"></div>
+            <div class="absolute w-2.5 h-2.5 rounded-full" style="background:#2E75B6;top:65%;left:28%"></div>
+            <div class="absolute w-2.5 h-2.5 rounded-full" style="background:#27C93F;top:30%;left:73%"></div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between px-3 py-2 rounded" style="background:rgba(13,31,60,.8);border:1px solid rgba(46,117,182,.15)">
+              <span class="text-xs font-mono" style="color:#7DB8E8">TRK-042 · CDMX — MTY</span>
+              <span class="text-xs font-mono" style="color:#34D399">En ruta</span>
+            </div>
+            <div class="flex items-center justify-between px-3 py-2 rounded" style="background:rgba(13,31,60,.8);border:1px solid rgba(249,115,22,.15)">
+              <span class="text-xs font-mono" style="color:#7DB8E8">TRK-018 · GDL — CDMX</span>
+              <span class="text-xs font-mono" style="color:#FCA5A5">Alerta activa</span>
+            </div>
+            <div class="flex items-center justify-between px-3 py-2 rounded" style="background:rgba(13,31,60,.8);border:1px solid rgba(46,117,182,.15)">
+              <span class="text-xs font-mono" style="color:#7DB8E8">TRK-091 · MTY — SLP</span>
+              <span class="text-xs font-mono" style="color:#34D399">En ruta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="fi">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 glass" style="border-color:rgba(46,117,182,.3)">
+          <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Plataforma</span>
+        </div>
+        <h3 class="text-3xl lg:text-4xl font-extrabold text-white mb-4 leading-tight">Todo en un solo panel.<br /><span class="text-grd">Sin complicaciones.</span></h3>
+        <p class="text-base leading-relaxed mb-6" style="color:#6A90B0">
+          Desde la ubicación de cada unidad hasta reportes de combustible y comportamiento del operador — todo en tiempo real, en un solo lugar.
+        </p>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="px-3 py-1.5 rounded-full text-xs font-semibold glass" style="border-color:rgba(46,117,182,.3);color:#7DB8E8">Alertas instantáneas</span>
+          <span class="px-3 py-1.5 rounded-full text-xs font-semibold glass" style="border-color:rgba(46,117,182,.3);color:#7DB8E8">Reportes automáticos</span>
+          <span class="px-3 py-1.5 rounded-full text-xs font-semibold glass" style="border-color:rgba(46,117,182,.3);color:#7DB8E8">Acceso móvil</span>
+          <span class="px-3 py-1.5 rounded-full text-xs font-semibold glass" style="border-color:rgba(46,117,182,.3);color:#7DB8E8">Multi-flota</span>
+        </div>
+        <!-- Operator scorecard mini -->
+        <div class="glass rounded-xl p-4 space-y-3" style="border-color:rgba(46,117,182,.2)">
+          <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:#4A7BA8">Scorecard operadores</p>
+          <div><div class="flex justify-between text-xs mb-1"><span style="color:#94B8D8">Juan R.</span><span style="color:#34D399;font-weight:700">94/100</span></div><div class="h-1.5 rounded-full" style="background:rgba(255,255,255,.08)"><div class="h-full rounded-full" style="width:94%;background:linear-gradient(90deg,#2E75B6,#34D399)"></div></div></div>
+          <div><div class="flex justify-between text-xs mb-1"><span style="color:#94B8D8">Pedro M.</span><span style="color:#F97316;font-weight:700">72/100</span></div><div class="h-1.5 rounded-full" style="background:rgba(255,255,255,.08)"><div class="h-full rounded-full" style="width:72%;background:linear-gradient(90deg,#2E75B6,#F97316)"></div></div></div>
+          <div><div class="flex justify-between text-xs mb-1"><span style="color:#94B8D8">Ana G.</span><span style="color:#7DB8E8;font-weight:700">88/100</span></div><div class="h-1.5 rounded-full" style="background:rgba(255,255,255,.08)"><div class="h-full rounded-full" style="width:88%;background:linear-gradient(90deg,#1A3C6E,#2E75B6)"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CALCULATOR ══════════════════════ -->
+<section class="relative py-24 overflow-hidden" style="background:#08141F">
+  <div class="glow-orb" style="width:600px;height:300px;background:radial-gradient(ellipse,rgba(46,117,182,.1) 0%,transparent 70%);bottom:0;left:50%;transform:translateX(-50%)"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fi">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 glass" style="border-color:rgba(46,117,182,.3)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DB8E8" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="14" y2="14"/></svg>
+        <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Calculadora de Ahorro</span>
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
+        Cuánto puedes <span class="text-grd">ahorrar con Numaris.</span>
+      </h2>
+      <p class="text-lg max-w-xl mx-auto" style="color:#6A90B0">Ajusta los parámetros de tu flota y calcula el ahorro potencial anual.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10 items-start">
+      <!-- Sliders -->
+      <div class="fi glass rounded-2xl p-8 space-y-8" style="border-color:rgba(46,117,182,.2)">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <label class="text-sm font-medium text-white">Número de vehículos</label>
+            <span class="text-sm font-bold" style="color:#7DB8E8"><span id="v-units">50</span> <span class="text-xs font-normal" style="color:#4A7BA8">unidades</span></span>
+          </div>
+          <input id="r-units" type="range" min="1" max="500" step="1" value="50" class="w-full" oninput="calc()" />
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <label class="text-sm font-medium text-white">Consumo promedio diario</label>
+            <span class="text-sm font-bold" style="color:#7DB8E8"><span id="v-litres">120</span> <span class="text-xs font-normal" style="color:#4A7BA8">litros / día</span></span>
+          </div>
+          <input id="r-litres" type="range" min="20" max="500" step="5" value="120" class="w-full" oninput="calc()" />
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <label class="text-sm font-medium text-white">Precio del combustible</label>
+            <span class="text-sm font-bold" style="color:#7DB8E8">$<span id="v-price">23.5</span> <span class="text-xs font-normal" style="color:#4A7BA8">MXN / litro</span></span>
+          </div>
+          <input id="r-price" type="range" min="18" max="35" step="0.5" value="23.5" class="w-full" oninput="calc()" />
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="fi flex flex-col gap-4">
+        <div class="glass rounded-2xl p-8 text-center" style="border-color:rgba(249,115,22,.3);box-shadow:0 0 40px rgba(249,115,22,.1)">
+          <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#FB923C">Ahorro anual estimado</p>
+          <p id="total" class="text-5xl font-extrabold text-white mb-1">$0</p>
+          <p id="monthly" class="text-sm" style="color:#4A7BA8">$0 / mes promedio</p>
+        </div>
+        <div class="glass rounded-xl px-5 py-4 flex items-center justify-between" style="border-color:rgba(46,117,182,.2)">
+          <div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:#2E75B6;box-shadow:0 0 8px rgba(46,117,182,.6)"></span><span class="text-sm" style="color:#6A90B0">Ahorro en combustible (28%)</span></div>
+          <span id="fuel" class="text-sm font-bold text-white">$0</span>
+        </div>
+        <div class="glass rounded-xl px-5 py-4 flex items-center justify-between" style="border-color:rgba(46,117,182,.2)">
+          <div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:#27C93F;box-shadow:0 0 8px rgba(39,201,63,.5)"></span><span class="text-sm" style="color:#6A90B0">Reducción en mantenimiento</span></div>
+          <span id="maint" class="text-sm font-bold text-white">$0</span>
+        </div>
+        <div class="glass rounded-xl px-5 py-4 flex items-center justify-between" style="border-color:rgba(46,117,182,.2)">
+          <div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:#F97316;box-shadow:0 0 8px rgba(249,115,22,.5)"></span><span class="text-sm" style="color:#6A90B0">Prevención de incidentes</span></div>
+          <span id="incident" class="text-sm font-bold text-white">$0</span>
+        </div>
+        <p class="text-xs text-center px-4" style="color:#3A6080">* Estimación basada en promedios de clientes Numaris. El ahorro real puede variar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ TESTIMONIALS ══════════════════════ -->
+<section id="clientes" class="relative py-24 overflow-hidden" style="background:#0D1F3C">
+  <div class="glow-orb" style="width:500px;height:300px;background:radial-gradient(ellipse,rgba(46,117,182,.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fi">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 glass" style="border-color:rgba(46,117,182,.3)">
+        <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Casos de Éxito</span>
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+        Lo que dicen <span class="text-grd">nuestros clientes.</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="fi sol-card glass rounded-2xl p-7 flex flex-col gap-5" style="border-color:rgba(46,117,182,.2)">
+        <div class="flex gap-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="text-sm italic leading-relaxed flex-1" style="color:#94B8D8">"Con Numaris logramos reducir el robo de combustible a cero en tres meses. El ROI fue inmediato — el sistema se pagó solo en el primer semestre."</p>
+        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.07)">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:rgba(46,117,182,.3);border:1px solid rgba(46,117,182,.4)">CM</div>
+          <div>
+            <p class="text-sm font-semibold text-white">Carlos Mendoza</p>
+            <p class="text-xs" style="color:#4A7BA8">Director de Operaciones · Transportes del Norte</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="fi sol-card glass rounded-2xl p-7 flex flex-col gap-5" style="border-color:rgba(46,117,182,.2)">
+        <div class="flex gap-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="text-sm italic leading-relaxed flex-1" style="color:#94B8D8">"Antes tardábamos horas en saber dónde estaban nuestros camiones. Ahora el gerente de flota ve todo en tiempo real desde su celular. Incrementamos la productividad 35%."</p>
+        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.07)">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:rgba(39,201,63,.2);border:1px solid rgba(39,201,63,.3)">LV</div>
+          <div>
+            <p class="text-sm font-semibold text-white">Laura Vázquez</p>
+            <p class="text-xs" style="color:#4A7BA8">Gerente de Logística · Grupo Distribuciones MX</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="fi sol-card glass rounded-2xl p-7 flex flex-col gap-5" style="border-color:rgba(46,117,182,.2)">
+        <div class="flex gap-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#2E75B6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="text-sm italic leading-relaxed flex-1" style="color:#94B8D8">"El módulo de video-IA nos salvó de dos accidentes graves. El sistema detectó fatiga del conductor y nos alertó antes de que ocurriera algo irreversible."</p>
+        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.07)">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:rgba(249,115,22,.2);border:1px solid rgba(249,115,22,.3)">RS</div>
+          <div>
+            <p class="text-sm font-semibold text-white">Roberto Sánchez</p>
+            <p class="text-xs" style="color:#4A7BA8">Director de Seguridad Vial · Fletes Industriales SA</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CTA ══════════════════════ -->
+<section class="relative py-24 overflow-hidden" style="background:linear-gradient(135deg,#0D1F3C 0%,#081425 100%)">
+  <div class="dot-grid absolute inset-0 opacity-25 pointer-events-none"></div>
+  <div class="glow-orb" style="width:700px;height:400px;background:radial-gradient(ellipse,rgba(46,117,182,.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="relative z-10 max-w-3xl mx-auto px-6 text-center fi">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 glass" style="border-color:rgba(46,117,182,.3)">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:#2E75B6;box-shadow:0 0 6px #2E75B6;animation:glow-pulse 2s infinite"></span>
+      <span class="text-xs font-semibold tracking-widest uppercase" style="color:#7DB8E8">Empieza hoy</span>
+    </div>
+    <h2 class="text-4xl lg:text-5xl font-extrabold text-white mb-5 leading-tight">
+      Controla tu flota con <span class="text-grd">inteligencia real.</span>
+    </h2>
+    <p class="text-lg mb-10" style="color:#6A90B0">
+      Únete a más de 5,000 empresas que ya confían en Numaris para operar de forma más segura, eficiente y rentable.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
+      <button class="btn btn-cta flex items-center gap-2 px-8 py-4 text-base font-semibold text-white rounded" style="background:#F97316;border-radius:4px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Solicitar demo gratis
+      </button>
+      <button class="btn btn-neon flex items-center gap-2 px-8 py-4 text-base font-medium text-white glass rounded" style="border-radius:4px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .96h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Hablar con ventas
+      </button>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+      <span class="flex items-center gap-2 text-sm" style="color:#4A7BA8">
+        <span class="w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(39,201,63,.15);border:1px solid rgba(39,201,63,.3)"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#27C93F" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg></span>
+        Sin tarjeta de crédito
+      </span>
+      <span class="flex items-center gap-2 text-sm" style="color:#4A7BA8">
+        <span class="w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(39,201,63,.15);border:1px solid rgba(39,201,63,.3)"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#27C93F" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg></span>
+        Implementación en 48 h
+      </span>
+      <span class="flex items-center gap-2 text-sm" style="color:#4A7BA8">
+        <span class="w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(39,201,63,.15);border:1px solid rgba(39,201,63,.3)"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#27C93F" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg></span>
+        Soporte en español 24/7
+      </span>
+      <span class="flex items-center gap-2 text-sm" style="color:#4A7BA8">
+        <span class="w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(39,201,63,.15);border:1px solid rgba(39,201,63,.3)"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#27C93F" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg></span>
+        Contrato flexible
+      </span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer style="background:#060E18;border-top:1px solid rgba(255,255,255,.05)">
+  <div class="max-w-7xl mx-auto px-6 pt-14 pb-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div>
+        <img src="/logo-horizontal-dark.jpg" alt="Numaris" class="h-8 w-auto object-contain rounded-sm mb-4" />
+        <p class="text-sm leading-relaxed mb-5" style="color:#3A6080">Control total de tu flota. En tiempo real.</p>
+        <div class="flex gap-2.5">
+          <a href="#" aria-label="LinkedIn" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#3A6080"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="X / Twitter" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#3A6080"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#3A6080"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75,15.02 15.5,12 9.75,8.98" fill="#060E18"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest mb-4 text-white opacity-50">Soluciones</p>
+        <ul class="space-y-2.5">
+          <li><a href="#" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Control de Combustible</a></li>
+          <li><a href="#" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Rastreo Satelital</a></li>
+          <li><a href="#" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Control y Registro</a></li>
+          <li><a href="#" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Video-IA y Seguridad</a></li>
+          <li><a href="#" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Mantenimiento Predictivo</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest mb-4 text-white opacity-50">Empresa</p>
+        <ul class="space-y-2.5">
+          <li><a href="#nosotros" class="text-sm hover:text-white transition-colors" style="color:#3A6080">Nosotros</a></li>
+          <li><a href="#clientes"  class="text-sm hover:text-white transition-colors" style="color:#3A6080">Clientes</a></li>
+          <li><a href="#"          class="text-sm hover:text-white transition-colors" style="color:#3A6080">Blog</a></li>
+          <li><a href="#"          class="text-sm hover:text-white transition-colors" style="color:#3A6080">Prensa</a></li>
+          <li><a href="#"          class="text-sm hover:text-white transition-colors" style="color:#3A6080">Trabaja con nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest mb-4 text-white opacity-50">Contacto</p>
+        <ul class="space-y-2.5">
+          <li class="text-sm" style="color:#3A6080">contacto@numaris.com</li>
+          <li class="text-sm" style="color:#3A6080">+52 (55) 1234-5678</li>
+          <li class="text-sm" style="color:#3A6080">Ciudad de México, México</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6" style="border-top:1px solid rgba(255,255,255,.05)">
+      <p class="text-xs" style="color:#3A6080">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
+      <div class="flex gap-5">
+        <a href="#" class="text-xs hover:text-white transition-colors" style="color:#3A6080">Privacidad</a>
+        <a href="#" class="text-xs hover:text-white transition-colors" style="color:#3A6080">Términos</a>
+        <a href="#" class="text-xs hover:text-white transition-colors" style="color:#3A6080">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Navbar scroll ─────────────────────────────────
+const nb = document.getElementById('navbar');
+window.addEventListener('scroll', () => nb.classList.toggle('scrolled', scrollY > 16), {passive:true});
+
+// ── Mobile menu ───────────────────────────────────
+const ham = document.getElementById('ham');
+const mm  = document.getElementById('mob-menu');
+const io  = document.getElementById('ico-open');
+const ic  = document.getElementById('ico-close');
+let open  = false;
+ham.addEventListener('click', () => {
+  open = !open;
+  mm.classList.toggle('open', open);
+  io.classList.toggle('hidden', open);
+  ic.classList.toggle('hidden', !open);
+  ham.setAttribute('aria-expanded', open);
+});
+mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  open = false; mm.classList.remove('open'); io.classList.remove('hidden'); ic.classList.add('hidden');
+}));
+
+// ── Scroll fade-in ────────────────────────────────
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}}), {threshold:.08});
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// ── Count-up stats ────────────────────────────────
+function cu(el) {
+  const t = parseFloat(el.dataset.t), p = el.dataset.p||'', s = el.dataset.s||'';
+  const fl = t%1!==0, dur = 1800, st = performance.now();
+  (function f(now){
+    const prog = Math.min((now-st)/dur,1);
+    const ease = 1-Math.pow(1-prog,3);
+    const cur  = t*ease;
+    el.textContent = p + (fl ? cur.toFixed(1) : Math.floor(cur).toLocaleString('es-MX')) + s;
+    if(prog<1) requestAnimationFrame(f);
+  })(st);
+}
+const so = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){cu(e.target);so.unobserve(e.target);}}),{threshold:.5});
+document.querySelectorAll('.stat-n').forEach(el=>so.observe(el));
+
+// ── Calculator ────────────────────────────────────
+const fmt = n => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(n);
+
+function calc() {
+  const units  = +document.getElementById('r-units').value;
+  const litres = +document.getElementById('r-litres').value;
+  const price  = +document.getElementById('r-price').value;
+
+  document.getElementById('v-units').textContent  = units;
+  document.getElementById('v-litres').textContent = litres;
+  document.getElementById('v-price').textContent  = price.toFixed(1);
+
+  const fuel  = units * litres * 365 * price * 0.28;
+  const maint = units * 8500;
+  const inc   = units * 4200;
+  const total = fuel + maint + inc;
+
+  // Animate total
+  const el = document.getElementById('total');
+  el.style.transform = 'scale(.97)';
+  el.style.opacity   = '.7';
+  setTimeout(()=>{ el.style.transition='transform .2s,opacity .2s'; el.style.transform='scale(1)'; el.style.opacity='1'; }, 50);
+
+  document.getElementById('total').textContent   = fmt(total);
+  document.getElementById('monthly').textContent = fmt(total/12) + ' / mes promedio';
+  document.getElementById('fuel').textContent    = fmt(fuel);
+  document.getElementById('maint').textContent   = fmt(maint);
+  document.getElementById('incident').textContent= fmt(inc);
+
+  // Update slider fill
+  ['units','litres','price'].forEach(k => {
+    const r = document.getElementById('r-'+k);
+    const pct = ((r.value-r.min)/(r.max-r.min))*100;
+    r.style.background = `linear-gradient(to right,#2E75B6 ${pct}%,rgba(255,255,255,.08) ${pct}%)`;
+  });
+}
+// Init
+calc();
+</script>
+</body>
+</html>
