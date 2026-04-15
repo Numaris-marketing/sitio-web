@@ -633,211 +633,99 @@
 
 <div class="divider"></div>
 
-<!-- BLOG -->
-<section id="blog" class="py-28" style="background:var(--bg)">
+<!-- BLOG CAROUSEL -->
+<section id="blog" class="py-16" style="background:var(--bg)">
   <div class="max-w-6xl mx-auto px-6">
 
     <!-- Header -->
-    <div class="flex items-end justify-between mb-12 fi flex-wrap gap-4">
+    <div class="flex items-center justify-between mb-8 fi flex-wrap gap-4">
       <div>
-        <div class="tag mb-4">Blog y Noticias</div>
-        <h2 class="text-[26px] sm:text-[30px] font-semibold tracking-tight text-white/85">Últimas publicaciones.</h2>
+        <div class="tag mb-3">Blog y Noticias</div>
+        <h2 class="text-[24px] sm:text-[28px] font-semibold tracking-tight text-white/85">Últimas publicaciones.</h2>
       </div>
-      <a href="https://numaris.com/blog" target="_blank" class="text-[12px] font-medium flex items-center gap-1.5" style="color:rgba(110,176,255,.65)">Ver todas <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="flex items-center gap-2">
+        <a href="https://numaris.com/blog" target="_blank" class="text-[12px] font-medium flex items-center gap-1.5 mr-2" style="color:rgba(110,176,255,.65)">Ver todas <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <button id="blog-prev" class="w-8 h-8 rounded-full flex items-center justify-center" style="border:1px solid rgba(36,95,165,.22);color:rgba(255,255,255,.35);background:rgba(36,95,165,.06);transition:all .2s">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button id="blog-next" class="w-8 h-8 rounded-full flex items-center justify-center" style="border:1px solid rgba(36,95,165,.22);color:rgba(255,255,255,.35);background:rgba(36,95,165,.06);transition:all .2s">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
     </div>
 
-    <!-- Featured article (large) -->
-    <a href="https://numaris.com/blog/la-ia-en-flotas-el-inicio-de-una-nueva-era-para-la-seguridad-vial" target="_blank"
-       class="fi card glass rounded-xl overflow-hidden flex flex-col md:flex-row mb-5 group" style="border-color:var(--border)">
-      <div class="md:w-2/5 h-52 md:h-auto overflow-hidden shrink-0">
-        <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/68ac87ef7d8ff4c1b74feca8_Portada%20Previa-%20Blog%20(5).png"
-             alt="La IA en flotas"
-             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-      </div>
-      <div class="p-7 flex flex-col justify-center">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="tag" style="font-size:10px">Seguridad</span>
-          <span class="text-[11px] font-light" style="color:var(--muted)">25 agosto 2025</span>
-        </div>
-        <h3 class="text-[18px] sm:text-[20px] font-semibold text-white/85 leading-snug mb-3">La IA en flotas: El inicio de una nueva era para la seguridad vial</h3>
-        <p class="text-[13px] font-light leading-relaxed mb-5" style="color:var(--muted)">Cómo la inteligencia artificial está transformando la forma en que detectamos riesgos, prevenimos accidentes y protegemos a los conductores en tiempo real.</p>
-        <span class="text-[12px] font-medium flex items-center gap-1.5" style="color:rgba(110,176,255,.7)">Leer artículo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-      </div>
-    </a>
+    <!-- Carrusel -->
+    <div class="relative fi">
+      <div class="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none" style="background:linear-gradient(to right,var(--bg),transparent)"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none" style="background:linear-gradient(to left,var(--bg),transparent)"></div>
 
-    <!-- 3 smaller articles -->
-    <div class="grid md:grid-cols-3 gap-5">
+      <div id="blog-track" style="display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none">
 
-      <a href="https://numaris.com/blog/seguridad-como-prevencion-no-como-reaccion" target="_blank"
-         class="fi card glass rounded-xl overflow-hidden group" style="border-color:var(--border)">
-        <div class="h-40 overflow-hidden">
-          <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/686be5d0dd2f7d6387eb9804_Portada%20Previa-%20Blog%20(1).png"
-               alt="Seguridad como prevención"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="tag" style="font-size:10px">Seguridad</span>
-            <span class="text-[11px] font-light" style="color:var(--muted)">7 jul 2025</span>
+        <!-- Card 1 -->
+        <a href="https://numaris.com/blog/la-ia-en-flotas-el-inicio-de-una-nueva-era-para-la-seguridad-vial" target="_blank"
+           class="blog-card card glass rounded-xl overflow-hidden group shrink-0 flex flex-col" style="scroll-snap-align:start;width:calc(33.333% - 13px);min-width:260px;border-color:var(--border)">
+          <div class="h-44 overflow-hidden shrink-0">
+            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/68ac87ef7d8ff4c1b74feca8_Portada%20Previa-%20Blog%20(5).png" alt="La IA en flotas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
           </div>
-          <h3 class="text-[13px] font-medium text-white/80 leading-snug mb-2">Seguridad como prevención, no como reacción</h3>
-          <p class="text-[12px] leading-relaxed font-light" style="color:var(--muted)">Por qué las flotas que anticipan el riesgo reducen accidentes hasta un 60%.</p>
-        </div>
-      </a>
-
-      <a href="https://numaris.com/blog/control-que-evita-fugas-invisibles-en-tu-flota" target="_blank"
-         class="fi card glass rounded-xl overflow-hidden group" style="border-color:var(--border);transition-delay:.1s">
-        <div class="h-40 overflow-hidden">
-          <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/683f1900a8e48a135e81771d_Blog%202%20-%20Portada%20previa%201326x1060.png"
-               alt="Control combustible"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="tag" style="font-size:10px">Control</span>
-            <span class="text-[11px] font-light" style="color:var(--muted)">3 jun 2025</span>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3"><span class="tag" style="font-size:10px">Seguridad</span><span class="text-[11px] font-light" style="color:var(--muted)">25 ago 2025</span></div>
+            <h3 class="text-[13px] font-semibold text-white/85 leading-snug mb-2 flex-1">La IA en flotas: El inicio de una nueva era para la seguridad vial</h3>
+            <span class="text-[11px] font-medium flex items-center gap-1 mt-3" style="color:rgba(110,176,255,.65)">Leer <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
-          <h3 class="text-[13px] font-medium text-white/80 leading-snug mb-2">Control que evita fugas invisibles en tu flota</h3>
-          <p class="text-[12px] leading-relaxed font-light" style="color:var(--muted)">Las pérdidas de combustible no monitoreadas pueden representar hasta el 15% del presupuesto operativo.</p>
-        </div>
-      </a>
-
-      <a href="https://numaris.com/blog/los-4-pilares-fundamentales-para-una-gestion-de-flotas-eficiente" target="_blank"
-         class="fi card glass rounded-xl overflow-hidden group" style="border-color:var(--border);transition-delay:.2s">
-        <div class="h-40 overflow-hidden">
-          <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/681169554f00c9c2bd09ca6f_Portada%20Previa-%20Blog.png"
-               alt="4 pilares gestión flotas"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="tag" style="font-size:10px">Tecnología</span>
-            <span class="text-[11px] font-light" style="color:var(--muted)">29 abr 2025</span>
-          </div>
-          <h3 class="text-[13px] font-medium text-white/80 leading-snug mb-2">Los 4 pilares fundamentales para una gestión de flotas eficiente</h3>
-          <p class="text-[12px] leading-relaxed font-light" style="color:var(--muted)">Visibilidad, control, seguridad y mantenimiento: las bases de una operación rentable.</p>
-        </div>
-      </a>
-    </div>
-
-    <!-- ── LinkedIn ── -->
-    <div class="mt-20">
-      <div class="flex items-center justify-between mb-10 fi flex-wrap gap-4">
-        <div class="flex items-center gap-3">
-          <!-- LinkedIn icon -->
-          <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:#0A66C2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </div>
-          <div>
-            <h3 class="text-[16px] font-semibold text-white/80">Numaris en LinkedIn</h3>
-            <p class="text-[11px] font-light" style="color:var(--muted)">Síguenos para tendencias, casos de éxito y novedades del sector</p>
-          </div>
-        </div>
-        <a href="https://linkedin.com/company/numaris" target="_blank"
-           class="btn-ghost flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-medium text-white/65">
-          Seguir en LinkedIn
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-      </div>
 
-      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Card 2 -->
+        <a href="https://numaris.com/blog/seguridad-como-prevencion-no-como-reaccion" target="_blank"
+           class="blog-card card glass rounded-xl overflow-hidden group shrink-0 flex flex-col" style="scroll-snap-align:start;width:calc(33.333% - 13px);min-width:260px;border-color:var(--border)">
+          <div class="h-44 overflow-hidden shrink-0">
+            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/686be5d0dd2f7d6387eb9804_Portada%20Previa-%20Blog%20(1).png" alt="Seguridad como prevención" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3"><span class="tag" style="font-size:10px">Seguridad</span><span class="text-[11px] font-light" style="color:var(--muted)">7 jul 2025</span></div>
+            <h3 class="text-[13px] font-semibold text-white/85 leading-snug mb-2 flex-1">Seguridad como prevención, no como reacción</h3>
+            <span class="text-[11px] font-medium flex items-center gap-1 mt-3" style="color:rgba(110,176,255,.65)">Leer <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
 
-        <!-- LinkedIn Post 1 — real post -->
-        <article class="fi card glass rounded-xl p-5 flex flex-col gap-4" style="border-color:var(--border)">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
-              <svg width="40" height="40" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:6px">
-                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-[13px] font-semibold text-white/80">Numaris</p>
-              <p class="text-[11px] font-light" style="color:var(--muted)">1 abr 2026 · 3,554 seguidores</p>
-            </div>
-            <div class="ml-auto w-6 h-6 flex items-center justify-center rounded" style="background:#0A66C2">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </div>
+        <!-- Card 3 -->
+        <a href="https://numaris.com/blog/control-que-evita-fugas-invisibles-en-tu-flota" target="_blank"
+           class="blog-card card glass rounded-xl overflow-hidden group shrink-0 flex flex-col" style="scroll-snap-align:start;width:calc(33.333% - 13px);min-width:260px;border-color:var(--border)">
+          <div class="h-44 overflow-hidden shrink-0">
+            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/683f1900a8e48a135e81771d_Blog%202%20-%20Portada%20previa%201326x1060.png" alt="Control combustible" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
           </div>
-          <p class="text-[13px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.65)">
-            ¿Qué tan productiva es realmente tu operación? 🚀 Las flotas más eficientes operan con <strong class="font-medium text-white/75">datos conectados, visibilidad en tiempo real</strong> y decisiones accionables. Medir no es suficiente — la clave está en transformar la información en acción.
-          </p>
-          <div class="h-28 rounded-lg overflow-hidden">
-            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/681169554f00c9c2bd09ca6f_Portada%20Previa-%20Blog.png"
-                 alt="Productividad flota" class="w-full h-full object-cover" />
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3"><span class="tag" style="font-size:10px">Control</span><span class="text-[11px] font-light" style="color:var(--muted)">3 jun 2025</span></div>
+            <h3 class="text-[13px] font-semibold text-white/85 leading-snug mb-2 flex-1">Control que evita fugas invisibles en tu flota</h3>
+            <span class="text-[11px] font-medium flex items-center gap-1 mt-3" style="color:rgba(110,176,255,.65)">Leer <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
-          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.06)">
-            <span class="flex items-center gap-1.5 text-[11px] font-light" style="color:var(--muted)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              22
-            </span>
-            <span class="flex items-center gap-1.5 text-[11px] font-light" style="color:var(--muted)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              0
-            </span>
-            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445168115979735040" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.6)">Ver post →</a>
-          </div>
-        </article>
+        </a>
 
-        <!-- LinkedIn Post 2 — real post -->
-        <article class="fi card glass rounded-xl p-5 flex flex-col gap-4" style="border-color:var(--border);transition-delay:.1s">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
-              <svg width="40" height="40" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:6px">
-                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-[13px] font-semibold text-white/80">Numaris</p>
-              <p class="text-[11px] font-light" style="color:var(--muted)">20 mar 2026 · 3,554 seguidores</p>
-            </div>
-            <div class="ml-auto w-6 h-6 flex items-center justify-center rounded" style="background:#0A66C2">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </div>
+        <!-- Card 4 -->
+        <a href="https://numaris.com/blog/los-4-pilares-fundamentales-para-una-gestion-de-flotas-eficiente" target="_blank"
+           class="blog-card card glass rounded-xl overflow-hidden group shrink-0 flex flex-col" style="scroll-snap-align:start;width:calc(33.333% - 13px);min-width:260px;border-color:var(--border)">
+          <div class="h-44 overflow-hidden shrink-0">
+            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/681169554f00c9c2bd09ca6f_Portada%20Previa-%20Blog.png" alt="4 pilares gestión flotas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
           </div>
-          <p class="text-[13px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.65)">
-            <strong class="font-medium text-white/75">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛 — entrevista con Israel Hernández y Lorena Ruiz sobre cómo el IoT transforma la toma de decisiones en flotas.
-          </p>
-          <div class="h-28 rounded-lg overflow-hidden">
-            <img src="https://cdn.prod.website-files.com/67bdf63968035fbe5a6f6163/67d30bae75d4c4c84241bf16_port-.png"
-                 alt="IoT logística México" class="w-full h-full object-cover" />
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3"><span class="tag" style="font-size:10px">Tecnología</span><span class="text-[11px] font-light" style="color:var(--muted)">29 abr 2025</span></div>
+            <h3 class="text-[13px] font-semibold text-white/85 leading-snug mb-2 flex-1">Los 4 pilares fundamentales para una gestión de flotas eficiente</h3>
+            <span class="text-[11px] font-medium flex items-center gap-1 mt-3" style="color:rgba(110,176,255,.65)">Leer <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
-          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.06)">
-            <span class="flex items-center gap-1.5 text-[11px] font-light" style="color:var(--muted)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              40
-            </span>
-            <span class="flex items-center gap-1.5 text-[11px] font-light" style="color:var(--muted)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              1
-            </span>
-            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440901658974273536" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.6)">Ver post →</a>
-          </div>
-        </article>
-
-        <!-- LinkedIn Post 3 — seguir en LinkedIn CTA -->
-        <article class="fi card glass rounded-xl p-5 flex flex-col gap-4 items-center justify-center text-center" style="border-color:rgba(10,102,194,.25);background:rgba(10,102,194,.04)">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:#0A66C2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </div>
-          <div>
-            <p class="text-[14px] font-semibold text-white/80 mb-1">Numaris en LinkedIn</p>
-            <p class="text-[12px] font-light leading-relaxed" style="color:var(--muted)">Síguenos para tendencias del sector, casos de éxito y novedades de la plataforma.</p>
-          </div>
-          <p class="text-[13px] font-semibold text-white/70">3,554 seguidores</p>
-          <a href="https://www.linkedin.com/company/numaris" target="_blank"
-             class="btn-primary flex items-center gap-2 px-5 py-2 rounded-full text-[12px] font-medium text-white w-full justify-center">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            Seguir en LinkedIn
-          </a>
-          <p class="text-[11px] font-light" style="color:rgba(74,106,136,.5)">¿Tienes un post para agregar aquí? Compártelo con nosotros.</p>
-        </article>
+        </a>
 
       </div>
     </div>
 
   </div>
+  <style>#blog-track::-webkit-scrollbar{display:none}</style>
+  <script>
+    (function(){
+      const track = document.getElementById('blog-track');
+      const step  = () => { const c = track.querySelector('.blog-card'); return c ? c.offsetWidth + 18 : 300; };
+      document.getElementById('blog-prev').onclick = () => track.scrollBy({left:-step(),behavior:'smooth'});
+      document.getElementById('blog-next').onclick = () => track.scrollBy({left:step(),behavior:'smooth'});
+    })();
+  </script>
 </section>
 
 <div class="divider"></div>
@@ -1060,6 +948,91 @@
     });
   </script>
 
+</section>
+
+<!-- LINKEDIN — último segmento -->
+<section style="background:#030D1A;border-top:1px solid rgba(10,102,194,.15)">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex flex-col lg:flex-row items-start gap-10">
+
+      <!-- Branding + CTA -->
+      <div class="shrink-0 lg:w-60 fi">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style="background:#0A66C2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <p class="text-[14px] font-semibold text-white/80">Numaris</p>
+            <p class="text-[11px] font-light" style="color:var(--muted)">3,554 seguidores</p>
+          </div>
+        </div>
+        <p class="text-[12px] font-light leading-relaxed mb-5" style="color:rgba(74,106,136,.7)">Tendencias del sector, casos de éxito y novedades de la plataforma.</p>
+        <a href="https://www.linkedin.com/company/numaris" target="_blank"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-semibold text-white"
+           style="background:#0A66C2;box-shadow:0 0 16px rgba(10,102,194,.3)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          Seguir en LinkedIn
+        </a>
+      </div>
+
+      <!-- Posts -->
+      <div class="flex-1 grid md:grid-cols-2 gap-4">
+
+        <!-- Post 1 -->
+        <article class="fi card glass rounded-xl p-5 flex flex-col gap-3" style="border-color:rgba(10,102,194,.18)">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
+              <svg width="32" height="32" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:5px">
+                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
+                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[12px] font-semibold text-white/75">Numaris</p>
+              <p class="text-[11px] font-light" style="color:rgba(74,106,136,.7)">1 abr 2026</p>
+            </div>
+            <div class="w-5 h-5 rounded flex items-center justify-center shrink-0" style="background:#0A66C2">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+          </div>
+          <p class="text-[12px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.6)">¿Qué tan productiva es realmente tu operación? 🚀 Las flotas más eficientes operan con <strong class="font-medium text-white/70">datos conectados y visibilidad en tiempo real.</strong></p>
+          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.05)">
+            <span class="flex items-center gap-1 text-[11px] font-light" style="color:rgba(74,106,136,.6)">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 22
+            </span>
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445168115979735040" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.55)">Ver post →</a>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="fi card glass rounded-xl p-5 flex flex-col gap-3" style="border-color:rgba(10,102,194,.18);transition-delay:.08s">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
+              <svg width="32" height="32" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:5px">
+                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
+                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[12px] font-semibold text-white/75">Numaris</p>
+              <p class="text-[11px] font-light" style="color:rgba(74,106,136,.7)">20 mar 2026</p>
+            </div>
+            <div class="w-5 h-5 rounded flex items-center justify-center shrink-0" style="background:#0A66C2">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+          </div>
+          <p class="text-[12px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.6)"><strong class="font-medium text-white/70">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛 — cómo el IoT transforma la toma de decisiones en flotas.</p>
+          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.05)">
+            <span class="flex items-center gap-1 text-[11px] font-light" style="color:rgba(74,106,136,.6)">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 40
+            </span>
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440901658974273536" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.55)">Ver post →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
 </section>
 
 </main>
