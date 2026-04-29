@@ -3003,8 +3003,8 @@
       const META = 15;
 
       // ── KPI Cards ──
-      const oppPct = s.marketingPct;           // % by count
-      const valPct = (s.marketingPipelineValue / s.totalPipelineValue * 100);
+      const oppPct = s.marketingPct;           // % by count (from API)
+      const valPct = s.marketingValPct;        // % by value (from API)
 
       setTxt('pl-opp-pct',    oppPct.toFixed(1) + '%');
       setTxt('pl-mkt-count',  s.marketingDeals);
