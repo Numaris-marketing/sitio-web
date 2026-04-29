@@ -2002,197 +2002,40 @@
   </section>
 
   <!-- ═══════════════════════════════════════
-       DESGLOSE POR VERTICAL
+       DESGLOSE POR INDUSTRIA
   ═══════════════════════════════════════ -->
   <section>
     <div class="container">
       <div class="sec-head">
-        <h2>Desglose por Vertical</h2>
-        <p>Participación de Marketing en pipeline activo — por línea de negocio · Meta mínima: 15% en # oportunidades</p>
+        <h2>Desglose por Industria</h2>
+        <p>Participación de Marketing en pipeline activo — por industria (campo <code style="background:var(--bg-card2);padding:.1rem .4rem;border-radius:.3rem;font-size:.8em;">Industry</code> en Zoho CRM) · Meta mínima: 15% en # oportunidades · Datos en vivo</p>
       </div>
 
-      <!-- Grid 2×2 de verticales -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;margin-bottom:1.125rem;">
-
-        <!-- Transporte Pesado — estrella -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--green);border-radius:var(--radius);padding:1.625rem;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.25rem;">Transporte Pesado</div>
-              <div style="font-size:2.5rem;font-weight:900;line-height:1;color:var(--green);">46.9%</div>
-              <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.2rem;">participación en oportunidades</div>
-            </div>
-            <span class="badge badge-green" style="align-self:flex-start;">+31.9 pp vs. meta</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem;">
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Oportunidades</span>
-              <span><strong style="color:var(--green);">15</strong> <span style="color:var(--fg-muted);">/ 32 total</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Suscripciones</span>
-              <span><strong style="color:var(--green);">908</strong> <span style="color:var(--fg-muted);">/ 2,727 (33.3%)</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;">
-              <span style="color:var(--fg-muted);">Valor de contrato</span>
-              <span><strong style="color:var(--green);">MX$44.0M</strong> <span style="color:var(--fg-muted);">/ MX$73.3M (60.0%)</span></span>
-            </div>
-          </div>
-          <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
-            <div style="height:100%;width:46.9%;background:var(--green);border-radius:999px;"></div>
-          </div>
-          <div style="font-size:.75rem;color:var(--fg-muted);">Marketing genera el 60% del valor — canal principal: Expos + Google Ads</div>
+      <!-- Grid dinámico — generado por JS desde /api/zoho-pipeline -->
+      <div id="industry-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;margin-bottom:1.125rem;">
+        <!-- Skeleton cards while loading -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.625rem;opacity:.4;">
+          <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
+          <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:.5rem;"></div>
+          <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
         </div>
-
-        <!-- Adm. Flotas -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:var(--radius);padding:1.625rem;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.25rem;">Administración de Flotas</div>
-              <div style="font-size:2.5rem;font-weight:900;line-height:1;color:var(--blue);">57.1%</div>
-              <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.2rem;">participación en oportunidades</div>
-            </div>
-            <span class="badge badge-blue" style="align-self:flex-start;">+42.1 pp vs. meta</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem;">
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Oportunidades</span>
-              <span><strong style="color:var(--blue);">8</strong> <span style="color:var(--fg-muted);">/ 14 total</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Suscripciones</span>
-              <span><strong style="color:var(--blue);">320</strong> <span style="color:var(--fg-muted);">/ 320 (100%)</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;">
-              <span style="color:var(--fg-muted);">Valor de contrato</span>
-              <span><strong style="color:var(--blue);">MX$635K</strong> <span style="color:var(--fg-muted);">/ MX$635K (100%)</span></span>
-            </div>
-          </div>
-          <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
-            <div style="height:100%;width:57.1%;background:var(--blue);border-radius:999px;"></div>
-          </div>
-          <div style="font-size:.75rem;color:var(--fg-muted);">Vertical pequeño — todo el pipeline activo fue originado o co-originado con Marketing</div>
-        </div>
-
-        <!-- NLDU — Logística y Distribución -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:var(--radius);padding:1.625rem;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.25rem;">NLDU — Logística y Distribución</div>
-              <div style="font-size:2.5rem;font-weight:900;line-height:1;color:var(--blue);">19.2%</div>
-              <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.2rem;">participación en oportunidades</div>
-            </div>
-            <span class="badge badge-blue" style="align-self:flex-start;">+4.2 pp vs. meta</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem;">
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Oportunidades</span>
-              <span><strong style="color:var(--blue);">15</strong> <span style="color:var(--fg-muted);">/ 78 total</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Suscripciones</span>
-              <span><strong style="color:var(--blue);">422</strong> <span style="color:var(--fg-muted);">/ 3,129 (13.5%)</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;">
-              <span style="color:var(--fg-muted);">Valor de contrato</span>
-              <span><strong style="color:var(--blue);">MX$6.99M</strong> <span style="color:var(--fg-muted);">/ MX$44.2M (15.8%)</span></span>
-            </div>
-          </div>
-          <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
-            <div style="height:100%;width:19.2%;background:var(--blue);border-radius:999px;position:relative;">
-              <div style="position:absolute;right:-2px;top:-3px;width:2px;height:12px;background:rgba(255,255,255,.5);border-radius:2px;"></div>
-            </div>
-          </div>
-          <div style="font-size:.75rem;color:var(--fg-muted);">El vertical más activo del pipeline total (78 opps) — Marketing apenas pasa el piso de 15%</div>
-        </div>
-
-        <!-- Servicios F — alerta -->
-        <div style="background:var(--bg-card);border:1px solid rgba(255,159,63,0.35);border-top:3px solid var(--orange);border-radius:var(--radius);padding:1.625rem;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.25rem;">Servicios Financieros</div>
-              <div style="font-size:2.5rem;font-weight:900;line-height:1;color:var(--orange);">20.0%</div>
-              <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.2rem;">participación en oportunidades</div>
-            </div>
-            <span class="badge badge-orange" style="align-self:flex-start;">⚠ Valor bajo meta</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem;">
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Oportunidades</span>
-              <span><strong style="color:var(--orange);">4</strong> <span style="color:var(--fg-muted);">/ 20 total</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
-              <span style="color:var(--fg-muted);">Suscripciones</span>
-              <span><strong style="color:var(--orange);">660</strong> <span style="color:var(--fg-muted);">/ 3,890 (17.0%)</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;">
-              <span style="color:var(--fg-muted);">Valor de contrato</span>
-              <span><strong style="color:var(--orange);">MX$5.6M</strong> <span style="color:var(--fg-muted);">/ MX$101.5M</span> <strong style="color:var(--orange);margin-left:.25rem;">5.5%</strong></span>
-            </div>
-          </div>
-          <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
-            <div style="height:100%;width:20%;background:var(--orange);border-radius:999px;"></div>
-          </div>
-          <div style="font-size:.75rem;color:rgba(255,159,63,.9);">El pipeline más grande (MX$101.5M) pero Marketing aporta solo 5.5% del valor — 3× abajo de la meta</div>
-        </div>
-
-      </div>
-
-      <!-- Tabla resumen por vertical -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Comparativa — participación en # oportunidades por vertical</div>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-              <span style="font-size:.875rem;font-weight:600;">Adm. Flotas</span>
-              <span style="font-size:.875rem;font-weight:800;color:var(--blue);">57.1% &nbsp;<span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">8 / 14 opps</span></span>
-            </div>
-            <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:57.1%;background:var(--blue);border-radius:999px;"></div></div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-              <span style="font-size:.875rem;font-weight:600;">Transporte Pesado</span>
-              <span style="font-size:.875rem;font-weight:800;color:var(--green);">46.9% &nbsp;<span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">15 / 32 opps</span></span>
-            </div>
-            <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:46.9%;background:var(--green);border-radius:999px;"></div></div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-              <span style="font-size:.875rem;font-weight:600;">Servicios Financieros</span>
-              <span style="font-size:.875rem;font-weight:800;color:var(--blue);">20.0% &nbsp;<span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">4 / 20 opps</span></span>
-            </div>
-            <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:20%;background:var(--blue);border-radius:999px;"></div></div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-              <span style="font-size:.875rem;font-weight:600;">NLDU — Logística y Distribución</span>
-              <span style="font-size:.875rem;font-weight:800;color:var(--blue);">19.2% &nbsp;<span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">15 / 78 opps</span></span>
-            </div>
-            <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:19.2%;background:var(--blue);border-radius:999px;"></div></div>
-          </div>
-
-          <!-- Meta marker -->
-          <div style="position:relative;padding-top:.5rem;border-top:1px solid var(--border);">
-            <div style="position:relative;height:2px;">
-              <div style="position:absolute;left:15%;top:-8px;bottom:-8px;width:1px;background:rgba(255,255,255,.5);"></div>
-              <div style="position:absolute;left:15%;top:-20px;font-size:.65rem;font-weight:700;color:var(--fg-muted);transform:translateX(-50%);white-space:nowrap;">Meta mínima 15%</div>
-            </div>
-          </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.625rem;opacity:.4;">
+          <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
+          <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:.5rem;"></div>
+          <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
         </div>
       </div>
 
-      <!-- Insights verticales -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;">
-        <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.25);">
-          <strong>⚠ Alerta en Servicios Financieros.</strong> Con <strong>MX$101.5M de pipeline total</strong> — el 47% del pipeline de Nuevos Negocios — Marketing solo genera 4 oportunidades y el 5.5% del valor. El sector Financiero es predominantemente Sales-led. Hay una oportunidad concreta de activar contenido B2B financiero (casos de éxito con arrendadoras, bancos) para capturar más demanda en este segmento.
+      <!-- Tabla resumen por industria — generada por JS -->
+      <div class="funnel-card" style="margin-bottom:1.125rem;" id="industry-table-wrap">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Comparativa — participación en # oportunidades por industria</div>
+        <div id="industry-table" style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="color:var(--fg-muted);font-size:.875rem;">Cargando datos…</div>
         </div>
-        <div class="insight" style="background:rgba(15,217,128,0.07);border-color:rgba(15,217,128,0.2);">
-          <strong>🏆 Transporte Pesado: el mejor resultado de Marketing.</strong> Marketing origina el <strong>60% del valor del pipeline</strong> en T. Pesado — señal directa de que las expos y Google Ads resuenan especialmente bien en este segmento. Para llegar al 40% global, escalar este canal en los sectores donde ya funciona bien (Logística + T. Pesado) es la ruta más corta.
-        </div>
+      </div>
+
+      <!-- Insights — generados por JS -->
+      <div id="industry-insights" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;">
       </div>
 
     </div>
@@ -3040,6 +2883,9 @@
           '<strong>' + stgName + '</strong> — ' + stgData.count + ' opps · ' + fmt(stgData.value));
       }
 
+      // ── Industry section ──
+      renderIndustry(d.byIndustry);
+
       // ── Status bar ──
       if (dot) dot.style.background = 'var(--green)';
       const updated = new Date(d.generatedAt);
@@ -3052,6 +2898,121 @@
       if (dot) dot.style.background = '#f87171';
       if (txt) txt.textContent = '⚠ Sin conexión con Zoho — mostrando datos del último análisis manual';
       console.warn('Zoho pipeline fetch error:', err);
+    }
+  }
+
+  // ── INDUSTRY SECTION (fully dynamic) ──────────────────────────────────────
+  function renderIndustry(byIndustry) {
+    const META = 15;
+    const grid = document.getElementById('industry-grid');
+    const table = document.getElementById('industry-table');
+    const insights = document.getElementById('industry-insights');
+    if (!grid || !byIndustry) return;
+
+    // Sort by total value desc, exclude "sin industria" types for main grid
+    const SKIP = new Set(['Sin industria', 'No Especificado', '-----', 'TRANSPORTISTA', 'Logistica y Transporte', 'Integradores de Servicio']);
+    const entries = Object.entries(byIndustry).sort((a, b) => b[1].totalValue - a[1].totalValue);
+    const mainEntries = entries.filter(([k]) => !SKIP.has(k));
+    const untagged = Object.entries(byIndustry).filter(([k]) => SKIP.has(k))
+      .reduce((acc, [, v]) => ({
+        totalCount: acc.totalCount + v.totalCount,
+        totalValue: acc.totalValue + v.totalValue,
+        mktCount: acc.mktCount + v.mktCount,
+        mktValue: acc.mktValue + v.mktValue,
+      }), { totalCount: 0, totalValue: 0, mktCount: 0, mktValue: 0 });
+
+    function color(pct) {
+      if (pct >= 25.9) return 'var(--green)';
+      if (pct >= META) return 'var(--blue)';
+      return 'var(--orange)';
+    }
+    function badge(pct) {
+      const diff = (pct - META).toFixed(1);
+      if (pct >= 25.9) return `<span class="badge badge-green">+${diff} pp vs. meta</span>`;
+      if (pct >= META) return `<span class="badge badge-blue">+${diff} pp vs. meta</span>`;
+      return `<span class="badge badge-orange">⚠ ${diff} pp vs. meta</span>`;
+    }
+    function fmtV(n) {
+      if (n >= 1e6) return 'MX$' + (n/1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return 'MX$' + Math.round(n/1e3) + 'K';
+      return 'MX$' + n.toLocaleString();
+    }
+
+    // Build cards
+    grid.innerHTML = mainEntries.map(([ind, v]) => {
+      const c = color(v.oppPct);
+      const borderC = v.oppPct >= 25.9 ? 'var(--green)' : v.oppPct >= META ? 'var(--blue)' : 'var(--orange)';
+      const borderStyle = v.oppPct < META ? 'rgba(255,159,63,0.35)' : 'var(--border)';
+      return `
+      <div style="background:var(--bg-card);border:1px solid ${borderStyle};border-top:3px solid ${borderC};border-radius:var(--radius);padding:1.625rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+          <div>
+            <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.25rem;">${ind}</div>
+            <div style="font-size:2.5rem;font-weight:900;line-height:1;color:${c};">${v.oppPct}%</div>
+            <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.2rem;">participación en oportunidades</div>
+          </div>
+          ${badge(v.oppPct)}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem;">
+          <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--fg-muted);">Oportunidades</span>
+            <span><strong style="color:${c};">${v.mktCount}</strong> <span style="color:var(--fg-muted);">/ ${v.totalCount} total</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.8125rem;padding:.5rem 0;">
+            <span style="color:var(--fg-muted);">Valor Marketing</span>
+            <span><strong style="color:${c};">${fmtV(v.mktValue)}</strong> <span style="color:var(--fg-muted);">/ ${fmtV(v.totalValue)} (${v.valPct}%)</span></span>
+          </div>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
+          <div style="height:100%;width:${Math.min(v.oppPct, 100)}%;background:${c};border-radius:999px;transition:width .6s;"></div>
+        </div>
+        <div style="font-size:.75rem;color:var(--fg-muted);">${v.oppPct >= 15 ? '✓ Por encima de la meta · ' : '⚠ Por debajo de la meta · '}${v.mktCount} de ${v.totalCount} opps son de Marketing</div>
+      </div>`;
+    }).join('');
+
+    // Add untagged card if significant
+    if (untagged.totalCount > 5) {
+      const uOppPct = untagged.totalCount > 0 ? Math.round(untagged.mktCount/untagged.totalCount*1000)/10 : 0;
+      grid.innerHTML += `
+      <div style="background:var(--bg-card);border:1px dashed var(--border);border-radius:var(--radius);padding:1.625rem;opacity:.8;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.5rem;">Sin industria asignada</div>
+        <div style="font-size:.8125rem;color:var(--fg-muted);margin-bottom:.75rem;">${untagged.totalCount} oportunidades sin campo Industry en Zoho · ${fmtV(untagged.totalValue)} total · ${uOppPct}% de Marketing</div>
+        <div style="font-size:.75rem;color:rgba(255,159,63,.8);">⚠ Completar el campo Industry en estas cuentas mejorará la precisión del análisis</div>
+      </div>`;
+    }
+
+    // Summary table
+    const allForTable = [...mainEntries].sort((a, b) => b[1].oppPct - a[1].oppPct);
+    table.innerHTML = allForTable.map(([ind, v]) => {
+      const c = color(v.oppPct);
+      return `<div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+          <span style="font-size:.875rem;font-weight:600;">${ind}</span>
+          <span style="font-size:.875rem;font-weight:800;color:${c};">${v.oppPct}% &nbsp;<span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">${v.mktCount} / ${v.totalCount} opps</span></span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;">
+          <div style="height:100%;width:${Math.min(v.oppPct, 100)}%;background:${c};border-radius:999px;"></div>
+        </div>
+      </div>`;
+    }).join('') + `
+    <div style="position:relative;padding-top:.5rem;border-top:1px solid var(--border);">
+      <div style="position:relative;height:2px;">
+        <div style="position:absolute;left:15%;top:-8px;bottom:-8px;width:1px;background:rgba(255,255,255,.5);"></div>
+        <div style="position:absolute;left:15%;top:-20px;font-size:.65rem;font-weight:700;color:var(--fg-muted);transform:translateX(-50%);white-space:nowrap;">Meta mínima 15%</div>
+      </div>
+    </div>`;
+
+    // Insights: best and worst industry
+    const best = allForTable[0];
+    const worst = allForTable[allForTable.length - 1];
+    if (best && worst && insights) {
+      insights.innerHTML = `
+      <div class="insight" style="background:rgba(15,217,128,0.07);border-color:rgba(15,217,128,0.2);">
+        <strong>🏆 ${best[0]}: mejor participación.</strong> Marketing genera <strong>${best[1].mktCount} de ${best[1].totalCount} oportunidades (${best[1].oppPct}%)</strong> — ${fmtV(best[1].mktValue)} de ${fmtV(best[1].totalValue)} (${best[1].valPct}% del valor). El canal está resonando bien en este segmento.
+      </div>
+      <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.25);">
+        <strong>${worst[1].oppPct < META ? '⚠' : '📊'} ${worst[0]}.</strong> Marketing genera <strong>${worst[1].mktCount} de ${worst[1].totalCount} oportunidades (${worst[1].oppPct}%)</strong> — ${fmtV(worst[1].mktValue)} de valor. ${worst[1].oppPct < META ? 'Por debajo de la meta de 15% — oportunidad de activar más demanda en este segmento.' : 'Participación sólida — mantener el ritmo.'}
+      </div>`;
     }
   }
 
