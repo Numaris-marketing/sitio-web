@@ -113,7 +113,7 @@ export default async function handler(req, res) {
         "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones",
         dealCriteria, token),
       fetchFiltered("Accounts",
-        "id,Account_Name,Account_Type,Se_obtuvo_por,Sector,Vertical",
+        "id,Account_Name,Account_Type,Se_obtuvo_por,Sector,Vertical,Industry",
         accCriteria, token),
     ]);
 
@@ -178,6 +178,39 @@ export default async function handler(req, res) {
       totalByStage[s].value += dealValue(d);
     }
 
+    // By industry — total active deals grouped by Account Industry field
+    const totalByIndustry = {};
+    for (const d of activeDeals) {
+      const ind = accountById[getAccId(d)]?.Industry || "Sin industria";
+      if (!totalByIndustry[ind]) totalByIndustry[ind] = { count: 0, value: 0 };
+      totalByIndustry[ind].count++;
+      totalByIndustry[ind].value += dealValue(d);
+    }
+
+    // By industry — marketing deals
+    const mktByIndustry = {};
+    for (const d of marketingDeals) {
+      const ind = accountById[getAccId(d)]?.Industry || "Sin industria";
+      if (!mktByIndustry[ind]) mktByIndustry[ind] = { count: 0, value: 0 };
+      mktByIndustry[ind].count++;
+      mktByIndustry[ind].value += dealValue(d);
+    }
+
+    // Combined industry view: each industry with total + mkt + participation %
+    const byIndustry = {};
+    for (const ind of new Set([...Object.keys(totalByIndustry), ...Object.keys(mktByIndustry)])) {
+      const tot = totalByIndustry[ind] || { count: 0, value: 0 };
+      const mkt = mktByIndustry[ind] || { count: 0, value: 0 };
+      byIndustry[ind] = {
+        totalCount: tot.count,
+        totalValue: Math.round(tot.value),
+        mktCount: mkt.count,
+        mktValue: Math.round(mkt.value),
+        oppPct: tot.count > 0 ? Math.round((mkt.count / tot.count) * 1000) / 10 : 0,
+        valPct: tot.value > 0 ? Math.round((mkt.value / tot.value) * 1000) / 10 : 0,
+      };
+    }
+
     res.status(200).json({
       generatedAt: new Date().toISOString(),
       summary: {
@@ -191,6 +224,7 @@ export default async function handler(req, res) {
       byStage,
       totalByStage,
       bySource,
+      byIndustry,
     });
 
   } catch (err) {
