@@ -1,23 +1,13 @@
 // Vercel Serverless Function — Zoho CRM Pipeline Marketing
 // GET /api/zoho-pipeline
+// Uses pre-filtered Zoho search to stay within 30s timeout
 
 import https from "https";
 
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
 const ZOHO_BASE = "www.zohoapis.com";
 const ZOHO_ACCOUNTS_HOST = "accounts.zoho.com";
 
-// Active pipeline stages for nuevos negocios (Prospecto)
-const ACTIVE_STAGES = new Set([
-  "Levantamiento de necesidades",
-  "Presentación con enfoque a solicitud",
-  "Prueba Demo",
-  "Negociación",
-  "Formalización",
-  "Contrato firmado",
-]);
-
-// Accounts to exclude explicitly (Tip, Mstar)
+// Excluded accounts (Tip, Mstar)
 const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000007362830", // TIP AUTO
   "5991927000065276241", // MSTAR INNOVATION
@@ -39,78 +29,53 @@ const MARKETING_SOURCES = new Set([
   "Linkedin - Pauta",
 ]);
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-function httpsGet(hostname, path, token) {
+// ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
+function zohoRequest(hostname, path, method = "GET", body = null, token = null) {
   return new Promise((resolve, reject) => {
-    const options = {
-      hostname,
-      path,
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    };
-    const req = https.request(options, (res) => {
-      let body = "";
-      res.on("data", (c) => (body += c));
-      res.on("end", () => {
-        try { resolve(JSON.parse(body)); }
-        catch (e) { reject(new Error(`JSON parse: ${body.slice(0, 200)}`)); }
-      });
-    });
-    req.on("error", reject);
-    req.end();
-  });
-}
-
-function httpsPost(hostname, path, params) {
-  return new Promise((resolve, reject) => {
-    const body = params.toString();
-    const options = {
-      hostname,
-      path,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": Buffer.byteLength(body),
-      },
-    };
-    const req = https.request(options, (res) => {
+    const headers = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    if (body) {
+      headers["Content-Type"] = "application/x-www-form-urlencoded";
+      headers["Content-Length"] = Buffer.byteLength(body);
+    }
+    const req = https.request({ hostname, path, method, headers }, (res) => {
       let data = "";
       res.on("data", (c) => (data += c));
       res.on("end", () => {
         try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error(`JSON parse: ${data.slice(0, 200)}`)); }
+        catch (e) { reject(new Error(`JSON: ${data.slice(0, 300)}`)); }
       });
     });
     req.on("error", reject);
-    req.write(body);
+    if (body) req.write(body);
     req.end();
   });
 }
 
-async function refreshAccessToken() {
-  const params = new URLSearchParams({
+async function refreshToken() {
+  const body = new URLSearchParams({
     refresh_token: process.env.ZOHO_REFRESH_TOKEN,
     client_id: process.env.ZOHO_CLIENT_ID,
     client_secret: process.env.ZOHO_CLIENT_SECRET,
     grant_type: "refresh_token",
-  });
-  const data = await httpsPost(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", params);
-  if (!data.access_token)
-    throw new Error(`No access_token: ${JSON.stringify(data)}`);
-  return data.access_token;
+  }).toString();
+  const d = await zohoRequest(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", "POST", body);
+  if (!d.access_token) throw new Error(`OAuth: ${JSON.stringify(d)}`);
+  return d.access_token;
 }
 
-async function fetchAllPages(module, fields, token) {
+// Fetch with pre-filter criteria — much faster than fetching all records
+async function fetchFiltered(module, fields, criteria, token) {
   const results = [];
   let page = 1;
   while (true) {
-    const path = `/crm/v2/${module}?per_page=200&page=${page}&fields=${encodeURIComponent(fields)}`;
-    const data = await httpsGet(ZOHO_BASE, path, token);
-    const batch = data.data || [];
+    const qs = `per_page=200&page=${page}&fields=${fields}&criteria=${criteria}`;
+    const d = await zohoRequest(ZOHO_BASE, `/crm/v2/${module}/search?${qs}`, "GET", null, token);
+    const batch = d.data || [];
     results.push(...batch);
-    if (!data.info?.more_records) break;
+    if (!d.info?.more_records) break;
     page++;
-    await new Promise((r) => setTimeout(r, 120));
+    await new Promise((r) => setTimeout(r, 100));
   }
   return results;
 }
@@ -118,63 +83,67 @@ async function fetchAllPages(module, fields, token) {
 function dealValue(d) {
   return d.Annual_Contract_Value || d.Amount || 0;
 }
-
 function getAccId(d) {
   return typeof d.Account_Name === "object" ? d.Account_Name?.id : null;
 }
 
-// ─── MAIN HANDLER ────────────────────────────────────────────────────────────
+// ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   try {
-    const token = await refreshAccessToken();
+    const token = await refreshToken();
 
-    // Fetch Deals + Accounts in parallel
-    const [allDeals, allAccounts] = await Promise.all([
-      fetchAllPages(
-        "Deals",
+    // Pre-filter at Zoho API level — only fetch what we need
+    // Deals: active stages only
+    const dealCriteria = encodeURIComponent(
+      "((Stage:equals:Levantamiento de necesidades)or" +
+      "(Stage:equals:Presentación con enfoque a solicitud)or" +
+      "(Stage:equals:Prueba Demo)or" +
+      "(Stage:equals:Negociación)or" +
+      "(Stage:equals:Formalización)or" +
+      "(Stage:equals:Contrato firmado))"
+    );
+    // Accounts: Prospecto type only
+    const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
+
+    const [activeDealsRaw, prospAccounts] = await Promise.all([
+      fetchFiltered("Deals",
         "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones",
-        token
-      ),
-      fetchAllPages(
-        "Accounts",
+        dealCriteria, token),
+      fetchFiltered("Accounts",
         "id,Account_Name,Account_Type,Se_obtuvo_por,Sector,Vertical",
-        token
-      ),
+        accCriteria, token),
     ]);
 
-    // Build account index
+    // Build account index (Prospecto only)
     const accountById = {};
     const marketingAccIds = new Set();
-    for (const acc of allAccounts) {
+    for (const acc of prospAccounts) {
       accountById[acc.id] = acc;
-      if (
-        MARKETING_SOURCES.has(acc.Se_obtuvo_por) &&
-        acc.Account_Type === "Prospecto" &&
-        !EXCLUDED_ACCOUNT_IDS.has(acc.id)
-      ) {
+      if (MARKETING_SOURCES.has(acc.Se_obtuvo_por) && !EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
         marketingAccIds.add(acc.id);
       }
     }
 
-    // Filter active deals: active stage + Prospecto + not excluded
-    const activeDeals = allDeals.filter((d) => {
-      if (!ACTIVE_STAGES.has(d.Stage || "")) return false;
+    // Further filter deals: must be Prospecto account and not excluded
+    const activeDeals = activeDealsRaw.filter((d) => {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
       const acc = accountById[accId];
-      if (acc && acc.Account_Type !== "Prospecto") return false;
+      // If account found and not Prospecto → exclude
+      // If account not in our Prospecto list → it's a different type → exclude
+      if (!acc) return false; // unknown account not in Prospecto list
       return true;
     });
 
-    // Filter marketing deals
+    // Marketing deals
     const marketingDeals = activeDeals.filter(
       (d) => marketingAccIds.has(getAccId(d)) || d.Campa_a
     );
 
-    // Aggregate
+    // Metrics
     const totalPipeline = activeDeals.reduce((s, d) => s + dealValue(d), 0);
     const mktPipeline = marketingDeals.reduce((s, d) => s + dealValue(d), 0);
     const oppPct = activeDeals.length > 0
@@ -184,18 +153,17 @@ export default async function handler(req, res) {
     // By stage
     const byStage = {};
     for (const d of marketingDeals) {
-      const stage = d.Stage || "Sin etapa";
-      if (!byStage[stage]) byStage[stage] = { count: 0, value: 0, subs: 0 };
-      byStage[stage].count++;
-      byStage[stage].value += dealValue(d);
-      byStage[stage].subs += d.Cantidad_de_suscripciones || 0;
+      const s = d.Stage || "Sin etapa";
+      if (!byStage[s]) byStage[s] = { count: 0, value: 0, subs: 0 };
+      byStage[s].count++;
+      byStage[s].value += dealValue(d);
+      byStage[s].subs += d.Cantidad_de_suscripciones || 0;
     }
 
     // By source
     const bySource = {};
     for (const d of marketingDeals) {
-      const accId = getAccId(d);
-      const src = accountById[accId]?.Se_obtuvo_por || "Campaña";
+      const src = accountById[getAccId(d)]?.Se_obtuvo_por || "Campaña";
       if (!bySource[src]) bySource[src] = { count: 0, value: 0 };
       bySource[src].count++;
       bySource[src].value += dealValue(d);
@@ -204,10 +172,10 @@ export default async function handler(req, res) {
     // Total by stage
     const totalByStage = {};
     for (const d of activeDeals) {
-      const stage = d.Stage || "Sin etapa";
-      if (!totalByStage[stage]) totalByStage[stage] = { count: 0, value: 0 };
-      totalByStage[stage].count++;
-      totalByStage[stage].value += dealValue(d);
+      const s = d.Stage || "Sin etapa";
+      if (!totalByStage[s]) totalByStage[s] = { count: 0, value: 0 };
+      totalByStage[s].count++;
+      totalByStage[s].value += dealValue(d);
     }
 
     res.status(200).json({
@@ -217,8 +185,8 @@ export default async function handler(req, res) {
         totalPipelineValue: Math.round(totalPipeline),
         marketingDeals: marketingDeals.length,
         marketingPipelineValue: Math.round(mktPipeline),
-        marketingPct: Math.round(oppPct * 10) / 10,   // % by count
-        marketingValPct: Math.round(valPct * 10) / 10, // % by value
+        marketingPct: Math.round(oppPct * 10) / 10,
+        marketingValPct: Math.round(valPct * 10) / 10,
       },
       byStage,
       totalByStage,
@@ -226,7 +194,7 @@ export default async function handler(req, res) {
     });
 
   } catch (err) {
-    console.error("zoho-pipeline error:", err.message);
+    console.error("zoho-pipeline:", err.message);
     res.status(500).json({ error: err.message });
   }
 }
