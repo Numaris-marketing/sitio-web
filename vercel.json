@@ -3,7 +3,27 @@
   "buildCommand": null,
   "devCommand": null,
   "outputDirectory": "public",
+  "functions": {
+    "api/zoho-pipeline.js": {
+      "memory": 256,
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
-    { "source": "/", "destination": "/numaris-home.html" }
+    { "source": "/", "destination": "/numaris-home.html" },
+    { "source": "/contacto", "destination": "/contacto/index.html" },
+    { "source": "/soluciones/seguridad-patrimonial/rastreo-satelital", "destination": "/soluciones/seguridad-patrimonial/rastreo-satelital/index.html" },
+    { "source": "/soluciones/seguridad-patrimonial/monitoreo-inteligente", "destination": "/soluciones/seguridad-patrimonial/monitoreo-inteligente/index.html" },
+    { "source": "/soluciones/seguridad-patrimonial/monitoreo-licencia", "destination": "/soluciones/seguridad-patrimonial/monitoreo-licencia/index.html" },
+    { "source": "/soluciones/seguridad-vial/videotelemetria-ia", "destination": "/soluciones/seguridad-vial/videotelemetria-ia/index.html" },
+    { "source": "/soluciones/productividad/control-de-combustible", "destination": "/soluciones/productividad/control-de-combustible/index.html" },
+    { "source": "/soluciones/productividad/telemetria-avanzada", "destination": "/soluciones/productividad/telemetria-avanzada/index.html" },
+    { "source": "/soluciones/productividad/remolques-inteligentes", "destination": "/soluciones/productividad/remolques-inteligentes/index.html" },
+    { "source": "/soluciones/control-registro/sistema-gestion-flotas", "destination": "/soluciones/control-registro/sistema-gestion-flotas/index.html" },
+    { "source": "/soluciones/control-registro/administracion-mantenimiento", "destination": "/soluciones/control-registro/administracion-mantenimiento/index.html" },
+    { "source": "/sectores/transporte-pesado", "destination": "/sectores/transporte-pesado/index.html" },
+    { "source": "/sectores/distribucion-y-logistica", "destination": "/sectores/distribucion-y-logistica/index.html" },
+    { "source": "/sectores/movilidad", "destination": "/sectores/movilidad/index.html" },
+    { "source": "/sectores/servicios-financieros", "destination": "/sectores/servicios-financieros/index.html" }
   ]
 }
