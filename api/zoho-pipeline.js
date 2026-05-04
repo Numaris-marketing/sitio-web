@@ -13,6 +13,39 @@ const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000065276241", // MSTAR INNOVATION
 ]);
 
+// Industry classification by Account Owner (Propietario de la cuenta)
+// Exact names as they appear in Zoho CRM
+const OWNER_TO_INDUSTRY = {
+  // Transporte Pesado
+  "Jose Guadalupe Castillo Olvera": "Transporte Pesado",
+  "Lorena Bolaños Cacho":           "Transporte Pesado",
+  "Mario Rincón":                   "Transporte Pesado",
+  "Daniel Ocampo":                  "Transporte Pesado",
+  "Uriel San Pedro Lopez":          "Transporte Pesado",
+
+  // Logística y Distribución
+  "Karen Andrea Gonzalez Ramirez":      "Logística y Distribución",
+  "Diana Aylin Rodriguez Ornelas":      "Logística y Distribución",
+  "Andrea Quinones":                    "Logística y Distribución",
+  "Elizabeth Alejandra Pineda Gonzalez":"Logística y Distribución",
+  "Joel Araiza":                        "Logística y Distribución",
+  "Juan Alejandro Duarte Delgadillo":   "Logística y Distribución",
+
+  // Servicios Financieros y Movilidad
+  "Orlak Efrain Castañeda Diaz":  "Servicios Financieros y Movilidad",
+  "Marleem Hernandez Martinez":   "Servicios Financieros y Movilidad",
+  "Hanna Vazquez":                "Servicios Financieros y Movilidad",
+  "Alan Badillo":                 "Servicios Financieros y Movilidad",
+  "Guillermo Quijano":            "Servicios Financieros y Movilidad",
+
+  // Administración de Flota
+  "David Urieta":                  "Administración de Flota",
+  "Lorena Ruiz":                   "Administración de Flota",
+  "Iris Morales":                  "Administración de Flota",
+  "Abigail Juarez":                "Administración de Flota",
+  "Gabriela Abigail Juarez Perez": "Administración de Flota", // nombre exacto en CRM
+};
+
 const MARKETING_SOURCES = new Set([
   "Google Ads - Pauta",
   "LinkedIn Sales Navigator",
@@ -80,6 +113,23 @@ async function fetchFiltered(module, fields, criteria, token) {
   return results;
 }
 
+// Fetch all records from a module without search criteria (uses list endpoint)
+async function zohoGetAll(module, fields, token) {
+  const results = [];
+  let page = 1;
+  while (true) {
+    const qs = `per_page=200&page=${page}&fields=${fields}`;
+    const d = await zohoRequest(ZOHO_BASE, `/crm/v2/${module}?${qs}`, "GET", null, token);
+    const batch = d.data || [];
+    if (batch.length === 0) break;
+    results.push(...batch);
+    if (!d.info?.more_records) break;
+    page++;
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  return results;
+}
+
 function dealValue(d) {
   return d.Annual_Contract_Value || d.Amount || 0;
 }
@@ -108,20 +158,44 @@ export default async function handler(req, res) {
     // Accounts: Prospecto type only
     const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
 
-    const [activeDealsRaw, prospAccounts] = await Promise.all([
+    // Separate criteria for campaign deals — includes ALL stages (active + won + lost)
+    // so we capture expo deals regardless of their current stage
+    const campDealCriteria = encodeURIComponent(
+      "((Stage:equals:Levantamiento de necesidades)or" +
+      "(Stage:equals:Presentación con enfoque a solicitud)or" +
+      "(Stage:equals:Prueba Demo)or" +
+      "(Stage:equals:Negociación)or" +
+      "(Stage:equals:Formalización)or" +
+      "(Stage:equals:Contrato firmado)or" +
+      "(Stage:equals:Venta realizada))"
+    );
+
+    const [activeDealsRaw, prospAccounts, campDealsRaw] = await Promise.all([
       fetchFiltered("Deals",
         "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones",
         dealCriteria, token),
       fetchFiltered("Accounts",
-        "id,Account_Name,Account_Type,Se_obtuvo_por,Sector,Vertical,Industry",
+        "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
+      fetchFiltered("Deals",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,Closing_Date",
+        campDealCriteria, token),
     ]);
+
+    // No campaigns module fetch needed — derive campaign catalog from deal Campa_a objects
+    const campaigns = [];
+
+    // Build campaign lookup by id (empty — derived from deals)
+    const campaignById = {};
 
     // Build account index (Prospecto only)
     const accountById = {};
     const marketingAccIds = new Set();
+    const accountIndustry = {}; // acc.id → industry label via owner mapping
     for (const acc of prospAccounts) {
       accountById[acc.id] = acc;
+      const ownerName = typeof acc.Owner === "object" ? (acc.Owner?.name || "") : (acc.Owner || "");
+      accountIndustry[acc.id] = OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
       if (MARKETING_SOURCES.has(acc.Se_obtuvo_por) && !EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
         marketingAccIds.add(acc.id);
       }
@@ -178,10 +252,11 @@ export default async function handler(req, res) {
       totalByStage[s].value += dealValue(d);
     }
 
-    // By industry — total active deals grouped by Account Industry field
+    // By industry — total active deals grouped by Account Owner → industry mapping
     const totalByIndustry = {};
     for (const d of activeDeals) {
-      const ind = accountById[getAccId(d)]?.Industry || "Sin industria";
+      const accId = getAccId(d);
+      const ind = accountIndustry[accId] || "Sin asignar";
       if (!totalByIndustry[ind]) totalByIndustry[ind] = { count: 0, value: 0 };
       totalByIndustry[ind].count++;
       totalByIndustry[ind].value += dealValue(d);
@@ -190,7 +265,8 @@ export default async function handler(req, res) {
     // By industry — marketing deals
     const mktByIndustry = {};
     for (const d of marketingDeals) {
-      const ind = accountById[getAccId(d)]?.Industry || "Sin industria";
+      const accId = getAccId(d);
+      const ind = accountIndustry[accId] || "Sin asignar";
       if (!mktByIndustry[ind]) mktByIndustry[ind] = { count: 0, value: 0 };
       mktByIndustry[ind].count++;
       mktByIndustry[ind].value += dealValue(d);
@@ -211,6 +287,61 @@ export default async function handler(req, res) {
       };
     }
 
+    // By campaign — uses campDealsRaw which includes ALL stages (active + Venta realizada)
+    // so expo deals are captured regardless of current stage.
+    // Campaign catalog is derived directly from Campa_a objects on deals (no module fetch needed).
+    const ACTIVE_STAGES = new Set([
+      "Levantamiento de necesidades",
+      "Presentación con enfoque a solicitud",
+      "Prueba Demo",
+      "Negociación",
+      "Formalización",
+      "Contrato firmado",
+    ]);
+
+    const byCampaign = {};
+    for (const d of campDealsRaw) {
+      const accId = getAccId(d);
+      if (EXCLUDED_ACCOUNT_IDS.has(accId)) continue;
+
+      const camp = d.Campa_a;
+      if (!camp) continue;
+      const campId   = typeof camp === "object" ? camp.id   : camp;
+      const campName = typeof camp === "object" ? camp.name : camp;
+      if (!campId) continue;
+
+      const isActive = ACTIVE_STAGES.has(d.Stage);
+      const isWon    = d.Stage === "Venta realizada";
+
+      if (!byCampaign[campId]) {
+        byCampaign[campId] = {
+          name:         campName,
+          count:        0, value:      0, subs:     0,  // active pipeline
+          wonCount:     0, wonValue:   0,                 // closed/won
+          totalCount:   0, totalValue: 0,                 // all combined
+        };
+      }
+
+      const v = dealValue(d);
+      const s = d.Cantidad_de_suscripciones || 0;
+
+      byCampaign[campId].totalCount++;
+      byCampaign[campId].totalValue += v;
+
+      if (isActive) {
+        byCampaign[campId].count++;
+        byCampaign[campId].value += v;
+        byCampaign[campId].subs  += s;
+      } else if (isWon) {
+        byCampaign[campId].wonCount++;
+        byCampaign[campId].wonValue += v;
+      }
+    }
+
+    // Debug
+    const dealsWithCamp = campDealsRaw.filter(d => d.Campa_a && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
+    const wonDealsWithCamp = campDealsRaw.filter(d => d.Campa_a && d.Stage === "Venta realizada" && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
+
     res.status(200).json({
       generatedAt: new Date().toISOString(),
       summary: {
@@ -225,6 +356,14 @@ export default async function handler(req, res) {
       totalByStage,
       bySource,
       byIndustry,
+      byCampaign,
+      debug: {
+        dealsWithCampaign:    dealsWithCamp,
+        wonDealsWithCampaign: wonDealsWithCamp,
+        campDealsRawTotal:    campDealsRaw.length,
+        activeDealsRawTotal:  activeDealsRaw.length,
+        sampleCampaDeal:      campDealsRaw.find(d => d.Campa_a) || null,
+      },
     });
 
   } catch (err) {
