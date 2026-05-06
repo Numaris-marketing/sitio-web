@@ -178,7 +178,7 @@ export default async function handler(req, res) {
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,Closing_Date",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,Closing_Date",
         campDealCriteria, token),
     ]);
 
@@ -247,9 +247,10 @@ export default async function handler(req, res) {
     const totalByStage = {};
     for (const d of activeDeals) {
       const s = d.Stage || "Sin etapa";
-      if (!totalByStage[s]) totalByStage[s] = { count: 0, value: 0 };
+      if (!totalByStage[s]) totalByStage[s] = { count: 0, value: 0, subs: 0 };
       totalByStage[s].count++;
       totalByStage[s].value += dealValue(d);
+      totalByStage[s].subs += d.Cantidad_de_suscripciones || 0;
     }
 
     // By industry — total active deals grouped by Account Owner → industry mapping
@@ -304,7 +305,8 @@ export default async function handler(req, res) {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) continue;
 
-      const camp = d.Campa_a;
+      // Check both the custom lookup field (Campa_a) and the standard Zoho campaign field (Campaign_Source)
+      const camp = d.Campa_a || d.Campaign_Source;
       if (!camp) continue;
       const campId   = typeof camp === "object" ? camp.id   : camp;
       const campName = typeof camp === "object" ? camp.name : camp;
@@ -338,9 +340,11 @@ export default async function handler(req, res) {
       }
     }
 
-    // Debug
-    const dealsWithCamp = campDealsRaw.filter(d => d.Campa_a && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
-    const wonDealsWithCamp = campDealsRaw.filter(d => d.Campa_a && d.Stage === "Venta realizada" && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
+    // Debug — check both campaign fields
+    const dealsWithCamp = campDealsRaw.filter(d => (d.Campa_a || d.Campaign_Source) && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
+    const wonDealsWithCamp = campDealsRaw.filter(d => (d.Campa_a || d.Campaign_Source) && d.Stage === "Venta realizada" && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
+    const sampleCampSrc = campDealsRaw.find(d => d.Campaign_Source) || null;
+    const sampleCampa   = campDealsRaw.find(d => d.Campa_a) || null;
 
     res.status(200).json({
       generatedAt: new Date().toISOString(),
@@ -351,6 +355,8 @@ export default async function handler(req, res) {
         marketingPipelineValue: Math.round(mktPipeline),
         marketingPct: Math.round(oppPct * 10) / 10,
         marketingValPct: Math.round(valPct * 10) / 10,
+        marketingSubs: Object.values(byStage).reduce((acc, s) => acc + (s.subs || 0), 0),
+        totalSubs: activeDeals.reduce((acc, d) => acc + (d.Cantidad_de_suscripciones || 0), 0),
       },
       byStage,
       totalByStage,
@@ -362,7 +368,8 @@ export default async function handler(req, res) {
         wonDealsWithCampaign: wonDealsWithCamp,
         campDealsRawTotal:    campDealsRaw.length,
         activeDealsRawTotal:  activeDealsRaw.length,
-        sampleCampaDeal:      campDealsRaw.find(d => d.Campa_a) || null,
+        sampleCampa_aDeal:    sampleCampa,
+        sampleCampaignSrcDeal: sampleCampSrc,
       },
     });
 

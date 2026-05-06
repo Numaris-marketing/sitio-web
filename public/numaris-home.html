@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background:#05101E">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -68,6 +68,14 @@
     /* ── Navbar ── */
     #nav { transition:background .2s,border-color .2s }
     #nav.scrolled { background:rgba(5,16,30,.96)!important; backdrop-filter:blur(20px); border-bottom:1px solid rgba(36,95,165,.15) }
+    /* Dynamic nav height on scroll */
+    #nav-inner { height:62px; transition:height .38s cubic-bezier(.22,1,.36,1), padding .38s ease }
+    #nav.nav-compact #nav-inner { height:50px }
+    #nav-logo { transition:transform .38s ease; transform-origin:left center; display:flex; align-items:center }
+    #nav.nav-compact #nav-logo { transform:scale(.87) }
+    /* Hero scroll indicator */
+    @keyframes scroll-bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-ind { animation:scroll-bounce 2.2s ease-in-out infinite }
 
     /* ── Buttons ── */
     .btn-primary {
@@ -111,14 +119,146 @@
     /* ── Sector bottom line ── */
     .sec-card::after { content:''; position:absolute; bottom:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg,transparent,var(--blue),transparent); opacity:0; transition:opacity .2s }
     .sec-card:hover::after { opacity:.6 }
+
+    /* ── Nav dropdown mega-menu ── */
+    .nav-group-wrap { position:relative }
+    .nav-group-wrap > button { background:none; border:none; cursor:pointer }
+    .nav-group-wrap .dd-panel {
+      position:absolute; top:calc(100% + 2px); left:0; z-index:200;
+      opacity:0; pointer-events:none;
+      transform:translateY(8px);
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
+    .dd-chevron { transition:transform .18s ease; display:block }
+    .nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
+
+    .nav-dd-item {
+      display:block; padding:6px 10px; border-radius:8px; font-size:12.5px;
+      color:rgba(160,195,230,.65); text-decoration:none;
+      transition:background .13s,color .13s; margin-bottom:1px;
+    }
+    .nav-dd-item:hover { background:rgba(36,95,165,.14); color:rgba(255,255,255,.92) }
+    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(75,143,212,.55); margin-bottom:5px; padding:0 10px }
+    .dd-col-tagline { font-size:11px; color:rgba(160,195,230,.38); margin-bottom:11px; padding:0 10px; line-height:1.4 }
+    .dd-box {
+      background:rgba(4,13,25,.98); border:1px solid rgba(36,95,165,.22); border-radius:16px;
+      overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(36,95,165,.06);
+      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    }
+    .dd-top-bar { padding:14px 22px 12px; border-bottom:1px solid rgba(36,95,165,.12); display:flex; align-items:center; justify-content:space-between }
+    .dd-top-label { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:rgba(75,143,212,.55) }
+    .dd-top-link { font-size:11.5px; font-weight:500; color:rgba(75,143,212,.72); display:flex; align-items:center; gap:4px; text-decoration:none; transition:color .13s }
+    .dd-top-link:hover { color:rgba(110,176,255,.95) }
+    .dd-sec-card { padding:18px; border-radius:14px; border:1px solid rgba(36,95,165,.14); background:rgba(36,95,165,.04); transition:border-color .15s,background .15s; display:block; text-decoration:none }
+    .dd-sec-card:hover { border-color:rgba(36,95,165,.34); background:rgba(36,95,165,.1) }
+    .dd-sec-card-title { font-size:13px; font-weight:700; color:rgba(255,255,255,.82); margin-bottom:10px; letter-spacing:.01em }
+    .dd-sec-card ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px }
+    .dd-sec-card li { font-size:12px; color:rgba(160,195,230,.55); display:flex; align-items:flex-start; gap:5px }
+    .dd-sec-card li .chk { color:#3B82F6; flex-shrink:0; margin-top:1px; font-size:10px }
+
+    /* Mobile accordion */
+    .mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
+    .mob-acc-chevron { transition:transform .2s ease; flex-shrink:0 }
+
+    /* ── Case-study accordion ── */
+    .exito-acc { display:flex; gap:10px; height:380px }
+    .exito-item {
+      flex:1; min-width:0; border-radius:20px; overflow:hidden; cursor:pointer; position:relative;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+      transition:flex .52s cubic-bezier(.22,1,.36,1), border-color .2s, box-shadow .2s;
+    }
+    .exito-item:hover:not(.active) { border-color:rgba(36,95,165,.28); background:rgba(255,255,255,.055) }
+    .exito-item.active { flex:6; cursor:default; border-color:rgba(36,95,165,.32); box-shadow:0 0 40px rgba(36,95,165,.1) }
+
+    /* collapsed layer */
+    .exito-cl { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:14px 6px; transition:opacity .22s }
+    .exito-item.active .exito-cl { opacity:0; pointer-events:none }
+    .exito-cl-stat { font-size:26px; font-weight:800; color:rgba(255,255,255,.88); line-height:1; text-align:center; white-space:nowrap }
+    .exito-cl-name { font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.25); writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg) }
+
+    /* expanded layer */
+    .exito-el { position:absolute; inset:0; padding:30px 32px; display:flex; flex-direction:column; justify-content:space-between; opacity:0; transition:opacity .28s .18s; pointer-events:none; min-width:0 }
+    .exito-item.active .exito-el { opacity:1; pointer-events:auto }
+
+    /* mobile — vertical stack */
+    @media (max-width:1023px) {
+      .exito-acc { flex-direction:column; height:auto }
+      .exito-item { flex:none !important; height:68px; transition:height .45s cubic-bezier(.22,1,.36,1), border-color .2s }
+      .exito-item.active { height:300px }
+      .exito-cl { flex-direction:row; justify-content:flex-start; padding:0 20px; gap:14px }
+      .exito-cl-name { writing-mode:horizontal-tb; transform:none; font-size:11px; letter-spacing:.08em }
+      .exito-el { padding:20px 22px }
+    }
+    .mob-dd-item { display:block; padding:5px 8px; border-radius:7px; font-size:12px; color:rgba(160,195,230,.6); text-decoration:none; transition:background .12s,color .12s }
+    .mob-dd-item:hover { background:rgba(36,95,165,.12); color:rgba(255,255,255,.85) }
+  
+    /* ── Hero entrance animations ── */
+    @keyframes hero-fade-up {
+      from { opacity:0; transform:translateY(32px) }
+      to   { opacity:1; transform:translateY(0) }
+    }
+    @keyframes hero-fade-in {
+      from { opacity:0 }
+      to   { opacity:1 }
+    }
+    @keyframes hero-scale-in {
+      from { opacity:0; transform:scale(1.06) }
+      to   { opacity:1; transform:scale(1) }
+    }
+    @keyframes hero-slide-down {
+      from { opacity:0; transform:translateX(-50%) translateY(-14px) }
+      to   { opacity:1; transform:translateX(-50%) translateY(0) }
+    }
+    .hero-img-anim {
+      animation: hero-scale-in .9s cubic-bezier(.22,1,.36,1) .1s both;
+    }
+    .hero-badge-anim {
+      animation: hero-slide-down .7s cubic-bezier(.22,1,.36,1) .05s both;
+    }
+    .hero-title-anim {
+      animation: hero-fade-up .8s cubic-bezier(.22,1,.36,1) .3s both;
+    }
+    .hero-sub-anim {
+      animation: hero-fade-up .8s cubic-bezier(.22,1,.36,1) .45s both;
+    }
+    .hero-cta-anim {
+      animation: hero-fade-up .8s cubic-bezier(.22,1,.36,1) .58s both;
+    }
+    .hero-trust-anim {
+      animation: hero-fade-up .8s cubic-bezier(.22,1,.36,1) .7s both;
+    }
+    .hero-orb-anim {
+      animation: hero-fade-in 1.4s ease .0s both;
+    }
   </style>
 </head>
-<body>
+<body style="background:#05101E">
+<!-- ── INTRO FADE ── -->
+<div id="splash" style="
+  position:fixed;inset:0;z-index:9999;
+  background:#05101E;
+  pointer-events:none;
+  transition:opacity 1.4s cubic-bezier(.4,0,.2,1);
+"></div>
+
+<script>
+(function(){
+  var splash = document.getElementById('splash');
+  // Small delay so the page paints first, then fade out
+  setTimeout(function(){
+    splash.style.opacity = '0';
+    setTimeout(function(){ splash.style.display = 'none'; }, 1500);
+  }, 120);
+})();
+</script>
+
+
 
 <!-- NAVBAR -->
 <header id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent" style="background:rgba(5,16,30,.4)">
-  <nav class="max-w-7xl mx-auto px-6 h-[60px] flex items-center justify-between gap-6">
-    <a href="#" class="shrink-0">
+  <nav id="nav-inner" class="max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
+    <a href="#" class="shrink-0" id="nav-logo">
       <svg width="114" height="44" viewBox="0 0 576 224" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
         <path d="M193.133 103.22C193.133 92.1886 206.37 86.673 212.437 86.673H221.262C233.397 86.673 240.567 97.1527 240.567 103.22V142.932H231.742V104.323C231.742 100.703 226.226 93.8433 219.056 93.8433H215.747C206.922 93.8433 201.958 100.462 201.958 104.323V142.932H193.133V103.22Z" fill="white"/>
@@ -138,16 +278,138 @@
     </a>
 
     <div class="hidden lg:flex items-center gap-0">
-      <a href="#soluciones" class="px-3.5 py-2 text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors flex items-center gap-1">Soluciones <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg></a>
-      <a href="#sectores"   class="px-3.5 py-2 text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors flex items-center gap-1">Sectores <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg></a>
-      <a href="#nosotros"   class="px-3.5 py-2 text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors">Nosotros</a>
-      <a href="#exito"      class="px-3.5 py-2 text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors">Historias de Éxito</a>
-      <a href="#blog"       class="px-3.5 py-2 text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors">Blog</a>
+
+      <!-- ── SOLUCIONES dropdown ── -->
+      <div class="nav-group-wrap">
+        <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
+          Soluciones
+          <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="dd-panel" style="width:860px">
+          <div class="dd-box">
+            <div class="dd-top-bar">
+              <span class="dd-top-label">Soluciones</span>
+              <a href="#soluciones" class="dd-top-link">Ver ecosistema completo <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:20px 16px 8px;gap:8px">
+
+              <!-- Productividad -->
+              <div style="padding:0 8px">
+                <p class="dd-col-title">Productividad</p>
+                <p class="dd-col-tagline">Mejora la eficiencia y reduce costos</p>
+                <a href="/soluciones/productividad/telemetria-avanzada" class="nav-dd-item">Telemetría avanzada</a>
+                <a href="/soluciones/productividad/remolques-inteligentes" class="nav-dd-item">Remolques inteligentes</a>
+                <a href="/soluciones/productividad/control-de-combustible" class="nav-dd-item">Control de combustible</a>
+              </div>
+
+              <!-- Seguridad Patrimonial -->
+              <div style="padding:0 8px">
+                <p class="dd-col-title">Seguridad Patrimonial</p>
+                <p class="dd-col-tagline">Asegura tus activos y mercancía</p>
+                <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="nav-dd-item">Rastreo Satelital</a>
+                <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="nav-dd-item">Monitoreo Inteligente</a>
+                <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="nav-dd-item">Monitoreo licencia</a>
+              </div>
+
+              <!-- Control y Registro -->
+              <div style="padding:0 8px">
+                <p class="dd-col-title">Control y Registro</p>
+                <p class="dd-col-tagline">Centraliza y optimiza la gestión de tu flota</p>
+                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Sistema de gestión de flotas</a>
+                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Administración de mantenimiento</a>
+              </div>
+
+              <!-- Seguridad Vial -->
+              <div style="padding:0 8px">
+                <p class="dd-col-title">Seguridad Vial</p>
+                <p class="dd-col-tagline">Protege a operadores y reduce accidentes</p>
+                <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="nav-dd-item">Videotelemetría con IA</a>
+              </div>
+
+            </div>
+            <!-- Ecosistema CTA -->
+            <div style="margin:4px 20px 18px;padding:13px 18px;border-radius:12px;background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.82)">Ecosistema Numaris</span>
+                <span style="font-size:12px;color:rgba(110,176,255,.45);margin-left:8px">One Stop Shop</span>
+              </div>
+              <a href="#soluciones" style="font-size:11.5px;font-weight:500;color:rgba(75,143,212,.85);background:rgba(36,95,165,.15);padding:5px 14px;border-radius:999px;border:1px solid rgba(36,95,165,.3);text-decoration:none;transition:background .13s,color .13s" onmouseover="this.style.background='rgba(36,95,165,.28)';this.style.color='white'" onmouseout="this.style.background='rgba(36,95,165,.15)';this.style.color='rgba(75,143,212,.85)'">Explorar →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTORES dropdown ── -->
+      <div class="nav-group-wrap">
+        <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
+          Sectores
+          <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="dd-panel" style="width:940px">
+          <div class="dd-box">
+            <div class="dd-top-bar">
+              <span class="dd-top-label">Sectores</span>
+              <a href="#sectores" class="dd-top-link">Ver todos los sectores <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:22px 20px 22px;gap:14px">
+
+              <!-- Movilidad -->
+              <a href="/sectores/movilidad" class="dd-sec-card">
+                <p class="dd-sec-card-title">Movilidad</p>
+                <ul>
+                  <li><span class="chk">✓</span>Trazabilidad</li>
+                  <li><span class="chk">✓</span>Seguimiento servicios</li>
+                  <li><span class="chk">✓</span>Prevención accidentes</li>
+                  <li><span class="chk">✓</span>Control de gasto</li>
+                </ul>
+              </a>
+
+              <!-- Distribución -->
+              <a href="/sectores/distribucion-y-logistica" class="dd-sec-card">
+                <p class="dd-sec-card-title">Distribución y Logística</p>
+                <ul>
+                  <li><span class="chk">✓</span>Prevención accidentes</li>
+                  <li><span class="chk">✓</span>Localización</li>
+                  <li><span class="chk">✓</span>Eficiencia combustible</li>
+                  <li><span class="chk">✓</span>Optimización rutas</li>
+                </ul>
+              </a>
+
+              <!-- Servicios Financieros -->
+              <a href="/sectores/servicios-financieros" class="dd-sec-card">
+                <p class="dd-sec-card-title">Servicios Financieros</p>
+                <ul>
+                  <li><span class="chk">✓</span>Control de gastos</li>
+                  <li><span class="chk">✓</span>Integración sistemas</li>
+                  <li><span class="chk">✓</span>Automatización</li>
+                  <li><span class="chk">✓</span>Valor agregado</li>
+                </ul>
+              </a>
+
+              <!-- Transporte Pesado -->
+              <a href="/sectores/transporte-pesado" class="dd-sec-card">
+                <p class="dd-sec-card-title">Transporte Pesado</p>
+                <ul>
+                  <li><span class="chk">✓</span>Eficiencia combustible</li>
+                  <li><span class="chk">✓</span>Prevención accidentes</li>
+                  <li><span class="chk">✓</span>Localización</li>
+                  <li><span class="chk">✓</span>Tarjeta combustible</li>
+                </ul>
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#nosotros"   class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Nosotros</a>
+      <a href="#exito"      class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Historias de Éxito</a>
+      <a href="#blog"       class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Blog</a>
     </div>
 
     <div class="hidden lg:flex items-center gap-3 shrink-0">
-      <a href="tel:+525556509228" class="text-[13px] text-white/40 hover:text-white/70 transition-colors">+52 55 5650 9228</a>
-      <button onclick="openDemoModal()" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</button>
+      <a href="tel:+525556509228" class="text-[13px] text-white/60 hover:text-white/90 transition-colors">+52 55 5650 9228</a>
+      <a href="/contacto" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
     </div>
 
     <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
@@ -157,14 +419,54 @@
   </nav>
   <div id="mob-menu" class="mob lg:hidden border-t border-white/5" style="background:rgba(5,16,30,.98)">
     <div class="px-6 py-4 flex flex-col gap-0.5">
-      <a href="#soluciones" class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Soluciones</a>
-      <a href="#sectores"   class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Sectores</a>
+
+      <!-- Soluciones accordion -->
+      <div>
+        <button onclick="toggleMobAcc(this)" class="w-full py-2.5 text-[13px] text-white/55 hover:text-white font-medium flex items-center justify-between">
+          Soluciones
+          <svg class="mob-acc-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="mob-acc-content">
+          <div style="padding:4px 0 12px 10px;display:flex;flex-direction:column;gap:1px">
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:6px 6px 3px">Productividad</p>
+            <a href="/soluciones/productividad/telemetria-avanzada"          class="mob-dd-item">Telemetría avanzada</a>
+            <a href="/soluciones/productividad/remolques-inteligentes"        class="mob-dd-item">Remolques inteligentes</a>
+            <a href="/soluciones/productividad/control-de-combustible"        class="mob-dd-item">Control de combustible</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Patrimonial</p>
+            <a href="/soluciones/seguridad-patrimonial/rastreo-satelital"     class="mob-dd-item">Rastreo Satelital</a>
+            <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="mob-dd-item">Monitoreo Inteligente</a>
+            <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia"    class="mob-dd-item">Monitoreo licencia</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Control y Registro</p>
+            <a href="/soluciones/control-registro/sistema-gestion-flotas"         class="mob-dd-item">Sistema de gestión de flotas</a>
+            <a href="/soluciones/control-registro/administracion-mantenimiento"    class="mob-dd-item">Administración de mantenimiento</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Vial</p>
+            <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="mob-dd-item">Videotelemetría con IA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sectores accordion -->
+      <div>
+        <button onclick="toggleMobAcc(this)" class="w-full py-2.5 text-[13px] text-white/55 hover:text-white font-medium flex items-center justify-between">
+          Sectores
+          <svg class="mob-acc-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="mob-acc-content">
+          <div style="padding:4px 0 12px 10px;display:flex;flex-direction:column;gap:1px">
+            <a href="/sectores/movilidad"                  class="mob-dd-item">Movilidad</a>
+            <a href="/sectores/distribucion-y-logistica"   class="mob-dd-item">Distribución y Logística</a>
+            <a href="/sectores/servicios-financieros"      class="mob-dd-item">Servicios Financieros</a>
+            <a href="/sectores/transporte-pesado"          class="mob-dd-item">Transporte Pesado</a>
+          </div>
+        </div>
+      </div>
+
       <a href="#nosotros"   class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Nosotros</a>
       <a href="#exito"      class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Historias de Éxito</a>
       <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
         <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <button onclick="openDemoModal()" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full">Contacto</button>
+        <a href="/contacto" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full block text-center">Contacto</a>
       </div>
     </div>
   </div>
@@ -173,197 +475,300 @@
 <main>
 
 <!-- HERO -->
-<section class="relative min-h-screen flex flex-col overflow-hidden" style="background:var(--bg)">
-  <!-- Single subtle orb -->
-  <div class="orb" style="width:900px;height:600px;background:radial-gradient(ellipse,rgba(36,95,165,.12) 0%,transparent 65%);top:-160px;left:50%;transform:translateX(-50%);animation-delay:0s"></div>
+<section class="relative overflow-hidden" style="background:var(--bg)">
 
-  <!-- Dot grid — very faint -->
-  <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.12) 1px,transparent 1px);background-size:48px 48px;opacity:.18"></div>
+  <!-- ── PART 1: Full-screen image ── -->
+  <div class="relative flex items-center justify-center overflow-hidden" style="height:100vh;min-height:640px">
+    <!-- Orb glow -->
+    <div class="orb hero-orb-anim" style="width:1100px;height:750px;background:radial-gradient(ellipse,rgba(36,95,165,.14) 0%,transparent 65%);top:-200px;left:50%;transform:translateX(-50%)"></div>
+    <!-- Dot grid -->
+    <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.12) 1px,transparent 1px);background-size:48px 48px;opacity:.15"></div>
 
-  <!-- Bottom fade -->
-  <div class="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style="background:linear-gradient(to top,var(--bg),transparent)"></div>
-
-  <!-- Two-column hero content -->
-  <div class="relative z-10 flex-1 flex items-center w-full max-w-7xl mx-auto px-6 pt-24 pb-12">
-    <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 w-full">
-
-      <!-- LEFT: text -->
-      <div class="flex-1 lg:max-w-[520px] text-left">
-
-        <div class="tag mb-7 fi inline-flex">
-          <span class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;animation:glow-pulse 2s infinite"></span>
-          Plataforma de Gestión de Flotas · México
-        </div>
-
-        <h1 class="fi text-[36px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.08] tracking-[-0.02em] text-white/90">
-          Movilidad más eficiente,<br/>
-          <span class="glow-text">segura y conectada.</span>
-        </h1>
-
-        <p class="fi mt-5 text-[15px] text-white/40 max-w-md leading-relaxed font-light">
-          Una sola plataforma para rastreo satelital, control de combustible, video-IA y mantenimiento — todo en tiempo real.
-        </p>
-
-        <div class="fi mt-7 flex flex-wrap items-center gap-3">
-          <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-medium text-white">
-            Solicitar demo gratis
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-medium text-white/70">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-            WhatsApp
-          </a>
-        </div>
-
-        <div class="fi mt-7 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px]" style="color:rgba(255,255,255,.22)">
-          <span class="flex items-center gap-1.5"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+5,000 clientes</span>
-          <span class="flex items-center gap-1.5"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+60,000 unidades</span>
-          <span class="flex items-center gap-1.5"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+30% ahorro en operación</span>
-        </div>
+    <!-- Badge — top center -->
+    <div class="absolute z-10 hero-badge-anim" style="top:calc(62px + 28px);left:50%;transform:translateX(-50%);white-space:nowrap">
+      <div class="tag fi inline-flex">
+        <span class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;animation:glow-pulse 2s infinite"></span>
+        Plataforma de Gestión de Flotas · México
       </div>
+    </div>
 
-      <!-- RIGHT: vehicle image -->
-      <div class="fi flex-1 flex items-center justify-center lg:justify-end w-full lg:w-auto">
-        <img
-          src="/Grafico_Carros.png"
-          alt="Flota Numaris — camiones, vans y autos conectados por GPS"
-          class="w-full max-w-[680px] lg:max-w-none"
-          style="mix-blend-mode:lighten;filter:brightness(1.05) drop-shadow(0 0 40px rgba(36,95,165,.18));object-fit:contain"
-        />
-      </div>
+    <!-- Vehicle image — full width, centered -->
+    <img
+      src="/Grafico_Carros.png"
+      alt="Flota Numaris — camiones, vans y autos conectados por GPS"
+      class="fi hero-img-anim"
+      style="position:relative;z-index:1;width:100%;max-width:1280px;object-fit:contain;mix-blend-mode:lighten;filter:brightness(1.1) drop-shadow(0 0 80px rgba(36,95,165,.28));margin-top:30px"
+    />
+
+    <!-- Top gradient (navbar area) -->
+    <div class="absolute top-0 left-0 right-0 pointer-events-none" style="height:140px;background:linear-gradient(to bottom,var(--bg) 20%,transparent)"></div>
+    <!-- Bottom gradient fade into text -->
+    <div class="absolute bottom-0 left-0 right-0 pointer-events-none" style="height:260px;background:linear-gradient(to top,var(--bg) 30%,transparent)"></div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-ind absolute z-10" style="bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px">
+      <span style="font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2)">Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
     </div>
   </div>
 
-  <!-- removed dashboard mockup -->
-  <div style="display:none">
-    <div>
-      <div style="background:#040E1B;border-bottom:1px solid rgba(36,95,165,.18);padding:9px 14px;display:flex;align-items:center;gap:6px">
-        <span style="width:9px;height:9px;border-radius:50%;background:#FF5F56;display:inline-block"></span>
-        <span style="width:9px;height:9px;border-radius:50%;background:#FFBD2E;display:inline-block"></span>
-        <span style="width:9px;height:9px;border-radius:50%;background:#27C93F;display:inline-block"></span>
-        <span class="ml-3 text-[11px]" style="font-family:monospace;color:rgba(255,255,255,.25)">app.numaris.com/dashboard</span>
-        <span class="ml-auto text-[10px] px-2 py-0.5 rounded" style="background:rgba(36,95,165,.18);color:rgba(110,176,255,.8);border:1px solid rgba(36,95,165,.25);font-family:monospace">● EN VIVO</span>
-      </div>
-      <div class="p-4" style="background:rgba(4,14,27,.98)">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
-          <div class="rounded-lg p-3 text-center" style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.16)">
-            <p class="text-lg font-semibold text-white/90">247</p>
-            <p class="text-[11px] mt-0.5" style="color:var(--muted)">Unidades activas</p>
-          </div>
-          <div class="rounded-lg p-3 text-center" style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18)">
-            <p class="text-lg font-semibold" style="color:#34D399">28%</p>
-            <p class="text-[11px] mt-0.5" style="color:var(--muted)">Ahorro comb.</p>
-          </div>
-          <div class="rounded-lg p-3 text-center" style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.18)">
-            <p class="text-lg font-semibold" style="color:#6EB0FF">99.9%</p>
-            <p class="text-[11px] mt-0.5" style="color:var(--muted)">Uptime</p>
-          </div>
-          <div class="rounded-lg p-3 text-center" style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.16)">
-            <p class="text-lg font-semibold text-white/90">3</p>
-            <p class="text-[11px] mt-0.5" style="color:var(--muted)">Alertas activas</p>
-          </div>
-        </div>
-        <div class="rounded-lg relative overflow-hidden mb-3" style="height:130px;background:#030B16">
-          <div class="absolute inset-0" style="background-image:linear-gradient(rgba(36,95,165,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(36,95,165,.08) 1px,transparent 1px);background-size:20px 20px"></div>
-          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 700 130" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#245FA5" stop-opacity=".2"/>
-                <stop offset="100%" stop-color="#3B82F6" stop-opacity=".7"/>
-              </linearGradient>
-            </defs>
-            <polyline points="50,110 160,82 280,60 390,72 500,44 620,28 690,22" fill="none" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="5 3"/>
-            <polyline points="70,118 190,104 320,96 430,82 540,68" fill="none" stroke="rgba(36,95,165,.2)" stroke-width="1" stroke-dasharray="3 4"/>
-          </svg>
-          <div class="pdot absolute w-2.5 h-2.5 rounded-full" style="background:#245FA5;top:36%;left:62%"></div>
-          <div class="absolute w-2 h-2 rounded-full" style="background:#10B981;top:60%;left:28%"></div>
-          <div class="absolute top-2 left-2 text-[10px] px-2 py-0.5 rounded" style="background:rgba(36,95,165,.18);color:rgba(110,176,255,.7);border:1px solid rgba(36,95,165,.2);font-family:monospace">México · 247 unidades</div>
-        </div>
-        <div class="space-y-1.5">
-          <div class="flex items-center justify-between px-3 py-1.5 rounded-md" style="background:rgba(10,24,48,.8);border:1px solid rgba(36,95,165,.12)">
-            <span class="text-[11px]" style="font-family:monospace;color:rgba(255,255,255,.4)">TRK-042 · CDMX — Monterrey</span>
-            <span class="text-[11px] font-medium" style="color:#34D399">En ruta</span>
-          </div>
-          <div class="flex items-center justify-between px-3 py-1.5 rounded-md" style="background:rgba(10,24,48,.8);border:1px solid rgba(59,130,246,.14)">
-            <span class="text-[11px]" style="font-family:monospace;color:rgba(255,255,255,.4)">TRK-018 · GDL — CDMX</span>
-            <span class="text-[11px] font-medium" style="color:#6EB0FF">Alerta geocerca</span>
-          </div>
-          <div class="flex items-center justify-between px-3 py-1.5 rounded-md" style="background:rgba(10,24,48,.8);border:1px solid rgba(36,95,165,.12)">
-            <span class="text-[11px]" style="font-family:monospace;color:rgba(255,255,255,.4)">TRK-091 · MTY — SLP</span>
-            <span class="text-[11px] font-medium" style="color:#34D399">En ruta</span>
-          </div>
-        </div>
-      </div>
+  <!-- ── PART 2: Text content — centered ── -->
+  <div class="relative z-10 w-full max-w-3xl mx-auto px-6 pb-28 text-center">
+
+    <h1 class="fi hero-title-anim text-[42px] sm:text-[56px] lg:text-[68px] font-bold leading-[1.06] tracking-[-0.025em] text-white/92">
+      Movilidad más eficiente,<br/>
+      <span class="glow-text">segura y conectada.</span>
+    </h1>
+
+    <p class="fi hero-sub-anim mt-6 text-[16px] max-w-xl mx-auto leading-relaxed font-light" style="color:rgba(208,223,240,.62)">
+      Una sola plataforma para rastreo satelital, control de combustible, video-IA y mantenimiento — todo en tiempo real.
+    </p>
+
+    <div class="fi hero-cta-anim mt-8 flex flex-wrap items-center justify-center gap-3">
+      <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-semibold text-white">
+        Solicitar demo gratis
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-medium text-white/80">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+
+    <div class="fi mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[12px]" style="color:rgba(255,255,255,.45)">
+      <span class="flex items-center gap-1.5">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+5,000 clientes
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+60,000 unidades
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+30% ahorro en operación
+      </span>
     </div>
   </div>
+
 </section>
 
 <div class="divider"></div>
 
-<!-- STATS -->
-<section style="background:var(--bg2)">
-  <div class="max-w-4xl mx-auto px-6 py-16">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-x divide-white/5">
-      <div class="text-center px-8 fi">
-        <p class="stat-n text-[28px] font-semibold text-white/85" data-t="5000" data-p="+" data-s="">0</p>
-        <p class="text-[12px] mt-1.5 font-light" style="color:var(--muted)">Clientes activos</p>
-      </div>
-      <div class="text-center px-8 fi">
-        <p class="stat-n text-[28px] font-semibold text-white/85" data-t="60000" data-p="+" data-s="">0</p>
-        <p class="text-[12px] mt-1.5 font-light" style="color:var(--muted)">Unidades conectadas</p>
-      </div>
-      <div class="text-center px-8 fi">
-        <p class="stat-n text-[28px] font-semibold text-white/85" data-t="30" data-p="+" data-s="%">0</p>
-        <p class="text-[12px] mt-1.5 font-light" style="color:var(--muted)">Ahorro en operación</p>
-      </div>
-      <div class="text-center px-8 fi">
-        <p class="stat-n text-[28px] font-semibold text-white/85" data-t="99.9" data-p="" data-s="%">0</p>
-        <p class="text-[12px] mt-1.5 font-light" style="color:var(--muted)">Uptime garantizado</p>
-      </div>
+<!-- STATS + IA CONTEXT -->
+<section style="background:var(--bg2);padding:72px 0">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Top label -->
+    <div class="text-center mb-12 fi">
+      <p class="text-[10px] font-bold uppercase tracking-[.16em] mb-4" style="color:rgba(75,143,212,.55)">Plataforma impulsada por datos reales</p>
+      <h2 class="text-[28px] sm:text-[36px] font-bold tracking-tight leading-tight" style="color:rgba(255,255,255,.9)">
+        La IA de Numaris aprende de<br/><span class="glow-text">cada kilómetro recorrido.</span>
+      </h2>
+      <p class="mt-4 text-[15px] font-light max-w-xl mx-auto" style="color:rgba(208,223,240,.45)">
+        Más de una década de datos de flotas mexicanas entrenan nuestros modelos. Eso es contexto que ningún competidor puede replicar.
+      </p>
     </div>
+
+    <!-- 6-stat grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-px fi" style="border:1px solid rgba(36,95,165,.12);border-radius:20px;overflow:hidden;background:rgba(36,95,165,.08)">
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="200000" data-p="+" data-s="">0</p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">unidades conectadas en México</p>
+      </div>
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)">700<span style="font-size:28px;color:rgba(110,176,255,.7)">M+</span></p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">eventos de flota procesados al día</p>
+      </div>
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="13" data-p="" data-s=" años">0</p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">de datos de operaciones en México</p>
+      </div>
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)">96<span style="font-size:28px;color:rgba(110,176,255,.7)">%</span></p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">efectividad en recuperación de unidades</p>
+      </div>
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="200" data-p="+" data-s="">0</p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">técnicos certificados CESVI a nivel nacional</p>
+      </div>
+
+      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
+        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="5000" data-p="+" data-s="">0</p>
+        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">empresas confían en Numaris</p>
+      </div>
+
+    </div><!-- /grid -->
   </div>
 </section>
 
 <div class="divider"></div>
 
 <!-- MARQUEE -->
-<section style="background:var(--bg);padding:36px 0">
-  <p class="text-center text-[10px] font-medium uppercase tracking-widest mb-7" style="color:rgba(74,106,136,.5)">Empresas líderes que confían en Numaris</p>
+<section style="background:var(--bg);padding:40px 0">
+  <p class="text-center text-[10px] font-medium uppercase tracking-widest mb-8" style="color:rgba(74,106,136,.5)">Empresas líderes que confían en Numaris</p>
   <div class="relative overflow-hidden">
-    <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(to right,var(--bg),transparent)"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(to left,var(--bg),transparent)"></div>
+    <div class="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to right,var(--bg),transparent)"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to left,var(--bg),transparent)"></div>
     <div class="marquee-track">
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Unilever</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">PepsiCo</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Grupo Carso</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Coppel</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">La Costeña</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Natgas</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Jugos del Valle</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Beta Leasing</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Tiendas Neto</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Autotransportes Pilot</span>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-coppel.svg" alt="Coppel" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-metlife.svg" alt="Metlife" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tragamex.svg" alt="Tragamex" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-zeta.svg" alt="Zeta" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-san-juan.svg" alt="San Juan" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-santa-clara.svg" alt="Santa Clara" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-alsea.svg" alt="Alsea" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tumsa.svg" alt="Tumsa" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-pilot.svg" alt="Pilot" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-ecolab.svg" alt="Ecolab" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-delta.svg" alt="Delta" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-flechisa.svg" alt="Flechisa" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-value.svg" alt="Value" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tmmarva.svg" alt="TM Marva" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-monte-piedad.svg" alt="Monte de Piedad" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-grupo-viso.svg" alt="Grupo Viso" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-happymile.svg" alt="Happymile" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-superirack.svg" alt="Superirack" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-dna.svg" alt="DNA" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-easo.svg" alt="EASO" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-axionex.svg" alt="Axionex" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-8w.svg" alt="8W" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-casofin.svg" alt="CasoFin" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-fundacion-donde.svg" alt="Fund. Dónde" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
       <!-- dup -->
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Unilever</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">PepsiCo</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Grupo Carso</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Coppel</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">La Costeña</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Natgas</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Jugos del Valle</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Beta Leasing</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Tiendas Neto</span>
-      <span class="shrink-0 px-7 py-2 text-[12px] font-medium tracking-widest uppercase" style="color:rgba(74,106,136,.55)">Autotransportes Pilot</span>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-coppel.svg" alt="Coppel" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-metlife.svg" alt="Metlife" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tragamex.svg" alt="Tragamex" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-zeta.svg" alt="Zeta" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-san-juan.svg" alt="San Juan" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-santa-clara.svg" alt="Santa Clara" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-alsea.svg" alt="Alsea" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tumsa.svg" alt="Tumsa" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-pilot.svg" alt="Pilot" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-ecolab.svg" alt="Ecolab" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-delta.svg" alt="Delta" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-flechisa.svg" alt="Flechisa" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-value.svg" alt="Value" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-tmmarva.svg" alt="TM Marva" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-monte-piedad.svg" alt="Monte de Piedad" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-grupo-viso.svg" alt="Grupo Viso" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-happymile.svg" alt="Happymile" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-superirack.svg" alt="Superirack" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-dna.svg" alt="DNA" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-easo.svg" alt="EASO" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-axionex.svg" alt="Axionex" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-8w.svg" alt="8W" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-casofin.svg" alt="CasoFin" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
+      <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
+        <img src="logos/logo-fundacion-donde.svg" alt="Fund. Dónde" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- SOLUCIONES -->
+<!-- SOLUCIONES — Samsara-style interactive explorer -->
 <section id="soluciones" class="py-28" style="background:var(--bg)">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-16 fi">
+
+    <div class="text-center mb-12 fi">
       <div class="tag mx-auto mb-5">Soluciones</div>
       <h2 class="text-[30px] sm:text-[36px] font-semibold tracking-tight text-white/85 leading-tight">
         Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
@@ -373,86 +778,265 @@
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-      <article class="fi card glass rounded-xl overflow-hidden relative" style="border-color:var(--border)">
-        <div class="absolute top-0 left-0 right-0 h-px z-10" style="background:linear-gradient(90deg,transparent,rgba(36,95,165,.5),transparent)"></div>
-        <div class="h-36 overflow-hidden flex items-center justify-center" style="">
-          <img src="/Animacion18.svg" alt="Flota completa con telemetría" class="w-full h-full object-contain" style="padding:12px;filter:drop-shadow(0 2px 12px rgba(36,95,165,.2))" />
-        </div>
-        <div class="p-5">
-          <div class="w-9 h-9 rounded-lg flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
-          <h3 class="text-[13px] font-semibold text-white/85 mb-2">Productividad</h3>
-          <p class="text-[12px] leading-relaxed mb-4 font-light" style="color:var(--muted)">Telemetría avanzada, remolques inteligentes y control de combustible para maximizar el rendimiento de cada unidad.</p>
-          <ul class="space-y-1.5">
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#245FA5"></span>Telemetría avanzada</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#245FA5"></span>Remolques inteligentes</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#245FA5"></span>Control de combustible</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="fi card glass rounded-xl overflow-hidden relative" style="border-color:rgba(16,185,129,.14)">
-        <div class="absolute top-0 left-0 right-0 h-px z-10" style="background:linear-gradient(90deg,transparent,rgba(16,185,129,.45),transparent)"></div>
-        <div class="h-36 overflow-hidden flex items-center justify-center" style="">
-          <img src="/Animacion21.svg" alt="Rastreo satelital GPS" class="w-full h-full object-contain" style="padding:12px;filter:drop-shadow(0 2px 12px rgba(36,95,165,.2))" />
-        </div>
-        <div class="p-5">
-          <div class="w-9 h-9 rounded-lg flex items-center justify-center mb-4" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3 class="text-[13px] font-semibold text-white/85 mb-2">Seguridad Patrimonial</h3>
-          <p class="text-[12px] leading-relaxed mb-4 font-light" style="color:var(--muted)">Rastreo satelital de alta precisión, monitoreo inteligente y control de licencias para proteger cada activo.</p>
-          <ul class="space-y-1.5">
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#10B981"></span>Rastreo satelital</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#10B981"></span>Monitoreo inteligente</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#10B981"></span>Monitoreo de licencia</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="fi card glass rounded-xl overflow-hidden relative" style="border-color:rgba(59,130,246,.14)">
-        <div class="absolute top-0 left-0 right-0 h-px z-10" style="background:linear-gradient(90deg,transparent,rgba(59,130,246,.45),transparent)"></div>
-        <div class="h-36 overflow-hidden flex items-center justify-center" style="">
-          <img src="/Animacion15.svg" alt="Dashboard analítico de flotas" class="w-full h-full object-contain" style="padding:12px;filter:drop-shadow(0 2px 12px rgba(36,95,165,.2))" />
-        </div>
-        <div class="p-5">
-          <div class="w-9 h-9 rounded-lg flex items-center justify-center mb-4" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.22)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EB0FF" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/></svg>
-          </div>
-          <h3 class="text-[13px] font-semibold text-white/85 mb-2">Control y Registro</h3>
-          <p class="text-[12px] leading-relaxed mb-4 font-light" style="color:var(--muted)">Sistema de gestión de flotas y administración de mantenimiento centralizado para toda la operación.</p>
-          <ul class="space-y-1.5">
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#3B82F6"></span>Gestión de flotas</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#3B82F6"></span>Admin. de mantenimiento</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#3B82F6"></span>Bitácora digital</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="fi card glass rounded-xl overflow-hidden relative" style="border-color:rgba(168,85,247,.14)">
-        <div class="absolute top-0 left-0 right-0 h-px z-10" style="background:linear-gradient(90deg,transparent,rgba(168,85,247,.45),transparent)"></div>
-        <div class="h-36 overflow-hidden flex items-center justify-center" style="">
-          <img src="/Animacion13.svg" alt="Video IA para seguridad vial" class="w-full h-full object-contain" style="padding:12px;filter:drop-shadow(0 2px 12px rgba(36,95,165,.2))" />
-        </div>
-        <div class="p-5">
-          <div class="w-9 h-9 rounded-lg flex items-center justify-center mb-4" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.22)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2"><rect x="2" y="7" width="15" height="12" rx="2"/><path d="M17 11l5-3v8l-5-3"/><circle cx="8" cy="13" r="1.5" fill="#C084FC" stroke="none"/></svg>
-          </div>
-          <h3 class="text-[13px] font-semibold text-white/85 mb-2">Seguridad Vial</h3>
-          <p class="text-[12px] leading-relaxed mb-4 font-light" style="color:var(--muted)">Videotelemetría con inteligencia artificial que detecta fatiga, distracción y eventos de riesgo en tiempo real.</p>
-          <ul class="space-y-1.5">
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#A855F7"></span>Videotelemetría con IA</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#A855F7"></span>Detección de fatiga</li>
-            <li class="flex items-center gap-2 text-[11px]" style="color:#3B6285"><span class="w-1 h-1 rounded-full inline-block" style="background:#A855F7"></span>Evidencia en nube</li>
-          </ul>
-        </div>
-      </article>
+    <!-- Tab switcher -->
+    <div class="flex justify-center mb-8">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px;display:inline-flex;gap:2px">
+        <button id="stab-sol" onclick="solSwitchTab('sol')"
+          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .22s;background:white;color:#012750;font-family:inherit">
+          Soluciones
+        </button>
+        <button id="stab-ind" onclick="solSwitchTab('ind')"
+          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:all .22s;background:transparent;color:rgba(255,255,255,.45);font-family:inherit">
+          Industrias
+        </button>
+      </div>
     </div>
+
+    <!-- ── SOLUCIONES PANEL ── -->
+    <div id="sp-sol">
+      <!-- Outer shell: sidebar + content -->
+      <div style="display:flex;gap:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(4,13,26,.9);min-height:480px">
+
+        <!-- Left sidebar -->
+        <div id="sol-sidebar" style="width:230px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.07);padding:10px 8px;display:flex;flex-direction:column;gap:2px"></div>
+
+        <!-- Right: large card + 2 small cards -->
+        <div id="sol-cards" style="flex:1;padding:14px;display:grid;grid-template-columns:1fr 230px;grid-template-rows:1fr 1fr;gap:10px;min-height:480px"></div>
+
+      </div>
+
+      <!-- Mobile fallback: horizontal scrollable tabs -->
+      <div id="sol-mobile-tabs" style="display:none;overflow-x:auto;gap:8px;padding-bottom:4px;margin-bottom:12px;-webkit-overflow-scrolling:touch"></div>
+    </div>
+
+    <!-- ── INDUSTRIAS PANEL ── -->
+    <div id="sp-ind" style="display:none">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="ind-cards"></div>
+    </div>
+
   </div>
 </section>
+
+<script>
+(function(){
+  /* ── DATA ─────────────────────────────────────────────────────────── */
+  var SOL = [
+    {
+      name:'Seguridad Patrimonial',
+      badge:'Protección de activos',
+      headline:'Visibilidad total de tus vehículos, las 24 horas del día.',
+      desc:'Rastreo GPS de alta precisión, monitoreo inteligente y control de licencias para proteger cada activo de tu flota.',
+      color:'#10B981',
+      img:'/Animacion21.svg',
+      link:'/soluciones/seguridad-patrimonial/rastreo-satelital',
+      sub:[
+        {badge:'Alertas en tiempo real',title:'Monitoreo Inteligente',img:'/Animacion18.svg',link:'/soluciones/seguridad-patrimonial/monitoreo-inteligente'},
+        {badge:'Cumplimiento normativo',title:'Monitoreo de Licencia',img:'/Animacion15.svg',link:'/soluciones/seguridad-patrimonial/monitoreo-licencia'}
+      ]
+    },
+    {
+      name:'Productividad',
+      badge:'Eficiencia operativa',
+      headline:'Reduce costos y maximiza el rendimiento de cada unidad.',
+      desc:'Telemetría avanzada, remolques inteligentes y control preciso de combustible para exprimir cada kilómetro.',
+      color:'#4B8FD4',
+      img:'/Animacion18.svg',
+      link:'/soluciones/productividad/telemetria-avanzada',
+      sub:[
+        {badge:'Economía de combustible',title:'Control de Combustible',img:'/Animacion22.svg',link:'/soluciones/productividad/control-de-combustible'},
+        {badge:'Activos remotos',title:'Remolques Inteligentes',img:'/Animacion14.svg',link:'/soluciones/productividad/remolques-inteligentes'}
+      ]
+    },
+    {
+      name:'Control y Registro',
+      badge:'Gestión centralizada',
+      headline:'Toda la administración de tu flota en un solo lugar.',
+      desc:'Sistema de gestión de flotas y administración de mantenimiento centralizado para toda la operación.',
+      color:'#6EB0FF',
+      img:'/Animacion15.svg',
+      link:'/soluciones/control-registro/sistema-gestion-flotas',
+      sub:[
+        {badge:'Mantenimiento predictivo',title:'Admin. y Mantenimiento',img:'/Animacion17.svg',link:'/soluciones/control-registro/administracion-mantenimiento'},
+        {badge:'Bitácora digital',title:'Gestión de Flotas',img:'/Animacion25.svg',link:'/soluciones/control-registro/sistema-gestion-flotas'}
+      ]
+    },
+    {
+      name:'Seguridad Vial',
+      badge:'IA preventiva',
+      headline:'Detecta fatiga y distracciones antes de que ocurra un accidente.',
+      desc:'Videotelemetría con inteligencia artificial que identifica riesgos, graba evidencia y envía alertas en tiempo real.',
+      color:'#C084FC',
+      img:'/Animacion13.svg',
+      link:'/soluciones/seguridad-vial/videotelemetria-ia',
+      sub:[
+        {badge:'Evidencia en la nube',title:'Videotelemetría con IA',img:'/Animacion13.svg',link:'/soluciones/seguridad-vial/videotelemetria-ia'},
+        {badge:'Coaching de conductores',title:'Detección de Riesgo',img:'/Animacion21.svg',link:'/soluciones/seguridad-vial/videotelemetria-ia'}
+      ]
+    }
+  ];
+
+  var IND = [
+    {name:'Transporte Pesado',desc:'Seguridad, eficiencia y cumplimiento normativo para flotas de carga a nivel nacional.',color:'#4B8FD4',img:'/Animacion17.svg',link:'/sectores/transporte-pesado',icon:'<rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>'},
+    {name:'Distribución y Logística',desc:'Visibilidad total en rutas, entregas y productividad de tu red de distribución.',color:'#10B981',img:'/Animacion14.svg',link:'/sectores/distribucion-logistica',icon:'<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>'},
+    {name:'Servicios Financieros',desc:'Prevención de fraude, gestión de cobranza y protección de activos vehiculares.',color:'#6EB0FF',img:'/Animacion22.svg',link:'/sectores/servicios-financieros',icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>'},
+    {name:'Movilidad',desc:'Reduce costos y aumenta la disponibilidad con monitoreo inteligente de flotas urbanas.',color:'#C084FC',img:'/Animacion25.svg',link:'/sectores/movilidad',icon:'<circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>'}
+  ];
+
+  var activeSol = 0;
+  var activeTab = 'sol';
+
+  /* ── RENDER SIDEBAR ──────────────────────────────────────────────── */
+  function renderSidebar(){
+    var sb = document.getElementById('sol-sidebar');
+    if(!sb) return;
+    sb.innerHTML = SOL.map(function(s,i){
+      var isActive = i === activeSol;
+      return '<div onclick="window._solSet('+i+')" style="padding:12px 14px;border-radius:12px;cursor:pointer;transition:background .15s;background:'+(isActive?'rgba(255,255,255,.07)':'transparent')+';margin-bottom:2px" '
+        +'onmouseover="if('+i+'!==window._solActive)this.style.background=\'rgba(255,255,255,.04)\'" '
+        +'onmouseout="if('+i+'!==window._solActive)this.style.background=\'transparent\'">'
+        +'<div style="display:flex;align-items:flex-start;gap:10px">'
+        +'<div style="width:3px;min-height:18px;border-radius:2px;flex-shrink:0;margin-top:3px;background:'+(isActive?s.color:'rgba(255,255,255,.15)')+';transition:background .2s;'+(isActive?'height:auto':'height:18px')+'"></div>'
+        +'<div style="flex:1">'
+        +'<div style="font-size:13px;font-weight:'+(isActive?'600':'500')+';color:'+(isActive?'white':'rgba(255,255,255,.42)')+';transition:color .15s;line-height:1.3">'+s.name+'</div>'
+        +(isActive?'<p style="font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.45);margin-top:7px;font-weight:400">'+s.desc+'</p>':'')
+        +'</div></div></div>';
+    }).join('');
+  }
+
+  /* ── RENDER CARDS ────────────────────────────────────────────────── */
+  function renderCards(){
+    var container = document.getElementById('sol-cards');
+    if(!container) return;
+    var s = SOL[activeSol];
+    var arrowCircle = '<div style="width:34px;height:34px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#012750" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>';
+    var arrowSmall = '<div style="width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>';
+
+    /* Large card */
+    var main = '<div onclick="location.href=\''+s.link+'\'" '
+      +'style="grid-row:1/3;border-radius:14px;overflow:hidden;background:#02091A;border:1px solid rgba(255,255,255,.08);cursor:pointer;display:flex;flex-direction:column;padding:26px 26px 22px;transition:border-color .25s,box-shadow .25s;position:relative" '
+      +'onmouseover="this.style.borderColor=\''+s.color+'60\';this.style.boxShadow=\'0 0 28px '+s.color+'18\'" '
+      +'onmouseout="this.style.borderColor=\'rgba(255,255,255,.08)\';this.style.boxShadow=\'none\'">'
+      +'<div style="position:absolute;top:0;left:0;right:0;height:2px;background:'+s.color+';opacity:.8;border-radius:14px 14px 0 0"></div>'
+      /* badge */
+      +'<div><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 13px;font-size:11px;font-weight:500;color:rgba(255,255,255,.6)">'
+      +'<span style="width:6px;height:6px;border-radius:50%;background:'+s.color+';display:inline-block;flex-shrink:0"></span>'+s.badge
+      +'</span></div>'
+      /* headline */
+      +'<h3 style="font-size:20px;font-weight:700;color:white;line-height:1.25;margin-top:14px;max-width:280px">'+s.headline+'</h3>'
+      /* SVG mockup */
+      +'<div style="flex:1;display:flex;align-items:center;justify-content:center;margin:12px 0">'
+      +'<img src="'+s.img+'" style="width:100%;max-height:200px;object-fit:contain;opacity:.88;filter:drop-shadow(0 6px 28px '+s.color+'28)" />'
+      +'</div>'
+      /* footer */
+      +'<div style="display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)">'
+      +'<span style="font-size:12px;font-weight:600;color:'+s.color+'">'+s.name+' →</span>'
+      +arrowCircle
+      +'</div>'
+      +'</div>';
+
+    /* Small cards */
+    var smalls = s.sub.map(function(sub){
+      return '<div onclick="location.href=\''+sub.link+'\'" '
+        +'style="border-radius:12px;background:#02091A;border:1px solid rgba(255,255,255,.08);cursor:pointer;padding:18px;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s" '
+        +'onmouseover="this.style.borderColor=\'rgba(255,255,255,.22)\';this.style.boxShadow=\'0 0 16px rgba(255,255,255,.06)\'" '
+        +'onmouseout="this.style.borderColor=\'rgba(255,255,255,.08)\';this.style.boxShadow=\'none\'">'
+        +'<span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:500;color:rgba(255,255,255,.45)">'
+        +'<span style="width:5px;height:5px;border-radius:50%;background:'+s.color+';display:inline-block;flex-shrink:0"></span>'+sub.badge
+        +'</span>'
+        +'<h4 style="font-size:14px;font-weight:600;color:white;line-height:1.3;margin-top:8px;flex:1">'+sub.title+'</h4>'
+        +'<div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:10px">'
+        +'<img src="'+sub.img+'" style="height:52px;width:auto;object-fit:contain;opacity:.65" />'
+        +arrowSmall
+        +'</div>'
+        +'</div>';
+    }).join('');
+
+    container.innerHTML = main + smalls;
+  }
+
+  /* ── PUBLIC API ──────────────────────────────────────────────────── */
+  window._solActive = 0;
+  window._solSet = function(i){
+    activeSol = i;
+    window._solActive = i;
+    renderSidebar();
+    renderCards();
+  };
+
+  /* ── TAB SWITCH ──────────────────────────────────────────────────── */
+  window.solSwitchTab = function(tab){
+    activeTab = tab;
+    document.getElementById('sp-sol').style.display  = tab==='sol' ? 'block' : 'none';
+    document.getElementById('sp-ind').style.display  = tab==='ind' ? 'block' : 'none';
+    var btnSol = document.getElementById('stab-sol');
+    var btnInd = document.getElementById('stab-ind');
+    if(tab==='sol'){
+      btnSol.style.background='white'; btnSol.style.color='#012750';
+      btnInd.style.background='transparent'; btnInd.style.color='rgba(255,255,255,.45)';
+    } else {
+      btnInd.style.background='white'; btnInd.style.color='#012750';
+      btnSol.style.background='transparent'; btnSol.style.color='rgba(255,255,255,.45)';
+    }
+  };
+
+  /* ── RENDER INDUSTRIES ───────────────────────────────────────────── */
+  function renderIndustries(){
+    var el = document.getElementById('ind-cards');
+    if(!el) return;
+    el.innerHTML = IND.map(function(ind){
+      return '<article style="border-radius:16px;overflow:hidden;background:rgba(4,13,26,.9);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:border-color .2s,box-shadow .2s" '
+        +'onmouseover="this.style.borderColor=\''+ind.color+'55\';this.style.boxShadow=\'0 0 24px '+ind.color+'18\'" '
+        +'onmouseout="this.style.borderColor=\'rgba(255,255,255,.08)\';this.style.boxShadow=\'none\'" '
+        +'onclick="location.href=\''+ind.link+'\'">'
+        +'<div style="height:140px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:12px">'
+        +'<img src="'+ind.img+'" style="width:100%;height:100%;object-fit:contain;opacity:.85;filter:drop-shadow(0 2px 12px '+ind.color+'28)" />'
+        +'</div>'
+        +'<div style="padding:18px 20px 20px">'
+        +'<div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:'+ind.color+'18;border:1px solid '+ind.color+'30">'
+        +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+ind.color+'" stroke-width="2">'+ind.icon+'</svg>'
+        +'</div>'
+        +'<h3 style="font-size:14px;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:6px">'+ind.name+'</h3>'
+        +'<p style="font-size:12px;line-height:1.55;color:rgba(255,255,255,.38);font-weight:400">'+ind.desc+'</p>'
+        +'<div style="margin-top:14px;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:'+ind.color+'">Ver sector <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>'
+        +'</div></article>';
+    }).join('');
+  }
+
+  /* ── MOBILE: hide sidebar, show horizontal scroll tabs ───────────── */
+  function applyMobileLayout(){
+    var isMobile = window.innerWidth < 768;
+    var sidebar  = document.getElementById('sol-sidebar');
+    var mobileTabs = document.getElementById('sol-mobile-tabs');
+    if(!sidebar || !mobileTabs) return;
+    if(isMobile){
+      sidebar.style.display = 'none';
+      mobileTabs.style.display = 'flex';
+      mobileTabs.innerHTML = SOL.map(function(s,i){
+        return '<button onclick="window._solSet('+i+')" style="flex-shrink:0;padding:7px 16px;border-radius:999px;font-size:12px;font-weight:500;border:1px solid;cursor:pointer;transition:all .18s;font-family:inherit;'
+          +(i===activeSol?'background:'+s.color+';color:white;border-color:'+s.color:'background:transparent;color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.15)')+'">'+s.name+'</button>';
+      }).join('');
+    } else {
+      sidebar.style.display = 'flex';
+      mobileTabs.style.display = 'none';
+    }
+  }
+
+  /* ── INIT ────────────────────────────────────────────────────────── */
+  function init(){
+    renderSidebar();
+    renderCards();
+    renderIndustries();
+    applyMobileLayout();
+  }
+
+  window.addEventListener('resize', applyMobileLayout);
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 
 <div class="divider"></div>
 
@@ -563,75 +1147,521 @@
 
 <div class="divider"></div>
 
-<!-- TESTIMONIALES -->
-<section id="exito" class="py-28" style="background:var(--bg2)">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-16 fi">
-      <div class="tag mx-auto mb-5">Historias de Éxito</div>
-      <h2 class="text-[30px] sm:text-[36px] font-semibold tracking-tight text-white/85 leading-tight">
-        Lo que dicen <span class="glow-text-sm">nuestros clientes.</span>
-      </h2>
+<!-- CASOS DE ÉXITO — p44 style -->
+<section id="exito" class="py-24" style="background:var(--bg)">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <!-- Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14 fi">
+      <div>
+        <div class="tag mb-4 inline-flex">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6"></span>
+          Resultados probados
+        </div>
+        <h2 class="text-[30px] sm:text-[38px] font-bold tracking-tight leading-[1.08]" style="color:rgba(255,255,255,.9)">
+          Impacto real.<br/>Números que hablan.
+        </h2>
+      </div>
+      <p class="text-[14px] leading-relaxed font-light lg:max-w-[280px]" style="color:rgba(208,223,240,.45)">
+        Así transformamos las operaciones de las principales empresas en México.
+      </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-5">
-      <article class="fi card glass rounded-xl p-6 flex flex-col gap-4" style="border-color:var(--border)">
-        <div class="flex gap-0.5">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#245FA5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#245FA5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#245FA5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#245FA5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#245FA5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    <!-- 4 big-metric cards -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+
+      <!-- Card 1 — Bafar -->
+      <article onclick="openCaseModal('bafar')" class="fi cursor-pointer rounded-2xl p-7 flex flex-col justify-between group"
+        style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:280px;transition:border-color .25s,transform .25s,box-shadow .25s"
+        onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4),0 0 40px rgba(36,95,165,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+        <div>
+          <img src="/logo-bafar.svg" alt="Bafar" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+          <p class="text-[56px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">40<span style="font-size:32px;color:rgba(110,176,255,.7)">%</span></p>
+          <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">reducción de robo de combustible en los primeros 3 meses</p>
         </div>
-        <p class="text-[13px] leading-relaxed flex-1 font-light" style="color:rgba(208,223,240,.55)">"Con Numaris logramos reducir el robo de combustible a cero en tres meses. El ROI fue inmediato — el sistema se pagó solo en el primer semestre."</p>
-        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.06)">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-white/70 shrink-0" style="background:rgba(36,95,165,.2);border:1px solid rgba(36,95,165,.3)">N</div>
-          <div>
-            <p class="text-[13px] font-medium text-white/75">Natgas</p>
-            <p class="text-[11px] font-light" style="color:var(--muted)">Director de Operaciones</p>
-          </div>
+        <div class="flex items-center justify-between mt-6">
+          <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Transporte · +800 unidades</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </article>
 
-      <article class="fi card glass rounded-xl p-6 flex flex-col gap-4" style="border-color:rgba(16,185,129,.14);transition-delay:.1s">
-        <div class="flex gap-0.5">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#10B981"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#10B981"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#10B981"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#10B981"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#10B981"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <!-- Card 2 — Carso -->
+      <article onclick="openCaseModal('carso')" class="fi cursor-pointer rounded-2xl p-7 flex flex-col justify-between group"
+        style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:280px;transition:border-color .25s,transform .25s,box-shadow .25s"
+        onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4),0 0 40px rgba(36,95,165,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+        <div>
+          <img src="/logo-carso.svg" alt="Grupo Carso" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+          <p class="text-[56px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">30<span style="font-size:32px;color:rgba(110,176,255,.7)">%</span></p>
+          <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">ahorro en costos operativos con visibilidad en tiempo real</p>
         </div>
-        <p class="text-[13px] leading-relaxed flex-1 font-light" style="color:rgba(208,223,240,.55)">"Antes tardábamos horas en saber dónde estaban nuestros camiones. Ahora el gerente de flota ve todo desde su celular. Incrementamos la productividad 35%."</p>
-        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.06)">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-white/70 shrink-0" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25)">JV</div>
-          <div>
-            <p class="text-[13px] font-medium text-white/75">Jugos del Valle</p>
-            <p class="text-[11px] font-light" style="color:var(--muted)">Gerente de Logística</p>
-          </div>
+        <div class="flex items-center justify-between mt-6">
+          <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Corporativo · Flota mixta</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </article>
 
-      <article class="fi card glass rounded-xl p-6 flex flex-col gap-4" style="border-color:rgba(168,85,247,.14);transition-delay:.2s">
-        <div class="flex gap-0.5">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#A855F7"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#A855F7"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#A855F7"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#A855F7"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#A855F7"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <!-- Card 3 — San Juan -->
+      <article onclick="openCaseModal('sanjuan')" class="fi cursor-pointer rounded-2xl p-7 flex flex-col justify-between group"
+        style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:280px;transition:border-color .25s,transform .25s,box-shadow .25s"
+        onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4),0 0 40px rgba(36,95,165,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+        <div>
+          <img src="/logo-sanjuan.svg" alt="San Juan" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+          <p class="text-[56px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">95<span style="font-size:32px;color:rgba(110,176,255,.7)">%</span></p>
+          <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">disponibilidad de flota — reducción de paros no programados</p>
         </div>
-        <p class="text-[13px] leading-relaxed flex-1 font-light" style="color:rgba(208,223,240,.55)">"El módulo de video-IA nos salvó de dos accidentes graves. El sistema detectó fatiga del conductor y nos alertó antes de que ocurriera algo irreversible."</p>
-        <div class="flex items-center gap-3 pt-4 border-t" style="border-color:rgba(255,255,255,.06)">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-white/70 shrink-0" style="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.25)">BL</div>
-          <div>
-            <p class="text-[13px] font-medium text-white/75">Beta Leasing</p>
-            <p class="text-[11px] font-light" style="color:var(--muted)">Director de Seguridad Vial</p>
-          </div>
+        <div class="flex items-center justify-between mt-6">
+          <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Distribución · +200 unidades</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </article>
+
+      <!-- Card 4 — Zeta -->
+      <article onclick="openCaseModal('zeta')" class="fi cursor-pointer rounded-2xl p-7 flex flex-col justify-between group"
+        style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:280px;transition:border-color .25s,transform .25s,box-shadow .25s"
+        onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4),0 0 40px rgba(36,95,165,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+        <div>
+          <img src="/logo-zeta.svg" alt="Zeta" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+          <p class="text-[56px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">65<span style="font-size:32px;color:rgba(110,176,255,.7)">%</span></p>
+          <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">reducción de accidentes viales con videotelemetría IA</p>
+        </div>
+        <div class="flex items-center justify-between mt-6">
+          <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Transporte pesado · Nacional</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </article>
+
+    </div><!-- /4 cards -->
+
+    <!-- Remaining cases carousel -->
+    <div class="relative overflow-hidden mb-5 fi">
+      <div class="flex gap-5 pb-1" style="overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none" id="cases-carousel">
+
+        <!-- Tragamex -->
+        <article onclick="openCaseModal('tragamex')" class="cursor-pointer rounded-2xl p-7 flex flex-col justify-between shrink-0"
+          style="width:calc(33.333% - 14px);min-width:260px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:240px;transition:border-color .25s,transform .25s,box-shadow .25s"
+          onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4)'"
+          onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+          <div>
+            <img src="/logo-tragamex.svg" alt="Tragamex" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+            <p class="text-[52px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">70<span style="font-size:28px;color:rgba(110,176,255,.7)">%</span></p>
+            <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">reducción en tiempo de gestión operativa de flota</p>
+          </div>
+          <div class="flex items-center justify-between mt-5">
+            <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Distribución · Nacional</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </article>
+
+        <!-- Ziga -->
+        <article onclick="openCaseModal('ziga')" class="cursor-pointer rounded-2xl p-7 flex flex-col justify-between shrink-0"
+          style="width:calc(33.333% - 14px);min-width:260px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:240px;transition:border-color .25s,transform .25s,box-shadow .25s"
+          onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4)'"
+          onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+          <div>
+            <img src="/logo-ziga.svg" alt="Zigafleet" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:20px">
+            <p class="text-[52px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">35<span style="font-size:28px;color:rgba(110,176,255,.7)">%</span></p>
+            <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">ahorro en consumo de combustible con telemetría avanzada</p>
+          </div>
+          <div class="flex items-center justify-between mt-5">
+            <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Movilidad · Flota corporativa</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </article>
+
+        <!-- Quiora -->
+        <article onclick="openCaseModal('quiora')" class="cursor-pointer rounded-2xl p-7 flex flex-col justify-between shrink-0"
+          style="width:calc(33.333% - 14px);min-width:260px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:240px;transition:border-color .25s,transform .25s,box-shadow .25s"
+          onmouseover="this.style.borderColor='rgba(36,95,165,.4)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,.4)'"
+          onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform='';this.style.boxShadow=''">
+          <div>
+            <div style="height:64px;display:flex;align-items:center;margin-bottom:20px">
+              <span style="font-size:28px;font-weight:800;letter-spacing:-.02em;color:rgba(255,255,255,.75)">QUIORA</span>
+            </div>
+            <p class="text-[52px] font-bold leading-none tracking-tight mb-2" style="color:rgba(255,255,255,.95)">96<span style="font-size:28px;color:rgba(110,176,255,.7)">%</span></p>
+            <p class="text-[14px] font-medium leading-snug" style="color:rgba(208,223,240,.7)">recuperación de unidades con protocolo de rastreo activo</p>
+          </div>
+          <div class="flex items-center justify-between mt-5">
+            <span class="text-[11px] uppercase tracking-widest font-medium" style="color:rgba(74,106,136,.5)">Servicios financieros</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(75,143,212,.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </article>
+
+      </div>
+      <!-- Fade edges -->
+      <div class="absolute right-0 top-0 bottom-0 w-16 pointer-events-none" style="background:linear-gradient(to left,var(--bg),transparent)"></div>
+    </div><!-- /carousel -->
+
+    <!-- Penetración de mercado — p44 style -->
+    <div class="fi rounded-2xl px-8 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+      style="background:rgba(36,95,165,.05);border:1px solid rgba(36,95,165,.14)">
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3 text-[14px]" style="color:rgba(208,223,240,.6)">
+          <span class="text-white font-bold text-[18px]">3</span> de las 5 principales empresas de distribución en México
+        </div>
+        <div class="flex items-center gap-3 text-[14px]" style="color:rgba(208,223,240,.6)">
+          <span class="text-white font-bold text-[18px]">7</span> de los 10 mayores grupos de transporte pesado del país
+        </div>
+        <div class="flex items-center gap-3 text-[14px]" style="color:rgba(208,223,240,.6)">
+          <span class="text-white font-bold text-[18px]">4</span> de las 5 principales empresas de servicios financieros con flota
+        </div>
+      </div>
+      <button onclick="openDemoModal()" class="btn-primary shrink-0 flex items-center gap-2 px-6 py-3 rounded-full text-[13px] font-semibold text-white">
+        Ver todos los casos
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
     </div>
+
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- Case study modal -->
+<div id="case-modal-overlay" style="display:none!important;position:fixed;inset:0;z-index:300;background:rgba(3,11,23,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px">
+  <div id="case-modal-card" style="background:#070F1C;border:1px solid rgba(36,95,165,.28);border-radius:20px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.8);transform:scale(.95) translateY(16px);opacity:0;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .3s ease">
+    <!-- Modal header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid rgba(36,95,165,.15)">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(75,143,212,.55)">Caso de Éxito</p>
+      <button onclick="closeCaseModal()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Modal body -->
+    <div id="case-modal-body" style="padding:28px">
+
+  <div id="modal-bafar" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-bafar.svg" alt="Bafar" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Alimentos · Logística</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Reducción en costos de mantenimiento</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">15%</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Baja disponibilidad operativa: 92% de operatividad. Dependencia de mantenimientos correctivos generando altos costos y tiempos muertos.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Integración de +3,000 talleres afiliados a Numaris con atención inmediata. Reestructuración del plan preventivo con seguimiento detallado a proveedores.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    15% menos en servicios de mantenimiento
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    98% disponibilidad de flota
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    40% de unidades atendidas preventivamente
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    +432 días anuales adicionales para 200 vehículos
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-carso" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-carso.svg" alt="Grupo Carso" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Industrial · +800 unidades</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Ahorro mensual en la flota</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">+$800K</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Uso no supervisado de tarjetas, cargas "fantasmas" (cargos sin kilómetros) y fraude de operadores. Sin validación de ubicación al momento del pago.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Validación cruzada GPS: autorización de cargas solo si la ubicación coincide con la estación. Detección automática de fraude y cálculo de rendimiento real por unidad.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    +$800K ahorro mensual en flota
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    19% reducción en costo por km ($3.06 → $2.48)
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $1.16M recuperados en 4 meses
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $1,007 ahorro mensual por vehículo
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-tragamex" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-tragamex.svg" alt="Tragamex" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Transporte · Combustible</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Reducción en desvío de combustible</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">90%</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Pérdidas de hasta $8,000 por unidad al mes por ordeña. Sospechas de desconfianza en operadores sin estrategia clara de control.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Sensores en tanques + análisis avanzado con Numaris BI. Datos en tiempo real, reducción de proveedores, responsivas con operadores y sellos en mangueras.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    90% menos desvío ($8,000 → $327 por unidad)
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $40M ahorrados en 6 años
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Porcentaje de desvío bajó del 7% a menos del 1%
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Confianza total en la operación
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-quiora" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <span style="font-size:28px;font-weight:900;letter-spacing:-.02em;color:rgba(255,255,255,.9);font-family:inherit">QUIORA</span>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Transporte · Control combustible</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Ahorro capitalizado en 5 meses</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">$395K</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Costo x km 50% arriba del estándar. Consumos superiores a lo esperado por mal uso de tarjeta y alta dispersión de estaciones de carga.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">GPS para monitorear kilometrajes + monedero digital para comparar litros pagados vs. cargados. Consultoría personalizada de Numaris LAB.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $395K ahorro capitalizado en 5 meses
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $80K menos de excedente mensual
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    90% menos estaciones de carga (75 → 10)
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Identificación de irregularidades en estaciones
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-sanjuan" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-sanjuan.svg" alt="Huevo San Juan" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Distribución · Seguridad</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Reducción en robos en carretera</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">75%</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">20 robos al año con pérdidas de hasta $50M anuales. Cadena de suministro afectada y primas de seguros elevadas.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Consola de Monitoreo 24/7 con modelo basado en excepciones, protocolos de respuesta con tickets y reestructuración de turnos por empresa.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    75% reducción de robo en carretera
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    20 robos anuales → 3 en 6 meses
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $49M en pérdidas evitadas
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Monitoreo 24/7 más eficiente
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-zeta" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-zeta.svg" alt="Zeta Transportes" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Transporte pesado · Combustible</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Reducción en robo de combustible</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">50%</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Pérdidas de hasta $500K mensuales por ordeña y desvíos. Consumos superiores a lo estimado sin herramientas de verificación.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Sensor de combustible para monitoreo en tiempo real. Integración con monedero digital para comparar litros pagados vs. cargados. Reportes automatizados.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    50% menos robo de combustible
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $500K → $245K mensuales
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    $250K ahorro mensual
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Control operativo fortalecido
+                  </li></ul>
+    </div>
+  </div>
+  <div id="modal-ziga" style="display:none" class="case-modal">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:20px">
+        <img src="/logo-ziga.svg" alt="Zigafleet" style="height:64px;width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9"/>
+        <div>
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.55);margin-bottom:4px">Sector público · 27,000 unidades</p>
+          <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6)">Reducción en tiempo de auditorías</p>
+        </div>
+      </div>
+      <p style="font-size:68px;font-weight:900;line-height:1;letter-spacing:-.03em;color:rgba(255,255,255,.95);flex-shrink:0">96%</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Desafío</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Auditorías requerían 2-3 meses de trabajo intensivo. Información de mantenimientos no centralizada, comprometiendo relación con clientes del sector público.</p>
+      </div>
+      <div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:10px">Solución Numaris</p>
+        <p style="font-size:13px;color:rgba(208,223,240,.58);line-height:1.6">Integración de +27,000 unidades en sistema centralizado. Consolidación de información de mantenimientos para trazabilidad y auditorías en tiempo real.</p>
+      </div>
+    </div>
+    <div style="background:rgba(36,95,165,.07);border:1px solid rgba(36,95,165,.18);border-radius:12px;padding:18px 20px">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.55);margin-bottom:12px">Resultados</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    96% menos tiempo en auditorías
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    480 horas → 2 horas por auditoría
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    Incremento en retención de clientes estratégicos
+                  </li>
+                  <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(208,223,240,.7)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20,6 9,17 4,12"/></svg>
+                    27,000 unidades en sistema único
+                  </li></ul>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openCaseModal(id) {
+  const overlay = document.getElementById('case-modal-overlay');
+  const card    = document.getElementById('case-modal-card');
+  const body    = document.getElementById('case-modal-body');
+  // Hide all modal contents, show selected
+  body.querySelectorAll('.case-modal').forEach(m => m.style.display = 'none');
+  const target = document.getElementById('modal-' + id);
+  if (target) target.style.display = 'block';
+  overlay.style.setProperty('display', 'flex', 'important');
+  document.body.style.overflow = 'hidden';
+  card.style.transform = 'scale(.95) translateY(16px)';
+  card.style.opacity   = '0';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    card.style.transform = 'scale(1) translateY(0)';
+    card.style.opacity   = '1';
+  }));
+}
+function closeCaseModal() {
+  const overlay = document.getElementById('case-modal-overlay');
+  const card    = document.getElementById('case-modal-card');
+  card.style.transform = 'scale(.95) translateY(16px)';
+  card.style.opacity   = '0';
+  setTimeout(() => {
+    overlay.style.setProperty('display','none','important');
+    document.body.style.overflow = '';
+  }, 280);
+}
+document.getElementById('case-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeCaseModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCaseModal(); });
+</script><div class="divider"></div>
 
 <!-- BLOG CAROUSEL -->
 <section id="blog" class="py-16" style="background:var(--bg)">
@@ -1099,7 +2129,10 @@
 
 <script>
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), {passive:true});
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', scrollY > 20);
+  nav.classList.toggle('nav-compact', scrollY > 80);
+}, {passive:true});
 
 const ham = document.getElementById('ham');
 const mob = document.getElementById('mob-menu');
@@ -1115,6 +2148,14 @@ ham.addEventListener('click', () => {
 mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   open = false; mob.classList.remove('open'); icoO.classList.remove('hidden'); icoC.classList.add('hidden');
 }));
+
+function toggleMobAcc(btn) {
+  const content = btn.nextElementSibling;
+  const chevron = btn.querySelector('.mob-acc-chevron');
+  const isOpen  = content.style.maxHeight && content.style.maxHeight !== '0px';
+  content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
 
 const obs = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
@@ -1144,12 +2185,15 @@ document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
 <div id="demo-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4"
      style="display:none!important;background:rgba(3,11,23,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
 
-  <!-- Card -->
+  <!-- Card — 2-col layout -->
   <div id="modal-card"
-       class="relative w-full max-w-lg rounded-2xl overflow-hidden"
-       style="background:#070F1C;border:1px solid rgba(36,95,165,.25);
+       class="relative w-full rounded-2xl overflow-hidden flex"
+       style="max-width:900px;background:#070F1C;border:1px solid rgba(36,95,165,.25);
               box-shadow:0 0 60px rgba(36,95,165,.15),0 32px 64px rgba(0,0,0,.7);
               transform:scale(.95) translateY(12px);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s ease">
+
+    <!-- ── LEFT — Form ── -->
+    <div class="flex flex-col" style="flex:1;min-width:0">
 
     <!-- Header -->
     <div class="flex items-center justify-between px-7 py-5" style="border-bottom:1px solid rgba(36,95,165,.15)">
@@ -1279,9 +2323,80 @@ document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
         </button>
       </div>
 
-    </div>
-  </div>
-</div>
+    </div><!-- /body -->
+    </div><!-- /left col -->
+
+    <!-- ── RIGHT — Social proof panel ── -->
+    <div class="hidden lg:flex flex-col" style="width:280px;flex-shrink:0;background:rgba(4,13,25,.9);border-left:1px solid rgba(36,95,165,.15);overflow-y:auto;max-height:calc(90vh)">
+
+      <div class="p-6">
+        <!-- Label -->
+        <p class="text-[9.5px] font-bold uppercase tracking-[.14em] mb-5" style="color:rgba(75,143,212,.5)">Resultados reales</p>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div style="background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.14);border-radius:12px;padding:12px">
+            <p class="text-[22px] font-bold text-white/90 leading-none">35%</p>
+            <p class="text-[10px] mt-1 leading-tight" style="color:rgba(208,223,240,.45)">ahorro en combustible</p>
+          </div>
+          <div style="background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.14);border-radius:12px;padding:12px">
+            <p class="text-[22px] font-bold text-white/90 leading-none">96%</p>
+            <p class="text-[10px] mt-1 leading-tight" style="color:rgba(208,223,240,.45)">recuperación de unidades</p>
+          </div>
+          <div style="background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.14);border-radius:12px;padding:12px">
+            <p class="text-[22px] font-bold text-white/90 leading-none">65%</p>
+            <p class="text-[10px] mt-1 leading-tight" style="color:rgba(208,223,240,.45)">reducción de accidentes</p>
+          </div>
+          <div style="background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.14);border-radius:12px;padding:12px">
+            <p class="text-[22px] font-bold text-white/90 leading-none">+5K</p>
+            <p class="text-[10px] mt-1 leading-tight" style="color:rgba(208,223,240,.45)">empresas confían en Numaris</p>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(36,95,165,.2),transparent);margin-bottom:20px"></div>
+
+        <!-- Case 1 — Bafar -->
+        <div class="mb-4" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px">
+          <div class="flex items-center gap-2.5 mb-3">
+            <img src="/logo-bafar.svg" alt="Bafar" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
+          </div>
+          <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"Redujimos el robo de combustible en un <span style="color:rgba(110,176,255,.85);font-weight:600">40%</span> en los primeros 3 meses."</p>
+          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Grupo Bafar · Flota de +800 unidades</p>
+        </div>
+
+        <!-- Case 2 — Tragamex -->
+        <div class="mb-4" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px">
+          <div class="flex items-center gap-2.5 mb-3">
+            <img src="/logo-tragamex.svg" alt="Tragamex" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
+          </div>
+          <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"La visibilidad en tiempo real transformó nuestra operación logística por completo."</p>
+          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Tragamex · Distribución nacional</p>
+        </div>
+
+        <!-- Case 3 — San Juan -->
+        <div class="mb-4" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px">
+          <div class="flex items-center gap-2.5 mb-3">
+            <img src="/logo-sanjuan.svg" alt="San Juan" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
+          </div>
+          <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"Mejoramos la disponibilidad de flota al <span style="color:rgba(110,176,255,.85);font-weight:600">95%</span> y redujimos costos de mantenimiento."</p>
+          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Huevos San Juan · +200 unidades</p>
+        </div>
+
+        <!-- Logo strip -->
+        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(36,95,165,.2),transparent);margin-bottom:16px"></div>
+        <p class="text-[9px] uppercase tracking-widest mb-3 text-center" style="color:rgba(74,106,136,.4)">Se unen empresas como</p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <img src="/logo-zeta.svg"    alt="Zeta"   style="height:16px;width:auto;filter:brightness(0) invert(1);opacity:.4">
+          <img src="/logo-ziga.svg"    alt="Ziga"   style="height:16px;width:auto;filter:brightness(0) invert(1);opacity:.4">
+          <img src="/logo-carso.svg"   alt="Carso"  style="height:16px;width:auto;filter:brightness(0) invert(1);opacity:.4">
+        </div>
+      </div>
+
+    </div><!-- /right panel -->
+
+  </div><!-- /modal-card -->
+</div><!-- /overlay -->
 
 <script>
 function openDemoModal() {

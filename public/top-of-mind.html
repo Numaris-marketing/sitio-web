@@ -1447,9 +1447,9 @@
         </div>
         <div class="kpi-card c-purple">
           <div class="kpi-label">Participación en suscripciones</div>
-          <div class="kpi-val">22.3%</div>
-          <div class="kpi-sub"><strong>3,064</strong> de 13,745 unidades totales</div>
-          <div style="margin-top:.5rem;"><span class="badge badge-green" style="font-size:.65rem;">+7.3 pp vs. meta</span></div>
+          <div class="kpi-val" id="pl-subs-pct">22.3%</div>
+          <div class="kpi-sub"><strong id="pl-mkt-subs">3,064</strong> de <span id="pl-total-subs">13,745</span> unidades totales</div>
+          <div style="margin-top:.5rem;"><span class="badge badge-green" style="font-size:.65rem;" id="pl-subs-badge">+7.3 pp vs. meta</span></div>
         </div>
         <div class="kpi-card c-green">
           <div class="kpi-label">Participación en valor</div>
@@ -1460,12 +1460,12 @@
       </div>
 
       <!-- Deal size insight -->
-      <div class="insight" style="margin-bottom:1.125rem;">
+      <div id="deal-insight" class="insight" style="margin-bottom:1.125rem;">
         <strong>Tickets de Marketing por encima del promedio del pipeline.</strong> El ticket promedio de una oportunidad de Marketing es de <strong>MX$ 1,185,386</strong> vs. <strong>MX$ 920,111</strong> del total — una diferencia del 28.8%. La participación en valor (33.4%) supera la participación en número de oportunidades (25.9%), lo que confirma que los leads de Marketing tienen un tamaño de deal mayor al resto del pipeline: cada oportunidad originada por Marketing vale, en promedio, 28.8% más que una oportunidad del pipeline general.
       </div>
 
       <!-- Deal size bars -->
-      <div class="deal-grid">
+      <div id="deal-size-bars" class="deal-grid">
         <div class="deal-card">
           <h4>Ticket promedio por oportunidad</h4>
           <div class="deal-compare">
@@ -1535,7 +1535,7 @@
           <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
             <div>
               <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Oportunidades marketing-sourced</div>
-              <div style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--blue);">25.9%</div>
+              <div id="bench-opp-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--blue);">25.9%</div>
               <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
               <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
                 <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
@@ -1563,9 +1563,9 @@
                   <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
                 </div>
                 <!-- Marker Numaris: 25.9% = 25.9/55*100 = 47.1% -->
-                <div style="position:absolute;top:-8px;left:47.1%;transform:translateX(-50%);">
+                <div id="bench-opp-marker" style="position:absolute;top:-8px;left:47.1%;transform:translateX(-50%);">
                   <div style="width:3px;height:30px;background:var(--blue);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--blue);">▲ 25.9%</div>
+                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--blue);"><span id="bench-opp-label">▲ 25.9%</span></div>
                 </div>
               </div>
               <!-- Scale labels -->
@@ -1586,7 +1586,7 @@
           <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
             <div>
               <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Suscripciones marketing-sourced</div>
-              <div style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--purple);">22.3%</div>
+              <div id="bench-subs-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--purple);">22.3%</div>
               <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
               <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
                 <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
@@ -1607,9 +1607,9 @@
                   <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
                 </div>
                 <!-- Numaris 22.3% = 22.3/55*100 = 40.5% -->
-                <div style="position:absolute;top:-8px;left:40.5%;transform:translateX(-50%);">
+                <div id="bench-subs-marker" style="position:absolute;top:-8px;left:40.5%;transform:translateX(-50%);">
                   <div style="width:3px;height:30px;background:var(--purple);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--purple);">▲ 22.3%</div>
+                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--purple);"><span id="bench-subs-label">▲ 22.3%</span></div>
                 </div>
               </div>
               <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--fg-muted);">
@@ -1624,7 +1624,7 @@
           <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
             <div>
               <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Valor (ACV) marketing-sourced</div>
-              <div style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--green);">33.4%</div>
+              <div id="bench-val-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--green);">33.4%</div>
               <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
               <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
                 <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
@@ -1645,9 +1645,9 @@
                   <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
                 </div>
                 <!-- Numaris 33.4% = 33.4/55*100 = 60.7% -->
-                <div style="position:absolute;top:-8px;left:60.7%;transform:translateX(-50%);">
+                <div id="bench-val-marker" style="position:absolute;top:-8px;left:60.7%;transform:translateX(-50%);">
                   <div style="width:3px;height:30px;background:var(--green);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--green);">▲ 33.4%</div>
+                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--green);"><span id="bench-val-label">▲ 33.4%</span></div>
                 </div>
               </div>
               <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--fg-muted);">
@@ -1736,166 +1736,21 @@
           <div class="funnel-col-label center">Participación<br/>en opps</div>
         </div>
 
-        <!-- Levantamiento: 14/51 = 27.5% -->
-        <div class="funnel-row">
-          <div class="funnel-stage">Levantamiento de necesidades</div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:27.5%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">14</span><span class="total">51</span></div>
-          </div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:43.7%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">$13.3M</span><span class="total">$30.4M</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct hi">27.5%</span></div>
-        </div>
-
-        <!-- Presentación: 20/84 = 23.8% -->
-        <div class="funnel-row">
-          <div class="funnel-stage">Presentación con enfoque a solicitud</div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:23.8%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">20</span><span class="total">84</span></div>
-          </div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:24.2%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">$9.5M</span><span class="total">$39.3M</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct mid">23.8%</span></div>
-        </div>
-
-        <!-- Prueba Demo: 6/20 = 30.0% -->
-        <div class="funnel-row">
-          <div class="funnel-stage">Prueba Demo</div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:30.0%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">6</span><span class="total">20</span></div>
-          </div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:23.4%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">$16.8M</span><span class="total">$71.5M</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct hi">30.0%</span></div>
-        </div>
-
-        <!-- Negociación: 14/51 = 27.5% -->
-        <div class="funnel-row">
-          <div class="funnel-stage">Negociación</div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:27.5%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">14</span><span class="total">51</span></div>
-          </div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:46.7%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">$26.5M</span><span class="total">$56.6M</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct hi">27.5%</span></div>
-        </div>
-
-        <!-- Formalización: 2/10 = 20.0% -->
-        <div class="funnel-row">
-          <div class="funnel-stage">Formalización</div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:20.0%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">2</span><span class="total">10</span></div>
-          </div>
-          <div class="funnel-cell">
-            <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:37.7%;"></div></div>
-            <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
-            <div class="funnel-nums"><span class="mkt">$375K</span><span class="total">$995K</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct mid">20.0%</span></div>
-        </div>
-
-        <!-- Total activo -->
-        <div class="funnel-total-row" style="border-top:1px solid var(--border);">
-          <div class="funnel-total-label">Total activo</div>
-          <div>
-            <div class="funnel-nums funnel-total-nums"><span class="mkt">56</span><span class="total">216</span></div>
-          </div>
-          <div>
-            <div class="funnel-nums funnel-total-nums"><span class="mkt">$66.4M</span><span class="total">$198.7M</span></div>
-          </div>
-          <div class="funnel-pct-cell"><span class="funnel-pct mid" style="font-size:1.125rem;">25.9%</span></div>
+        <div id="stage-breakdown-container">
+          <!-- Cargando desde Zoho CRM... -->
         </div>
       </div>
 
       <!-- INSIGHTS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;">
-        <div class="insight" style="background:rgba(15,217,128,0.07);border-color:rgba(15,217,128,0.2);">
-          <strong>Mayor penetración en valor en Negociación (46.7%).</strong> Negociación es la etapa con mayor participación de Marketing en valor. Con MX$56.6M en negociación total, Marketing aporta MX$26.5M (46.7%) — la concentración más alta del pipeline. En participación por conteo (27.5%), también supera el promedio de 25.9%.
-        </div>
-        <div class="insight" style="background:rgba(74,130,200,0.07);border-color:rgba(74,130,200,0.2);">
-          <strong> Demo y Formalización mejoran significativamente.</strong> Prueba Demo sube a 30.0% (antes 11.8%) — ahora por encima del promedio. Formalización llega a 20.0% (antes 9.1%) — supera el piso mínimo del 15%. La distribución por etapas es ahora más uniforme, señal de mejor madurez del pipeline de Marketing.
-        </div>
-      </div>
+      <div id="stage-insights-container" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;"></div>
 
       <!-- Stage participation timeline -->
       <div class="funnel-card" style="margin-top:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.75rem;">Participación de Marketing — evolución por etapa activa · Promedio total: 25.9%</div>
+        <div id="stage-timeline-avg" style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.75rem;">Participación de Marketing — evolución por etapa activa · Promedio total: 25.9%</div>
 
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;position:relative;margin-bottom:1.5rem;">
+        <div id="stage-timeline-container" style="display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;position:relative;margin-bottom:1.5rem;">
           <!-- connector line -->
           <div style="position:absolute;top:28px;left:10%;right:10%;height:2px;background:var(--border);z-index:0;"></div>
-
-          <!-- Levantamiento 27.5% — above avg → green -->
-          <div style="text-align:center;position:relative;z-index:1;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(15,217,128,0.12);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
-              <span style="font-size:.8rem;font-weight:900;color:var(--green);">27.5%</span>
-            </div>
-            <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">Levanta-<br/>miento</div>
-            <div style="font-size:.6rem;color:var(--fg-muted);">14 / 51</div>
-          </div>
-
-          <!-- Presentación 23.8% — below avg → orange -->
-          <div style="text-align:center;position:relative;z-index:1;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,159,63,0.1);border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
-              <span style="font-size:.8rem;font-weight:900;color:var(--orange);">23.8%</span>
-            </div>
-            <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">Presenta-<br/>ción</div>
-            <div style="font-size:.6rem;color:var(--fg-muted);">20 / 84</div>
-          </div>
-
-          <!-- Prueba Demo 30.0% — above avg → green -->
-          <div style="text-align:center;position:relative;z-index:1;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(15,217,128,0.12);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
-              <span style="font-size:.8rem;font-weight:900;color:var(--green);">30.0%</span>
-            </div>
-            <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">Prueba<br/>Demo</div>
-            <div style="font-size:.6rem;color:var(--fg-muted);">6 / 20</div>
-          </div>
-
-          <!-- Negociación 27.5% — above avg → green + glow (top by value 46.7%) -->
-          <div style="text-align:center;position:relative;z-index:1;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(15,217,128,0.18);border:2px solid var(--green);box-shadow:0 0 0 5px rgba(15,217,128,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
-              <span style="font-size:.8rem;font-weight:900;color:var(--green);">27.5%</span>
-            </div>
-            <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">Negocia-<br/>ción</div>
-            <div style="font-size:.6rem;color:var(--green);font-weight:700;">14 / 51 ★</div>
-          </div>
-
-          <!-- Formalización 20.0% — between 15–25.9% → orange -->
-          <div style="text-align:center;position:relative;z-index:1;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,159,63,0.1);border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
-              <span style="font-size:.8rem;font-weight:900;color:var(--orange);">20.0%</span>
-            </div>
-            <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">Formali-<br/>zación</div>
-            <div style="font-size:.6rem;color:var(--fg-muted);">2 / 10</div>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1.25rem;border-top:1px solid var(--border);">
-          <div style="font-size:.8125rem;color:var(--fg-muted);"><strong style="color:var(--green);"> Prueba Demo sube a 30.0%:</strong> 6 de 20 oportunidades en Demo son de Marketing — ahora por encima del promedio de 25.9%. Mejora significativa respecto al período anterior y señal de que los leads de Marketing avanzan con mayor fluidez hacia etapas medias del ciclo.</div>
-          <div style="font-size:.8125rem;color:var(--fg-muted);"><strong style="color:var(--green);">Negociación lidera en valor (46.7%):</strong> Los leads de Marketing en Negociación concentran MX$26.5M de MX$56.6M totales. La participación por conteo (27.5%) también supera el promedio. El pipeline de Marketing tiene deals de alto valor y se sostiene en la etapa clave del ciclo.</div>
         </div>
       </div>
     </div>
@@ -2434,25 +2289,35 @@
     <div class="container">
       <div class="sec-head">
         <h2>Pipeline por Evento — Expos</h2>
-        <p>Oportunidades activas cuya cuenta tiene origen <strong style="color:var(--fg);">Expo como expositor</strong> · Agrupadas por campaña (evento) asignada en el deal · Módulo Campañas Zoho CRM</p>
+        <p>Inversión, pipeline generado y ROI por evento · Datos de oportunidades en vivo desde Zoho CRM</p>
       </div>
 
-      <!-- Summary strip -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-        <div style="display:flex;align-items:center;gap:.6rem;">
-          <span id="camp-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--fg-muted);flex-shrink:0;"></span>
-          <span id="camp-status-text" style="font-size:.8125rem;color:var(--fg-muted);">Cargando campañas desde Zoho…</span>
+      <!-- Summary strip: 4 KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.25rem;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
+          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.4rem;">Inversión total</div>
+          <div style="font-size:1.5rem;font-weight:900;color:var(--fg);" id="camp-total-invest">—</div>
         </div>
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;">
-          <div style="text-align:right;">
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Total eventos con pipeline</div>
-            <div style="font-size:1.25rem;font-weight:900;color:var(--fg);" id="camp-total-count">—</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);">Pipeline total generado</div>
-            <div style="font-size:1.25rem;font-weight:900;color:var(--green);" id="camp-total-value">—</div>
-          </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
+          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem;">Pipeline total generado</div>
+          <div style="font-size:1.5rem;font-weight:900;color:var(--green);" id="camp-total-value">—</div>
         </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
+          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);margin-bottom:.4rem;">Venta cerrada</div>
+          <div style="font-size:1.5rem;font-weight:900;color:var(--purple);" id="camp-total-won">—</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
+          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem;">ROI pipeline (×)</div>
+          <div style="font-size:1.5rem;font-weight:900;color:var(--orange);" id="camp-total-roi">—</div>
+        </div>
+      </div>
+
+      <!-- Status bar -->
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;">
+        <span id="camp-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--fg-muted);flex-shrink:0;"></span>
+        <span id="camp-status-text" style="font-size:.8125rem;color:var(--fg-muted);">Cargando campañas desde Zoho…</span>
+        <span style="font-size:.8125rem;color:var(--fg-muted);">·</span>
+        <span style="font-size:.8125rem;color:var(--fg-muted);" id="camp-total-count">—</span>
       </div>
 
       <!-- Campaign table -->
@@ -2460,27 +2325,32 @@
         <table style="width:100%;border-collapse:collapse;font-size:.875rem;">
           <thead>
             <tr style="background:var(--bg-card2);">
-              <th style="padding:.75rem 1rem;text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Evento / Campaña</th>
-              <th style="padding:.75rem 1rem;text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Fecha</th>
-              <th style="padding:.75rem 1rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Oportunidades</th>
-              <th style="padding:.75rem 1rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Suscripciones</th>
+              <th style="padding:.75rem 1rem;text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Evento</th>
+              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Inversión</th>
+              <th style="padding:.75rem 1rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Opps · Subs</th>
               <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);border-bottom:1px solid var(--border);">Pipeline activo</th>
               <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);border-bottom:1px solid var(--border);">Venta realizada</th>
-              <th style="padding:.75rem 1rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Total oportunidades</th>
+              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--border);">ROI ×</th>
             </tr>
           </thead>
           <tbody id="campaign-table-body">
-            <tr><td colspan="7" style="padding:2rem;text-align:center;color:var(--fg-muted);font-size:.875rem;">Cargando datos desde Zoho CRM…</td></tr>
+            <tr><td colspan="6" style="padding:2rem;text-align:center;color:var(--fg-muted);font-size:.875rem;">Cargando datos desde Zoho CRM…</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- Bar chart por campaña -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.25rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">Distribución de pipeline por evento · valor ACV</div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.5rem;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">Pipeline total por evento (pipeline activo + venta cerrada)</div>
         <div id="campaign-bars" style="display:flex;flex-direction:column;gap:.875rem;">
           <div style="color:var(--fg-muted);font-size:.875rem;">Cargando…</div>
         </div>
+      </div>
+
+      <!-- Event detail cards -->
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Ficha de cada evento · contexto y posicionamiento de marca</div>
+      <div id="campaign-event-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(480px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
+        <!-- populated by renderCampaigns() -->
       </div>
 
     </div>
@@ -2604,43 +2474,12 @@
         </div>
       </div>
 
-      <!-- K2: Variación SG&A vs. ppto -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--orange);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,159,63,0.04));pointer-events:none;"></div>
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
-          <div style="background:rgba(255,159,63,0.12);border:1px solid rgba(255,159,63,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:var(--orange);line-height:1;">K2</div>
-            <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);opacity:0.7;margin-top:0.2rem;">SG&amp;A</div>
-          </div>
-          <div>
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Variación SG&amp;A vs. Presupuesto (%)</div>
-            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">Seguimiento a presupuesto de gastos — variación máxima <span style="color:var(--orange);">&lt; 3%</span></div>
-            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">El gasto real de Marketing no debe desviarse más del <strong style="color:var(--fg);">3% del presupuesto aprobado</strong> — ni por arriba ni por abajo. Sobregasto = falta de disciplina. Subejecución = iniciativas sin ejecutar. Ambas son señales de alarma para Dirección. La meta de &lt;3% es más estricta que el estándar de industria (±5%) para reforzar credibilidad y facilitar aprobación de presupuesto incremental en C3.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
-              <span class="badge badge-green">C1: Cumplido</span>
-              <span class="badge badge-orange">Meta C2: &lt; 3% de variación</span>
-              <span class="badge badge-blue">Referencia: ±5% (CIMA 2024)</span>
-            </div>
-          </div>
-          <div style="text-align:right;min-width:110px;">
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Tolerancia máx.</div>
-            <div style="font-size:2.25rem;font-weight:900;color:var(--orange);line-height:1;">&lt;3%</div>
-            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">vs presupuesto aprobado</div>
-          </div>
-        </div>
-        <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Alcance:</strong> Cubre gasto total de Marketing: medios pagados, producción, eventos, herramientas y agencias durante el período C2</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Fórmula:</strong> (Gasto real − Presupuesto aprobado) / Presupuesto aprobado × 100. Resultado en % positivo o negativo</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Medición:</strong> Revisión mensual en cierre financiero. Comparar vs presupuesto mensualizado (no solo acumulado)</div>
-        </div>
-      </div>
-
-      <!-- K3: Pipeline Digital de Marketing -->
+      <!-- K2: Pipeline Digital de Marketing -->
       <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid #38bdf8;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(56,189,248,0.04));pointer-events:none;"></div>
         <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
           <div style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:#38bdf8;line-height:1;">K3</div>
+            <div style="font-size:1.5rem;font-weight:900;color:#38bdf8;line-height:1;">K2</div>
             <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8;opacity:0.7;margin-top:0.2rem;">Mix Digital</div>
           </div>
           <div>
@@ -2666,12 +2505,12 @@
         </div>
       </div>
 
-      <!-- K4: Herramientas comerciales -->
+      <!-- K3: Herramientas comerciales -->
       <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid #e879f9;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(232,121,249,0.04));pointer-events:none;"></div>
         <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
           <div style="background:rgba(232,121,249,0.12);border:1px solid rgba(232,121,249,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:#e879f9;line-height:1;">K4</div>
+            <div style="font-size:1.5rem;font-weight:900;color:#e879f9;line-height:1;">K3</div>
             <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#e879f9;opacity:0.7;margin-top:0.2rem;">Habilitación</div>
           </div>
           <div>
@@ -2721,28 +2560,28 @@
         </div>
       </div>
 
-      <!-- K5: Tasa de conversión MQL a SQL -->
+      <!-- K4: Tasa de conversión MQL a SQL -->
       <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(15,217,128,0.04));pointer-events:none;"></div>
         <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
           <div style="background:rgba(15,217,128,0.12);border:1px solid rgba(15,217,128,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:var(--green);line-height:1;">K5</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--green);line-height:1;">K4</div>
             <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);opacity:0.7;margin-top:0.2rem;">Conversión</div>
           </div>
           <div>
             <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Tasa de Conversión MQL a SQL</div>
-            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">El <span style="color:var(--green);">40%</span> de los leads digitales deben generar cita con un consultor de ventas — mantener ≥ <span style="color:var(--green);">47%</span></div>
-            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Calidad de los leads. El objetivo es que al menos el <strong style="color:var(--fg);">40% de los leads que llegan a través de estrategias digitales</strong> generen una cita con un consultor de ventas. Con 68% actual en Google Ads y 47% promedio general, Numaris ya supera ampliamente este umbral. El KPI monitorea que al <strong style="color:var(--fg);">escalar volumen</strong> no caiga la calificación.</p>
+            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">El <span style="color:var(--green);">40%</span> de los leads digitales deben generar cita con un consultor de ventas — meta C2: <span style="color:var(--green);">≥ 50%</span></div>
+            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Calidad de los leads. El objetivo es que al menos el <strong style="color:var(--fg);">40% de los leads que llegan a través de estrategias digitales</strong> generen una cita con un consultor de ventas. Con 68% actual en Google Ads y 47% promedio general, Numaris ya supera ampliamente este umbral. El KPI monitorea que al <strong style="color:var(--fg);">escalar volumen</strong> no caiga la calificación — y establece 50% como piso de excelencia para C2.</p>
             <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
               <span class="badge badge-green">Actual: 68% Google Ads · 47% promedio</span>
-              <span class="badge badge-green">Meta C2: mantener ≥ 47%</span>
+              <span class="badge badge-green">Meta C2: ≥ 50%</span>
               <span class="badge badge-blue">Benchmark B2B: 12–25%</span>
             </div>
           </div>
           <div style="text-align:right;min-width:110px;">
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">vs industria</div>
-            <div style="font-size:2.25rem;font-weight:900;color:var(--green);line-height:1;">~4×</div>
-            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">sobre el benchmark</div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Meta C2</div>
+            <div style="font-size:2.25rem;font-weight:900;color:var(--green);line-height:1;">50%</div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">MQL → SQL</div>
           </div>
         </div>
         <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
@@ -2752,53 +2591,22 @@
         </div>
       </div>
 
-      <!-- K6: Participación de nuevos clientes -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid #fb7185;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(251,113,133,0.04));pointer-events:none;"></div>
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
-          <div style="background:rgba(251,113,133,0.12);border:1px solid rgba(251,113,133,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:#fb7185;line-height:1;">K6</div>
-            <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fb7185;opacity:0.7;margin-top:0.2rem;">Nuevos Clientes</div>
-          </div>
-          <div>
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Participación de Nuevos Clientes</div>
-            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;"><span style="color:#fb7185;">30%</span> de los nuevos clientes cerrados en C2 deben originarse en acciones de Marketing</div>
-            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Nuevos clientes creados por el área de Marketing. De todos los clientes que cierren contrato en el período (Venta realizada), al menos el <strong style="color:var(--fg);">30% debe haber llegado a través de una iniciativa de Marketing</strong> — digital, eventos, LinkedIn, email, etc. — no de cartera existente ni prospectos directos de ventas. Cierra el ciclo completo: de lead a ingreso.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
-              <span style="background:rgba(251,113,133,0.1);color:#fb7185;border:1px solid rgba(251,113,133,0.3);" class="badge">Baseline C1: por calcular en mayo</span>
-              <span style="background:rgba(251,113,133,0.1);color:#fb7185;border:1px solid rgba(251,113,133,0.3);" class="badge">Meta C2: ≥ 30% de cierres</span>
-              <span class="badge badge-blue">Referencia: 40–50% en SaaS maduro</span>
-            </div>
-          </div>
-          <div style="text-align:right;min-width:110px;">
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Meta C2</div>
-            <div style="font-size:2.25rem;font-weight:900;color:#fb7185;line-height:1;">30%</div>
-            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">de nuevos clientes</div>
-          </div>
-        </div>
-        <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Canales que califican:</strong> Google Ads, Meta, LinkedIn Ads, Formulario web, eventos (con seguimiento CRM), campañas de email y prospección activa de Marketing</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Qué no cuenta:</strong> Referidos directos de clientes, cartera de clientes del vendedor, inbound telefónico sin origen digital, reactivaciones de cuentas anteriores</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Medición:</strong> Zoho CRM — Deals "Venta realizada" donde Se_obtuvo_por = fuente de Marketing / Total Deals ganados en el período. Revisión mensual</div>
-        </div>
-      </div>
-
-      <!-- K7: Diversificación de canales - Demand Gen -->
+      <!-- K5: Diversificación de canales - Demand Gen -->
       <div style="background:var(--bg-card);border:1px solid rgba(74,130,200,0.4);border-left:4px solid var(--blue);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(74,130,200,0.06));pointer-events:none;"></div>
         <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
           <div style="background:rgba(74,130,200,0.12);border:1px solid rgba(74,130,200,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
-            <div style="font-size:1.5rem;font-weight:900;color:var(--blue);line-height:1;">K7</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--blue);line-height:1;">K5</div>
             <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);opacity:0.7;margin-top:0.2rem;">Demand Gen</div>
           </div>
           <div>
             <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Diversificación de Canales — Demand Generation</div>
-            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">Canales distintos a Google Ads deben representar <span style="color:var(--blue);">≥ 30%</span> del Pipeline Digital generado en Q2</div>
-            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Hoy Google Ads concentra la mayor parte del volumen digital. Para <strong style="color:var(--fg);">reducir dependencia de un solo canal</strong>, los canales alternativos (Meta, LinkedIn Ads, Mailing, etc.) deben sumar al menos el 30% del valor de pipeline digital generado en Q2. No se mide volumen de leads — se mide <strong style="color:var(--fg);">valor de oportunidades atribuidas</strong> en Zoho CRM.</p>
+            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">Aumentar la generación de demanda por <span style="color:var(--blue);">canales alternativos</span> — Mailing, LinkedIn Ads, Meta y más</div>
+            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Hoy Google Ads concentra la mayor parte del volumen digital. Para <strong style="color:var(--fg);">reducir dependencia de un solo canal</strong>, los canales alternativos (Meta, LinkedIn Ads, Mailing, etc.) deben sumar al menos el 30% del valor de pipeline digital generado en C2. No se mide volumen de leads — se mide <strong style="color:var(--fg);">valor de oportunidades atribuidas</strong> en Zoho CRM.</p>
             <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
               <span class="badge badge-blue">Meta: ≥ 30% del Pipeline Digital ≠ Google Ads</span>
-              <span class="badge badge-blue">Medición vía Se_obtuvo_por en Zoho CRM</span>
-              <span class="badge">Revisión mensual con byChannel en API</span>
+              <span class="badge badge-blue">Campañas mailing · LinkedIn Ads · Meta</span>
+              <span class="badge">Medición vía Se_obtuvo_por en Zoho CRM</span>
             </div>
           </div>
           <div style="text-align:right;min-width:110px;">
@@ -2809,8 +2617,85 @@
         </div>
         <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
           <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Qué se mide:</strong> ACV de oportunidades activas cuyo <code>Se_obtuvo_por</code> ≠ "Google Ads - Pauta" / Total ACV digital. Solo cuentan Prospecto con fuente digital atribuida en Zoho.</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Canales candidatos:</strong> Meta - Pauta, LinkedIn Ads (nuevo), Campaña de mailing, Formulario website. Cada activación suma % al denominador alternativo — el mix evoluciona con el Q.</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Canales candidatos:</strong> Meta - Pauta, LinkedIn Ads, Campaña de mailing, Formulario website. Cada activación suma % al denominador alternativo — el mix evoluciona con el período.</div>
           <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Por qué 30%:</strong> Con la base 2025 (~70% Google Ads), alcanzar 30% en alternativas implica activar al menos 2 canales con atribución real y pipeline cerrable — no solo impresiones.</div>
+        </div>
+      </div>
+
+      <!-- K6: Proyectos de IA -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid #f59e0b;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(245,158,11,0.04));pointer-events:none;"></div>
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
+          <div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
+            <div style="font-size:1.5rem;font-weight:900;color:#f59e0b;line-height:1;">K6</div>
+            <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#f59e0b;opacity:0.7;margin-top:0.2rem;">IA</div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Proyectos de Inteligencia Artificial</div>
+            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">Implementar IA en <span style="color:#f59e0b;">área de SDR's</span> (precalificación de leads) y en <span style="color:#f59e0b;">página web</span></div>
+            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">Dos proyectos de IA entregados al 100% durante C2. <strong style="color:var(--fg);">SDR's:</strong> sistema de precalificación automatizada de leads para reducir tiempo de respuesta y aumentar la tasa de contacto efectivo antes de pasar a ventas. <strong style="color:var(--fg);">Página web:</strong> implementación de IA generativa (chat o asistente) para captura y calificación de leads en el sitio. Meta binaria: ambos proyectos operativos al cierre del período.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;margin-bottom:0.5rem;">
+              <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:0.625rem;padding:1rem;">
+                <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.625rem;">Proyecto 1 — SDR's con IA</div>
+                <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Precalificación automática de leads entrantes</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Priorización por perfil e intención</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Reducción de tiempo de respuesta</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Alimenta directamente Zoho CRM</div>
+                </div>
+              </div>
+              <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:0.625rem;padding:1rem;">
+                <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.625rem;">Proyecto 2 — IA en Página Web</div>
+                <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Asistente o chat con IA generativa</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Captura y califica leads en sitio</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Disponible 24/7 sin intervención humana</div>
+                  <div style="font-size:0.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;"><span style="color:#f59e0b;flex-shrink:0;">·</span> Mejora tasa de conversión del formulario web</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;min-width:110px;">
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Meta C2</div>
+            <div style="font-size:2.25rem;font-weight:900;color:#f59e0b;line-height:1;">100%</div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">2 proyectos entregados</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Definición de 100%:</strong> Sistema funcional y en producción — no en piloto ni en desarrollo. Leads procesados por IA y registrados en Zoho CRM</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Impacto esperado:</strong> Mayor velocidad de contacto (lead response time -60%), mejor priorización del equipo SDR y mayor tasa de contacto efectivo con prospectos calificados</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Medición:</strong> Checklist binario de entrega por proyecto. Validar operación con Dirección Comercial y revisión de métricas de uso al cierre de C2</div>
+        </div>
+      </div>
+
+      <!-- K7: Variación SG&A vs. ppto -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--orange);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,159,63,0.04));pointer-events:none;"></div>
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;">
+          <div style="background:rgba(255,159,63,0.12);border:1px solid rgba(255,159,63,0.3);border-radius:0.75rem;padding:0.75rem 1rem;text-align:center;min-width:72px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--orange);line-height:1;">K7</div>
+            <div style="font-size:0.625rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);opacity:0.7;margin-top:0.2rem;">SG&amp;A</div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Variación SG&amp;A vs. Presupuesto (%)</div>
+            <div style="font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:0.625rem;">Seguimiento a presupuesto de gastos — variación máxima <span style="color:var(--orange);">&lt; 3%</span></div>
+            <p style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;margin-bottom:1rem;">El gasto real de Marketing no debe desviarse más del <strong style="color:var(--fg);">3% del presupuesto aprobado</strong> — ni por arriba ni por abajo. Sobregasto = falta de disciplina. Subejecución = iniciativas sin ejecutar. Ambas son señales de alarma para Dirección. La meta de &lt;3% es más estricta que el estándar de industria (±5%) para reforzar credibilidad y facilitar aprobación de presupuesto incremental en C3.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+              <span class="badge badge-green">C1: Cumplido</span>
+              <span class="badge badge-orange">Meta C2: &lt; 3% de variación</span>
+              <span class="badge badge-blue">Referencia: ±5% (CIMA 2024)</span>
+            </div>
+          </div>
+          <div style="text-align:right;min-width:110px;">
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:0.375rem;">Tolerancia máx.</div>
+            <div style="font-size:2.25rem;font-weight:900;color:var(--orange);line-height:1;">&lt;3%</div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem;">vs presupuesto aprobado</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Alcance:</strong> Cubre gasto total de Marketing: medios pagados, producción, eventos, herramientas y agencias durante el período C2</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Fórmula:</strong> (Gasto real − Presupuesto aprobado) / Presupuesto aprobado × 100. Resultado en % positivo o negativo</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);"><strong style="color:var(--fg);">Medición:</strong> Revisión mensual en cierre financiero. Comparar vs presupuesto mensualizado (no solo acumulado)</div>
         </div>
       </div>
 
@@ -2843,40 +2728,40 @@
               <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--blue);font-size:1rem;">30%</strong></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.01);">
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(255,159,63,0.15);color:var(--orange);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K2</span></td>
-              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Variación SG&amp;A vs. ppto (%)</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Seguimiento a presupuesto de gastos. El gasto real no debe desviarse del presupuesto aprobado — ni por arriba ni por abajo.</td>
-              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--orange);font-size:1rem;">&lt;3%</strong></td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(56,189,248,0.15);color:#38bdf8;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K3</span></td>
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(56,189,248,0.15);color:#38bdf8;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K2</span></td>
               <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Pipeline Digital de Marketing</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Rebalancear el mix hacia canales escalables (Google Ads + LinkedIn). Cada punto % que se mueve a digital sube el ROI total del portafolio.</td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Rebalancear el mix para que los canales escalables (Google Ads + LinkedIn) generen al menos el 45% del pipeline. Cada punto % que se mueve a digital sube el ROI total del portafolio.</td>
               <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:#38bdf8;font-size:1rem;">45%</strong></td>
             </tr>
-            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.01);">
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(232,121,249,0.15);color:#e879f9;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K4</span></td>
-              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);">Nueva estructura de herramientas comerciales</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Kit comercial por sector + casos de éxito. Primero construir el kit (comunicación optimizada por vertical), luego publicar casos con prueba social real.</td>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(232,121,249,0.15);color:#e879f9;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K3</span></td>
+              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);">Nueva estructura de herramientas comerciales — 4 sectores + 2 casos de éxito</td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Dos entregables encadenados: primero construir el kit comercial por sector (comunicación optimizada por vertical), después publicar los casos de éxito por sector que lo respaldan con prueba social real.</td>
               <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:#e879f9;font-size:1rem;">4 y 2</strong></td>
             </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(15,217,128,0.15);color:var(--green);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K5</span></td>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.01);">
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(15,217,128,0.15);color:var(--green);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K4</span></td>
               <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Tasa de conversión MQL a SQL</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Calidad de leads. El objetivo es que el 40% de los leads digitales generen cita con un consultor de ventas. Mantener la tasa al escalar volumen.</td>
-              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--green);font-size:1rem;">47%</strong></td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Calidad de los leads. El objetivo es que el 40% de los leads que lleguen a través de estrategias digitales generen una cita con un consultor de ventas.</td>
+              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--green);font-size:1rem;">50%</strong></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(74,130,200,0.15);color:var(--blue);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K5</span></td>
+              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);">Diversificación de canales — Demand. Gen</td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Aumentar la generación de demanda por los canales — Campañas de mailing, LinkedIn Ads, Meta, etc. Canales alternativos ≥ 30% del pipeline digital.</td>
+              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--blue);font-size:1rem;">30%</strong></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.01);">
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(251,113,133,0.15);color:#fb7185;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K6</span></td>
-              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Participación de nuevos clientes</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Nuevos clientes creados por el área de Marketing. Del total de cierres (Venta realizada) en C2, el 30% debe originarse en acciones de Marketing.</td>
-              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:#fb7185;font-size:1rem;">30%</strong></td>
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K6</span></td>
+              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Proyectos de IA</td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Implementar inteligencia artificial en el área de SDR's (precalificación de leads) y en la página web. Dos proyectos funcionales y en producción al cierre del período.</td>
+              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:#f59e0b;font-size:1rem;">100%</strong></td>
             </tr>
             <tr>
-              <td style="padding:0.875rem 1rem;"><span style="background:rgba(74,130,200,0.1);color:var(--blue);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;border:1px solid rgba(74,130,200,0.3);">K7</span></td>
-              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);">Diversificación de canales — Demand. Gen</td>
-              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Reducir dependencia de Google Ads. Canales alternativos (Meta, LinkedIn, Mailing…) deben representar ≥ 30% del valor de Pipeline Digital generado en Q2.</td>
-              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--blue);font-size:1rem;">30%</strong></td>
+              <td style="padding:0.875rem 1rem;"><span style="background:rgba(255,159,63,0.15);color:var(--orange);font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:0.375rem;">K7</span></td>
+              <td style="padding:0.875rem 1rem;font-weight:600;color:var(--fg);white-space:nowrap;">Variación SG&amp;A vs. ppto (%)</td>
+              <td style="padding:0.875rem 1rem;font-size:0.8125rem;color:var(--fg-muted);">Seguimiento a presupuesto de gastos. El gasto real de Marketing no debe desviarse del presupuesto aprobado — ni por arriba ni por abajo.</td>
+              <td style="padding:0.875rem 1rem;text-align:center;"><strong style="color:var(--orange);font-size:1rem;">&lt;3%</strong></td>
             </tr>
           </tbody>
         </table>
@@ -2890,18 +2775,18 @@
             <div style="font-size:0.8125rem;font-weight:700;color:var(--fg);margin-bottom:0.5rem;">Lo que le importa al CEO</div>
             <ul style="list-style:none;display:flex;flex-direction:column;gap:0.625rem;">
               <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Cuánto del pipeline viene de Marketing? <strong style="color:var(--fg);">K1: ≥ 30% en valor, todo el año</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Ejecutamos dentro del presupuesto? <strong style="color:var(--fg);">K2: variación &lt; 3% vs ppto aprobado</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Reducimos dependencia de expos? <strong style="color:var(--fg);">K3: digital de ~33% → 45% del pipeline</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Tenemos herramientas y prueba de resultados? <strong style="color:var(--fg);">K4: 4 kits + 2 casos de éxito publicados</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿La calidad de leads se mantiene al escalar? <strong style="color:var(--fg);">K5: ≥ 47% MQL→SQL, 4× el benchmark</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Marketing cierra clientes, no solo genera leads? <strong style="color:var(--fg);">K6: ≥ 30% de nuevos clientes originados en Marketing</strong></li>
-              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--blue);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Dependemos solo de Google Ads? <strong style="color:var(--fg);">K7: canales alternativos ≥ 30% del pipeline digital</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Reducimos dependencia de expos? <strong style="color:var(--fg);">K2: digital de ~33% → 45% del pipeline</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Tenemos herramientas y prueba de resultados? <strong style="color:var(--fg);">K3: 4 kits + 2 casos de éxito publicados</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿La calidad de leads se mantiene al escalar? <strong style="color:var(--fg);">K4: ≥ 50% MQL→SQL, 4× el benchmark</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--blue);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Diversificamos más allá de Google Ads? <strong style="color:var(--fg);">K5: canales alternativos ≥ 30% del pipeline digital</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Estamos usando IA para generar más pipeline? <strong style="color:var(--fg);">K6: SDR's + web con IA al 100% en C2</strong></li>
+              <li style="font-size:0.875rem;color:var(--fg-muted);display:flex;align-items:flex-start;gap:0.5rem;"><span style="color:var(--green);margin-top:0.1rem;flex-shrink:0;">—</span> ¿Ejecutamos dentro del presupuesto? <strong style="color:var(--fg);">K7: variación &lt; 3% vs ppto aprobado</strong></li>
             </ul>
           </div>
           <div>
             <div style="font-size:0.8125rem;font-weight:700;color:var(--fg);margin-bottom:0.5rem;">La historia en 3 líneas</div>
             <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:0.625rem;padding:1.25rem;margin-bottom:1rem;">
-              <p style="font-size:0.9375rem;line-height:1.8;color:var(--fg-muted);">"Marketing genera el <strong style="color:var(--fg);">33.4% del pipeline en valor</strong> — por encima del piso de industria. En C2 lo sostenemos, rebalanceamos el mix a <strong style="color:var(--fg);">45% digital</strong>, construimos herramientas comerciales para los <strong style="color:var(--fg);">4 sectores</strong>, publicamos <strong style="color:var(--fg);">2 casos de éxito</strong> y medimos por primera vez cuántos de los <strong style="color:var(--fg);">nuevos clientes</strong> los genera Marketing directamente."</p>
+              <p style="font-size:0.9375rem;line-height:1.8;color:var(--fg-muted);">"Marketing genera el <strong style="color:var(--fg);">33.4% del pipeline en valor</strong> — por encima del piso de industria. En C2 lo sostenemos, rebalanceamos el mix a <strong style="color:var(--fg);">45% digital</strong>, construimos herramientas comerciales para los <strong style="color:var(--fg);">4 sectores</strong>, publicamos <strong style="color:var(--fg);">2 casos de éxito</strong>, activamos <strong style="color:var(--fg);">IA en SDR's y web</strong>, y ejecutamos dentro del <strong style="color:var(--fg);">presupuesto con &lt;3% de variación</strong>."</p>
             </div>
             <div style="background:rgba(74,130,200,0.06);border:1px solid rgba(74,130,200,0.2);border-radius:0.625rem;padding:1rem;">
               <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;">Fuentes de referencia</div>
@@ -3210,6 +3095,9 @@
       // ── Campaign section ──
       renderCampaigns(d.byCampaign);
 
+      // ── Pipeline static sections ──
+      renderPipelineStatic(d);
+
       // ── Status bar ──
       if (dot) dot.style.background = 'var(--green)';
       const updated = new Date(d.generatedAt);
@@ -3225,105 +3113,439 @@
     }
   }
 
+  // ── PIPELINE STATIC SECTIONS (fully dynamic) ──────────────────────────────
+  function renderPipelineStatic(d) {
+    const s = d.summary;
+    const META = 15;
+
+    function fmt(n) {
+      if (!n || n === 0) return 'MX$0';
+      if (n >= 1e6) return 'MX$' + (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return 'MX$' + Math.round(n / 1e3) + 'K';
+      return 'MX$' + Math.round(n).toLocaleString('es-MX');
+    }
+
+    const oppPct   = s.marketingPct;
+    const valPct   = s.marketingValPct;
+    const mktVal   = s.marketingPipelineValue;
+    const totalVal = s.totalPipelineValue;
+    const mktCount = s.marketingDeals;
+    const totCount = s.totalActiveDeals;
+    const mktSubs  = s.marketingSubs  || 0;
+    const totSubs  = s.totalSubs      || 0;
+    const subsPct  = totSubs > 0 ? (mktSubs / totSubs * 100) : 0;
+
+    // ── Subs card ──
+    setTxt('pl-subs-pct',   subsPct.toFixed(1) + '%');
+    setTxt('pl-mkt-subs',   mktSubs.toLocaleString('es-MX'));
+    setTxt('pl-total-subs', totSubs.toLocaleString('es-MX'));
+    setTxt('pl-subs-badge', (subsPct >= META ? '+' : '') + (subsPct - META).toFixed(1) + ' pp vs. meta');
+
+    // ── Deal size insight ──
+    const mktTicket   = mktCount   > 0 ? mktVal   / mktCount   : 0;
+    const totalTicket = totCount   > 0 ? totalVal / totCount   : 0;
+    const ticketDiff  = totalTicket > 0 ? ((mktTicket - totalTicket) / totalTicket * 100) : 0;
+    const restVal     = totalVal - mktVal;
+    const insightEl   = document.getElementById('deal-insight');
+    if (insightEl) {
+      insightEl.innerHTML = `<strong>Tickets de Marketing por ${ticketDiff >= 0 ? 'encima' : 'debajo'} del promedio del pipeline.</strong> El ticket promedio de una oportunidad de Marketing es de <strong>${fmt(mktTicket)}</strong> vs. <strong>${fmt(totalTicket)}</strong> del total — una diferencia del ${Math.abs(ticketDiff).toFixed(1)}%. La participación en valor (${valPct.toFixed(1)}%) ${valPct > oppPct ? 'supera' : 'está cerca de'} la participación en número de oportunidades (${oppPct.toFixed(1)}%), confirmando que los leads de Marketing tienen un tamaño de deal ${ticketDiff >= 0 ? 'mayor' : 'menor'} al promedio del pipeline.`;
+    }
+
+    // ── Deal size bars ──
+    const dealBarsEl = document.getElementById('deal-size-bars');
+    if (dealBarsEl) {
+      const maxTicket  = Math.max(mktTicket, totalTicket) || 1;
+      const mktTW      = Math.round((mktTicket   / maxTicket) * 100);
+      const totalTW    = Math.round((totalTicket / maxTicket) * 100);
+      const mktVW      = totalVal > 0 ? (mktVal  / totalVal * 100) : 0;
+      const restVW     = 100 - mktVW;
+      dealBarsEl.innerHTML = `
+        <div class="deal-card">
+          <h4>Ticket promedio por oportunidad</h4>
+          <div class="deal-compare">
+            <div class="deal-row">
+              <div class="deal-row-top"><div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div><div class="deal-row-val" style="color:var(--blue);">${fmt(mktTicket)}</div></div>
+              <div class="deal-bar-wrap"><div class="deal-bar" style="width:${mktTW}%;background:var(--blue);"></div></div>
+            </div>
+            <div class="deal-row">
+              <div class="deal-row-top"><div class="deal-row-label" style="color:var(--fg-muted);">Pipeline total</div><div class="deal-row-val" style="color:var(--fg-muted);">${fmt(totalTicket)}</div></div>
+              <div class="deal-bar-wrap"><div class="deal-bar" style="width:${totalTW}%;background:#3a5a78;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-card">
+          <h4>Valor total de pipeline</h4>
+          <div class="deal-compare">
+            <div class="deal-row">
+              <div class="deal-row-top"><div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div><div class="deal-row-val" style="color:var(--blue);">${fmt(mktVal)}</div></div>
+              <div class="deal-bar-wrap"><div class="deal-bar" style="width:${mktVW.toFixed(1)}%;background:var(--blue);"></div></div>
+            </div>
+            <div class="deal-row">
+              <div class="deal-row-top"><div class="deal-row-label" style="color:var(--fg-muted);">Resto del pipeline</div><div class="deal-row-val" style="color:var(--fg-muted);">${fmt(restVal)}</div></div>
+              <div class="deal-bar-wrap"><div class="deal-bar" style="width:${restVW.toFixed(1)}%;background:#3a5a78;"></div></div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // ── Benchmark spectrum markers (scale 0–55%) ──
+    const SCALE = 55;
+    function updateBenchmark(idVal, idMarker, idLabel, pct, color) {
+      const pos = Math.min((pct / SCALE) * 100, 98).toFixed(1);
+      const valEl    = document.getElementById(idVal);
+      const markerEl = document.getElementById(idMarker);
+      const labelEl  = document.getElementById(idLabel);
+      if (valEl)    valEl.textContent   = pct.toFixed(1) + '%';
+      if (markerEl) markerEl.style.left = pos + '%';
+      if (labelEl)  labelEl.textContent = '▲ ' + pct.toFixed(1) + '%';
+    }
+    updateBenchmark('bench-opp-val',  'bench-opp-marker',  'bench-opp-label',  oppPct,  'var(--blue)');
+    updateBenchmark('bench-subs-val', 'bench-subs-marker', 'bench-subs-label', subsPct, 'var(--purple)');
+    updateBenchmark('bench-val-val',  'bench-val-marker',  'bench-val-label',  valPct,  'var(--green)');
+
+    // ── Funnel por etapa ──
+    const STAGE_ORDER = [
+      'Levantamiento de necesidades',
+      'Presentación con enfoque a solicitud',
+      'Prueba Demo',
+      'Negociación',
+      'Formalización',
+    ];
+    const SHORT = ['Levanta-<br/>miento','Presenta-<br/>ción','Prueba<br/>Demo','Negocia-<br/>ción','Formali-<br/>zación'];
+
+    const stageContainer    = document.getElementById('stage-breakdown-container');
+    const timelineContainer = document.getElementById('stage-timeline-container');
+    const insightsContainer = document.getElementById('stage-insights-container');
+    const avgLabelEl        = document.getElementById('stage-timeline-avg');
+
+    if (stageContainer && d.byStage && d.totalByStage) {
+      const totalMktCount = STAGE_ORDER.reduce((s, n) => s + (d.byStage[n]?.count || 0), 0);
+      const totalMktVal   = STAGE_ORDER.reduce((s, n) => s + (d.byStage[n]?.value || 0), 0);
+      const totalAllCount = totCount;
+      const totalAllVal   = totalVal;
+      const avgP          = totalAllCount > 0 ? (totalMktCount / totalAllCount * 100) : 0;
+
+      const rows = STAGE_ORDER.map(name => {
+        const mkt = d.byStage[name]      || { count:0, value:0, subs:0 };
+        const tot = d.totalByStage[name] || { count:0, value:0 };
+        const cPct = tot.count > 0 ? (mkt.count / tot.count * 100) : 0;
+        const vPct = tot.value > 0 ? (mkt.value / tot.value * 100) : 0;
+        const cls  = cPct >= 30 ? 'hi' : cPct >= 15 ? 'mid' : 'lo';
+        return `
+          <div class="funnel-row">
+            <div class="funnel-stage">${name}</div>
+            <div class="funnel-cell">
+              <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:${cPct.toFixed(1)}%;"></div></div>
+              <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
+              <div class="funnel-nums"><span class="mkt">${mkt.count}</span><span class="total">${tot.count}</span></div>
+            </div>
+            <div class="funnel-cell">
+              <div class="funnel-bar-wrap"><div class="funnel-bar-mkt" style="width:${vPct.toFixed(1)}%;"></div></div>
+              <div class="funnel-bar-wrap"><div class="funnel-bar-total" style="width:100%;"></div></div>
+              <div class="funnel-nums"><span class="mkt">${fmt(mkt.value)}</span><span class="total">${fmt(tot.value)}</span></div>
+            </div>
+            <div class="funnel-pct-cell"><span class="funnel-pct ${cls}">${cPct.toFixed(1)}%</span></div>
+          </div>`;
+      }).join('');
+
+      const totPct = totalAllCount > 0 ? (totalMktCount / totalAllCount * 100) : 0;
+      stageContainer.innerHTML = rows + `
+        <div class="funnel-total-row" style="border-top:1px solid var(--border);">
+          <div class="funnel-total-label">Total activo</div>
+          <div><div class="funnel-nums funnel-total-nums"><span class="mkt">${totalMktCount}</span><span class="total">${totalAllCount}</span></div></div>
+          <div><div class="funnel-nums funnel-total-nums"><span class="mkt">${fmt(totalMktVal)}</span><span class="total">${fmt(totalAllVal)}</span></div></div>
+          <div class="funnel-pct-cell"><span class="funnel-pct mid" style="font-size:1.125rem;">${totPct.toFixed(1)}%</span></div>
+        </div>`;
+
+      // ── Stage timeline ──
+      if (avgLabelEl) avgLabelEl.textContent = 'Participación de Marketing — evolución por etapa activa · Promedio total: ' + avgP.toFixed(1) + '%';
+      if (timelineContainer) {
+        timelineContainer.innerHTML = '<div style="position:absolute;top:28px;left:10%;right:10%;height:2px;background:var(--border);z-index:0;"></div>' +
+          STAGE_ORDER.map((name, i) => {
+            const mkt  = d.byStage[name]      || { count:0 };
+            const tot  = d.totalByStage[name] || { count:0 };
+            const pct  = tot.count > 0 ? (mkt.count / tot.count * 100) : 0;
+            const above = pct >= avgP;
+            const color = above ? 'var(--green)' : 'var(--orange)';
+            const bg    = above ? 'rgba(15,217,128,0.12)' : 'rgba(255,159,63,0.1)';
+            return `
+              <div style="text-align:center;position:relative;z-index:1;">
+                <div style="width:56px;height:56px;border-radius:50%;background:${bg};border:2px solid ${color};display:flex;align-items:center;justify-content:center;margin:0 auto .625rem;">
+                  <span style="font-size:.8rem;font-weight:900;color:${color};">${pct.toFixed(1)}%</span>
+                </div>
+                <div style="font-size:.6rem;font-weight:700;color:var(--fg);margin-bottom:.2rem;line-height:1.3;">${SHORT[i]}</div>
+                <div style="font-size:.6rem;color:var(--fg-muted);">${mkt.count} / ${tot.count}</div>
+              </div>`;
+          }).join('');
+      }
+
+      // ── Stage insights ──
+      if (insightsContainer) {
+        const stageArr = STAGE_ORDER.map(name => {
+          const mkt = d.byStage[name]      || { count:0, value:0 };
+          const tot = d.totalByStage[name] || { count:0, value:0 };
+          return {
+            name,
+            mkt, tot,
+            cPct: tot.count > 0 ? mkt.count / tot.count * 100 : 0,
+            vPct: tot.value > 0 ? mkt.value / tot.value * 100 : 0,
+          };
+        });
+        const topV  = stageArr.reduce((b, x) => x.vPct > b.vPct ? x : b, stageArr[0]);
+        const above = stageArr.filter(x => x.cPct >= avgP).map(x => x.name.split(' ')[0]);
+        insightsContainer.innerHTML = `
+          <div class="insight" style="background:rgba(15,217,128,0.07);border-color:rgba(15,217,128,0.2);">
+            <strong>Mayor penetración en valor en ${topV.name} (${topV.vPct.toFixed(1)}%).</strong> Es la etapa con mayor participación de Marketing en valor. Con ${fmt(topV.tot.value)} en total, Marketing aporta ${fmt(topV.mkt.value)} (${topV.vPct.toFixed(1)}%) — la concentración más alta del pipeline. En participación por conteo (${topV.cPct.toFixed(1)}%), ${topV.cPct >= avgP ? 'también supera' : 'está por debajo de'} el promedio de ${avgP.toFixed(1)}%.
+          </div>
+          <div class="insight" style="background:rgba(74,130,200,0.07);border-color:rgba(74,130,200,0.2);">
+            <strong>Distribución por etapas · Promedio: ${avgP.toFixed(1)}%.</strong> Las etapas ${above.join(', ') || '—'} están por encima del promedio general. El pipeline de Marketing suma <strong>${fmt(totalMktVal)}</strong> de <strong>${fmt(totalAllVal)}</strong> total activo — <strong>${totPct.toFixed(1)}% en valor</strong>.
+          </div>`;
+      }
+    }
+  }
+
   // ── CAMPAIGN SECTION (fully dynamic) ─────────────────────────────────────
+
+  // Event metadata: cost + research data
+  const CAMPAIGN_META = {
+    'Expo transporte ANPACT 2025': {
+      costo: 850000,
+      asistentes: 73122,
+      organizador: 'ANPACT',
+      descripcion: 'La exposición de vehículos de carga y pasaje más grande de América, celebrada en Expo Guadalajara. La edición 2025 rompió récord histórico con 73,122 visitantes, 660 marcas expositoras de 17 países y 173 vehículos exhibidos.',
+      audiencia: 'Empresarios y microempresarios del autotransporte de carga pesada, transportistas, fabricantes (Kenworth, Daimler, Volvo, PACCAR) y proveedores tecnológicos de más de 36 países.',
+      beneficios: [
+        'Mayor concentración de operadores de flotillas de transporte pesado de México y LATAM',
+        'Demostración de GPS y telemática a compradores directos de tractocamiones y camiones',
+        'Posicionamiento junto a fabricantes OEM como partner tecnológico de referencia',
+        'Leads directos con tomadores de decisión de flotas medianas y grandes',
+      ],
+      sitio: 'https://expotransporte.com/',
+      color: 'var(--blue)',
+    },
+    'CANAPAT - Expo Foro Movilidad': {
+      costo: 350000,
+      asistentes: 18000,
+      organizador: 'CANAPAT',
+      descripcion: 'Evento bienal de CANAPAT (Cámara Nacional del Autotransporte de Pasaje y Turismo), 17ª edición en Expo Santa Fe CDMX. Principal punto de encuentro del sector de autotransporte de pasajeros en México y las Américas, con 115 expositores y +30,000 m² de exhibición.',
+      audiencia: 'Empresarios y directivos del autotransporte de pasajeros, turismo y movilidad urbana. Marcas como Volvo, Yutong, Volkswagen, Mercedes-Benz, Irizar y Scania. Autoridades gubernamentales y cámaras del sector.',
+      beneficios: [
+        'Acceso directo a operadores de flotas de autobuses que buscan tecnología de rastreo y gestión',
+        'Diferenciación frente a competidores como Samsara (ya presentes) con propuesta local',
+        'Visibilidad en modernización tecnológica: electromovilidad, IA y seguridad de flotas',
+        'Posicionamiento como aliado para cumplimiento normativo de flotas de pasajeros',
+      ],
+      sitio: 'https://expoforo.org.mx/',
+      color: 'var(--orange)',
+    },
+    'ASOFOM - Evento': {
+      costo: 350000,
+      asistentes: 900,
+      organizador: 'ASOFOM',
+      descripcion: 'Convención Nacional de ASOFOM (Asociación Mexicana de SOFOMes), la asociación de IFNBs más grande de Latinoamérica. Reúne a +900 líderes de SOFOMes, arrendadoras, factorajes, fintechs y fondos para debatir innovación, regulación y financiamiento.',
+      audiencia: 'Directivos de las 247+ SOFOMes asociadas: arrendadoras vehiculares, leasing de flotillas, financiamiento automotriz y fintechs. También autoridades regulatorias (CNBV, Banxico) y fuentes de fondeo.',
+      beneficios: [
+        'Acceso a SOFOMes de arrendamiento vehicular como canal para bundling GPS + crédito',
+        'Posicionamiento como proveedor que agrega valor al leasing vehicular mediante rastreo y protección de activos',
+        'Alianzas con financieras que fondean flotas de transporte, distribución y construcción',
+        'GPS como herramienta de gestión de riesgo financiero y protección de cartera crediticia',
+      ],
+      sitio: 'https://asofom.mx/',
+      color: '#22d3ee',
+    },
+    'The Logistics World Summit and Expo 2026': {
+      costo: 487055,
+      asistentes: 26583,
+      organizador: 'The Logistics World® / Encumex',
+      descripcion: 'El evento de logística, transporte y comercio internacional más importante de México y Centroamérica. Celebrado en Centro Citibanamex CDMX con +500 expositores, 34,000 m² de exhibición y conferencias sobre IA, resiliencia logística y transformación digital.',
+      audiencia: 'C-level de logística, cadena de suministro y operaciones: OXXO-FEMSA, Mercado Libre, Danone, Grupo Lala, Liverpool. Cámaras ConaLog, CAAAREM, AMTI y universidades MIT e ITESM.',
+      beneficios: [
+        'Visibilidad ante +26,000 líderes de logística y supply chain, decisores directos de tecnología de flotillas',
+        'Único evento que concentra toda la cadena: transportistas, operadores logísticos, retailers y proveedores tech',
+        'Demostración de visibilidad operativa en tiempo real, alineada a los temas de IA del evento',
+        'Networking con cámaras industriales (AMTI, ConaLog, ANTP) para alianzas y distribución',
+      ],
+      sitio: 'https://expo.thelogisticsworld.com/',
+      color: 'var(--green)',
+    },
+  };
+
   function renderCampaigns(byCampaign) {
-    const tbody   = document.getElementById('campaign-table-body');
-    const barsEl  = document.getElementById('campaign-bars');
-    const dot     = document.getElementById('camp-status-dot');
-    const statusEl= document.getElementById('camp-status-text');
-    const totalCnt= document.getElementById('camp-total-count');
-    const totalVal= document.getElementById('camp-total-value');
+    const tbody    = document.getElementById('campaign-table-body');
+    const barsEl   = document.getElementById('campaign-bars');
+    const cardsEl  = document.getElementById('campaign-event-cards');
+    const dot      = document.getElementById('camp-status-dot');
+    const statusEl = document.getElementById('camp-status-text');
+    const totalCnt = document.getElementById('camp-total-count');
+    const totalVal = document.getElementById('camp-total-value');
+    const totalWon = document.getElementById('camp-total-won');
+    const totalInv = document.getElementById('camp-total-invest');
+    const totalRoi = document.getElementById('camp-total-roi');
     if (!tbody || !byCampaign) return;
 
     function fmtM(n) {
-      if (n >= 1e6) return 'MX$' + (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e6) return 'MX$' + (n / 1e6).toFixed(2) + 'M';
       if (n >= 1e3) return 'MX$' + Math.round(n / 1e3) + 'K';
       return 'MX$' + n.toLocaleString();
     }
-    function fmtDate(s) {
-      if (!s) return '—';
-      const d = new Date(s + 'T12:00:00');
-      return d.toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' });
+    function fmtMx(n) {
+      return 'MX$' + Math.round(n).toLocaleString('es-MX');
     }
 
-    // Sort by totalValue (active + won) desc — shows full campaign impact
+    // Only show campaigns in CAMPAIGN_META (the 4 known expos), sorted by totalValue
     const entries = Object.entries(byCampaign)
-      .map(([id, v]) => ({ id, ...v }))
+      .map(([id, v]) => ({ id, ...v, meta: CAMPAIGN_META[v.name] || null }))
+      .filter(e => e.meta !== null)
       .sort((a, b) => (b.totalValue || 0) - (a.totalValue || 0));
 
-    // "with deals" = any campaign that has at least 1 deal (active or won)
-    const withDeals   = entries.filter(e => (e.totalCount || 0) > 0);
-    const withoutDeals= entries.filter(e => (e.totalCount || 0) === 0);
+    const grandTotal  = entries.reduce((s, e) => s + (e.totalValue || 0), 0);
+    const grandWon    = entries.reduce((s, e) => s + (e.wonValue   || 0), 0);
+    const grandInvest = entries.reduce((s, e) => s + (e.meta?.costo || 0), 0);
+    const grandRoi    = grandInvest > 0 ? grandTotal / grandInvest : 0;
 
-    const grandTotal      = entries.reduce((s, e) => s + (e.totalValue  || 0), 0);
-    const grandActivePip  = entries.reduce((s, e) => s + (e.value       || 0), 0);
-    const grandWon        = entries.reduce((s, e) => s + (e.wonValue    || 0), 0);
-
-    // Update summary strip
-    if (dot) dot.style.background = 'var(--green)';
-    if (statusEl) statusEl.textContent = 'Datos en vivo desde Zoho CRM · Campo Campaña en Oportunidades';
-    if (totalCnt) totalCnt.textContent = withDeals.length + ' de ' + entries.length;
+    // Update KPI strip
+    if (dot)      dot.style.background = 'var(--green)';
+    if (statusEl) statusEl.textContent = 'Datos en vivo desde Zoho CRM';
+    if (totalCnt) totalCnt.textContent = entries.length + ' eventos registrados';
     if (totalVal) totalVal.textContent = fmtM(grandTotal);
+    if (totalWon) totalWon.textContent = fmtM(grandWon);
+    if (totalInv) totalInv.textContent = fmtMx(grandInvest);
+    if (totalRoi) totalRoi.textContent = grandRoi.toFixed(1) + '×';
 
-    // Table rows — 7 columns
-    const maxVal = (entries[0]?.totalValue || entries[0]?.wonValue || 1);
-    const rows = [...withDeals, ...withoutDeals].map((e, i) => {
-      const tv   = e.totalValue  || 0;
-      const av   = e.value       || 0;  // active pipeline
-      const wv   = e.wonValue    || 0;  // venta realizada
-      const tc   = e.totalCount  || 0;
-      const ac   = e.count       || 0;
-      const wc   = e.wonCount    || 0;
-      const subs = e.subs        || 0;
+    // Table — 6 columns
+    const maxVal = entries[0]?.totalValue || 1;
+    const rows = entries.map((e, i) => {
+      const tv   = e.totalValue || 0;
+      const av   = e.value      || 0;
+      const wv   = e.wonValue   || 0;
+      const ac   = e.count      || 0;
+      const subs = e.subs       || 0;
+      const cost = e.meta?.costo || 0;
+      const roi  = cost > 0 ? tv / cost : null;
       const barW = maxVal > 0 ? Math.round((tv / maxVal) * 100) : 0;
-      const isTop = i === 0 && tv > 0;
-      const bg = i % 2 === 0 ? '' : 'background:rgba(255,255,255,0.02);';
+      const isTop = i === 0;
+      const bg   = i % 2 === 0 ? '' : 'background:rgba(255,255,255,0.02);';
+      const color= e.meta?.color || 'var(--green)';
+      const roiColor = roi === null ? 'var(--fg-muted)' : roi >= 5 ? 'var(--green)' : roi >= 1 ? 'var(--orange)' : '#f87171';
       return `
         <tr style="border-bottom:1px solid var(--border);${bg}">
           <td style="padding:.75rem 1rem;">
-            <div style="display:flex;align-items:center;gap:.625rem;">
-              ${isTop ? '<span style="font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;background:rgba(15,217,128,0.12);color:var(--green);border:1px solid rgba(15,217,128,0.3);white-space:nowrap;">★ Mayor</span>' : ''}
-              <span style="font-weight:${tc > 0 ? '600' : '400'};color:${tc > 0 ? 'var(--fg)' : 'var(--fg-muted)'};">${e.name}</span>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;">
+              ${isTop ? '<span style="font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:999px;background:rgba(15,217,128,0.12);color:var(--green);border:1px solid rgba(15,217,128,0.3);">★ Top</span>' : ''}
+              <span style="font-weight:600;color:var(--fg);">${e.name}</span>
             </div>
-            <div style="margin-top:.3rem;height:3px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:${barW}%;background:var(--green);border-radius:999px;opacity:.8;"></div>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              <div style="flex:1;height:3px;background:var(--border);border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:${barW}%;background:${color};border-radius:999px;"></div>
+              </div>
+              <span style="font-size:.7rem;color:var(--fg-muted);">${(e.meta?.asistentes||0).toLocaleString()} asistentes</span>
             </div>
           </td>
-          <td style="padding:.75rem 1rem;font-size:.8125rem;color:var(--fg-muted);white-space:nowrap;">${fmtDate(e.startDate)}</td>
-          <td style="padding:.75rem 1rem;text-align:center;font-size:.875rem;color:var(--fg);">${ac > 0 ? ac : '<span style="color:var(--fg-muted);">—</span>'}</td>
-          <td style="padding:.75rem 1rem;text-align:center;font-size:.875rem;color:var(--fg);">${subs > 0 ? subs.toLocaleString() : '<span style="color:var(--fg-muted);">—</span>'}</td>
-          <td style="padding:.75rem 1rem;text-align:right;font-size:.9375rem;${av > 0 ? 'color:var(--green);font-weight:700;' : 'color:var(--fg-muted);'}">${av > 0 ? fmtM(av) : '<span style="font-size:.8rem;">—</span>'}</td>
-          <td style="padding:.75rem 1rem;text-align:right;font-size:.9375rem;${wv > 0 ? 'color:var(--purple);font-weight:700;' : 'color:var(--fg-muted);'}">${wv > 0 ? fmtM(wv) : '<span style="font-size:.8rem;">—</span>'}</td>
-          <td style="padding:.75rem 1rem;text-align:center;font-size:.875rem;font-weight:${tc > 0 ? '600' : '400'};color:${tc > 0 ? 'var(--fg)' : 'var(--fg-muted)'};">${tc > 0 ? tc : '—'}</td>
+          <td style="padding:.75rem 1rem;text-align:right;font-size:.875rem;color:var(--fg-muted);">${cost > 0 ? fmtMx(cost) : '—'}</td>
+          <td style="padding:.75rem 1rem;text-align:center;font-size:.875rem;color:var(--fg);">${ac > 0 ? `<strong>${ac}</strong>` : '—'} <span style="color:var(--fg-muted);font-size:.75rem;">${subs > 0 ? '/ ' + subs + ' subs' : ''}</span></td>
+          <td style="padding:.75rem 1rem;text-align:right;font-size:.9375rem;${av > 0 ? 'color:var(--green);font-weight:700;' : 'color:var(--fg-muted);font-size:.8rem;'}">${av > 0 ? fmtM(av) : '—'}</td>
+          <td style="padding:.75rem 1rem;text-align:right;font-size:.9375rem;${wv > 0 ? 'color:var(--purple);font-weight:700;' : 'color:var(--fg-muted);font-size:.8rem;'}">${wv > 0 ? fmtM(wv) : '—'}</td>
+          <td style="padding:.75rem 1rem;text-align:right;font-size:1rem;font-weight:900;color:${roiColor};">${roi !== null ? roi.toFixed(1) + '×' : '—'}</td>
         </tr>`;
     }).join('');
 
-    tbody.innerHTML = rows || '<tr><td colspan="7" style="padding:2rem;text-align:center;color:var(--fg-muted);">Sin campañas registradas en Zoho</td></tr>';
+    tbody.innerHTML = rows || '<tr><td colspan="6" style="padding:2rem;text-align:center;color:var(--fg-muted);">Sin datos</td></tr>';
 
-    // Horizontal bar chart — sorted by totalValue, show active vs won stacked
-    if (!barsEl) return;
-    if (withDeals.length === 0) {
-      barsEl.innerHTML = '<div style="color:var(--fg-muted);font-size:.875rem;">Sin oportunidades vinculadas a campañas</div>';
-      return;
+    // Bar chart
+    if (barsEl) {
+      if (entries.length === 0) {
+        barsEl.innerHTML = '<div style="color:var(--fg-muted);font-size:.875rem;">Sin oportunidades vinculadas</div>';
+      } else {
+        barsEl.innerHTML = entries.map((e, i) => {
+          const tv    = e.totalValue || 0;
+          const wv    = e.wonValue   || 0;
+          const av    = e.value      || 0;
+          const cost  = e.meta?.costo || 0;
+          const avPct = maxVal > 0 ? Math.round((av / maxVal) * 100) : 0;
+          const wvPct = maxVal > 0 ? Math.round((wv / maxVal) * 100) : 0;
+          const pct   = grandTotal > 0 ? ((tv / grandTotal) * 100).toFixed(1) : '0.0';
+          const color = e.meta?.color || 'var(--green)';
+          const costPct = maxVal > 0 ? Math.round((cost / maxVal) * 100) : 0;
+          return `
+            <div style="display:grid;grid-template-columns:260px 1fr 120px;gap:1rem;align-items:center;">
+              <div style="font-size:.8125rem;font-weight:600;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.name}">${e.name}</div>
+              <div style="position:relative;background:var(--border);border-radius:999px;height:10px;overflow:hidden;">
+                ${wv > 0 ? `<div style="position:absolute;left:0;height:100%;width:${wvPct}%;background:var(--purple);opacity:.9;"></div>` : ''}
+                ${av > 0 ? `<div style="position:absolute;left:${wvPct}%;height:100%;width:${avPct}%;background:${color};opacity:.9;"></div>` : ''}
+              </div>
+              <div style="text-align:right;font-size:.875rem;font-weight:700;color:${color};">${fmtM(tv)} <span style="font-size:.7rem;font-weight:400;color:var(--fg-muted);">${pct}%</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:260px 1fr 120px;gap:1rem;align-items:center;margin-top:-.3rem;margin-bottom:.25rem;">
+              <div></div>
+              <div style="position:relative;height:3px;">
+                <div style="position:absolute;left:0;height:100%;width:${costPct}%;background:rgba(251,191,36,.45);border-radius:999px;" title="Inversión: ${fmtMx(cost)}"></div>
+              </div>
+              <div style="text-align:right;font-size:.7rem;color:rgba(251,191,36,.7);">Inv: ${fmtMx(cost)}</div>
+            </div>`;
+        }).join('');
+      }
     }
-    const chartMax = maxVal || 1;
-    barsEl.innerHTML = withDeals.map((e, i) => {
-      const tv    = e.totalValue || 0;
-      const av    = e.value      || 0;
-      const wv    = e.wonValue   || 0;
-      const avPct = chartMax > 0 ? Math.round((av / chartMax) * 100) : 0;
-      const wvPct = chartMax > 0 ? Math.round((wv / chartMax) * 100) : 0;
-      const pct   = grandTotal  > 0 ? ((tv / grandTotal) * 100).toFixed(1) : '0.0';
-      const colors= ['var(--green)','var(--blue)','#22d3ee','var(--orange)','#f472b6','#a78bfa'];
-      const color = colors[i % colors.length];
+
+    // Event detail cards
+    if (!cardsEl) return;
+    cardsEl.innerHTML = entries.map((e) => {
+      const meta = e.meta;
+      if (!meta) return '';
+      const color = meta.color || 'var(--green)';
+      const roi   = meta.costo > 0 ? (e.totalValue / meta.costo) : null;
+      const roiColor = roi === null ? 'var(--fg-muted)' : roi >= 5 ? 'var(--green)' : roi >= 1 ? 'var(--orange)' : '#f87171';
+      const roiBadge = roi !== null
+        ? `<span style="font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;background:${roi >= 5 ? 'rgba(15,217,128,0.12)' : roi >= 1 ? 'rgba(251,146,60,0.12)' : 'rgba(248,113,113,0.12)'};color:${roiColor};border:1px solid ${roiColor}40;">ROI ${roi.toFixed(1)}×</span>`
+        : '';
       return `
-        <div style="display:grid;grid-template-columns:220px 1fr 110px;gap:1rem;align-items:center;">
-          <div style="font-size:.8125rem;font-weight:600;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${e.name}">${e.name}</div>
-          <div style="position:relative;background:var(--border);border-radius:999px;height:8px;overflow:hidden;">
-            ${wv > 0 ? `<div style="position:absolute;left:0;height:100%;width:${wvPct}%;background:var(--purple);border-radius:999px;opacity:.85;"></div>` : ''}
-            ${av > 0 ? `<div style="position:absolute;left:${wvPct}%;height:100%;width:${avPct}%;background:${color};border-radius:999px;opacity:.85;"></div>` : ''}
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+          <div style="height:3px;background:${color};"></div>
+          <div style="padding:1.25rem 1.5rem;">
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1rem;">
+              <div>
+                <div style="font-weight:700;font-size:1rem;color:var(--fg);margin-bottom:.25rem;">${e.name}</div>
+                <div style="font-size:.75rem;color:var(--fg-muted);">${meta.organizador}</div>
+              </div>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;">
+                ${roiBadge}
+                <span style="font-size:.75rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;background:rgba(255,255,255,0.06);color:var(--fg-muted);border:1px solid var(--border);white-space:nowrap;">👥 ${(meta.asistentes).toLocaleString()} asistentes</span>
+              </div>
+            </div>
+            <!-- Stats row -->
+            <div style="display:flex;gap:1.25rem;flex-wrap:wrap;padding:.75rem 1rem;background:var(--bg-card2);border-radius:.5rem;margin-bottom:1rem;">
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Inversión</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${fmtMx(meta.costo)}</div>
+              </div>
+              <div style="width:1px;background:var(--border);"></div>
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);">Pipeline activo</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--green);">${fmtM(e.value || 0)}</div>
+              </div>
+              <div style="width:1px;background:var(--border);"></div>
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--purple);">Venta cerrada</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--purple);">${e.wonValue > 0 ? fmtM(e.wonValue) : '—'}</div>
+              </div>
+              <div style="width:1px;background:var(--border);"></div>
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Oportunidades</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${e.totalCount || 0} deals</div>
+              </div>
+            </div>
+            <!-- Description -->
+            <p style="font-size:.8125rem;color:var(--fg-muted);line-height:1.6;margin-bottom:.875rem;">${meta.descripcion}</p>
+            <!-- Audience -->
+            <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.4rem;">Perfil de asistentes</div>
+            <p style="font-size:.8125rem;color:var(--fg-muted);line-height:1.5;margin-bottom:.875rem;">${meta.audiencia}</p>
+            <!-- Benefits -->
+            <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${color};margin-bottom:.5rem;">Beneficios para Numaris</div>
+            <ul style="margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:.35rem;">
+              ${meta.beneficios.map(b => `<li style="font-size:.8125rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:${color};font-size:.75rem;flex-shrink:0;margin-top:.1rem;">▸</span>${b}</li>`).join('')}
+            </ul>
+            ${meta.sitio ? `<div style="margin-top:1rem;"><a href="${meta.sitio}" target="_blank" rel="noopener" style="font-size:.75rem;color:var(--fg-muted);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;opacity:.7;">🔗 ${meta.sitio.replace('https://','')}</a></div>` : ''}
           </div>
-          <div style="text-align:right;font-size:.875rem;font-weight:700;color:${color};">${fmtM(tv)} <span style="font-size:.7rem;font-weight:400;color:var(--fg-muted);">${pct}%</span></div>
         </div>`;
     }).join('');
   }
