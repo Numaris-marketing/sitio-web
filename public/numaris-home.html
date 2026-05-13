@@ -134,6 +134,17 @@
     /* ── Nav dropdown mega-menu ── */
     .nav-group-wrap { position:relative }
     .nav-group-wrap > button { background:none; border:none; cursor:pointer }
+    /* Sombra sutil en los links/botones del nav principal */
+    #nav-inner .hidden.lg\\:flex a,
+    #nav-inner .hidden.lg\\:flex button {
+      border-radius:999px;
+      box-shadow:0 0 0 1px rgba(255,255,255,.07), 0 2px 8px rgba(0,0,0,.22);
+      transition:box-shadow .2s,color .2s,background .2s;
+    }
+    #nav-inner .hidden.lg\\:flex a:hover,
+    #nav-inner .hidden.lg\\:flex button:hover {
+      box-shadow:0 0 0 1px rgba(255,255,255,.13), 0 3px 12px rgba(0,0,0,.32);
+    }
     .nav-group-wrap .dd-panel {
       position:absolute; top:calc(100% + 2px); left:0; z-index:200;
       opacity:0; pointer-events:none;
@@ -268,7 +279,7 @@
 
 <!-- NAVBAR -->
 <header id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent" style="background:transparent">
-  <nav id="nav-inner" class="max-w-7xl mx-auto" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 48px">
+  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 76px">
     <a href="#" class="shrink-0" id="nav-logo">
       <img src="/numaris-blanco.png" alt="Numaris" style="height:48px;width:auto;object-fit:contain">
     </a>
@@ -404,7 +415,7 @@
     </div>
 
     <div class="flex items-center justify-end gap-3">
-      <a href="/contacto" class="hidden lg:inline-flex" style="align-items:center;padding:9px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Contacto →</a>
+      <a href="/contacto" class="hidden lg:inline-flex" style="align-items:center;padding:9px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s,box-shadow .2s;box-shadow:0 2px 14px rgba(255,255,255,.18),0 1px 4px rgba(0,0,0,.25)" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Contacto →</a>
       <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
       <svg id="ico-o" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       <svg id="ico-c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
