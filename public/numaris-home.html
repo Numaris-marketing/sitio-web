@@ -85,6 +85,16 @@
     }
     .btn-primary:hover { box-shadow:0 0 36px rgba(59,130,246,.45),inset 0 1px 0 rgba(255,255,255,.1); transform:translateY(-1px) }
 
+    @keyframes sol-fade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    #sol-cards { animation: sol-fade .28s ease; }
+
+    .btn-green {
+      background:#10B981;
+      box-shadow:0 0 20px rgba(16,185,129,.35),inset 0 1px 0 rgba(255,255,255,.08);
+      transition:box-shadow .2s,transform .15s;
+    }
+    .btn-green:hover { box-shadow:0 0 36px rgba(16,185,129,.55),inset 0 1px 0 rgba(255,255,255,.1); transform:translateY(-1px) }
+
     .btn-ghost {
       background:rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.1);
@@ -409,7 +419,7 @@
 
     <div class="hidden lg:flex items-center gap-3 shrink-0">
       <a href="tel:+525556509228" class="text-[13px] text-white/60 hover:text-white/90 transition-colors">+52 55 5650 9228</a>
-      <a href="/contacto" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
+      <a href="/contacto" class="btn-green px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
     </div>
 
     <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
@@ -466,7 +476,7 @@
       <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
         <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <a href="/contacto" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full block text-center">Contacto</a>
+        <a href="/contacto" class="btn-green py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full block text-center">Contacto</a>
       </div>
     </div>
   </div>
@@ -515,7 +525,7 @@
   <!-- ── PART 2: Text content — centered ── -->
   <div class="relative z-10 w-full max-w-3xl mx-auto px-6 pb-28 text-center">
 
-    <h1 class="fi hero-title-anim text-[42px] sm:text-[56px] lg:text-[68px] font-bold leading-[1.06] tracking-[-0.025em] text-white/92">
+    <h1 class="fi hero-title-anim font-bold leading-[1.06] tracking-[-0.025em] text-white/92" style="font-size:clamp(26px,3.5vw,52px)">
       Donde los datos se convierten<br/>
       <span class="glow-text">de decisiones.</span>
     </h1>
@@ -526,7 +536,7 @@
 
     <div class="fi hero-cta-anim mt-8 flex flex-wrap items-center justify-center gap-3">
       <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-semibold text-white">
-        Solicitar demo gratis
+        Agenda tu demo
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
       <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-medium text-white/80">
@@ -764,8 +774,9 @@
 
 <div class="divider"></div>
 
-<!-- SOLUCIONES — Samsara-style interactive explorer -->
-<section id="soluciones" class="py-28" style="background:var(--bg)">
+<!-- SOLUCIONES — Scroll-driven carousel -->
+<div id="sol-scroll-driver" style="position:relative;height:400vh">
+<section id="soluciones" style="background:var(--bg);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:20px 0 0">
   <div class="max-w-6xl mx-auto px-6">
 
     <div class="text-center mb-12 fi">
@@ -815,7 +826,16 @@
     </div>
 
   </div>
+
+  <!-- Progress dots -->
+  <div style="display:flex;justify-content:center;gap:8px;padding:14px 0 0">
+    <div id="sdot-0" style="height:4px;border-radius:2px;width:24px;background:#10B981;transition:all .35s ease"></div>
+    <div id="sdot-1" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
+    <div id="sdot-2" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
+    <div id="sdot-3" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
+  </div>
 </section>
+</div><!-- /sol-scroll-driver -->
 
 <script>
 (function(){
@@ -956,11 +976,32 @@
 
   /* ── PUBLIC API ──────────────────────────────────────────────────── */
   window._solActive = 0;
-  window._solSet = function(i){
+  window._solColors = ['#10B981','#4B8FD4','#6EB0FF','#C084FC'];
+  window._solSet = function(i, fromScroll){
+    if(i === activeSol && fromScroll) return;
     activeSol = i;
     window._solActive = i;
     renderSidebar();
+    /* fade animation */
+    var cards = document.getElementById('sol-cards');
+    if(cards){ cards.style.animation='none'; cards.offsetHeight; cards.style.animation='sol-fade .28s ease'; }
     renderCards();
+    /* update dots */
+    for(var d=0;d<4;d++){
+      var dot = document.getElementById('sdot-'+d);
+      if(!dot) continue;
+      if(d===i){ dot.style.width='24px'; dot.style.background=window._solColors[i]; }
+      else { dot.style.width='6px'; dot.style.background='rgba(255,255,255,.2)'; }
+    }
+    /* sync scroll when clicking sidebar */
+    if(!fromScroll){
+      var driver = document.getElementById('sol-scroll-driver');
+      if(driver){
+        var top = driver.getBoundingClientRect().top + window.scrollY;
+        var scrollable = driver.offsetHeight - window.innerHeight;
+        window.scrollTo({top: top + (i/4)*scrollable, behavior:'smooth'});
+      }
+    }
   };
 
   /* ── TAB SWITCH ──────────────────────────────────────────────────── */
@@ -1035,6 +1076,25 @@
   } else {
     init();
   }
+})();
+</script>
+
+<script>
+(function(){
+  var driver, lastIdx = -1;
+  function onScroll(){
+    if(!driver) driver = document.getElementById('sol-scroll-driver');
+    if(!driver) return;
+    if(window.innerWidth < 768) return; /* mobile: skip scroll-drive */
+    var top = driver.getBoundingClientRect().top;
+    var scrolled = -top;
+    var scrollable = driver.offsetHeight - window.innerHeight;
+    if(scrolled <= 0){ if(lastIdx!==0){ lastIdx=0; window._solSet(0,true); } return; }
+    if(scrolled >= scrollable){ if(lastIdx!==3){ lastIdx=3; window._solSet(3,true); } return; }
+    var idx = Math.min(Math.floor((scrolled/scrollable)*4), 3);
+    if(idx !== lastIdx){ lastIdx=idx; window._solSet(idx,true); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
 })();
 </script>
 
