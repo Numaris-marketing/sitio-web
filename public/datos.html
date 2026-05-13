@@ -11,16 +11,18 @@
     :root {
       --bg:          #f1f4f8;
       --bg-card:     #ffffff;
-      --border:      #e2e8f0;
-      --blue:        #2563eb;
-      --blue-light:  #eff6ff;
-      --fg:          #0f172a;
-      --fg-muted:    #64748b;
-      --green:       #10b981;
-      --green-light: #ecfdf5;
-      --orange:      #f59e0b;
-      --red:         #ef4444;
-      --purple:      #7c3aed;
+      --border:      #dde3ed;
+      --blue:        #245FA5;
+      --blue-mid:    #4B8FD4;
+      --blue-dark:   #012750;
+      --blue-light:  #EBF3FB;
+      --fg:          #0c1a2e;
+      --fg-muted:    #5a6f85;
+      --green:       #245FA5;
+      --green-light: #EBF3FB;
+      --orange:      #64748b;
+      --red:         #4B8FD4;
+      --purple:      #4B8FD4;
       --radius:      0.75rem;
       --sidebar-w:   220px;
     }
@@ -63,7 +65,7 @@
     }
     .sidebar-logo-icon {
       width: 28px; height: 28px;
-      background: #2563eb;
+      background: #245FA5;
       border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       font-size: 0.75rem; font-weight: 900; color: #fff;
@@ -118,10 +120,10 @@
       color: rgba(255,255,255,0.85);
     }
     .sidebar-nav-item.active {
-      background: rgba(255,255,255,0.12);
+      background: rgba(75,143,212,0.18);
       color: #fff;
       font-weight: 600;
-      border-left-color: #3b82f6;
+      border-left-color: #4B8FD4;
     }
     .sidebar-nav-icon {
       font-size: 0.875rem;
@@ -262,8 +264,8 @@
       height: 3px;
     }
     .kpi-card.c-blue::before   { background: var(--blue); }
-    .kpi-card.c-green::before  { background: var(--green); }
-    .kpi-card.c-purple::before { background: var(--purple); }
+    .kpi-card.c-green::before  { background: var(--blue-mid); }
+    .kpi-card.c-purple::before { background: #012750; }
     .kpi-label {
       font-size: 0.7rem;
       font-weight: 600;
@@ -278,8 +280,8 @@
       letter-spacing: -0.025em;
     }
     .kpi-card.c-blue   .kpi-val { color: var(--blue); }
-    .kpi-card.c-green  .kpi-val { color: var(--green); }
-    .kpi-card.c-purple .kpi-val { color: var(--purple); }
+    .kpi-card.c-green  .kpi-val { color: var(--blue-mid); }
+    .kpi-card.c-purple .kpi-val { color: #012750; }
     .kpi-sub {
       font-size: 0.8125rem;
       color: var(--fg-muted);
@@ -299,27 +301,27 @@
       padding: 0.2rem 0.6rem;
       border-radius: 999px;
     }
-    .badge-green  { background: var(--green-light); color: var(--green);   border: 1px solid #a7f3d0; }
-    .badge-orange { background: #fffbeb;             color: var(--orange);  border: 1px solid #fde68a; }
-    .badge-blue   { background: var(--blue-light);   color: var(--blue);    border: 1px solid #bfdbfe; }
-    .badge-purple { background: #f5f3ff;             color: var(--purple);  border: 1px solid #ddd6fe; }
-    .badge-red    { background: #fef2f2;             color: var(--red);     border: 1px solid #fecaca; }
+    .badge-green  { background: #EBF3FB; color: #245FA5; border: 1px solid #c5daf0; }
+    .badge-orange { background: #f1f4f8; color: #5a6f85; border: 1px solid #dde3ed; }
+    .badge-blue   { background: #EBF3FB; color: #245FA5; border: 1px solid #c5daf0; }
+    .badge-purple { background: #e8f0f8; color: #012750; border: 1px solid #bdd0e6; }
+    .badge-red    { background: #dce8f5; color: #4B8FD4; border: 1px solid #b3cfe8; }
 
     /* ── INSIGHT BANNER ── */
     .insight {
-      background: var(--blue-light);
-      border: 1px solid #bfdbfe;
+      background: #EBF3FB;
+      border: 1px solid #c5daf0;
       border-radius: var(--radius);
       padding: 1rem 1.25rem;
       font-size: 0.875rem;
       line-height: 1.7;
-      color: #1e40af;
+      color: #1a4070;
     }
-    .insight strong { color: #1e3a8a; }
-    .insight.green-tint  { background: var(--green-light); border-color: #a7f3d0; color: #065f46; }
-    .insight.green-tint strong { color: #064e3b; }
-    .insight.orange-tint { background: #fffbeb; border-color: #fde68a; color: #92400e; }
-    .insight.orange-tint strong { color: #78350f; }
+    .insight strong { color: #012750; }
+    .insight.green-tint  { background: #e8f0f8; border-color: #bdd0e6; color: #1a4070; }
+    .insight.green-tint strong { color: #012750; }
+    .insight.orange-tint { background: #f1f4f8; border-color: #dde3ed; color: #5a6f85; }
+    .insight.orange-tint strong { color: #2d3f52; }
 
     /* ── FUNNEL CARD ── */
     .funnel-card {
@@ -365,8 +367,8 @@
     .funnel-nums .total { color: var(--fg-muted); }
     .funnel-pct-cell { text-align: center; }
     .funnel-pct { font-size: 0.9375rem; font-weight: 800; }
-    .funnel-pct.hi  { color: var(--green); }
-    .funnel-pct.mid { color: var(--blue); }
+    .funnel-pct.hi  { color: #245FA5; }
+    .funnel-pct.mid { color: #4B8FD4; }
     .funnel-pct.lo  { color: var(--fg-muted); }
     .funnel-total-row {
       display: grid;
@@ -620,35 +622,38 @@
       <div class="sidebar-logo-sub">Zoho CRM Snapshots</div>
     </div>
 
-    <div class="sidebar-nav-label">Navigation</div>
+    <div class="sidebar-nav-label">Pipeline</div>
     <ul class="sidebar-nav">
       <li>
         <button class="sidebar-nav-item active" onclick="switchPanel('pipeline', this)">
-          <span class="sidebar-nav-icon">📊</span>
-          <span>Dashboard</span>
+          <span class="sidebar-nav-icon">▣</span>
+          <span>Resumen</span>
         </button>
       </li>
       <li>
-        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-benchmarks')?.scrollIntoView({behavior:'smooth'}),100)">
-          <span class="sidebar-nav-icon">💡</span>
-          <span>Insights</span>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-etapa')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">◈</span>
+          <span>Por Etapa</span>
         </button>
       </li>
       <li>
-        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-oportunidades')?.scrollIntoView({behavior:'smooth'}),100)">
-          <span class="sidebar-nav-icon">📋</span>
-          <span>Oportunidades</span>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-campanas')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">◎</span>
+          <span>Por Campaña</span>
         </button>
       </li>
       <li>
-        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-zoho-logs')?.scrollIntoView({behavior:'smooth'}),100)">
-          <span class="sidebar-nav-icon">📝</span>
-          <span>Zoho Logs</span>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-industria')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">◇</span>
+          <span>Por Industria</span>
         </button>
       </li>
+    </ul>
+    <div class="sidebar-nav-label">Ingresos</div>
+    <ul class="sidebar-nav">
       <li>
         <button class="sidebar-nav-item" onclick="switchPanel('embudo', this)">
-          <span class="sidebar-nav-icon">🌊</span>
+          <span class="sidebar-nav-icon">▽</span>
           <span>Embudo Digital</span>
         </button>
       </li>
@@ -663,21 +668,6 @@
         <div class="topbar-left">
           <div class="topbar-title">Pipeline Nuevos Negocios</div>
           <div class="topbar-sub">Participación de Marketing · Zoho CRM en vivo · Meta mínima: 15%</div>
-        </div>
-        <div class="topbar-right">
-          <select class="topbar-filter" id="filter-industry" onchange="applyFilters()">
-            <option value="">Todas las industrias</option>
-          </select>
-          <select class="topbar-filter" id="filter-type" onchange="applyFilters()">
-            <option value="">Todos los tipos</option>
-          </select>
-          <select class="topbar-filter" id="filter-owner" onchange="applyFilters()">
-            <option value="">Todos los owners</option>
-          </select>
-          <div class="topbar-toggle">
-            <button class="topbar-toggle-btn active" id="toggle-monto" onclick="setToggle('monto')">Monto</button>
-            <button class="topbar-toggle-btn" id="toggle-cantidad" onclick="setToggle('cantidad')">Cantidad</button>
-          </div>
         </div>
       </div>
 
@@ -957,7 +947,7 @@
           </div>
         </div>
 
-        <hr class="sec-divider" />
+        <hr class="sec-divider" id="section-etapa" />
 
         <!-- DESGLOSE POR ETAPA -->
         <div class="sec-head">
@@ -1000,7 +990,7 @@
         <hr class="sec-divider" />
 
         <!-- IMPORTE POR ORIGEN -->
-        <div class="sec-head">
+        <div class="sec-head" id="section-campanas">
           <h2>Importe por Origen de Oportunidades</h2>
           <p>Valor de pipeline generado por cada canal de Marketing — últimos 12 meses</p>
         </div>
@@ -1145,7 +1135,7 @@
         <hr class="sec-divider" />
 
         <!-- DESGLOSE POR INDUSTRIA -->
-        <div class="sec-head">
+        <div class="sec-head" id="section-industria">
           <h2>Desglose por Industria</h2>
           <p>Participación de Marketing en pipeline activo — por industria en Zoho CRM · Meta mínima: 15% en # oportunidades · Datos en vivo</p>
         </div>
