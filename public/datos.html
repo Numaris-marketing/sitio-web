@@ -3,258 +3,363 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketing Intelligence 2026 — Numaris</title>
+  <title>Pipeline Tracker — Numaris BI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg:       #060f1c;
-      --bg-card:  #0b1929;
-      --bg-card2: #0f2035;
-      --border:   #1c3252;
-      --blue:     #4a82c8;
-      --fg:       #ecf2fb;
-      --fg-muted: #7a96b8;
-      --green:    #0fd980;
-      --orange:   #ff9f3f;
-      --purple:   #a78bfa;
-      --radius:   0.75rem;
+      --bg:          #f1f4f8;
+      --bg-card:     #ffffff;
+      --border:      #e2e8f0;
+      --blue:        #2563eb;
+      --blue-light:  #eff6ff;
+      --fg:          #0f172a;
+      --fg-muted:    #64748b;
+      --green:       #10b981;
+      --green-light: #ecfdf5;
+      --orange:      #f59e0b;
+      --red:         #ef4444;
+      --purple:      #7c3aed;
+      --radius:      0.75rem;
+      --sidebar-w:   220px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg); color: var(--fg);
-      font-family: "Inter", system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased; overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 50;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2.5rem; height: 64px;
-      background: rgba(6,15,28,0.9); backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { display: flex; align-items: center; text-decoration: none; }
-    .nav-logo img { height: 26px; width: auto; display: block; }
-    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
-    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-    .nav-tag {
-      font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
-      color: var(--fg-muted); background: var(--bg-card); border: 1px solid var(--border);
-      padding: 0.225rem 0.65rem; border-radius: 999px;
-    }
-
-    /* ── TABS ── */
-    .tabs-bar {
-      border-bottom: 1px solid var(--border);
       background: var(--bg);
-      display: flex; align-items: center;
-      padding: 0 2.5rem; gap: 0;
-      position: sticky; top: 64px; z-index: 40;
+      color: var(--fg);
+      font-family: "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    .tab-btn {
-      padding: 0.875rem 1.25rem;
-      font-size: 0.875rem; font-weight: 600;
-      color: var(--fg-muted); background: none; border: none;
-      cursor: pointer; border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-      display: flex; align-items: center; gap: 0.45rem;
-      white-space: nowrap;
+
+    /* ── APP SHELL ── */
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
     }
-    .tab-btn:hover { color: var(--fg); }
-    .tab-btn.active { color: var(--fg); border-bottom-color: var(--blue); }
-    .tab-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--fg-muted); flex-shrink: 0; transition: background 0.15s;
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: #0f2744;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      overflow-y: auto;
     }
-    .tab-btn.active .tab-dot { background: var(--blue); }
+    .sidebar-logo {
+      padding: 1.25rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-logo-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .sidebar-logo-icon {
+      width: 28px; height: 28px;
+      background: #2563eb;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-logo-name {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .sidebar-logo-sub {
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.45);
+      padding-left: 2.25rem;
+    }
+    .sidebar-nav-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 1.5rem 1.25rem 0.5rem;
+    }
+    .sidebar-nav {
+      list-style: none;
+      padding: 0 0.5rem;
+    }
+    .sidebar-nav li {
+      margin-bottom: 0.125rem;
+    }
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-nav-item:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.85);
+    }
+    .sidebar-nav-item.active {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-weight: 600;
+      border-left-color: #3b82f6;
+    }
+    .sidebar-nav-icon {
+      font-size: 0.875rem;
+      flex-shrink: 0;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* ── MAIN AREA ── */
+    .main-area {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
 
     /* ── PANELS ── */
-    .panel { display: none; }
-    .panel.active { display: block; }
+    .panel { display: none; flex-direction: column; flex: 1; }
+    .panel.active { display: flex; }
 
-    /* ── LAYOUT ── */
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.75rem; }
-    section { padding: 3.5rem 0; }
-    section + section { border-top: 1px solid var(--border); }
-
-    /* ── HERO ── */
-    .hero {
-      padding: 4.5rem 0 3rem; text-align: center;
-      position: relative; overflow: hidden;
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      position: sticky; top: 0; z-index: 50;
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(74,130,200,0.18) 0%, transparent 65%);
+    .topbar-left {}
+    .topbar-title {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--blue); background: rgba(74,130,200,0.1); border: 1px solid rgba(74,130,200,0.28);
-      padding: 0.3rem 0.85rem; border-radius: 999px; margin-bottom: 1.5rem;
+    .topbar-sub {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      margin-top: 0.125rem;
     }
-    .hero h1 {
-      font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 800;
-      line-height: 1.1; letter-spacing: -0.025em; color: #d8e8f8; margin-bottom: 0.875rem;
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      flex-wrap: wrap;
     }
-    .hero h1 em { font-style: normal; color: #fff; }
-    .hero-sub { font-size: 1.0625rem; color: var(--fg-muted); max-width: 520px; margin: 0 auto 2.75rem; line-height: 1.65; }
-
-    /* ── SCORE CARD ── */
-    .hero-score-card {
-      display: inline-flex; align-items: center;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 1.25rem; overflow: hidden;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.04);
+    .topbar-filter {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--fg);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      cursor: pointer;
+      appearance: none;
+      font-family: inherit;
     }
-    .hsc-main { padding: 2rem 2.5rem; text-align: center; position: relative; }
-    .hsc-main::after {
-      content: ''; position: absolute; right: 0; top: 20%; bottom: 20%;
-      width: 1px; background: var(--border);
+    .topbar-toggle {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      overflow: hidden;
     }
-    .hsc-num { font-size: 4.5rem; font-weight: 900; line-height: 1; color: #fff; letter-spacing: -0.03em; }
-    .hsc-num span { color: var(--blue); }
-    .hsc-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); margin-top: 0.4rem; }
-    .hsc-meta { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.625rem; text-align: left; }
-    .hsc-meta-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--fg-muted); }
-    .hsc-meta-row strong { color: var(--fg); }
-
-    /* ── BADGES ── */
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-      padding: 0.2rem 0.6rem; border-radius: 999px;
+    .topbar-toggle-btn {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.375rem 0.75rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--fg-muted);
+      font-family: inherit;
+      transition: background 0.12s, color 0.12s;
     }
-    .badge-green  { background: rgba(15,217,128,0.12); color: var(--green);  border: 1px solid rgba(15,217,128,0.28); }
-    .badge-orange { background: rgba(255,159,63,0.12);  color: var(--orange); border: 1px solid rgba(255,159,63,0.28); }
-    .badge-blue   { background: rgba(74,130,200,0.12);  color: var(--blue);   border: 1px solid rgba(74,130,200,0.28); }
-    .badge-purple { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.28); }
-
-    /* ── SEC HEADER ── */
-    .sec-head { margin-bottom: 1.875rem; }
-    .sec-head h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 0.3rem; }
-    .sec-head p { font-size: 0.9375rem; color: var(--fg-muted); }
-
-    /* ── SECTOR CARDS ── */
-    .sector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; margin-bottom: 1.125rem; }
-    @media (max-width: 640px) { .sector-grid { grid-template-columns: 1fr; } }
-    .sc {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.625rem;
-      transition: border-color 0.2s, transform 0.2s;
+    .topbar-toggle-btn.active {
+      background: var(--blue);
+      color: #fff;
     }
-    .sc:hover { border-color: rgba(74,130,200,0.4); transform: translateY(-1px); }
-    .sc-green  { border-left: 3px solid var(--green); }
-    .sc-orange { border-left: 3px solid var(--orange); }
-    .sc-sector { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 0.875rem; }
-    .sc-score  { font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
-    .sc-sub    { font-size: 0.8125rem; color: var(--fg-muted); margin-bottom: 1rem; }
-    .sc-rank   { font-size: 0.8125rem; font-weight: 600; padding: 0.625rem 0; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
-    .sc-insight { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.6; margin-top: 0.75rem; }
-    .sc-insight strong { color: var(--fg); font-weight: 600; }
 
-    /* ── COMPETITOR BAND ── */
-    .comp-band {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.5rem; display: grid; grid-template-columns: auto 1px auto; align-items: center; gap: 1.5rem;
+    /* ── CONTENT SCROLL ── */
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem 3rem;
     }
-    .comp-divider { background: var(--border); align-self: stretch; }
-    .comp-name-big { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.015em; }
-    .comp-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 0.375rem; }
-    .comp-stats { display: flex; gap: 2rem; }
-    .comp-stat-n { font-size: 1.375rem; font-weight: 800; }
-    .comp-stat-l { font-size: 0.75rem; color: var(--fg-muted); margin-top: 0.15rem; }
 
-    /* ── RANKINGS ── */
-    .rankings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; }
-    @media (max-width: 680px) { .rankings-grid { grid-template-columns: 1fr; } }
-    .rk-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
-    .rk-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.375rem; }
-    .rk-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--fg-muted); display: flex; align-items: center; gap: 0.45rem; }
-    .rk-dot { width: 7px; height: 7px; border-radius: 50%; }
-    .rk-n { font-size: 0.75rem; color: var(--fg-muted); }
-    .rk-row { display: grid; grid-template-columns: 1.25rem 88px 1fr 3rem; align-items: center; gap: 0.625rem; margin-bottom: 0.875rem; }
-    .rk-row:last-child { margin-bottom: 0; }
-    .rk-pos   { font-size: 0.7rem; font-weight: 700; color: var(--fg-muted); text-align: right; }
-    .rk-brand { font-size: 0.875rem; font-weight: 600; }
-    .rk-brand.me  { color: var(--blue); }
-    .rk-brand.dim { color: var(--fg-muted); font-weight: 400; font-style: italic; }
-    .rk-bar-wrap { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
-    .rk-bar { height: 100%; border-radius: 999px; }
-    .rk-pct { font-size: 0.8125rem; font-weight: 700; color: var(--fg-muted); text-align: right; }
-    .rk-pct.me { color: var(--blue); }
-
-    /* ── MARKET CONTEXT ── */
-    .ctx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; margin-bottom: 1.125rem; }
-    @media (max-width: 580px) { .ctx-grid { grid-template-columns: 1fr; } }
-    .ctx-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
-    .ctx-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 1rem; }
-    .ctx-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
-    .ctx-row:last-child { border-bottom: none; }
-    .ctx-row-label { color: var(--fg-muted); }
-    .ctx-row-val   { font-weight: 700; }
-    .insight {
-      background: rgba(74,130,200,0.08); border: 1px solid rgba(74,130,200,0.22);
-      border-radius: var(--radius); padding: 1.25rem 1.5rem;
-      font-size: 0.9rem; line-height: 1.7; color: rgba(220,235,252,0.85);
+    /* ── CARD BASE ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      border-radius: var(--radius);
     }
-    .insight strong { color: var(--fg); }
 
-    /* ── METHODOLOGY ── */
-    .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
-    .method-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.625rem; }
-    .m-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(74,130,200,0.12); border: 1px solid rgba(74,130,200,0.25); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
-    .method-card h4 { font-size: 0.875rem; font-weight: 700; }
-    .method-card p  { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.6; }
-    .method-card p strong { color: var(--fg); }
-    .explainer { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
-    .explainer h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .explainer p  { font-size: 0.875rem; color: rgba(210,228,248,0.8); line-height: 1.75; margin-bottom: 0.875rem; }
-    .explainer p:last-child { margin-bottom: 0; }
-    .formula { background: var(--bg); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; font-family: "Courier New", monospace; font-size: 0.875rem; color: var(--green); margin: 1rem 0; text-align: center; }
-    .steps { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
-    .steps li { display: flex; gap: 0.875rem; align-items: flex-start; font-size: 0.875rem; color: rgba(210,228,248,0.8); line-height: 1.65; }
-    .step-n { width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 0.6875rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
-    .steps strong { color: var(--fg); }
+    /* ── SECTION SPACING ── */
+    .section { margin-bottom: 1.5rem; }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 0.75rem;
+    }
 
-    /* ═══════════════════════════════════════
-       PANEL 3: PIPELINE
-    ═══════════════════════════════════════ */
-
-    /* KPI row */
-    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.125rem; }
-    @media (max-width: 640px) { .kpi-row { grid-template-columns: 1fr; } }
+    /* ── KPI CARDS ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 700px) { .kpi-row { grid-template-columns: 1fr; } }
     .kpi-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 0.375rem;
-      position: relative; overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      position: relative;
+      overflow: hidden;
     }
-    .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
     .kpi-card.c-blue::before   { background: var(--blue); }
     .kpi-card.c-green::before  { background: var(--green); }
     .kpi-card.c-purple::before { background: var(--purple); }
-    .kpi-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); }
-    .kpi-val   { font-size: 2.75rem; font-weight: 900; line-height: 1; letter-spacing: -0.025em; }
+    .kpi-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .kpi-val {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.025em;
+    }
     .kpi-card.c-blue   .kpi-val { color: var(--blue); }
     .kpi-card.c-green  .kpi-val { color: var(--green); }
     .kpi-card.c-purple .kpi-val { color: var(--purple); }
-    .kpi-sub   { font-size: 0.8125rem; color: var(--fg-muted); }
+    .kpi-sub {
+      font-size: 0.8125rem;
+      color: var(--fg-muted);
+      margin-top: 0.125rem;
+    }
     .kpi-sub strong { color: var(--fg); }
 
-    /* Funnel comparison */
-    .funnel-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.125rem; }
-    .funnel-header { display: grid; grid-template-columns: 160px 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; align-items: end; }
-    .funnel-col-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); text-align: right; }
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+    .badge-green  { background: var(--green-light); color: var(--green);   border: 1px solid #a7f3d0; }
+    .badge-orange { background: #fffbeb;             color: var(--orange);  border: 1px solid #fde68a; }
+    .badge-blue   { background: var(--blue-light);   color: var(--blue);    border: 1px solid #bfdbfe; }
+    .badge-purple { background: #f5f3ff;             color: var(--purple);  border: 1px solid #ddd6fe; }
+    .badge-red    { background: #fef2f2;             color: var(--red);     border: 1px solid #fecaca; }
+
+    /* ── INSIGHT BANNER ── */
+    .insight {
+      background: var(--blue-light);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: #1e40af;
+    }
+    .insight strong { color: #1e3a8a; }
+    .insight.green-tint  { background: var(--green-light); border-color: #a7f3d0; color: #065f46; }
+    .insight.green-tint strong { color: #064e3b; }
+    .insight.orange-tint { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .insight.orange-tint strong { color: #78350f; }
+
+    /* ── FUNNEL CARD ── */
+    .funnel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .funnel-header {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: end;
+    }
+    .funnel-col-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      text-align: right;
+    }
     .funnel-col-label.center { text-align: center; }
-    .funnel-row { display: grid; grid-template-columns: 160px 1fr 1fr 1fr; gap: 0.75rem; align-items: center; padding: 0.625rem 0; border-bottom: 1px solid var(--border); }
+    .funnel-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr 1fr;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+    }
     .funnel-row:last-child { border-bottom: none; }
-    .funnel-stage { font-size: 0.875rem; font-weight: 600; }
+    .funnel-stage { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
     .funnel-cell { display: flex; flex-direction: column; gap: 0.3rem; }
-    .funnel-bar-wrap { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .funnel-bar-wrap { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
     .funnel-bar-mkt   { height: 100%; border-radius: 999px; background: var(--blue); }
-    .funnel-bar-total { height: 100%; border-radius: 999px; background: #3a5a78; }
+    .funnel-bar-total { height: 100%; border-radius: 999px; background: #cbd5e1; }
     .funnel-nums { display: flex; justify-content: space-between; font-size: 0.75rem; }
     .funnel-nums .mkt   { color: var(--blue); font-weight: 700; }
     .funnel-nums .total { color: var(--fg-muted); }
@@ -263,84 +368,124 @@
     .funnel-pct.hi  { color: var(--green); }
     .funnel-pct.mid { color: var(--blue); }
     .funnel-pct.lo  { color: var(--fg-muted); }
-    .funnel-total-row { display: grid; grid-template-columns: 160px 1fr 1fr 1fr; gap: 0.75rem; align-items: center; padding: 0.875rem 0 0; margin-top: 0.25rem; }
-    .funnel-total-label { font-size: 0.875rem; font-weight: 800; }
+    .funnel-total-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr 1fr;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.875rem 0 0;
+      margin-top: 0.25rem;
+    }
+    .funnel-total-label { font-size: 0.875rem; font-weight: 800; color: var(--fg); }
     .funnel-total-nums  { font-size: 0.875rem; font-weight: 800; }
     .funnel-total-nums .mkt   { color: var(--blue); }
     .funnel-total-nums .total { color: var(--fg-muted); }
 
-    /* Deal size comparison */
-    .deal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; margin-bottom: 1.125rem; }
+    /* ── DEAL GRID ── */
+    .deal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
     @media (max-width: 640px) { .deal-grid { grid-template-columns: 1fr; } }
-    .deal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
-    .deal-card h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 1.25rem; }
+    .deal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .deal-card h4 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
     .deal-compare { display: flex; flex-direction: column; gap: 0.875rem; }
     .deal-row { display: flex; flex-direction: column; gap: 0.35rem; }
     .deal-row-top { display: flex; justify-content: space-between; align-items: baseline; }
     .deal-row-label { font-size: 0.875rem; font-weight: 600; }
     .deal-row-val   { font-size: 0.875rem; font-weight: 800; }
-    .deal-bar-wrap  { height: 7px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .deal-bar-wrap  { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
     .deal-bar       { height: 100%; border-radius: 999px; }
 
-    /* ═══════════════════════════════════════
-       PANEL 2: VOZ DEL CLIENTE
-    ═══════════════════════════════════════ */
-
-    /* ── STATS ROW ── */
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.125rem; }
-    @media (max-width: 680px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
-    .stat-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.5rem;
-      text-align: center;
+    /* ── SEC HEAD ── */
+    .sec-head { margin-bottom: 1.25rem; }
+    .sec-head h2 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--fg);
+      letter-spacing: -0.015em;
+      margin-bottom: 0.25rem;
     }
-    .stat-card .n { font-size: 2.25rem; font-weight: 900; line-height: 1; letter-spacing: -0.02em; color: var(--fg); }
-    .stat-card .l { font-size: 0.75rem; font-weight: 600; color: var(--fg-muted); margin-top: 0.3rem; letter-spacing: 0.04em; }
+    .sec-head p { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.5; }
 
-    /* ── CATEGORY BARS ── */
-    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; }
-    @media (max-width: 700px) { .cat-grid { grid-template-columns: 1fr; } }
-
-    .cat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
-    .cat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-    .cat-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); }
-
-    .cat-row { margin-bottom: 1.125rem; }
-    .cat-row:last-child { margin-bottom: 0; }
-    .cat-row-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
-    .cat-name { font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
-    .cat-count { font-size: 0.8125rem; font-weight: 700; color: var(--fg-muted); }
-    .cat-bar-wrap { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 0.375rem; }
-    .cat-bar { height: 100%; border-radius: 999px; }
-    .cat-quote { font-size: 0.78125rem; color: var(--fg-muted); line-height: 1.5; font-style: italic; }
-    .cat-quote span { color: rgba(210,228,248,0.55); }
-
-    /* ── EVENT TIMELINE ── */
-    .timeline { display: flex; flex-direction: column; gap: 0; }
-    .tl-item {
-      display: grid; grid-template-columns: 120px 1px 1fr;
-      gap: 0 1.25rem; padding-bottom: 1.5rem;
+    /* ── SECTION DIVIDER ── */
+    .sec-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.75rem 0;
     }
-    .tl-item:last-child { padding-bottom: 0; }
-    .tl-date { font-size: 0.8125rem; font-weight: 700; color: var(--fg-muted); padding-top: 0.125rem; text-align: right; }
-    .tl-line { background: var(--border); position: relative; }
-    .tl-line::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--blue); border: 2px solid var(--bg); }
-    .tl-content { padding-top: 0; }
-    .tl-companies { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .tl-meta { font-size: 0.8125rem; color: var(--fg-muted); display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .tl-tag { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: var(--fg-muted); background: var(--bg-card2); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 999px; }
 
-    /* ── OPORTUNIDADES ── */
+    /* ── ZOHO STATUS BAR ── */
+    #zoho-status-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.625rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* ── METHOD CARDS ── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.875rem;
+    }
+    .method-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .m-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: var(--blue-light);
+      border: 1px solid #bfdbfe;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .method-card h4 { font-size: 0.875rem; font-weight: 700; color: var(--fg); }
+    .method-card p  { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.6; }
+    .method-card p strong { color: var(--fg); }
+
+    /* ── OPORT CARDS ── */
     .oport-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
     .oport-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 0.625rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
       position: relative; overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    .oport-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    }
+    .oport-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
     .oport-card.hi::before  { background: var(--orange); }
     .oport-card.med::before { background: var(--blue); }
     .oport-card.lo::before  { background: var(--green); }
@@ -348,1014 +493,868 @@
     .oport-card.hi  .oport-priority { color: var(--orange); }
     .oport-card.med .oport-priority { color: var(--blue); }
     .oport-card.lo  .oport-priority { color: var(--green); }
-    .oport-title { font-size: 0.9375rem; font-weight: 700; }
+    .oport-title { font-size: 0.9375rem; font-weight: 700; color: var(--fg); }
     .oport-desc { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.6; }
-    .oport-mentions { font-size: 0.75rem; color: var(--fg-muted); margin-top: 0.25rem; }
 
-    /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: center; font-size: 0.8125rem; color: var(--fg-muted); }
-    footer p + p { margin-top: 0.3rem; }
+    /* ── TREND CHART CARD ── */
+    .trend-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .trend-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .trend-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .trend-legend {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .trend-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.6875rem;
+      color: var(--fg-muted);
+    }
+    .trend-legend-dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
 
-    @media (max-width: 520px) {
-      nav { padding: 0 1.25rem; }
-      .tabs-bar { padding: 0 1.25rem; }
-      .hero-score-card { flex-direction: column; border-radius: var(--radius); }
-      .hsc-main::after { display: none; }
+    /* ── CAMPAIGN TABLE ── */
+    #campaign-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    #campaign-table-wrap table thead tr {
+      background: #f8fafc !important;
+    }
+    #campaign-table-wrap table th {
+      color: #94a3b8 !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+
+    /* ── EMBUDO PANEL OVERRIDES (keep dark sections working in light shell) ── */
+    #panel-embudo {
+      background: var(--bg);
+    }
+    #panel-embudo .d25-insight {
+      background: var(--blue-light);
+      border-color: #bfdbfe;
+      color: #1e40af;
+    }
+    #panel-embudo .d25-empty {
+      background: #f8fafc;
+      border-color: var(--border);
+      color: var(--fg-muted);
+    }
+
+    /* ── RANKINGS / RANKINGS-STYLE ── */
+    .rk-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* Bench spectrum markers — adapt to light */
+    .bench-zone-bar { overflow: hidden; border-radius: var(--radius); }
+
+    /* ── LIGHT OVERRIDES for dark-mode inline styles in content ── */
+    /* progress bar meta banner */
+    .meta-banner {
+      background: #f0fdf4;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius);
+      padding: 1.125rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    /* timeline dot color */
+    .tl-line::before { border-color: var(--bg-card) !important; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 1100px; }
+
+    /* For tables inside panels */
+    table { border-collapse: collapse; }
+
+    @media (max-width: 900px) {
+      .sidebar { width: 60px; }
+      .sidebar-logo-name, .sidebar-logo-sub, .sidebar-nav-label,
+      .sidebar-nav-item span:not(.sidebar-nav-icon) { display: none; }
+      .main-area { margin-left: 60px; }
+      .sidebar-nav-item { justify-content: center; }
     }
   </style>
 </head>
 <body>
-<div style="max-width:1400px;margin:0 auto;">
+<div class="app-shell">
 
-<!-- ══════════════ PIPELINE ══════════════ -->
-<div style="margin-bottom:2rem;">
-
-<!-- Pipeline header -->
-<div style="padding:1.5rem 2rem;background:linear-gradient(135deg,#040d1a 0%,#0c1e38 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;">
-  <div style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
-  <span style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);">Pipeline · Marketing Intelligence · Numaris</span>
-</div>
-
-  <div class="hero">
-    <div class="container">
-      <div class="eyebrow" style="color:var(--green);background:rgba(15,217,128,0.1);border-color:rgba(15,217,128,0.28);">
-        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="currentColor" opacity=".5"/><circle cx="4" cy="4" r="2" fill="currentColor"/></svg>
-        Pipeline Nuevos Negocios — Oportunidades Activas
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">
+        <div class="sidebar-logo-icon">BI</div>
+        <span class="sidebar-logo-name">Pipeline Tracker</span>
       </div>
-      <h1>Participación de<br/><em>Marketing en Pipeline</em></h1>
-      <p class="hero-sub">Del total de oportunidades <strong style="color:#fff;">abiertas</strong> en el pipeline de nuevos negocios, ¿qué porcentaje fue originado por Marketing? La meta del 15% es el piso mínimo que Marketing debe mantener en todo momento.</p>
+      <div class="sidebar-logo-sub">Zoho CRM Snapshots</div>
     </div>
-  </div>
 
-  <!-- KPIs de participación -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Contribución de Marketing</h2>
-        <p>Oportunidades abiertas (Levantamiento → Formalización) originadas por Marketing vs. total del pipeline activo · Se excluyen contratos firmados y cerrados · Meta mínima permanente: 15%</p>
-      </div>
-      <!-- Live data status bar -->
-      <div id="zoho-status-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1.25rem;margin-bottom:1.5rem;font-size:.8125rem;">
-        <div style="display:flex;align-items:center;gap:.6rem;">
-          <span id="zoho-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--fg-muted);flex-shrink:0;"></span>
-          <span id="zoho-status-text" style="color:var(--fg-muted);">Conectando con Zoho CRM…</span>
+    <div class="sidebar-nav-label">Navigation</div>
+    <ul class="sidebar-nav">
+      <li>
+        <button class="sidebar-nav-item active" onclick="switchPanel('pipeline', this)">
+          <span class="sidebar-nav-icon">📊</span>
+          <span>Dashboard</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-benchmarks')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">💡</span>
+          <span>Insights</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-oportunidades')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">📋</span>
+          <span>Oportunidades</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-nav-item" onclick="switchPanel('pipeline', this); setTimeout(()=>document.getElementById('section-zoho-logs')?.scrollIntoView({behavior:'smooth'}),100)">
+          <span class="sidebar-nav-icon">📝</span>
+          <span>Zoho Logs</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-nav-item" onclick="switchPanel('embudo', this)">
+          <span class="sidebar-nav-icon">🌊</span>
+          <span>Embudo Digital</span>
+        </button>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ══════════════ MAIN AREA ══════════════ -->
+  <div class="main-area">
+    <!-- ══════════════ PANEL: PIPELINE ══════════════ -->
+    <div id="panel-pipeline" class="panel active">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Pipeline Nuevos Negocios</div>
+          <div class="topbar-sub">Participación de Marketing · Zoho CRM en vivo · Meta mínima: 15%</div>
         </div>
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <span id="zoho-updated-at" style="color:var(--fg-muted);"></span>
-          <button id="zoho-refresh-btn" onclick="loadZohoPipeline()" style="background:none;border:1px solid var(--border);border-radius:.5rem;padding:.3rem .75rem;color:var(--fg-muted);font-size:.75rem;cursor:pointer;font-family:inherit;">↻ Actualizar</button>
+        <div class="topbar-right">
+          <select class="topbar-filter" id="filter-industry" onchange="applyFilters()">
+            <option value="">Todas las industrias</option>
+          </select>
+          <select class="topbar-filter" id="filter-type" onchange="applyFilters()">
+            <option value="">Todos los tipos</option>
+          </select>
+          <select class="topbar-filter" id="filter-owner" onchange="applyFilters()">
+            <option value="">Todos los owners</option>
+          </select>
+          <div class="topbar-toggle">
+            <button class="topbar-toggle-btn active" id="toggle-monto" onclick="setToggle('monto')">Monto</button>
+            <button class="topbar-toggle-btn" id="toggle-cantidad" onclick="setToggle('cantidad')">Cantidad</button>
+          </div>
         </div>
       </div>
 
-      <!-- Meta banner -->
-      <div style="background:rgba(15,217,128,0.08);border:1px solid rgba(15,217,128,0.25);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.125rem;">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
-          <span style="font-size:0.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);">Meta de participación — # oportunidades · Solo prospectos activos</span>
+      <div class="content-scroll">
+
+        <!-- STATUS BAR -->
+        <div id="zoho-status-bar">
           <div style="display:flex;align-items:center;gap:0.5rem;">
-            <span class="badge badge-green" id="pl-mult-badge">✓ 1.73× la meta</span>
-            <span style="font-size:0.8125rem;color:var(--fg-muted);">Superando el objetivo por <strong style="color:var(--green);" id="pl-pp-diff">+10.9 pp</strong></span>
+            <span id="zoho-status-dot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0;"></span>
+            <span id="zoho-status-text" style="color:var(--fg-muted);">Conectando con Zoho CRM…</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span id="zoho-updated-at" style="color:var(--fg-muted);font-size:0.75rem;"></span>
+            <button id="zoho-refresh-btn" onclick="loadZohoPipeline()" style="background:none;border:1px solid var(--border);border-radius:0.5rem;padding:0.25rem 0.65rem;color:var(--fg-muted);font-size:0.75rem;cursor:pointer;font-family:inherit;transition:border-color 0.15s;">↻ Actualizar</button>
           </div>
         </div>
-        <!-- Progress bar con marker de meta -->
-        <div style="position:relative;height:10px;background:var(--border);border-radius:999px;overflow:visible;margin-bottom:.625rem;">
-          <!-- barra real -->
-          <div id="pl-bar" style="position:absolute;left:0;top:0;height:100%;width:64.75%;background:var(--green);border-radius:999px;opacity:.9;transition:width .6s ease;"></div>
-          <!-- marker meta 15% — a 58% del ancho de la barra (15/25.9 * 64.75%) -->
-          <div style="position:absolute;left:calc(57% * 0.6575);top:-4px;bottom:-4px;width:2px;background:#fff;border-radius:2px;opacity:.7;"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:.8125rem;flex-wrap:wrap;gap:.5rem;">
-          <div style="display:flex;align-items:center;gap:1.5rem;">
-            <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:.375rem;vertical-align:middle;"></span>Real <strong style="color:var(--green);" id="pl-bar-pct">25.9%</strong> — <span id="pl-bar-count">56 de 216</span> oportunidades</span>
-            <span style="color:var(--fg-muted);"><span style="display:inline-block;width:10px;height:2px;background:#fff;opacity:.7;margin-right:.375rem;vertical-align:middle;border-radius:2px;"></span>Meta <strong style="color:var(--fg);">15%</strong></span>
-          </div>
-        </div>
-      </div>
 
-      <div class="kpi-row">
-        <div class="kpi-card c-blue">
-          <div class="kpi-label">Participación en oportunidades</div>
-          <div class="kpi-val" id="pl-opp-pct">25.9%</div>
-          <div class="kpi-sub"><strong id="pl-mkt-count">56</strong> de <span id="pl-total-count">216</span> oportunidades activas</div>
-          <div style="margin-top:.5rem;"><span class="badge badge-green" style="font-size:.65rem;" id="pl-opp-badge">+10.9 pp vs. meta</span></div>
-        </div>
-        <div class="kpi-card c-purple">
-          <div class="kpi-label">Participación en suscripciones</div>
-          <div class="kpi-val" id="pl-subs-pct">22.3%</div>
-          <div class="kpi-sub"><strong id="pl-mkt-subs">3,064</strong> de <span id="pl-total-subs">13,745</span> unidades totales</div>
-          <div style="margin-top:.5rem;"><span class="badge badge-green" style="font-size:.65rem;" id="pl-subs-badge">+7.3 pp vs. meta</span></div>
-        </div>
-        <div class="kpi-card c-green">
-          <div class="kpi-label">Participación en valor</div>
-          <div class="kpi-val" id="pl-val-pct">33.4%</div>
-          <div class="kpi-sub"><strong id="pl-mkt-val">MX$ 66.4M</strong> de <span id="pl-total-val">MX$ 198.7M</span> totales</div>
-          <div style="margin-top:.5rem;"><span class="badge badge-green" style="font-size:.65rem;" id="pl-val-badge">+18.4 pp vs. meta</span></div>
-        </div>
-      </div>
-
-      <!-- Deal size insight -->
-      <div id="deal-insight" class="insight" style="margin-bottom:1.125rem;">
-        <strong>Tickets de Marketing por encima del promedio del pipeline.</strong> El ticket promedio de una oportunidad de Marketing es de <strong>MX$ 1,185,386</strong> vs. <strong>MX$ 920,111</strong> del total — una diferencia del 28.8%. La participación en valor (33.4%) supera la participación en número de oportunidades (25.9%), lo que confirma que los leads de Marketing tienen un tamaño de deal mayor al resto del pipeline: cada oportunidad originada por Marketing vale, en promedio, 28.8% más que una oportunidad del pipeline general.
-      </div>
-
-      <!-- Deal size bars -->
-      <div id="deal-size-bars" class="deal-grid">
-        <div class="deal-card">
-          <h4>Ticket promedio por oportunidad</h4>
-          <div class="deal-compare">
-            <div class="deal-row">
-              <div class="deal-row-top">
-                <div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div>
-                <div class="deal-row-val" style="color:var(--blue);">MX$ 1,185,386</div>
-              </div>
-              <div class="deal-bar-wrap"><div class="deal-bar" style="width:100%;background:var(--blue);"></div></div>
+        <!-- META BANNER -->
+        <div class="meta-banner" style="margin-bottom:1rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:0.875rem;">
+            <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);">Meta de participación — # oportunidades · Solo prospectos activos</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span class="badge badge-green" id="pl-mult-badge">✓ 1.73× la meta</span>
+              <span style="font-size:0.8125rem;color:var(--fg-muted);">Superando el objetivo por <strong style="color:var(--green);" id="pl-pp-diff">+10.9 pp</strong></span>
             </div>
-            <div class="deal-row">
-              <div class="deal-row-top">
-                <div class="deal-row-label" style="color:var(--fg-muted);">Pipeline total</div>
-                <div class="deal-row-val" style="color:var(--fg-muted);">MX$ 920,111</div>
-              </div>
-              <div class="deal-bar-wrap"><div class="deal-bar" style="width:77.6%;background:#3a5a78;"></div></div>
+          </div>
+          <div style="position:relative;height:8px;background:#d1fae5;border-radius:999px;overflow:visible;margin-bottom:0.5rem;">
+            <div id="pl-bar" style="position:absolute;left:0;top:0;height:100%;width:64.75%;background:var(--green);border-radius:999px;transition:width .6s ease;"></div>
+            <div style="position:absolute;left:calc(57% * 0.6575);top:-3px;bottom:-3px;width:2px;background:#fff;border-radius:2px;opacity:0.8;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8125rem;flex-wrap:wrap;gap:0.5rem;">
+            <div style="display:flex;align-items:center;gap:1.25rem;">
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:0.375rem;vertical-align:middle;"></span>Real <strong style="color:var(--green);" id="pl-bar-pct">25.9%</strong> — <span id="pl-bar-count">56 de 216</span> oportunidades</span>
+              <span style="color:var(--fg-muted);"><span style="display:inline-block;width:10px;height:2px;background:#94a3b8;margin-right:0.375rem;vertical-align:middle;border-radius:2px;"></span>Meta <strong style="color:var(--fg);">15%</strong></span>
             </div>
           </div>
         </div>
-        <div class="deal-card">
-          <h4>Valor total de pipeline</h4>
-          <div class="deal-compare">
-            <div class="deal-row">
-              <div class="deal-row-top">
-                <div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div>
-                <div class="deal-row-val" style="color:var(--blue);">MX$ 66.4M</div>
-              </div>
-              <div class="deal-bar-wrap"><div class="deal-bar" style="width:33.4%;background:var(--blue);"></div></div>
-            </div>
-            <div class="deal-row">
-              <div class="deal-row-top">
-                <div class="deal-row-label" style="color:var(--fg-muted);">Resto del pipeline</div>
-                <div class="deal-row-val" style="color:var(--fg-muted);">MX$ 132.4M</div>
-              </div>
-              <div class="deal-bar-wrap"><div class="deal-bar" style="width:66.6%;background:#3a5a78;"></div></div>
-            </div>
+
+        <!-- KPI ROW -->
+        <div class="kpi-row">
+          <div class="kpi-card c-blue">
+            <div class="kpi-label">Participación en oportunidades</div>
+            <div class="kpi-val" id="pl-opp-pct">25.9%</div>
+            <div class="kpi-sub"><strong id="pl-mkt-count">56</strong> de <span id="pl-total-count">216</span> oportunidades activas</div>
+            <div style="margin-top:0.5rem;"><span class="badge badge-green" id="pl-opp-badge">+10.9 pp vs. meta</span></div>
+          </div>
+          <div class="kpi-card c-purple">
+            <div class="kpi-label">Participación en suscripciones</div>
+            <div class="kpi-val" id="pl-subs-pct">22.3%</div>
+            <div class="kpi-sub"><strong id="pl-mkt-subs">3,064</strong> de <span id="pl-total-subs">13,745</span> unidades totales</div>
+            <div style="margin-top:0.5rem;"><span class="badge badge-green" id="pl-subs-badge">+7.3 pp vs. meta</span></div>
+          </div>
+          <div class="kpi-card c-green">
+            <div class="kpi-label">Participación en valor</div>
+            <div class="kpi-val" id="pl-val-pct">33.4%</div>
+            <div class="kpi-sub"><strong id="pl-mkt-val">MX$ 66.4M</strong> de <span id="pl-total-val">MX$ 198.7M</span> totales</div>
+            <div style="margin-top:0.5rem;"><span class="badge badge-green" id="pl-val-badge">+18.4 pp vs. meta</span></div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════
-       BENCHMARKS DE INDUSTRIA
-  ═══════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Benchmarks de la Industria — SaaS B2B</h2>
-        <p>¿Dónde debe estar una empresa como Numaris? Referencia para SaaS B2B mid-market con modelo Sales+Marketing y ACV de $40–50K USD</p>
-      </div>
+        <!-- TREND CHART -->
+        <div class="trend-card">
+          <div class="trend-header">
+            <div class="trend-title">Pipeline ACV Trend — Valor por etapa (MX$M · placeholder)</div>
+            <div class="trend-legend" id="trend-legend"></div>
+          </div>
+          <canvas id="trend-chart" height="220" style="max-height:220px;"></canvas>
+        </div>
 
-      <!-- Leyenda de zonas -->
-      <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;">
-        <span style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Zonas de desempeño:</span>
-        <span style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#2a1a1a;border:1px solid #6b2c2c;display:inline-block;"></span>Bajo el piso</span>
-        <span style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:rgba(255,159,63,0.25);display:inline-block;"></span>Mínimo aceptable</span>
-        <span style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:rgba(74,130,200,0.35);display:inline-block;"></span>Saludable</span>
-        <span style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:rgba(15,217,128,0.35);display:inline-block;"></span>Bueno</span>
-        <span style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:rgba(167,139,250,0.35);display:inline-block;"></span>Top quartile</span>
-      </div>
+        <!-- DEAL SIZE INSIGHT -->
+        <div id="deal-insight" class="insight" style="margin-bottom:1rem;">
+          <strong>Tickets de Marketing por encima del promedio del pipeline.</strong> El ticket promedio de una oportunidad de Marketing es de <strong>MX$ 1,185,386</strong> vs. <strong>MX$ 920,111</strong> del total — una diferencia del 28.8%. La participación en valor (33.4%) supera la participación en número de oportunidades (25.9%), lo que confirma que los leads de Marketing tienen un tamaño de deal mayor al resto del pipeline.
+        </div>
 
-      <div style="display:flex;flex-direction:column;gap:1.125rem;margin-bottom:1.25rem;">
-
-        <!-- ── KPI 1: % Oportunidades ── -->
-        <div class="funnel-card" style="padding:1.625rem;">
-          <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Oportunidades marketing-sourced</div>
-              <div id="bench-opp-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--blue);">25.9%</div>
-              <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
-              <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
-                <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
-                <div style="font-size:.75rem;color:var(--orange);">Referencia SaaS mid-market: <span style="font-weight:700;">25–30% mínimo</span></div>
-              </div>
-            </div>
-            <div>
-              <!-- Spectrum bar — escala 0 a 55% -->
-              <div style="position:relative;margin-bottom:2rem;">
-                <!-- Zonas de color -->
-                <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:.5rem;">
-                  <!-- Bajo el piso: 0–25% = 45.5% del bar -->
-                  <div style="flex:45.5;background:rgba(107,44,44,0.45);"></div>
-                  <!-- Mínimo: 25–30% = 9.1% -->
-                  <div style="flex:9.1;background:rgba(255,159,63,0.45);"></div>
-                  <!-- Saludable: 30–40% = 18.2% -->
-                  <div style="flex:18.2;background:rgba(74,130,200,0.45);"></div>
-                  <!-- Bueno: 40–50% = 18.2% -->
-                  <div style="flex:18.2;background:rgba(15,217,128,0.45);"></div>
-                  <!-- Top: 50–55% = 9.1% -->
-                  <div style="flex:9.1;background:rgba(167,139,250,0.45);border-radius:0 var(--radius) var(--radius) 0;"></div>
+        <!-- DEAL SIZE BARS -->
+        <div id="deal-size-bars" class="deal-grid">
+          <div class="deal-card">
+            <h4>Ticket promedio por oportunidad</h4>
+            <div class="deal-compare">
+              <div class="deal-row">
+                <div class="deal-row-top">
+                  <div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div>
+                  <div class="deal-row-val" style="color:var(--blue);">MX$ 1,185,386</div>
                 </div>
-                <!-- Markers: Meta interna 15% = 15/55*100 = 27.3% del bar -->
-                <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(255,255,255,0.35);border-radius:2px;">
-                  <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
+                <div class="deal-bar-wrap"><div class="deal-bar" style="width:100%;background:var(--blue);"></div></div>
+              </div>
+              <div class="deal-row">
+                <div class="deal-row-top">
+                  <div class="deal-row-label" style="color:var(--fg-muted);">Pipeline total</div>
+                  <div class="deal-row-val" style="color:var(--fg-muted);">MX$ 920,111</div>
                 </div>
-                <!-- Marker Numaris: 25.9% = 25.9/55*100 = 47.1% -->
-                <div id="bench-opp-marker" style="position:absolute;top:-8px;left:47.1%;transform:translateX(-50%);">
-                  <div style="width:3px;height:30px;background:var(--blue);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--blue);"><span id="bench-opp-label">▲ 25.9%</span></div>
+                <div class="deal-bar-wrap"><div class="deal-bar" style="width:77.6%;background:#cbd5e1;"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="deal-card">
+            <h4>Valor total de pipeline</h4>
+            <div class="deal-compare">
+              <div class="deal-row">
+                <div class="deal-row-top">
+                  <div class="deal-row-label" style="color:var(--blue);">Originadas por Marketing</div>
+                  <div class="deal-row-val" style="color:var(--blue);">MX$ 66.4M</div>
+                </div>
+                <div class="deal-bar-wrap"><div class="deal-bar" style="width:33.4%;background:var(--blue);"></div></div>
+              </div>
+              <div class="deal-row">
+                <div class="deal-row-top">
+                  <div class="deal-row-label" style="color:var(--fg-muted);">Resto del pipeline</div>
+                  <div class="deal-row-val" style="color:var(--fg-muted);">MX$ 132.4M</div>
+                </div>
+                <div class="deal-bar-wrap"><div class="deal-bar" style="width:66.6%;background:#cbd5e1;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sec-divider" id="section-benchmarks" />
+
+        <!-- BENCHMARKS -->
+        <div class="sec-head">
+          <h2>Benchmarks de la Industria — SaaS B2B</h2>
+          <p>¿Dónde debe estar una empresa como Numaris? Referencia para SaaS B2B mid-market con modelo Sales+Marketing y ACV de $40–50K USD</p>
+        </div>
+
+        <!-- Legend -->
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+          <span style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);">Zonas:</span>
+          <span style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#fee2e2;border:1px solid #fca5a5;display:inline-block;"></span>Bajo el piso</span>
+          <span style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#fef3c7;display:inline-block;"></span>Mínimo aceptable</span>
+          <span style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue-light);display:inline-block;"></span>Saludable</span>
+          <span style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:var(--green-light);display:inline-block;"></span>Bueno</span>
+          <span style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:var(--fg-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#f5f3ff;display:inline-block;"></span>Top quartile</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.25rem;">
+
+          <!-- KPI 1 -->
+          <div class="funnel-card" style="padding:1.5rem;">
+            <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
+              <div>
+                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.375rem;">% Oportunidades marketing-sourced</div>
+                <div id="bench-opp-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--blue);">25.9%</div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.25rem;">Numaris hoy</div>
+                <div style="margin-top:0.625rem;display:flex;flex-direction:column;gap:0.25rem;">
+                  <div style="font-size:0.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
+                  <div style="font-size:0.75rem;color:var(--orange);">Referencia SaaS mid-market: <span style="font-weight:700;">25–30% mínimo</span></div>
                 </div>
               </div>
-              <!-- Scale labels -->
-              <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--fg-muted);padding:0 0 0 0;">
-                <span>0%</span>
-                <span style="position:relative;left:-2%;">25%</span>
-                <span style="position:relative;left:-3%;">30%</span>
-                <span style="position:relative;left:-2%;">40%</span>
-                <span>50%</span>
-                <span>55%+</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── KPI 2: % Suscripciones ── -->
-        <div class="funnel-card" style="padding:1.625rem;">
-          <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Suscripciones marketing-sourced</div>
-              <div id="bench-subs-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--purple);">22.3%</div>
-              <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
-              <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
-                <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
-                <div style="font-size:.75rem;color:#f87171;">Bajo el piso de referencia SaaS: <span style="font-weight:700;">&lt; 25%</span></div>
-              </div>
-            </div>
-            <div>
-              <div style="position:relative;margin-bottom:2rem;">
-                <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:.5rem;">
-                  <div style="flex:45.5;background:rgba(107,44,44,0.45);"></div>
-                  <div style="flex:9.1;background:rgba(255,159,63,0.45);"></div>
-                  <div style="flex:18.2;background:rgba(74,130,200,0.45);"></div>
-                  <div style="flex:18.2;background:rgba(15,217,128,0.45);"></div>
-                  <div style="flex:9.1;background:rgba(167,139,250,0.45);border-radius:0 var(--radius) var(--radius) 0;"></div>
+              <div>
+                <div style="position:relative;margin-bottom:2rem;">
+                  <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:0.5rem;">
+                    <div style="flex:45.5;background:#fee2e2;"></div>
+                    <div style="flex:9.1;background:#fef3c7;"></div>
+                    <div style="flex:18.2;background:#dbeafe;"></div>
+                    <div style="flex:18.2;background:#d1fae5;"></div>
+                    <div style="flex:9.1;background:#f5f3ff;border-radius:0 var(--radius) var(--radius) 0;"></div>
+                  </div>
+                  <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(0,0,0,0.15);border-radius:2px;">
+                    <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6rem;color:var(--fg-muted);font-weight:600;">15% meta</div>
+                  </div>
+                  <div id="bench-opp-marker" style="position:absolute;top:-8px;left:47.1%;transform:translateX(-50%);">
+                    <div style="width:3px;height:30px;background:var(--blue);border-radius:2px;margin:0 auto;"></div>
+                    <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6875rem;font-weight:800;color:var(--blue);"><span id="bench-opp-label">▲ 25.9%</span></div>
+                  </div>
                 </div>
-                <!-- Meta 15% -->
-                <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(255,255,255,0.35);border-radius:2px;">
-                  <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
-                </div>
-                <!-- Numaris 22.3% = 22.3/55*100 = 40.5% -->
-                <div id="bench-subs-marker" style="position:absolute;top:-8px;left:40.5%;transform:translateX(-50%);">
-                  <div style="width:3px;height:30px;background:var(--purple);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--purple);"><span id="bench-subs-label">▲ 22.3%</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--fg-muted);">
+                  <span>0%</span><span style="position:relative;left:-2%;">25%</span><span style="position:relative;left:-3%;">30%</span><span style="position:relative;left:-2%;">40%</span><span>50%</span><span>55%+</span>
                 </div>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--fg-muted);">
-                <span>0%</span><span style="position:relative;left:-2%;">25%</span><span style="position:relative;left:-3%;">30%</span><span style="position:relative;left:-2%;">40%</span><span>50%</span><span>55%+</span>
-              </div>
             </div>
           </div>
-        </div>
 
-        <!-- ── KPI 3: % Valor ACV ── -->
-        <div class="funnel-card" style="padding:1.625rem;">
-          <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.375rem;">% Valor (ACV) marketing-sourced</div>
-              <div id="bench-val-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--green);">33.4%</div>
-              <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.25rem;">Numaris hoy</div>
-              <div style="margin-top:.625rem;display:flex;flex-direction:column;gap:.25rem;">
-                <div style="font-size:.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
-                <div style="font-size:.75rem;color:var(--orange);">Referencia SaaS mid-market: <span style="font-weight:700;">25–30% mínimo</span></div>
-              </div>
-            </div>
-            <div>
-              <div style="position:relative;margin-bottom:2rem;">
-                <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:.5rem;">
-                  <div style="flex:45.5;background:rgba(107,44,44,0.45);"></div>
-                  <div style="flex:9.1;background:rgba(255,159,63,0.45);"></div>
-                  <div style="flex:18.2;background:rgba(74,130,200,0.45);"></div>
-                  <div style="flex:18.2;background:rgba(15,217,128,0.45);"></div>
-                  <div style="flex:9.1;background:rgba(167,139,250,0.45);border-radius:0 var(--radius) var(--radius) 0;"></div>
-                </div>
-                <!-- Meta 15% -->
-                <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(255,255,255,0.35);border-radius:2px;">
-                  <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;">15% meta</div>
-                </div>
-                <!-- Numaris 33.4% = 33.4/55*100 = 60.7% -->
-                <div id="bench-val-marker" style="position:absolute;top:-8px;left:60.7%;transform:translateX(-50%);">
-                  <div style="width:3px;height:30px;background:var(--green);border-radius:2px;margin:0 auto;"></div>
-                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6875rem;font-weight:800;color:var(--green);"><span id="bench-val-label">▲ 33.4%</span></div>
+          <!-- KPI 2 -->
+          <div class="funnel-card" style="padding:1.5rem;">
+            <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
+              <div>
+                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.375rem;">% Suscripciones marketing-sourced</div>
+                <div id="bench-subs-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--purple);">22.3%</div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.25rem;">Numaris hoy</div>
+                <div style="margin-top:0.625rem;display:flex;flex-direction:column;gap:0.25rem;">
+                  <div style="font-size:0.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
+                  <div style="font-size:0.75rem;color:var(--red);">Bajo el piso de referencia SaaS: <span style="font-weight:700;">&lt; 25%</span></div>
                 </div>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--fg-muted);">
-                <span>0%</span><span style="position:relative;left:-2%;">25%</span><span style="position:relative;left:-3%;">30%</span><span style="position:relative;left:-2%;">40%</span><span>50%</span><span>55%+</span>
+              <div>
+                <div style="position:relative;margin-bottom:2rem;">
+                  <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:0.5rem;">
+                    <div style="flex:45.5;background:#fee2e2;"></div><div style="flex:9.1;background:#fef3c7;"></div><div style="flex:18.2;background:#dbeafe;"></div><div style="flex:18.2;background:#d1fae5;"></div><div style="flex:9.1;background:#f5f3ff;border-radius:0 var(--radius) var(--radius) 0;"></div>
+                  </div>
+                  <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(0,0,0,0.15);border-radius:2px;"><div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6rem;color:var(--fg-muted);font-weight:600;">15% meta</div></div>
+                  <div id="bench-subs-marker" style="position:absolute;top:-8px;left:40.5%;transform:translateX(-50%);">
+                    <div style="width:3px;height:30px;background:var(--purple);border-radius:2px;margin:0 auto;"></div>
+                    <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6875rem;font-weight:800;color:var(--purple);"><span id="bench-subs-label">▲ 22.3%</span></div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--fg-muted);"><span>0%</span><span style="position:relative;left:-2%;">25%</span><span style="position:relative;left:-3%;">30%</span><span style="position:relative;left:-2%;">40%</span><span>50%</span><span>55%+</span></div>
               </div>
             </div>
           </div>
+
+          <!-- KPI 3 -->
+          <div class="funnel-card" style="padding:1.5rem;">
+            <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center;">
+              <div>
+                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.375rem;">% Valor (ACV) marketing-sourced</div>
+                <div id="bench-val-val" style="font-size:2.25rem;font-weight:900;line-height:1;color:var(--green);">33.4%</div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.25rem;">Numaris hoy</div>
+                <div style="margin-top:0.625rem;display:flex;flex-direction:column;gap:0.25rem;">
+                  <div style="font-size:0.75rem;color:var(--fg-muted);">Meta interna actual: <span style="color:var(--fg);font-weight:600;">15%</span></div>
+                  <div style="font-size:0.75rem;color:var(--orange);">Referencia SaaS mid-market: <span style="font-weight:700;">25–30% mínimo</span></div>
+                </div>
+              </div>
+              <div>
+                <div style="position:relative;margin-bottom:2rem;">
+                  <div style="display:flex;height:14px;border-radius:var(--radius);overflow:hidden;margin-bottom:0.5rem;">
+                    <div style="flex:45.5;background:#fee2e2;"></div><div style="flex:9.1;background:#fef3c7;"></div><div style="flex:18.2;background:#dbeafe;"></div><div style="flex:18.2;background:#d1fae5;"></div><div style="flex:9.1;background:#f5f3ff;border-radius:0 var(--radius) var(--radius) 0;"></div>
+                  </div>
+                  <div style="position:absolute;top:-4px;bottom:-4px;left:27.3%;width:2px;background:rgba(0,0,0,0.15);border-radius:2px;"><div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6rem;color:var(--fg-muted);font-weight:600;">15% meta</div></div>
+                  <div id="bench-val-marker" style="position:absolute;top:-8px;left:60.7%;transform:translateX(-50%);">
+                    <div style="width:3px;height:30px;background:var(--green);border-radius:2px;margin:0 auto;"></div>
+                    <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.6875rem;font-weight:800;color:var(--green);"><span id="bench-val-label">▲ 33.4%</span></div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--fg-muted);"><span>0%</span><span style="position:relative;left:-2%;">25%</span><span style="position:relative;left:-3%;">30%</span><span style="position:relative;left:-2%;">40%</span><span>50%</span><span>55%+</span></div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-      </div>
-
-      <!-- Tabla resumen de zonas -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Definición de zonas — SaaS B2B mid-market · ACV $40–50K USD · Modelo Sales+Marketing</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;text-align:center;">
-          <div style="background:rgba(107,44,44,0.3);border:1px solid rgba(107,44,44,0.5);border-radius:.5rem;padding:1rem;">
-            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#f87171;margin-bottom:.5rem;">Bajo el piso</div>
-            <div style="font-size:1.375rem;font-weight:900;color:#f87171;">&lt; 25%</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.375rem;line-height:1.5;">Marketing sub-representado. Dependencia excesiva de Sales y canales outbound.</div>
-          </div>
-          <div style="background:rgba(255,159,63,0.1);border:1px solid rgba(255,159,63,0.3);border-radius:.5rem;padding:1rem;">
-            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);margin-bottom:.5rem;">Mínimo aceptable</div>
-            <div style="font-size:1.375rem;font-weight:900;color:var(--orange);">25–30%</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.375rem;line-height:1.5;">Piso para mid-market SaaS según SiriusDecisions. Marketing contribuye pero sin escalar.</div>
-          </div>
-          <div style="background:rgba(74,130,200,0.1);border:1px solid rgba(74,130,200,0.25);border-radius:.5rem;padding:1rem;">
-            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:.5rem;">Saludable</div>
-            <div style="font-size:1.375rem;font-weight:900;color:var(--blue);">30–40%</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.375rem;line-height:1.5;">Rango de crecimiento sostenible. OpenView Partners 2023: top performers SaaS.</div>
-          </div>
-          <div style="background:rgba(15,217,128,0.08);border:1px solid rgba(15,217,128,0.22);border-radius:.5rem;padding:1rem;">
-            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:.5rem;">Bueno</div>
-            <div style="font-size:1.375rem;font-weight:900;color:var(--green);">40–50%</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.375rem;line-height:1.5;">Motor de crecimiento digital sólido. Martal 2026: "healthy" para modelo híbrido Sales+Mkt.</div>
-          </div>
-          <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:.5rem;padding:1rem;">
-            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:.5rem;">Top quartile</div>
-            <div style="font-size:1.375rem;font-weight:900;color:var(--purple);">50%+</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.375rem;line-height:1.5;">Best-in-class. SiriusDecisions: empresas SaaS con máquina de inbound completamente madura.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hallazgo clave: subir la meta interna -->
-      <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.3);margin-bottom:1.125rem;">
-        <strong>La meta interna de 15% está 10 pp por debajo del mínimo de la industria.</strong> Para una empresa SaaS B2B mid-market con ACV de ~$50K USD y modelo Sales+Marketing, el piso de referencia es <strong>25–30%</strong> (SiriusDecisions / Forrester). La meta actual de Numaris corresponde a empresas enterprise con ciclos de venta relacionales muy largos, no al perfil de Numaris. <strong>Recomendación: subir la meta interna a 30%</strong> como nuevo piso, con objetivo de crecimiento en 40%.
-      </div>
-
-      <!-- Fuentes -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Fuentes de investigación</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.625rem;">
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">01</span><span><strong style="color:var(--fg);">SiriusDecisions / Forrester</strong> — Modeled Approach to Marketing's Contribution. Benchmark mid-market: 25% mínimo; SMB: 40%; Enterprise: 10%.</span></div>
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">02</span><span><strong style="color:var(--fg);">OpenView Partners</strong> — 2023 Expansion SaaS Benchmark Report. Top-performing SaaS: 30–45% marketing-sourced pipeline.</span></div>
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">03</span><span><strong style="color:var(--fg);">Martal</strong> — B2B Digital Marketing Benchmarks 2026. Modelo híbrido Sales+Marketing: 40–50% = desempeño saludable.</span></div>
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">04</span><span><strong style="color:var(--fg);">HockeyStack Labs</strong> — Close Rates, Deal Sizes & Churn Rates in B2B SaaS. Win rate inbound: 22.62% vs. 20.7% promedio (+2pp premium).</span></div>
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">05</span><span><strong style="color:var(--fg);">Demand Gen Report</strong> — 2025 Demand Generation Benchmark Survey. Pipeline generado como métrica #1; top performers ≥ 40%.</span></div>
-          <div style="font-size:.8rem;color:var(--fg-muted);display:flex;gap:.5rem;align-items:flex-start;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">06</span><span><strong style="color:var(--fg);">Optifai</strong> — B2B SaaS Win Rate by Deal Size 2025. ACV $10K–$50K: win rate 20–28%; inbound supera por 2–3 pp.</span></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- FUNNEL POR ETAPA -->
-  <section>
-    <div class="container">
-      <div class="sec-head"><h2>Desglose por Etapa</h2><p>Solo etapas activas (Levantamiento → Formalización) · Contrato firmado excluido del cálculo de participación</p></div>
-
-      <!-- OPORTUNIDADES -->
-      <div class="funnel-card">
-        <div class="funnel-header">
-          <div></div>
-          <div>
-            <div class="funnel-col-label" style="margin-bottom:.35rem;">Oportunidades</div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
-              <span style="color:var(--blue);">Marketing</span><span style="color:var(--fg-muted);">Total</span>
+        <!-- Zones table -->
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Definición de zonas — SaaS B2B mid-market · ACV $40–50K USD · Modelo Sales+Marketing</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.75rem;text-align:center;">
+            <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:0.5rem;padding:1rem;">
+              <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--red);margin-bottom:0.5rem;">Bajo el piso</div>
+              <div style="font-size:1.375rem;font-weight:900;color:var(--red);">&lt; 25%</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.375rem;line-height:1.5;">Marketing sub-representado. Dependencia excesiva de Sales y canales outbound.</div>
             </div>
-          </div>
-          <div>
-            <div class="funnel-col-label" style="margin-bottom:.35rem;">Valor de contrato</div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
-              <span style="color:var(--blue);">Marketing</span><span style="color:var(--fg-muted);">Total</span>
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:0.5rem;padding:1rem;">
+              <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--orange);margin-bottom:0.5rem;">Mínimo aceptable</div>
+              <div style="font-size:1.375rem;font-weight:900;color:var(--orange);">25–30%</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.375rem;line-height:1.5;">Piso para mid-market SaaS según SiriusDecisions. Marketing contribuye pero sin escalar.</div>
             </div>
-          </div>
-          <div class="funnel-col-label center">Participación<br/>en opps</div>
-        </div>
-
-        <div id="stage-breakdown-container">
-          <!-- Cargando desde Zoho CRM... -->
-        </div>
-      </div>
-
-      <!-- INSIGHTS -->
-      <div id="stage-insights-container" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;"></div>
-
-      <!-- Stage participation timeline -->
-      <div class="funnel-card" style="margin-top:1.125rem;">
-        <div id="stage-timeline-avg" style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.75rem;">Participación de Marketing — evolución por etapa activa · Promedio total: 25.9%</div>
-
-        <div id="stage-timeline-container" style="display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;position:relative;margin-bottom:1.5rem;">
-          <!-- connector line -->
-          <div style="position:absolute;top:28px;left:10%;right:10%;height:2px;background:var(--border);z-index:0;"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- IMPORTE POR ORIGEN -->
-  <section>
-    <div class="container">
-      <div class="sec-head"><h2>Importe por Origen de Oportunidades</h2><p>Valor de pipeline generado por cada canal de Marketing — últimos 12 meses</p></div>
-
-      <!-- Bars chart -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;">
-        <div style="display:flex;flex-direction:column;gap:1.125rem;">
-
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">Expos (Expositor + Visitante)</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--orange);">MX$ 38.3M</div>
+            <div style="background:var(--blue-light);border:1px solid #bfdbfe;border-radius:0.5rem;padding:1rem;">
+              <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin-bottom:0.5rem;">Saludable</div>
+              <div style="font-size:1.375rem;font-weight:900;color:var(--blue);">30–40%</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.375rem;line-height:1.5;">Rango de crecimiento sostenible. OpenView Partners 2023: top performers SaaS.</div>
             </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:100%;background:var(--orange);border-radius:999px;"></div>
+            <div style="background:var(--green-light);border:1px solid #a7f3d0;border-radius:0.5rem;padding:1rem;">
+              <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--green);margin-bottom:0.5rem;">Bueno</div>
+              <div style="font-size:1.375rem;font-weight:900;color:var(--green);">40–50%</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.375rem;line-height:1.5;">Motor de crecimiento digital sólido. Martal 2026: "healthy" para modelo híbrido Sales+Mkt.</div>
             </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">57.7% del pipeline de Marketing · canal líder &nbsp;·&nbsp; Expositor MX$37.2M + Visitante MX$1.1M</div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">Google Ads — Pauta</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--blue);">MX$ 25.3M</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:66%;background:var(--blue);border-radius:999px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">38.1% del pipeline de Marketing</div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">WhatsApp — Numaris</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--green);">MX$ 2.5M</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:6.5%;background:var(--green);border-radius:999px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">3.8% del pipeline de Marketing · 2 oportunidades</div>
-          </div>
-
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">LinkedIn Sales Navigator</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--fg-muted);">MX$ 277,500</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:0.7%;background:#6a8aaa;border-radius:999px;min-width:6px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">0.4% del pipeline de Marketing · 1 oportunidad</div>
-          </div>
-
-          <div style="border-top:1px solid var(--border);padding-top:1rem;display:flex;gap:1.5rem;flex-wrap:wrap;">
-            <div>
-              <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Canales sin valor registrado</div>
-              <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.3rem;">Campaña de mailing (1 opp) · Meta — Pauta (2 opps)</div>
+            <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:0.5rem;padding:1rem;">
+              <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--purple);margin-bottom:0.5rem;">Top quartile</div>
+              <div style="font-size:1.375rem;font-weight:900;color:var(--purple);">50%+</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.375rem;line-height:1.5;">Best-in-class. SiriusDecisions: empresas SaaS con máquina de inbound completamente madura.</div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;">
-        <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.2);">
-          <strong>Eventos como canal #1.</strong> Las exposiciones (como expositor + visitante) generan <strong>MX$ 38.3M</strong> — el 57.7% del pipeline de Marketing. La estrategia de presencia en eventos es el motor principal de generación de demanda (Expositor MX$37.2M + Visitante MX$1.1M).
+        <div class="insight orange-tint" style="margin-bottom:1rem;">
+          <strong>La meta interna de 15% está 10 pp por debajo del mínimo de la industria.</strong> Para una empresa SaaS B2B mid-market con ACV de ~$50K USD y modelo Sales+Marketing, el piso de referencia es <strong>25–30%</strong> (SiriusDecisions / Forrester). <strong>Recomendación: subir la meta interna a 30%</strong> como nuevo piso, con objetivo de crecimiento en 40%.
         </div>
-        <div class="insight" style="background:rgba(74,130,200,0.07);border-color:rgba(74,130,200,0.2);">
-          <strong> Google Ads como canal digital líder.</strong> Con <strong>MX$ 25.3M</strong>, Google Ads genera el 38.1% del pipeline. Representa la mayor palanca de inversión escalable. WhatsApp emerge con MX$2.5M (3.8%) como tercer canal con valor registrado.
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════
-       CONCENTRACIÓN Y TAMAÑO DE DEAL
-  ═══════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Concentración y Tamaño de Deal</h2>
-        <p>No todos los verticales pesan igual — el ticket promedio define el valor estratégico de cada oportunidad</p>
-      </div>
-
-      <!-- Ticket promedio bars -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">Ticket promedio por oportunidad — todos los orígenes</div>
-
-        <div style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">Servicios Financieros</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--orange);">MX$ 5,075,000</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:100%;background:var(--orange);border-radius:999px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">MX$101.5M ÷ 20 oportunidades · Deal más grande del portafolio</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">Transporte Pesado</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--green);">MX$ 2,290,625</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:45.1%;background:var(--green);border-radius:999px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">MX$73.3M ÷ 32 oportunidades</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">NLDU — Logística y Distribución</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--blue);">MX$ 566,667</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:11.2%;background:var(--blue);border-radius:999px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">MX$44.2M ÷ 78 oportunidades · Vertical de mayor volumen</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;">
-              <div style="font-size:.875rem;font-weight:700;">Administración de Flotas</div>
-              <div style="font-size:.9375rem;font-weight:800;color:var(--fg-muted);">MX$ 45,357</div>
-            </div>
-            <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="height:100%;width:0.9%;background:#6a8aaa;border-radius:999px;min-width:5px;"></div>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:.3rem;">MX$635K ÷ 14 oportunidades</div>
+        <!-- Fuentes -->
+        <div class="card" style="padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.875rem;">Fuentes de investigación</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">01</span><span><strong style="color:var(--fg);">SiriusDecisions / Forrester</strong> — Modeled Approach to Marketing's Contribution. Benchmark mid-market: 25% mínimo; SMB: 40%; Enterprise: 10%.</span></div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">02</span><span><strong style="color:var(--fg);">OpenView Partners</strong> — 2023 Expansion SaaS Benchmark Report. Top-performing SaaS: 30–45% marketing-sourced pipeline.</span></div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">03</span><span><strong style="color:var(--fg);">Martal</strong> — B2B Digital Marketing Benchmarks 2026. Modelo híbrido Sales+Marketing: 40–50% = desempeño saludable.</span></div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">04</span><span><strong style="color:var(--fg);">HockeyStack Labs</strong> — Close Rates, Deal Sizes &amp; Churn Rates in B2B SaaS. Win rate inbound: 22.62% vs. 20.7% promedio (+2pp premium).</span></div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">05</span><span><strong style="color:var(--fg);">Demand Gen Report</strong> — 2025 Demand Generation Benchmark Survey. Pipeline generado como métrica #1; top performers ≥ 40%.</span></div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);display:flex;gap:0.5rem;"><span style="color:var(--blue);font-weight:700;flex-shrink:0;">06</span><span><strong style="color:var(--fg);">Optifai</strong> — B2B SaaS Win Rate by Deal Size 2025. ACV $10K–$50K: win rate 20–28%; inbound supera por 2–3 pp.</span></div>
           </div>
         </div>
 
-        <!-- Equivalencia highlight -->
-        <div style="background:rgba(255,159,63,0.08);border:1px solid rgba(255,159,63,0.25);border-radius:.75rem;padding:1.25rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-          <div style="flex-shrink:0;text-align:center;min-width:64px;">
-            <div style="font-size:2.75rem;font-weight:900;color:var(--orange);line-height:1;">9×</div>
-            <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.2rem;">Multiplicador</div>
-          </div>
-          <div style="font-size:.875rem;color:var(--fg-muted);line-height:1.7;">
-            <strong style="color:var(--fg);">Cerrar 1 oportunidad de Servicios Financieros equivale en valor a cerrar 9 oportunidades de NLDU.</strong> El esfuerzo comercial en Serv. Fin. tiene un retorno de valor 9× mayor que en el vertical de mayor volumen. No significa abandonar NLDU — significa que escalar Marketing en Serv. Fin. tiene el mayor multiplicador de impacto por recurso invertido.
-          </div>
+        <hr class="sec-divider" />
+
+        <!-- DESGLOSE POR ETAPA -->
+        <div class="sec-head">
+          <h2>Desglose por Etapa</h2>
+          <p>Solo etapas activas (Levantamiento → Formalización) · Contrato firmado excluido del cálculo de participación</p>
         </div>
-      </div>
 
-      <!-- Grid: Concentración + Brecha de Marketing -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;margin-bottom:1.125rem;">
-
-        <!-- Left: % pipeline total por vertical -->
         <div class="funnel-card">
-          <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Concentración del pipeline total por vertical</div>
-          <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="funnel-header">
+            <div></div>
             <div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.875rem;font-weight:600;">Servicios Financieros</span>
-                <span style="font-size:.875rem;font-weight:800;color:var(--orange);">42.7% <span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">MX$101.5M</span></span>
+              <div class="funnel-col-label" style="margin-bottom:0.35rem;">Oportunidades</div>
+              <div style="display:flex;justify-content:space-between;font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">
+                <span style="color:var(--blue);">Marketing</span><span style="color:var(--fg-muted);">Total</span>
               </div>
-              <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:42.7%;background:var(--orange);border-radius:999px;"></div></div>
-            </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.875rem;font-weight:600;">Transporte Pesado</span>
-                <span style="font-size:.875rem;font-weight:800;color:var(--green);">30.8% <span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">MX$73.3M</span></span>
-              </div>
-              <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:30.8%;background:var(--green);border-radius:999px;"></div></div>
             </div>
             <div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.875rem;font-weight:600;">NLDU — Logística</span>
-                <span style="font-size:.875rem;font-weight:800;color:var(--blue);">18.6% <span style="font-size:.75rem;color:var(--fg-muted);font-weight:400;">MX$44.2M</span></span>
+              <div class="funnel-col-label" style="margin-bottom:0.35rem;">Valor de contrato</div>
+              <div style="display:flex;justify-content:space-between;font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">
+                <span style="color:var(--blue);">Marketing</span><span style="color:var(--fg-muted);">Total</span>
               </div>
-              <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:18.6%;background:var(--blue);border-radius:999px;"></div></div>
+            </div>
+            <div class="funnel-col-label center">Participación<br/>en opps</div>
+          </div>
+          <div id="stage-breakdown-container">
+            <div style="padding:1.5rem;text-align:center;color:var(--fg-muted);font-size:0.875rem;">Cargando desde Zoho CRM…</div>
+          </div>
+        </div>
+
+        <div id="stage-insights-container" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;"></div>
+
+        <!-- Stage timeline -->
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div id="stage-timeline-avg" style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.75rem;">Participación de Marketing — evolución por etapa activa · Promedio total: 25.9%</div>
+          <div id="stage-timeline-container" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;position:relative;margin-bottom:1.5rem;">
+            <div style="position:absolute;top:28px;left:10%;right:10%;height:2px;background:var(--border);z-index:0;"></div>
+          </div>
+        </div>
+
+        <hr class="sec-divider" />
+
+        <!-- IMPORTE POR ORIGEN -->
+        <div class="sec-head">
+          <h2>Importe por Origen de Oportunidades</h2>
+          <p>Valor de pipeline generado por cada canal de Marketing — últimos 12 meses</p>
+        </div>
+
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="display:flex;flex-direction:column;gap:1.125rem;">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">Expos (Expositor + Visitante)</div>
+                <div style="font-size:0.9375rem;font-weight:800;color:var(--orange);">MX$ 38.3M</div>
+              </div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:100%;background:var(--orange);border-radius:999px;"></div>
+              </div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">57.7% del pipeline de Marketing · canal líder &nbsp;·&nbsp; Expositor MX$37.2M + Visitante MX$1.1M</div>
             </div>
             <div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.875rem;font-weight:600;color:var(--fg-muted);">Otros / Sin clasificar</span>
-                <span style="font-size:.875rem;font-weight:800;color:var(--fg-muted);">7.6% <span style="font-size:.75rem;font-weight:400;">MX$18.1M</span></span>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">Google Ads — Pauta</div>
+                <div style="font-size:0.9375rem;font-weight:800;color:var(--blue);">MX$ 25.3M</div>
               </div>
-              <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:7.6%;background:#3a5a78;border-radius:999px;"></div></div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:66%;background:var(--blue);border-radius:999px;"></div>
+              </div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">38.1% del pipeline de Marketing</div>
             </div>
             <div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.875rem;font-weight:600;">Adm. Flotas</span>
-                <span style="font-size:.875rem;font-weight:800;color:var(--fg-muted);">0.3% <span style="font-size:.75rem;font-weight:400;">MX$635K</span></span>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">WhatsApp — Numaris</div>
+                <div style="font-size:0.9375rem;font-weight:800;color:var(--green);">MX$ 2.5M</div>
               </div>
-              <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:0.3%;background:#6a8aaa;border-radius:999px;min-width:4px;"></div></div>
-            </div>
-            <div style="padding-top:.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--fg-muted);">
-              <strong style="color:var(--orange);">Riesgo de concentración:</strong> 1 vertical (Serv. Fin.) concentra el 43% del pipeline total. Un enfriamiento en ese mercado tiene impacto desproporcionado.
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Marketing opportunity gap -->
-        <div class="funnel-card">
-          <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Brecha de Marketing — si alcanzara su promedio (25.9%) en cada vertical</div>
-          <div style="display:flex;flex-direction:column;gap:.875rem;">
-
-            <div style="background:rgba(255,159,63,0.06);border:1px solid rgba(255,159,63,0.22);border-radius:.625rem;padding:.875rem;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.4rem;">
-                <span style="font-size:.8125rem;font-weight:700;">Servicios Financieros</span>
-                <span style="font-size:.9rem;font-weight:900;color:var(--orange);">+MX$21.1M</span>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:6.5%;background:var(--green);border-radius:999px;"></div>
               </div>
-              <div style="font-size:.75rem;color:var(--fg-muted);margin-bottom:.5rem;">Actual MX$5.6M (5.5%) → Objetivo MX$26.3M (25.9%)</div>
-              <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:20.9%;background:var(--orange);border-radius:999px;"></div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">3.8% del pipeline de Marketing · 2 oportunidades</div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">LinkedIn Sales Navigator</div>
+                <div style="font-size:0.9375rem;font-weight:800;color:var(--fg-muted);">MX$ 277,500</div>
+              </div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:0.7%;background:#94a3b8;border-radius:999px;min-width:6px;"></div>
+              </div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">0.4% del pipeline de Marketing · 1 oportunidad</div>
+            </div>
+            <div style="border-top:1px solid var(--border);padding-top:1rem;">
+              <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">Canales sin valor registrado</div>
+              <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">Campaña de mailing (1 opp) · Meta — Pauta (2 opps)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="insight orange-tint"><strong>Eventos como canal #1.</strong> Las exposiciones generan <strong>MX$ 38.3M</strong> — el 57.7% del pipeline de Marketing. La estrategia de presencia en eventos es el motor principal de generación de demanda.</div>
+          <div class="insight"><strong>Google Ads como canal digital líder.</strong> Con <strong>MX$ 25.3M</strong>, Google Ads genera el 38.1% del pipeline. Representa la mayor palanca de inversión escalable.</div>
+        </div>
+
+        <hr class="sec-divider" />
+
+        <!-- CONCENTRACIÓN Y TAMAÑO DE DEAL -->
+        <div class="sec-head">
+          <h2>Concentración y Tamaño de Deal</h2>
+          <p>No todos los verticales pesan igual — el ticket promedio define el valor estratégico de cada oportunidad</p>
+        </div>
+
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.5rem;">Ticket promedio por oportunidad — todos los orígenes</div>
+          <div style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;"><div style="font-size:0.875rem;font-weight:700;">Servicios Financieros</div><div style="font-size:0.9375rem;font-weight:800;color:var(--orange);">MX$ 5,075,000</div></div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:100%;background:var(--orange);border-radius:999px;"></div></div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">MX$101.5M ÷ 20 oportunidades · Deal más grande del portafolio</div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;"><div style="font-size:0.875rem;font-weight:700;">Transporte Pesado</div><div style="font-size:0.9375rem;font-weight:800;color:var(--green);">MX$ 2,290,625</div></div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:45.1%;background:var(--green);border-radius:999px;"></div></div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">MX$73.3M ÷ 32 oportunidades</div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;"><div style="font-size:0.875rem;font-weight:700;">NLDU — Logística y Distribución</div><div style="font-size:0.9375rem;font-weight:800;color:var(--blue);">MX$ 566,667</div></div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:11.2%;background:var(--blue);border-radius:999px;"></div></div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">MX$44.2M ÷ 78 oportunidades · Vertical de mayor volumen</div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;"><div style="font-size:0.875rem;font-weight:700;">Administración de Flotas</div><div style="font-size:0.9375rem;font-weight:800;color:var(--fg-muted);">MX$ 45,357</div></div>
+              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:0.9%;background:#94a3b8;border-radius:999px;min-width:5px;"></div></div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">MX$635K ÷ 14 oportunidades</div>
+            </div>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:0.75rem;padding:1.25rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+            <div style="flex-shrink:0;text-align:center;min-width:64px;">
+              <div style="font-size:2.75rem;font-weight:900;color:var(--orange);line-height:1;">9×</div>
+              <div style="font-size:0.7rem;color:var(--fg-muted);margin-top:0.2rem;">Multiplicador</div>
+            </div>
+            <div style="font-size:0.875rem;color:var(--fg-muted);line-height:1.7;">
+              <strong style="color:var(--fg);">Cerrar 1 oportunidad de Servicios Financieros equivale en valor a cerrar 9 oportunidades de NLDU.</strong> El esfuerzo comercial en Serv. Fin. tiene un retorno de valor 9× mayor. No significa abandonar NLDU — significa que escalar Marketing en Serv. Fin. tiene el mayor multiplicador de impacto por recurso invertido.
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="card" style="padding:1.375rem;">
+            <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Concentración del pipeline total por vertical</div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Servicios Financieros</span><span style="font-size:0.875rem;font-weight:800;color:var(--orange);">42.7% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$101.5M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:42.7%;background:var(--orange);border-radius:999px;"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Transporte Pesado</span><span style="font-size:0.875rem;font-weight:800;color:var(--green);">30.8% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$73.3M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:30.8%;background:var(--green);border-radius:999px;"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">NLDU — Logística</span><span style="font-size:0.875rem;font-weight:800;color:var(--blue);">18.6% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$44.2M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:18.6%;background:var(--blue);border-radius:999px;"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;color:var(--fg-muted);">Otros / Sin clasificar</span><span style="font-size:0.875rem;font-weight:800;color:var(--fg-muted);">7.6%</span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:7.6%;background:#cbd5e1;border-radius:999px;"></div></div></div>
+              <div style="padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--fg-muted);"><strong style="color:var(--orange);">Riesgo de concentración:</strong> 1 vertical concentra el 43% del pipeline total.</div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.375rem;">
+            <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Brecha de Marketing — si alcanzara su promedio (25.9%) en cada vertical</div>
+            <div style="display:flex;flex-direction:column;gap:0.875rem;">
+              <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:0.625rem;padding:0.875rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:700;">Servicios Financieros</span><span style="font-size:0.9rem;font-weight:900;color:var(--orange);">+MX$21.1M</span></div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual MX$5.6M (5.5%) → Objetivo MX$26.3M (25.9%)</div>
+                <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:20.9%;background:var(--orange);border-radius:999px;"></div></div>
+              </div>
+              <div style="background:var(--blue-light);border:1px solid #bfdbfe;border-radius:0.625rem;padding:0.875rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:700;">NLDU — Logística</span><span style="font-size:0.9rem;font-weight:900;color:var(--blue);">+MX$4.6M</span></div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual MX$7.0M (15.8%) → Objetivo MX$11.4M (25.9%)</div>
+                <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:60.3%;background:var(--blue);border-radius:999px;"></div></div>
+              </div>
+              <div style="background:var(--green-light);border:1px solid #a7f3d0;border-radius:0.625rem;padding:0.875rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;"><span style="font-size:0.8125rem;font-weight:700;">Transporte Pesado</span><span style="font-size:0.9rem;font-weight:900;color:var(--green);">Ya supera ✓</span></div>
+                <div style="font-size:0.75rem;color:var(--fg-muted);">Actual MX$44.0M (60.0%) — 2.3× por encima del promedio</div>
+              </div>
+              <div style="padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.8125rem;color:var(--fg-muted);">Brecha total recuperable</span>
+                <span style="font-size:1.25rem;font-weight:900;color:var(--orange);">+MX$25.7M</span>
               </div>
             </div>
-
-            <div style="background:rgba(74,130,200,0.06);border:1px solid rgba(74,130,200,0.18);border-radius:.625rem;padding:.875rem;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.4rem;">
-                <span style="font-size:.8125rem;font-weight:700;">NLDU — Logística</span>
-                <span style="font-size:.9rem;font-weight:900;color:var(--blue);">+MX$4.6M</span>
-              </div>
-              <div style="font-size:.75rem;color:var(--fg-muted);margin-bottom:.5rem;">Actual MX$7.0M (15.8%) → Objetivo MX$11.4M (25.9%)</div>
-              <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:60.3%;background:var(--blue);border-radius:999px;"></div>
-              </div>
-            </div>
-
-            <div style="background:rgba(15,217,128,0.05);border:1px solid rgba(15,217,128,0.18);border-radius:.625rem;padding:.875rem;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.25rem;">
-                <span style="font-size:.8125rem;font-weight:700;">Transporte Pesado</span>
-                <span style="font-size:.9rem;font-weight:900;color:var(--green);">Ya supera ✓</span>
-              </div>
-              <div style="font-size:.75rem;color:var(--fg-muted);">Actual MX$44.0M (60.0%) — 2.3× por encima del promedio</div>
-            </div>
-
-            <div style="background:rgba(15,217,128,0.05);border:1px solid rgba(15,217,128,0.18);border-radius:.625rem;padding:.875rem;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.25rem;">
-                <span style="font-size:.8125rem;font-weight:700;">Adm. Flotas</span>
-                <span style="font-size:.9rem;font-weight:900;color:var(--green);">Ya supera ✓</span>
-              </div>
-              <div style="font-size:.75rem;color:var(--fg-muted);">Actual MX$635K (100%) — todo el pipeline de este vertical es de Marketing</div>
-            </div>
-
-            <div style="padding-top:.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:.8125rem;color:var(--fg-muted);">Brecha total recuperable</span>
-              <span style="font-size:1.25rem;font-weight:900;color:var(--orange);">+MX$25.7M</span>
-            </div>
-            <div style="font-size:.75rem;color:var(--fg-muted);margin-top:-.5rem;">Pipeline adicional si Serv. Fin. + NLDU alcanzaran la participación promedio de Marketing</div>
           </div>
         </div>
-      </div>
 
-      <div class="insight" style="background:rgba(255,159,63,0.06);border-color:rgba(255,159,63,0.25);">
-        <strong>La prioridad estratégica está clara:</strong> El 82% de la brecha de Marketing (MX$21.1M de MX$25.7M) está en Servicios Financieros — el vertical con el mayor ticket promedio (MX$5.1M por deal). Cerrar esa brecha equivale a generar 37 oportunidades adicionales en NLDU. El evento de arrendadoras en C2 y el kit comercial de Serv. Fin. (K5) apuntan exactamente aquí.
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       DESGLOSE POR INDUSTRIA
-  ═══════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Desglose por Industria</h2>
-        <p>Participación de Marketing en pipeline activo — por industria (campo <code style="background:var(--bg-card2);padding:.1rem .4rem;border-radius:.3rem;font-size:.8em;">Industry</code> en Zoho CRM) · Meta mínima: 15% en # oportunidades · Datos en vivo</p>
-      </div>
-
-      <!-- Grid dinámico — generado por JS desde /api/zoho-pipeline -->
-      <div id="industry-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;margin-bottom:1.125rem;">
-        <!-- Skeleton cards while loading -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.625rem;opacity:.4;">
-          <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
-          <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:.5rem;"></div>
-          <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
+        <div class="insight orange-tint" style="margin-bottom:1rem;">
+          <strong>La prioridad estratégica está clara:</strong> El 82% de la brecha de Marketing (MX$21.1M de MX$25.7M) está en Servicios Financieros — el vertical con el mayor ticket promedio (MX$5.1M por deal).
         </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.625rem;opacity:.4;">
-          <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
-          <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:.5rem;"></div>
-          <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
+
+        <hr class="sec-divider" />
+
+        <!-- DESGLOSE POR INDUSTRIA -->
+        <div class="sec-head">
+          <h2>Desglose por Industria</h2>
+          <p>Participación de Marketing en pipeline activo — por industria en Zoho CRM · Meta mínima: 15% en # oportunidades · Datos en vivo</p>
         </div>
-      </div>
 
-      <!-- Tabla resumen por industria — generada por JS -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;" id="industry-table-wrap">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.25rem;">Comparativa — participación en # oportunidades por industria</div>
-        <div id="industry-table" style="display:flex;flex-direction:column;gap:1rem;">
-          <div style="color:var(--fg-muted);font-size:.875rem;">Cargando datos…</div>
+        <div id="industry-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="card" style="padding:1.5rem;opacity:0.4;">
+            <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
+            <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:0.5rem;"></div>
+            <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
+          </div>
+          <div class="card" style="padding:1.5rem;opacity:0.4;">
+            <div style="height:12px;background:var(--border);border-radius:4px;width:60%;margin-bottom:1rem;"></div>
+            <div style="height:40px;background:var(--border);border-radius:4px;width:40%;margin-bottom:0.5rem;"></div>
+            <div style="height:6px;background:var(--border);border-radius:999px;margin-top:1rem;"></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Insights — generados por JS -->
-      <div id="industry-insights" style="display:grid;grid-template-columns:1fr 1fr;gap:1.125rem;">
-      </div>
+        <div class="funnel-card" style="margin-bottom:1rem;" id="industry-table-wrap">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Comparativa — participación en # oportunidades por industria</div>
+          <div id="industry-table" style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="color:var(--fg-muted);font-size:0.875rem;">Cargando datos…</div>
+          </div>
+        </div>
 
-    </div>
-  </section>
+        <div id="industry-insights" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;"></div>
 
-  <!-- ═══════════════════════════════════════
-       ESTRATEGIA DE CRECIMIENTO
-  ═══════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Estrategia: De 33.4% a 40%</h2>
-        <p>Análisis de eficiencia por canal e iniciativas para escalar el pipeline originado por Marketing</p>
-      </div>
+        <hr class="sec-divider" />
 
-      <!-- ROI por canal -->
-      <div class="funnel-card" style="margin-bottom:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">ROI por canal — inversión anual vs. pipeline generado</div>
+        <!-- ESTRATEGIA -->
+        <div class="sec-head">
+          <h2>Estrategia: De 33.4% a 40%</h2>
+          <p>Análisis de eficiencia por canal e iniciativas para escalar el pipeline originado por Marketing</p>
+        </div>
 
-        <!-- Google Ads -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:.5rem;">
-            <div style="font-size:.875rem;font-weight:700;">Google Ads</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);">MX$720K inv. → <strong style="color:var(--blue);">MX$25.3M pipeline</strong></div>
-            <div style="text-align:right;">
-              <span style="font-size:1.375rem;font-weight:900;color:var(--green);">33.7×</span>
-              <span style="font-size:.7rem;color:var(--fg-muted);display:block;text-align:right;">ROI de pipeline</span>
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.5rem;">ROI por canal — inversión anual vs. pipeline generado</div>
+          <div style="margin-bottom:1.5rem;">
+            <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:0.5rem;"><div style="font-size:0.875rem;font-weight:700;">Google Ads</div><div style="font-size:0.75rem;color:var(--fg-muted);">MX$720K inv. → <strong style="color:var(--blue);">MX$25.3M pipeline</strong></div><div style="text-align:right;"><span style="font-size:1.375rem;font-weight:900;color:var(--green);">33.7×</span><span style="font-size:0.7rem;color:var(--fg-muted);display:block;text-align:right;">ROI de pipeline</span></div></div>
+            <div style="height:8px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:100%;background:var(--blue);border-radius:999px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--fg-muted);margin-top:0.3rem;"><span>Canal digital de mayor impacto en pipeline</span><span style="color:var(--blue);font-weight:700;">MX$60K / mes</span></div>
+          </div>
+          <div style="margin-bottom:1.5rem;">
+            <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:0.5rem;"><div style="font-size:0.875rem;font-weight:700;">Expos (Expositor + Visitante)</div><div style="font-size:0.75rem;color:var(--fg-muted);">MX$6.0M inv. → <strong style="color:var(--orange);">MX$38.3M pipeline</strong></div><div style="text-align:right;"><span style="font-size:1.375rem;font-weight:900;color:var(--orange);">6.5×</span><span style="font-size:0.7rem;color:var(--fg-muted);display:block;">ROI de pipeline</span></div></div>
+            <div style="height:8px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:72%;background:var(--orange);border-radius:999px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--fg-muted);margin-top:0.3rem;"><span>Canal de mayor volumen</span><span style="color:var(--orange);font-weight:700;">MX$6.0M / año</span></div>
+          </div>
+          <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+            <div><div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.3rem;">Eficiencia total del portafolio de Marketing</div><div style="font-size:0.875rem;color:var(--fg-muted);">MX$6.98M invertidos → MX$66.4M pipeline &nbsp;<strong style="color:var(--green);">= 9.5× ROI de pipeline</strong></div></div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;"><span class="badge badge-green">9.5× ROI total</span><span class="badge badge-orange">57.7% en canal no escalable</span></div>
+          </div>
+        </div>
+
+        <!-- Simulación -->
+        <div class="card" style="padding:1.625rem;margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.5rem;">Simulación: ¿Qué se necesita para llegar al 40%?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+              <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.625rem;">Hoy</div>
+              <div style="font-size:2rem;font-weight:900;color:var(--blue);line-height:1;">33.4%</div>
+              <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">MX$66.4M de MX$198.7M</div>
+            </div>
+            <div style="background:var(--green-light);border:1px solid #a7f3d0;border-radius:var(--radius);padding:1.25rem;">
+              <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);margin-bottom:0.625rem;">Objetivo</div>
+              <div style="font-size:2rem;font-weight:900;color:var(--green);line-height:1;">40%</div>
+              <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">≈ MX$13.1M adicionales sobre pipeline actual</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+              <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.625rem;">Gap a cerrar</div>
+              <div style="font-size:2rem;font-weight:900;color:var(--orange);line-height:1;">+6.6pp</div>
+              <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">≈ MX$13.1M más de pipeline Mkt</div>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr;gap:.3rem;">
-            <div style="position:relative;height:8px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="position:absolute;left:0;top:0;height:100%;width:100%;background:var(--blue);border-radius:999px;opacity:.85;"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--fg-muted);">
-              <span>Canal digital de mayor impacto en pipeline</span>
-              <span style="color:var(--blue);font-weight:700;">MX$60K / mes</span>
-            </div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);line-height:1.7;background:var(--blue-light);border:1px solid #bfdbfe;border-radius:0.625rem;padding:1rem;color:#1e40af;">
+            <strong style="color:#1e3a8a;">Vía más eficiente (solo Google Ads):</strong> Escalar Google Ads de MX$60K a ~MX$77K/mes (+MX$17K/mes) generaría los MX$13.1M adicionales necesarios. Inversión adicional anual: <strong>~MX$204K</strong> para conseguir <strong>MX$13.1M</strong> en pipeline nuevo (34× de retorno).
           </div>
         </div>
 
-        <!-- Expos -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:.5rem;">
-            <div style="font-size:.875rem;font-weight:700;">Expos (Expositor + Visitante)</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);">MX$6.0M inv. → <strong style="color:var(--orange);">MX$38.3M pipeline</strong></div>
-            <div style="text-align:right;">
-              <span style="font-size:1.375rem;font-weight:900;color:var(--orange);">6.5×</span>
-              <span style="font-size:.7rem;color:var(--fg-muted);display:block;text-align:right;">ROI de pipeline</span>
-            </div>
+        <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.75rem;">Iniciativas por horizonte de tiempo</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="oport-card hi" style="gap:0.75rem;">
+            <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;"><span>0–90 días</span><span style="font-size:0.625rem;font-weight:600;color:var(--fg-muted);">Alto impacto</span></div>
+            <div class="oport-title" style="font-size:0.875rem;">Escalar Google Ads + Auditar LinkedIn</div>
+            <div class="oport-desc"><strong style="color:var(--fg);">Aumentar Google Ads a MX$100K/mes.</strong> Al ROI actual (33.7×), cada MX$10K adicional genera ~MX$337K de pipeline. <br/><strong style="color:var(--fg);">Auditar CRM:</strong> Verificar si leads de LinkedIn están sin etiquetar.</div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr;gap:.3rem;">
-            <div style="position:relative;height:8px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="position:absolute;left:0;top:0;height:100%;width:72%;background:var(--orange);border-radius:999px;opacity:.85;"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--fg-muted);">
-              <span>Canal de mayor volumen — también genera awareness y relación</span>
-              <span style="color:var(--orange);font-weight:700;">MX$6.0M / año</span>
-            </div>
+          <div class="oport-card med" style="gap:0.75rem;">
+            <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;"><span>90–180 días</span><span style="font-size:0.625rem;font-weight:600;color:var(--fg-muted);">Construir activos</span></div>
+            <div class="oport-title" style="font-size:0.875rem;">Nurture post-expo + Conversión web</div>
+            <div class="oport-desc"><strong style="color:var(--fg);">Secuencia de nurture</strong> para leads de expo. <br/><strong style="color:var(--fg);">Landing pages por vertical</strong> para mejorar conversion rate de Google Ads y SEO.</div>
+          </div>
+          <div class="oport-card lo" style="gap:0.75rem;">
+            <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;"><span>180+ días</span><span style="font-size:0.625rem;font-weight:600;color:var(--fg-muted);">Diversificación</span></div>
+            <div class="oport-title" style="font-size:0.875rem;">LinkedIn Demand Gen + SEO transaccional</div>
+            <div class="oport-desc"><strong style="color:var(--fg);">Pivotar LinkedIn</strong> de awareness a lead gen directo. <br/><strong style="color:var(--fg);">SEO para términos de fondo de embudo.</strong></div>
           </div>
         </div>
 
-        <!-- LinkedIn -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:.5rem;">
-            <div style="font-size:.875rem;font-weight:700;">LinkedIn Ads</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);">MX$120K inv. → <strong style="color:var(--fg-muted);">Sin atribución en CRM</strong></div>
-            <div style="text-align:right;">
-              <span style="font-size:1.375rem;font-weight:900;color:var(--fg-muted);">?×</span>
-              <span style="font-size:.7rem;color:var(--fg-muted);display:block;text-align:right;">Sin datos</span>
-            </div>
+        <div class="insight green-tint" style="margin-bottom:1rem;">
+          <strong>Resumen estratégico:</strong> Con 4 personas y herramientas de IA, la apuesta más eficiente a corto plazo es escalar Google Ads mientras se construyen activos de conversión. El riesgo principal hoy es la <strong>concentración en Expos (57.7% del pipeline)</strong> — un canal no escalable.
+        </div>
+
+        <hr class="sec-divider" id="section-zoho-logs" />
+
+        <!-- CONEXIÓN EN VIVO -->
+        <div class="sec-head">
+          <h2>Conexión en Vivo — Zoho CRM</h2>
+          <p>Datos actualizados directamente desde el CRM · Campo <code style="background:var(--bg);padding:0.1rem 0.4rem;border-radius:0.3rem;font-size:0.8em;color:var(--fg-muted);">Se_obtuvo_por</code> en módulo Cuentas · Filtro: Account_Type = Prospecto</p>
+        </div>
+        <div class="method-grid" style="margin-bottom:1rem;">
+          <div class="method-card" style="border-color:#a7f3d0;background:var(--green-light);">
+            <div class="m-icon" style="background:var(--green-light);border-color:#a7f3d0;font-size:0.875rem;"></div>
+            <h4>Participación en opps</h4>
+            <p id="zoho-live-opp-detail">Cargando datos desde Zoho CRM…</p>
           </div>
-          <div style="display:grid;grid-template-columns:1fr;gap:.3rem;">
-            <div style="position:relative;height:8px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="position:absolute;left:0;top:0;height:100%;width:2%;background:#6a8aaa;border-radius:999px;min-width:6px;"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--fg-muted);">
-              <span>Prioridad: verificar si hay leads sin etiquetar en CRM antes de concluir ROI cero</span>
-              <span style="color:var(--fg-muted);font-weight:700;">MX$10K / mes</span>
-            </div>
+          <div class="method-card" style="border-color:#a7f3d0;background:var(--green-light);">
+            <div class="m-icon" style="background:var(--green-light);border-color:#a7f3d0;font-size:0.875rem;"></div>
+            <h4>Participación en valor</h4>
+            <p id="zoho-live-val-detail">Cargando datos desde Zoho CRM…</p>
+          </div>
+          <div class="method-card" style="border-color:#bfdbfe;background:var(--blue-light);">
+            <div class="m-icon" style="font-size:0.875rem;"></div>
+            <h4>Fuente #1 de pipeline</h4>
+            <p id="zoho-live-top-source">Cargando datos desde Zoho CRM…</p>
+          </div>
+          <div class="method-card" style="border-color:#ddd6fe;background:#f5f3ff;">
+            <div class="m-icon" style="background:#f5f3ff;border-color:#ddd6fe;font-size:0.875rem;"></div>
+            <h4>Etapa con mayor peso</h4>
+            <p id="zoho-live-top-stage">Cargando datos desde Zoho CRM…</p>
           </div>
         </div>
 
-        <!-- SEO -->
-        <div>
-          <div style="display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:1rem;margin-bottom:.5rem;">
-            <div style="font-size:.875rem;font-weight:700;">SEO</div>
-            <div style="font-size:.75rem;color:var(--fg-muted);">MX$144K inv. → <strong style="color:var(--fg-muted);">Pipeline orgánico aún no atribuido</strong></div>
-            <div style="text-align:right;">
-              <span style="font-size:1.375rem;font-weight:900;color:var(--fg-muted);">—</span>
-              <span style="font-size:.7rem;color:var(--fg-muted);display:block;text-align:right;">Largo plazo</span>
-            </div>
+        <hr class="sec-divider" id="section-oportunidades" />
+
+        <!-- PIPELINE POR EVENTO -->
+        <div class="sec-head">
+          <h2>Pipeline por Evento — Expos</h2>
+          <p>Inversión, pipeline generado y ROI por evento · Datos de oportunidades en vivo desde Zoho CRM</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.25rem;">
+          <div class="card" style="padding:1.125rem 1.375rem;">
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.4rem;">Inversión total</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--fg);" id="camp-total-invest">—</div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr;gap:.3rem;">
-            <div style="position:relative;height:8px;background:var(--border);border-radius:999px;overflow:hidden;">
-              <div style="position:absolute;left:0;top:0;height:100%;width:1%;background:#6a8aaa;border-radius:999px;min-width:4px;"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--fg-muted);">
-              <span>Resultados típicos en 6–12 meses · Inversión que construye activo permanente</span>
-              <span style="color:var(--fg-muted);font-weight:700;">MX$12K / mes</span>
-            </div>
+          <div class="card" style="padding:1.125rem 1.375rem;">
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);margin-bottom:0.4rem;">Pipeline total generado</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--green);" id="camp-total-value">—</div>
+          </div>
+          <div class="card" style="padding:1.125rem 1.375rem;">
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem;">Venta cerrada</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--purple);" id="camp-total-won">—</div>
+          </div>
+          <div class="card" style="padding:1.125rem 1.375rem;">
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:0.4rem;">ROI pipeline (×)</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--orange);" id="camp-total-roi">—</div>
           </div>
         </div>
 
-        <!-- Resumen total -->
-        <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-          <div>
-            <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.3rem;">Eficiencia total del portafolio de Marketing</div>
-            <div style="font-size:.875rem;color:var(--fg-muted);">MX$6.98M invertidos → MX$66.4M pipeline &nbsp;<strong style="color:var(--green);">= 9.5× ROI de pipeline</strong></div>
-          </div>
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
-            <span class="badge badge-green">9.5× ROI total</span>
-            <span class="badge badge-orange">57.7% en canal no escalable</span>
-          </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.25rem;">
+          <span id="camp-status-dot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0;"></span>
+          <span id="camp-status-text" style="font-size:0.8125rem;color:var(--fg-muted);">Cargando campañas desde Zoho…</span>
+          <span style="font-size:0.8125rem;color:var(--fg-muted);">·</span>
+          <span style="font-size:0.8125rem;color:var(--fg-muted);" id="camp-total-count">—</span>
         </div>
-      </div>
 
-      <!-- Camino al 40% -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.125rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">Simulación: ¿Qué se necesita para llegar al 40%?</div>
+        <div id="campaign-table-wrap" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Evento</th>
+                <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Inversión</th>
+                <th style="padding:0.75rem 1rem;text-align:center;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Opps · Subs</th>
+                <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);border-bottom:1px solid var(--border);">Pipeline activo</th>
+                <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);border-bottom:1px solid var(--border);">Venta realizada</th>
+                <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--border);">ROI ×</th>
+              </tr>
+            </thead>
+            <tbody id="campaign-table-body">
+              <tr><td colspan="6" style="padding:2rem;text-align:center;color:var(--fg-muted);font-size:0.875rem;">Cargando datos desde Zoho CRM…</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.125rem;margin-bottom:1.5rem;">
-          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
-            <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.625rem;">Hoy</div>
-            <div style="font-size:2rem;font-weight:900;color:var(--blue);line-height:1;">33.4%</div>
-            <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.3rem;">MX$66.4M de MX$198.7M</div>
-          </div>
-          <div style="background:rgba(15,217,128,0.07);border:1px solid rgba(15,217,128,0.22);border-radius:var(--radius);padding:1.25rem;">
-            <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:.625rem;">Objetivo</div>
-            <div style="font-size:2rem;font-weight:900;color:var(--green);line-height:1;">40%</div>
-            <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.3rem;">≈ MX$13.1M adicionales sobre pipeline actual</div>
-          </div>
-          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
-            <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.625rem;">Gap a cerrar</div>
-            <div style="font-size:2rem;font-weight:900;color:var(--orange);line-height:1;">+6.6pp</div>
-            <div style="font-size:.8125rem;color:var(--fg-muted);margin-top:.3rem;">≈ MX$13.1M más de pipeline Mkt</div>
+        <div class="card" style="padding:1.625rem;margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.5rem;">Pipeline total por evento (pipeline activo + venta cerrada)</div>
+          <div id="campaign-bars" style="display:flex;flex-direction:column;gap:0.875rem;">
+            <div style="color:var(--fg-muted);font-size:0.875rem;">Cargando…</div>
           </div>
         </div>
 
-        <!-- Barra de progreso hacia objetivo -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="position:relative;height:14px;background:var(--border);border-radius:999px;overflow:visible;margin-bottom:.5rem;">
-            <div style="position:absolute;left:0;top:0;height:100%;width:83.5%;background:var(--blue);border-radius:999px 0 0 999px;opacity:.9;"></div>
-            <div style="position:absolute;left:37.5%;top:-5px;bottom:-5px;width:2px;background:rgba(255,255,255,0.5);border-radius:2px;">
-              <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.625rem;font-weight:700;color:var(--fg-muted);white-space:nowrap;">Meta piso 15%</div>
-            </div>
-            <div style="position:absolute;left:100%;top:-5px;bottom:-5px;width:2px;background:rgba(15,217,128,0.7);border-radius:2px;">
-              <div style="position:absolute;top:-18px;right:0;font-size:.625rem;font-weight:700;color:var(--green);white-space:nowrap;">Objetivo 40%</div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--fg-muted);">
-            <span>0%</span>
-            <span style="color:var(--blue);font-weight:700;">Hoy: 33.4%</span>
-            <span style="color:var(--green);font-weight:700;">Objetivo: 40%</span>
-          </div>
+        <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.875rem;">Ficha de cada evento · contexto y posicionamiento de marca</div>
+        <div id="campaign-event-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(480px,1fr));gap:1.25rem;margin-bottom:1.25rem;"></div>
+
+      </div><!-- /content-scroll -->
+    </div><!-- /panel-pipeline -->
+
+    <!-- Embudo panel wrapper -->
+    <div id="panel-embudo-wrapper" class="panel" style="background:var(--bg);">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Ingresos de Canales Digitales</div>
+          <div class="topbar-sub">Marketing Intelligence · Numaris · Fuente: Facturación ERP</div>
         </div>
-
-        <div style="font-size:.8125rem;color:var(--fg-muted);line-height:1.7;background:rgba(74,130,200,0.06);border:1px solid rgba(74,130,200,0.15);border-radius:.625rem;padding:1rem;">
-          <strong style="color:var(--fg);">Vía más eficiente (solo Google Ads):</strong> Escalar Google Ads de MX$60K a ~MX$77K/mes (+MX$17K/mes) mantendría el mismo ROI de 33.7× y generaría los MX$13.1M adicionales de pipeline necesarios para alcanzar el 40% — sin cambiar ningún otro canal. Inversión adicional anual: <strong style="color:var(--blue);">~MX$204K</strong> para conseguir <strong style="color:var(--green);">MX$13.1M</strong> en pipeline nuevo (34× de retorno).
-        </div>
-      </div>
-
-      <!-- Iniciativas accionables -->
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Iniciativas por horizonte de tiempo</div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.125rem;">
-
-        <!-- Corto plazo -->
-        <div class="oport-card hi" style="gap:.75rem;">
-          <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;">
-            <span>0–90 días</span>
-            <span style="font-size:.625rem;font-weight:600;color:var(--fg-muted);font-style:normal;">Alto impacto</span>
-          </div>
-          <div class="oport-title" style="font-size:.875rem;">Escalar Google Ads + Auditar LinkedIn</div>
-          <div class="oport-desc" style="display:flex;flex-direction:column;gap:.5rem;">
-            <div> <strong style="color:var(--fg);">Aumentar Google Ads a MX$100K/mes.</strong> Al ROI actual (33.7×), cada MX$10K adicional genera ~MX$337K de pipeline. Potencial: +MX$13.5M con MX$40K adicionales/mes.</div>
-            <div><strong style="color:var(--fg);">Auditar CRM:</strong> Verificar si leads de LinkedIn están sin etiquetar. Si el problema es de atribución, ya tienes más pipeline del que crees.</div>
-          </div>
-        </div>
-
-        <!-- Mediano plazo -->
-        <div class="oport-card med" style="gap:.75rem;">
-          <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;">
-            <span>90–180 días</span>
-            <span style="font-size:.625rem;font-weight:600;color:var(--fg-muted);font-style:normal;">Construir activos</span>
-          </div>
-          <div class="oport-title" style="font-size:.875rem;">Nurture post-expo + Conversión web</div>
-          <div class="oport-desc" style="display:flex;flex-direction:column;gap:.5rem;">
-            <div> <strong style="color:var(--fg);">Secuencia de nurture</strong> para los leads de expo que no convierten de inmediato. Sin nurture post-evento, ese pipeline se "enfría" y se pierde atribución.</div>
-            <div> <strong style="color:var(--fg);">Landing pages por vertical</strong> (Logística, T. Pesado, Financiero) para mejorar el conversion rate de Google Ads y SEO. Más pipeline sin más inversión.</div>
-          </div>
-        </div>
-
-        <!-- Largo plazo -->
-        <div class="oport-card lo" style="gap:.75rem;">
-          <div class="oport-priority" style="display:flex;align-items:center;justify-content:space-between;">
-            <span>180+ días</span>
-            <span style="font-size:.625rem;font-weight:600;color:var(--fg-muted);font-style:normal;">Diversificación</span>
-          </div>
-          <div class="oport-title" style="font-size:.875rem;">LinkedIn Demand Gen + SEO transaccional</div>
-          <div class="oport-desc" style="display:flex;flex-direction:column;gap:.5rem;">
-            <div> <strong style="color:var(--fg);">Pivotar LinkedIn</strong> de awareness a lead gen directo: formularios nativos, casos de éxito por industria, retargeting de visitantes web. Presupuesto mínimo recomendado para resultados: MX$25–30K/mes.</div>
-            <div> <strong style="color:var(--fg);">SEO para términos de fondo de embudo:</strong> "software gestión flotilla México", "GPS rastreo flota precio" — captura demanda ya formada sin costo por clic.</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Resumen estratégico -->
-      <div class="insight" style="border-color:rgba(15,217,128,0.25);background:rgba(15,217,128,0.06);">
-        <strong>Resumen estratégico:</strong> Con 4 personas y herramientas de IA, la apuesta más eficiente a corto plazo es escalar Google Ads (el canal con mejor ROI comprobado) mientras se construyen activos de conversión (landing pages, nurture) que multipliquen el rendimiento de todos los canales. El riesgo principal hoy es la <strong>concentración en Expos (57.7% del pipeline)</strong> — un canal no escalable. Reducir esa dependencia y llevar los canales digitales al 50%+ del pipeline es la meta estructural detrás del 40%. Con 33.4% actual, la brecha al objetivo de 40% es de solo MX$13.1M adicionales de pipeline Marketing.
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE DATA CONNECTION STATUS -->
-  <section>
-    <div class="container">
-      <div class="sec-head"><h2>Conexión en Vivo — Zoho CRM</h2><p>Datos actualizados directamente desde el CRM · Campo <code style="background:var(--bg-card2);padding:.1rem .4rem;border-radius:.3rem;font-size:.8em;">Se_obtuvo_por</code> en módulo Cuentas · Filtro: Account_Type = Prospecto · Stages activos</p></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;">
-        <div class="method-card" style="border-color:rgba(15,217,128,.3);background:rgba(15,217,128,.04);">
-          <div class="m-icon" style="font-size:.875rem;"></div>
-          <h4>Participación en opps</h4>
-          <p id="zoho-live-opp-detail">Cargando datos desde Zoho CRM…</p>
-        </div>
-        <div class="method-card" style="border-color:rgba(15,217,128,.3);background:rgba(15,217,128,.04);">
-          <div class="m-icon" style="font-size:.875rem;"></div>
-          <h4>Participación en valor</h4>
-          <p id="zoho-live-val-detail">Cargando datos desde Zoho CRM…</p>
-        </div>
-        <div class="method-card" style="border-color:rgba(74,130,200,.3);background:rgba(74,130,200,.04);">
-          <div class="m-icon" style="font-size:.875rem;"></div>
-          <h4>Fuente #1 de pipeline</h4>
-          <p id="zoho-live-top-source">Cargando datos desde Zoho CRM…</p>
-        </div>
-        <div class="method-card" style="border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.04);">
-          <div class="m-icon" style="font-size:.875rem;"></div>
-          <h4>Etapa con mayor peso</h4>
-          <p id="zoho-live-top-stage">Cargando datos desde Zoho CRM…</p>
+        <div class="topbar-right">
+          <span style="font-size:0.75rem;padding:0.35rem 0.875rem;border-radius:999px;background:var(--green-light);color:var(--green);border:1px solid #a7f3d0;font-weight:700;">Datos reales · ERP Facturación</span>
+          <span style="font-size:0.75rem;color:var(--fg-muted);">Canales: LinkedIn · Meta · Google Ads</span>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="content-scroll" style="padding:0;">
 
-  <!-- ═══════════════════════════════════════
-       PIPELINE POR EVENTO (CAMPAÑAS)
-  ═══════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="sec-head">
-        <h2>Pipeline por Evento — Expos</h2>
-        <p>Inversión, pipeline generado y ROI por evento · Datos de oportunidades en vivo desde Zoho CRM</p>
-      </div>
-
-      <!-- Summary strip: 4 KPIs -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.25rem;">
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
-          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.4rem;">Inversión total</div>
-          <div style="font-size:1.5rem;font-weight:900;color:var(--fg);" id="camp-total-invest">—</div>
-        </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
-          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem;">Pipeline total generado</div>
-          <div style="font-size:1.5rem;font-weight:900;color:var(--green);" id="camp-total-value">—</div>
-        </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
-          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);margin-bottom:.4rem;">Venta cerrada</div>
-          <div style="font-size:1.5rem;font-weight:900;color:var(--purple);" id="camp-total-won">—</div>
-        </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;">
-          <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem;">ROI pipeline (×)</div>
-          <div style="font-size:1.5rem;font-weight:900;color:var(--orange);" id="camp-total-roi">—</div>
-        </div>
-      </div>
-
-      <!-- Status bar -->
-      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;">
-        <span id="camp-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--fg-muted);flex-shrink:0;"></span>
-        <span id="camp-status-text" style="font-size:.8125rem;color:var(--fg-muted);">Cargando campañas desde Zoho…</span>
-        <span style="font-size:.8125rem;color:var(--fg-muted);">·</span>
-        <span style="font-size:.8125rem;color:var(--fg-muted);" id="camp-total-count">—</span>
-      </div>
-
-      <!-- Campaign table -->
-      <div id="campaign-table-wrap" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem;">
-        <table style="width:100%;border-collapse:collapse;font-size:.875rem;">
-          <thead>
-            <tr style="background:var(--bg-card2);">
-              <th style="padding:.75rem 1rem;text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Evento</th>
-              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Inversión</th>
-              <th style="padding:.75rem 1rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);">Opps · Subs</th>
-              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);border-bottom:1px solid var(--border);">Pipeline activo</th>
-              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);border-bottom:1px solid var(--border);">Venta realizada</th>
-              <th style="padding:.75rem 1rem;text-align:right;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--border);">ROI ×</th>
-            </tr>
-          </thead>
-          <tbody id="campaign-table-body">
-            <tr><td colspan="6" style="padding:2rem;text-align:center;color:var(--fg-muted);font-size:.875rem;">Cargando datos desde Zoho CRM…</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Bar chart por campaña -->
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.5rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1.5rem;">Pipeline total por evento (pipeline activo + venta cerrada)</div>
-        <div id="campaign-bars" style="display:flex;flex-direction:column;gap:.875rem;">
-          <div style="color:var(--fg-muted);font-size:.875rem;">Cargando…</div>
-        </div>
-      </div>
-
-      <!-- Event detail cards -->
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Ficha de cada evento · contexto y posicionamiento de marca</div>
-      <div id="campaign-event-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(480px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
-        <!-- populated by renderCampaigns() -->
-      </div>
-
-    </div>
-  </section>
-
-
-</div>
-
-<!-- ══════════════ EMBUDO DIGITAL ══════════════ -->
-<div>
-
-<!-- Embudo header (already has its own header bar) -->
-<div id="panel-embudo" class="panel">
 <style>
   #panel-embudo { padding: 0; }
   .d25-kpi { background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.75rem; }
@@ -1368,17 +1367,6 @@
   .d25-empty { background:rgba(255,255,255,0.03);border:1px dashed var(--border);border-radius:var(--radius);padding:2rem;text-align:center;color:var(--fg-muted);font-size:.8125rem; }
 </style>
 
-<!-- Header bar -->
-<div style="background:linear-gradient(135deg,#040d1a 0%,#0c1e38 100%);border-bottom:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-  <div>
-    <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.3rem;">Marketing Intelligence · Numaris · Fuente: Facturación ERP</div>
-    <div style="font-size:1.375rem;font-weight:900;color:var(--fg);">Ingresos de Canales Digitales</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-    <span style="font-size:.75rem;padding:.35rem .875rem;border-radius:999px;background:rgba(15,217,128,0.1);color:var(--green);border:1px solid rgba(15,217,128,0.25);font-weight:700;">Datos reales · ERP Facturación</span>
-    <span style="font-size:.75rem;color:var(--fg-muted);">Canales: LinkedIn · Meta · Google Ads</span>
-  </div>
-</div>
 
 <div style="padding:2rem 2.5rem 4rem;max-width:1200px;">
 
@@ -1810,24 +1798,32 @@
 })();
 </script>
 
-</div><!-- /panel-embudo -->
 
-</div>
+      </div><!-- /content-scroll -->
+    </div><!-- /panel-embudo-wrapper -->
 
-</div><!-- /max-width wrapper -->
-<footer>
-  <div class="container">
-    <p>Numaris · Marketing Intelligence · 2026</p>
-    <p>Uso interno — Confidencial</p>
-  </div>
-</footer>
-
+  </div><!-- /main-area -->
+</div><!-- /app-shell -->
 <script>
   function switchTab(tab, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    // Legacy shim — redirects to switchPanel
+    switchPanel(tab, btn);
+  }
+
+  function switchPanel(tab, clickedBtn) {
+    // Hide all panels
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('panel-' + tab).classList.add('active');
+    // Update sidebar items
+    document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
+    if (clickedBtn) clickedBtn.classList.add('active');
+    // Show correct panel
+    if (tab === 'embudo') {
+      const p = document.getElementById('panel-embudo-wrapper');
+      if (p) p.classList.add('active');
+    } else {
+      const p = document.getElementById('panel-pipeline');
+      if (p) p.classList.add('active');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -2463,7 +2459,7 @@
               </div>
             </div>
             <!-- Stats row -->
-            <div style="display:flex;gap:1.25rem;flex-wrap:wrap;padding:.75rem 1rem;background:var(--bg-card2);border-radius:.5rem;margin-bottom:1rem;">
+            <div style="display:flex;gap:1.25rem;flex-wrap:wrap;padding:.75rem 1rem;background:var(--bg);border-radius:.5rem;margin-bottom:1rem;">
               <div>
                 <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Inversión</div>
                 <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${cost > 0 ? fmtMx(cost) : '—'}</div>
@@ -2620,6 +2616,90 @@
         <strong>${worst[1].oppPct < META ? '' : ''} ${worst[0]}.</strong> Marketing genera <strong>${worst[1].mktCount} de ${worst[1].totalCount} oportunidades (${worst[1].oppPct}%)</strong> — ${fmtV(worst[1].mktValue)} de valor. ${worst[1].oppPct < META ? 'Por debajo de la meta de 15% — oportunidad de activar más demanda en este segmento.' : 'Participación sólida — mantener el ritmo.'}
       </div>`;
     }
+  }
+
+
+
+  // ── TREND CHART (Pipeline ACV placeholder) ────────────────────────────────
+  (function initTrendChart() {
+    const canvas = document.getElementById('trend-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const trendLabels = ['Abr 13','Abr 16','Abr 19','Abr 22','Abr 25','Abr 28','May 1','May 4','May 7','May 10','May 13'];
+    const stages = [
+      { label: 'Contrato firmado',   color: '#10b981', data: [8,9,10,10,11,11,12,12,13,14,14] },
+      { label: 'Formalización',      color: '#3b82f6', data: [25,26,27,28,28,29,30,30,31,32,33] },
+      { label: 'Negociación',        color: '#f59e0b', data: [55,57,58,60,62,63,65,66,68,70,72] },
+      { label: 'Prueba Demo',        color: '#8b5cf6', data: [90,92,95,96,98,100,102,105,108,110,112] },
+      { label: 'Presentación',       color: '#ec4899', data: [130,132,135,137,140,142,145,148,150,152,155] },
+      { label: 'Levantamiento',      color: '#06b6d4', data: [150,152,155,158,160,162,165,168,170,172,174] },
+    ];
+
+    // Build legend
+    const legendEl = document.getElementById('trend-legend');
+    if (legendEl) {
+      legendEl.innerHTML = stages.map(s =>
+        `<span class="trend-legend-item"><span class="trend-legend-dot" style="background:${s.color};"></span>${s.label}</span>`
+      ).join('');
+    }
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: trendLabels,
+        datasets: stages.map(s => ({
+          label: s.label,
+          data: s.data,
+          borderColor: s.color,
+          backgroundColor: s.color + '18',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 4,
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff',
+            titleColor: '#0f172a',
+            bodyColor: '#64748b',
+            borderColor: '#e2e8f0',
+            borderWidth: 1,
+            callbacks: {
+              label: ctx => ' ' + ctx.dataset.label + ': MX$' + ctx.parsed.y + 'M'
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#f1f4f8' },
+            ticks: { color: '#94a3b8', font: { size: 10 } }
+          },
+          y: {
+            stacked: false,
+            grid: { color: '#f1f4f8' },
+            ticks: {
+              color: '#94a3b8',
+              font: { size: 10 },
+              callback: v => 'MX$' + v + 'M'
+            }
+          }
+        }
+      }
+    });
+  })();
+
+  // ── FILTER STUBS (UI only — no data filtering logic needed) ───────────────
+  function applyFilters() { /* placeholder — filter logic lives in Zoho data layer */ }
+  function setToggle(mode) {
+    document.getElementById('toggle-monto')?.classList.toggle('active', mode === 'monto');
+    document.getElementById('toggle-cantidad')?.classList.toggle('active', mode === 'cantidad');
   }
 
   // Load on pipeline tab open + auto-refresh every 5 min
@@ -2872,7 +2952,6 @@
     }
   }
 </script>
-
 
 </body>
 </html>
