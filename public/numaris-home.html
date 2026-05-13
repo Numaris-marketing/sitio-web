@@ -266,7 +266,7 @@
 
 
 <!-- NAVBAR -->
-<header id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent" style="background:rgba(5,16,30,.4)">
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent" style="background:transparent">
   <nav id="nav-inner" class="max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
     <a href="#" class="shrink-0" id="nav-logo">
       <svg width="114" height="44" viewBox="0 0 576 224" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -419,7 +419,7 @@
 
     <div class="hidden lg:flex items-center gap-3 shrink-0">
       <a href="tel:+525556509228" class="text-[13px] text-white/60 hover:text-white/90 transition-colors">+52 55 5650 9228</a>
-      <a href="/contacto" class="btn-green px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
+      <a href="/contacto" style="display:inline-flex;align-items:center;padding:9px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Contacto</a>
     </div>
 
     <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
@@ -476,7 +476,7 @@
       <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
         <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <a href="/contacto" class="btn-green py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full block text-center">Contacto</a>
+        <a href="/contacto" style="display:block;text-align:center;padding:10px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none">Contacto</a>
       </div>
     </div>
   </div>
@@ -484,79 +484,27 @@
 
 <main>
 
-<!-- HERO -->
-<section class="relative overflow-hidden" style="background:var(--bg)">
+<!-- HERO VIDEO -->
+<section style="position:relative;height:100vh;overflow:hidden">
 
-  <!-- ── PART 1: Full-screen image ── -->
-  <div class="relative flex items-center justify-center overflow-hidden" style="height:100vh;min-height:640px">
-    <!-- Orb glow -->
-    <div class="orb hero-orb-anim" style="width:1100px;height:750px;background:radial-gradient(ellipse,rgba(36,95,165,.14) 0%,transparent 65%);top:-200px;left:50%;transform:translateX(-50%)"></div>
-    <!-- Dot grid -->
-    <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.12) 1px,transparent 1px);background-size:48px 48px;opacity:.15"></div>
+  <!-- Video background -->
+  <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">
+    <source src="/hero-video.mp4" type="video/mp4">
+  </video>
 
-    <!-- Badge — top center -->
-    <div class="absolute z-10 hero-badge-anim" style="top:calc(62px + 28px);left:50%;transform:translateX(-50%);white-space:nowrap">
-      <div class="tag fi inline-flex">
-        <span class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;animation:glow-pulse 2s infinite"></span>
-        Plataforma de Gestión de Flotas · México
-      </div>
-    </div>
+  <!-- Dark overlay -->
+  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.52) 0%,rgba(0,0,0,0.28) 50%,rgba(4,13,26,0.72) 100%);z-index:1"></div>
 
-    <!-- Vehicle image — full width, centered -->
-    <img
-      src="/Grafico_Carros.png"
-      alt="Flota Numaris — camiones, vans y autos conectados por GPS"
-      class="fi hero-img-anim"
-      style="position:relative;z-index:1;width:100%;max-width:1280px;object-fit:contain;mix-blend-mode:lighten;filter:brightness(1.1) drop-shadow(0 0 80px rgba(36,95,165,.28));margin-top:30px"
-    />
-
-    <!-- Top gradient (navbar area) -->
-    <div class="absolute top-0 left-0 right-0 pointer-events-none" style="height:140px;background:linear-gradient(to bottom,var(--bg) 20%,transparent)"></div>
-    <!-- Bottom gradient fade into text -->
-    <div class="absolute bottom-0 left-0 right-0 pointer-events-none" style="height:260px;background:linear-gradient(to top,var(--bg) 30%,transparent)"></div>
-
-    <!-- Scroll indicator -->
-    <div class="scroll-ind absolute z-10" style="bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px">
-      <span style="font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2)">Scroll</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-    </div>
+  <!-- Bottom-left: label -->
+  <div style="position:absolute;bottom:44px;left:48px;z-index:2">
+    <p style="margin:0;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)">Optimización de flotas</p>
   </div>
 
-  <!-- ── PART 2: Text content — centered ── -->
-  <div class="relative z-10 w-full max-w-3xl mx-auto px-6 pb-28 text-center">
-
-    <h1 class="fi hero-title-anim font-bold leading-[1.06] tracking-[-0.025em] text-white/92" style="font-size:clamp(26px,3.5vw,52px)">
-      Donde los datos se convierten<br/>
-      <span class="glow-text">de decisiones.</span>
-    </h1>
-
-    <p class="fi hero-sub-anim mt-6 text-[16px] max-w-xl mx-auto leading-relaxed font-light" style="color:rgba(208,223,240,.62)">
-      Una sola plataforma para rastreo satelital, control de combustible, video-IA y mantenimiento — todo en tiempo real.
-    </p>
-
-    <div class="fi hero-cta-anim mt-8 flex flex-wrap items-center justify-center gap-3">
-      <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-semibold text-white">
-        Agenda tu demo
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-7 py-3 rounded-full text-[14px] font-medium text-white/80">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        WhatsApp
-      </a>
-    </div>
-
-    <div class="fi mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[12px]" style="color:rgba(255,255,255,.45)">
-      <span class="flex items-center gap-1.5">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+5,000 clientes
-      </span>
-      <span class="flex items-center gap-1.5">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+60,000 unidades
-      </span>
-      <span class="flex items-center gap-1.5">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>+30% ahorro en operación
-      </span>
-    </div>
-  </div>
+  <!-- Bottom-right: Soluciones button -->
+  <a href="#soluciones" style="position:absolute;bottom:36px;right:48px;z-index:2;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:rgba(255,255,255,.82);font-size:13px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(255,255,255,.15)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.28)'">
+    Soluciones
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
 
 </section>
 
