@@ -73,7 +73,7 @@
     }
     .sidebar-logo-name {
       font-size: 0.875rem;
-      font-weight: 700;
+      font-weight: 600;
       color: #fff;
       letter-spacing: -0.01em;
     }
@@ -104,7 +104,7 @@
       padding: 0.625rem 0.75rem;
       border-radius: 0.5rem;
       font-size: 0.8125rem;
-      font-weight: 500;
+      font-weight: 400;
       color: rgba(255,255,255,0.55);
       cursor: pointer;
       text-decoration: none;
@@ -122,7 +122,7 @@
     .sidebar-nav-item.active {
       background: rgba(75,143,212,0.18);
       color: #fff;
-      font-weight: 600;
+      font-weight: 500;
       border-left-color: #4B8FD4;
     }
     .sidebar-nav-icon {
@@ -159,10 +159,10 @@
     }
     .topbar-left {}
     .topbar-title {
-      font-size: 1.375rem;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.02em;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0c1a2e;
+      letter-spacing: -0.01em;
       line-height: 1.2;
     }
     .topbar-sub {
@@ -229,9 +229,9 @@
     /* ── SECTION SPACING ── */
     .section { margin-bottom: 1.5rem; }
     .section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--fg-muted);
       margin-bottom: 0.75rem;
@@ -267,27 +267,28 @@
     .kpi-card.c-green::before  { background: var(--blue-mid); }
     .kpi-card.c-purple::before { background: #012750; }
     .kpi-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #94a3b8;
     }
     .kpi-val {
-      font-size: 2.5rem;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.025em;
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
     .kpi-card.c-blue   .kpi-val { color: var(--blue); }
     .kpi-card.c-green  .kpi-val { color: var(--blue-mid); }
     .kpi-card.c-purple .kpi-val { color: #012750; }
     .kpi-sub {
       font-size: 0.8125rem;
+      font-weight: 400;
       color: var(--fg-muted);
       margin-top: 0.125rem;
     }
-    .kpi-sub strong { color: var(--fg); }
+    .kpi-sub strong { color: var(--fg); font-weight: 500; }
 
     /* ── BADGES ── */
     .badge {
@@ -295,8 +296,8 @@
       align-items: center;
       gap: 0.3rem;
       font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      font-weight: 500;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
       padding: 0.2rem 0.6rem;
       border-radius: 999px;
@@ -357,7 +358,7 @@
       border-bottom: 1px solid var(--border);
     }
     .funnel-row:last-child { border-bottom: none; }
-    .funnel-stage { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
+    .funnel-stage { font-size: 0.875rem; font-weight: 500; color: var(--fg); }
     .funnel-cell { display: flex; flex-direction: column; gap: 0.3rem; }
     .funnel-bar-wrap { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
     .funnel-bar-mkt   { height: 100%; border-radius: 999px; background: var(--blue); }
@@ -366,7 +367,7 @@
     .funnel-nums .mkt   { color: var(--blue); font-weight: 700; }
     .funnel-nums .total { color: var(--fg-muted); }
     .funnel-pct-cell { text-align: center; }
-    .funnel-pct { font-size: 0.9375rem; font-weight: 800; }
+    .funnel-pct { font-size: 0.9375rem; font-weight: 600; }
     .funnel-pct.hi  { color: #245FA5; }
     .funnel-pct.mid { color: #4B8FD4; }
     .funnel-pct.lo  { color: var(--fg-muted); }
@@ -378,8 +379,8 @@
       padding: 0.875rem 0 0;
       margin-top: 0.25rem;
     }
-    .funnel-total-label { font-size: 0.875rem; font-weight: 800; color: var(--fg); }
-    .funnel-total-nums  { font-size: 0.875rem; font-weight: 800; }
+    .funnel-total-label { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
+    .funnel-total-nums  { font-size: 0.875rem; font-weight: 600; }
     .funnel-total-nums .mkt   { color: var(--blue); }
     .funnel-total-nums .total { color: var(--fg-muted); }
 
@@ -399,9 +400,9 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
     .deal-card h4 {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #94a3b8;
       margin-bottom: 1rem;
@@ -409,21 +410,21 @@
     .deal-compare { display: flex; flex-direction: column; gap: 0.875rem; }
     .deal-row { display: flex; flex-direction: column; gap: 0.35rem; }
     .deal-row-top { display: flex; justify-content: space-between; align-items: baseline; }
-    .deal-row-label { font-size: 0.875rem; font-weight: 600; }
-    .deal-row-val   { font-size: 0.875rem; font-weight: 800; }
+    .deal-row-label { font-size: 0.875rem; font-weight: 500; }
+    .deal-row-val   { font-size: 0.875rem; font-weight: 600; }
     .deal-bar-wrap  { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
     .deal-bar       { height: 100%; border-radius: 999px; }
 
     /* ── SEC HEAD ── */
     .sec-head { margin-bottom: 1.25rem; }
     .sec-head h2 {
-      font-size: 1.125rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 600;
       color: var(--fg);
-      letter-spacing: -0.015em;
+      letter-spacing: -0.01em;
       margin-bottom: 0.25rem;
     }
-    .sec-head p { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.5; }
+    .sec-head p { font-size: 0.8125rem; font-weight: 400; color: var(--fg-muted); line-height: 1.5; }
 
     /* ── SECTION DIVIDER ── */
     .sec-divider {
