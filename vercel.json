@@ -15,6 +15,7 @@
   },
   "rewrites": [
     { "source": "/", "destination": "/numaris-home.html" },
+    { "source": "/datos", "destination": "/datos.html" },
     { "source": "/contacto", "destination": "/contacto/index.html" },
     { "source": "/soluciones/seguridad-patrimonial/rastreo-satelital", "destination": "/soluciones/seguridad-patrimonial/rastreo-satelital/index.html" },
     { "source": "/soluciones/seguridad-patrimonial/monitoreo-inteligente", "destination": "/soluciones/seguridad-patrimonial/monitoreo-inteligente/index.html" },
