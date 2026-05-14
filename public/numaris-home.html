@@ -609,44 +609,43 @@
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,.48) 38%,rgba(255,255,255,.78) 60%,rgba(255,255,255,.95) 78%,#ffffff 100%);pointer-events:none"></div>
 </section>
 
-<!-- SECCIÓN IMAGEN PLATAFORMA — badges en zona blanca bajo la imagen -->
+<!-- SECCIÓN IMAGEN PLATAFORMA — badges sobre imagen + 1 en zona blanca -->
 <section style="background:#ffffff;padding:0;position:relative;overflow:hidden">
-  <div id="anno-wrap" style="position:relative;width:100%;padding-bottom:120px">
+  <div style="position:relative;width:100%;padding-bottom:90px">
     <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
 
-    <!-- SVG cubre imagen + zona blanca. Líneas de botón → coche -->
-    <svg id="anno-svg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible" preserveAspectRatio="none">
-      <!-- Coche izquierdo -->
-      <line id="ln1" x1="11%" y1="93%" x2="24%" y2="72%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Coche centro-izquierdo -->
-      <line id="ln2" x1="33%" y1="93%" x2="42%" y2="70%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Coche centro-derecho -->
-      <line id="ln3" x1="57%" y1="93%" x2="60%" y2="72%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Pantalla / plataforma (1 solo botón) -->
-      <line id="ln4" x1="80%" y1="93%" x2="52%" y2="38%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
+    <!-- SVG líneas badge → vehículo/pantalla -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible" preserveAspectRatio="none">
+      <line x1="14%" y1="44%" x2="24%" y2="63%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
+      <line x1="44%" y1="12%" x2="50%" y2="45%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
+      <line x1="72%" y1="20%" x2="68%" y2="48%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
+      <!-- Línea del badge en zona blanca → coches centro -->
+      <line x1="50%" y1="95%" x2="45%" y2="78%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
     </svg>
 
-    <!-- Puntos pulsantes sobre cada coche -->
-    <div class="anno-dot" style="top:72%;left:24%"></div>
-    <div class="anno-dot" style="top:70%;left:42%;animation-delay:.7s"></div>
-    <div class="anno-dot" style="top:72%;left:60%;animation-delay:1.4s"></div>
-    <div class="anno-dot" style="top:38%;left:52%;animation-delay:2.1s"></div>
+    <!-- Puntos pulsantes en vehículos -->
+    <div class="anno-dot" style="top:63%;left:24%"></div>
+    <div class="anno-dot" style="top:45%;left:50%;animation-delay:.6s"></div>
+    <div class="anno-dot" style="top:48%;left:68%;animation-delay:1.2s"></div>
+    <div class="anno-dot" style="top:78%;left:45%;animation-delay:1.8s"></div>
 
-    <!-- Botones en zona blanca debajo de la imagen -->
-    <a class="anno-badge" style="bottom:42px;left:5%">
+    <!-- 3 badges sobre la imagen (en zonas limpias) -->
+    <a class="anno-badge" style="top:34%;left:5%">
       Rastreo Satelital
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a class="anno-badge" style="bottom:42px;left:27%;animation-delay:.6s">
-      Telemetría Avanzada
+    <a class="anno-badge" style="top:2%;left:34%;animation-delay:.6s">
+      Plataforma de Gestión
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a class="anno-badge" style="bottom:42px;left:50%;animation-delay:1.2s">
+    <a class="anno-badge" style="top:10%;left:62%;animation-delay:1.2s">
       Videotelemetría IA
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a class="anno-badge" style="bottom:42px;left:72%;animation-delay:1.8s">
-      Plataforma de Gestión
+
+    <!-- 1 badge en zona blanca debajo (el que caía encima de los coches) -->
+    <a class="anno-badge" style="bottom:22px;left:calc(50% - 90px);animation-delay:1.8s">
+      Telemetría Avanzada
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
