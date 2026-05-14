@@ -569,10 +569,18 @@
 </section>
 </div><!-- /hero-wrapper -->
 
-<!-- SECCIÓN BLANCA — degradado tipo vaulk.com al inicio, imagen debajo -->
+<!-- GAP 3cm entre hero y sección de transición -->
+<div style="background:#ffffff;height:80px"></div>
+
+<!-- SECCIÓN TRANSICIÓN — imagen árboles como continuación del video drone -->
 <section style="background:#ffffff;padding:0;overflow:hidden;position:relative">
-  <!-- Simula el tono inferior del video drone (verde-oscuro) fundiéndose al blanco -->
-  <div style="position:absolute;top:0;left:0;right:0;height:260px;z-index:2;background:linear-gradient(to bottom,rgba(28,42,22,1) 0%,rgba(38,55,28,0.85) 18%,rgba(55,75,40,0.60) 38%,rgba(120,145,90,0.28) 58%,rgba(210,220,200,0.10) 76%,rgba(255,255,255,0) 100%);pointer-events:none"></div>
+  <img src="/arboles-transicion.jpg" alt="" style="width:100%;height:auto;display:block">
+  <!-- Degradado blanco: de menos (transparente arriba) a más (blanco abajo) -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:280px;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.15) 35%,rgba(255,255,255,.55) 60%,rgba(255,255,255,.88) 82%,#ffffff 100%);pointer-events:none"></div>
+</section>
+
+<!-- SECCIÓN BLANCA — Imagen principal plataforma -->
+<section style="background:#ffffff;padding:0;overflow:hidden">
   <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
 </section>
 
