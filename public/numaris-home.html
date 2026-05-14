@@ -498,14 +498,14 @@
   <div style="position:absolute;top:0;left:0;right:0;height:175px;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,0.32) 0%,transparent 100%);pointer-events:none"></div>
 
   <!-- Bottom-left: headline -->
-  <div style="position:absolute;bottom:250px;left:76px;z-index:2;max-width:500px">
+  <div style="position:absolute;bottom:44px;left:76px;z-index:2;max-width:500px">
     <p style="margin:0;font-size:clamp(29px,3.6vw,55px);font-weight:200;color:white;line-height:1.0;letter-spacing:-.03em;font-family:'Montserrat',sans-serif">
       Optimización de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0">flotas</em> con ganancia
     </p>
   </div>
 
   <!-- Hero film strip (scroll-driven) -->
-  <div id="hero-strip-wrap" style="position:absolute;bottom:230px;left:calc(50% + 22px);right:0;height:305px;z-index:2;overflow:hidden">
+  <div id="hero-strip-wrap" style="position:absolute;bottom:24px;left:calc(50% + 22px);right:0;height:305px;z-index:2;overflow:hidden">
     <div id="hero-strip" style="display:flex;gap:6px;height:100%;will-change:transform">
 
       <!-- Slide 1 — 500 -->
@@ -560,18 +560,19 @@
   </div>
 
   <!-- Bottom-right: Soluciones button -->
-  <a href="#soluciones" style="position:absolute;bottom:552px;left:calc(50% + 22px);z-index:2;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:rgba(255,255,255,.82);font-size:13px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(255,255,255,.15)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.28)'">
+  <a href="#soluciones" style="position:absolute;bottom:346px;left:calc(50% + 22px);z-index:2;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:rgba(255,255,255,.82);font-size:13px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(255,255,255,.15)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.28)'">
     Soluciones
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
 
-  <!-- Gradiente transición hero → blanco (empieza ~2cm abajo de los recuadros) -->
-  <div style="position:absolute;bottom:0;left:0;right:0;height:168px;z-index:3;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.04) 30%,rgba(255,255,255,.22) 55%,rgba(255,255,255,.62) 78%,#ffffff 100%);pointer-events:none"></div>
 </section>
 </div><!-- /hero-wrapper -->
 
+<!-- Degradado puente hero → sección blanca (fuera del hero, no afecta el contenido) -->
+<div style="position:relative;z-index:5;margin-top:-160px;height:160px;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.05) 35%,rgba(255,255,255,.28) 60%,rgba(255,255,255,.72) 82%,#ffffff 100%);pointer-events:none"></div>
+
 <!-- SECCIÓN BLANCA — Imagen principal -->
-<section style="background:#ffffff;padding:0;overflow:hidden">
+<section style="background:#ffffff;padding:0;overflow:hidden;margin-top:-1px">
   <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
 </section>
 
