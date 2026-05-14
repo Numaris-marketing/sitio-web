@@ -565,12 +565,14 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
 
+  <!-- Gradiente transición hero → blanco -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:220px;z-index:3;background:linear-gradient(to bottom,transparent 0%,#ffffff 100%);pointer-events:none"></div>
 </section>
 </div><!-- /hero-wrapper -->
 
 <!-- SECCIÓN BLANCA — Imagen principal -->
-<section style="background:#ffffff;padding:80px 48px;display:flex;align-items:center;justify-content:center">
-  <img src="/Grafico_Carros.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;max-width:900px;height:auto;display:block">
+<section style="background:#ffffff;padding:0;overflow:hidden">
+  <img src="/Grafico_Carros.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
 </section>
 
 <!-- SOLUCIONES — Scroll-driven carousel -->
