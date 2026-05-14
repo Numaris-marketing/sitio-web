@@ -484,7 +484,8 @@
 <main>
 
 <!-- HERO VIDEO -->
-<section style="position:relative;height:100vh;overflow:hidden">
+<div id="hero-wrapper" style="position:relative;height:500vh">
+<section style="position:sticky;top:0;height:100vh;overflow:hidden">
 
   <!-- Video background -->
   <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">
@@ -512,7 +513,7 @@
     <!-- right bottom con stat -->
     <div style="border-radius:6px;border:1px solid rgba(255,255,255,0.7);grid-column:2;grid-row:2;position:relative">
       <div style="position:absolute;bottom:8px;left:10px">
-        <p style="margin:0;font-size:18px;font-weight:700;color:white;line-height:1">500<span style="color:#10B981">+</span></p>
+        <p style="margin:0;font-size:18px;font-weight:700;color:white;line-height:1"><span id="hero-stat-num">500</span><span style="color:#10B981">+</span></p>
         <p style="margin:2px 0 0;font-size:9px;color:rgba(255,255,255,.65);font-weight:400">Vehículos rastreados</p>
       </div>
     </div>
@@ -525,6 +526,7 @@
   </a>
 
 </section>
+</div><!-- /hero-wrapper -->
 
 <div class="divider"></div>
 
@@ -2471,6 +2473,25 @@ document.getElementById('modal-form').addEventListener('submit', async function(
     } else { btn.textContent='Error — intenta de nuevo'; btn.disabled=false; }
   } catch { btn.textContent='Error — intenta de nuevo'; btn.disabled=false; }
 });
+</script>
+
+<script>
+(function(){
+  const wrapper = document.getElementById('hero-wrapper');
+  const statNum = document.getElementById('hero-stat-num');
+  if(!wrapper || !statNum) return;
+  let lastIdx = -1;
+  window.addEventListener('scroll', function(){
+    const scrolled = -wrapper.getBoundingClientRect().top;
+    const total    = wrapper.offsetHeight - window.innerHeight;
+    if(total <= 0) return;
+    const progress = Math.max(0, Math.min(1, scrolled / total));
+    const idx      = Math.min(Math.floor(progress * 4), 3);
+    if(idx === lastIdx) return;
+    lastIdx = idx;
+    statNum.textContent = (500 + idx).toString();
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
