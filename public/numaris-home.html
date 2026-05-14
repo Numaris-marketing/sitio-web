@@ -2208,16 +2208,17 @@ window.addEventListener('scroll', () => {
   const strip = document.getElementById('hero-strip');
   if(!wrap || !strip) return;
 
+  const PEEK = 76; // ~2cm del siguiente slide siempre visible
+
   function setSlideWidths(){
-    const w = wrap.offsetWidth;
+    const w = wrap.offsetWidth - PEEK;
     strip.querySelectorAll('.hero-slide').forEach(s => { s.style.width = w + 'px'; });
   }
 
   function onScroll(){
     const ih = window.innerHeight;
-    // animate across the first 90% of the hero scroll
     const prog = Math.min(Math.max(window.scrollY / (ih * 0.9), 0), 1);
-    const slideW = wrap.offsetWidth + 6; // slide width + gap
+    const slideW = (wrap.offsetWidth - PEEK) + 6; // slide width + gap
     strip.style.transform = 'translateX(-' + (prog * slideW * 3) + 'px)';
   }
 
