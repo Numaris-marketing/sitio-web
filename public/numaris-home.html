@@ -261,6 +261,37 @@
     .hero-orb-anim {
       animation: hero-fade-in 1.4s ease .0s both;
     }
+    /* ── Imagen-01 annotation badges ── */
+    @keyframes badge-float {
+      0%,100% { transform:translateY(0px); }
+      50%      { transform:translateY(-5px); }
+    }
+    @keyframes anno-pulse {
+      0%,100% { box-shadow:0 0 0 0 rgba(36,95,165,.7); }
+      60%      { box-shadow:0 0 0 8px rgba(36,95,165,0); }
+    }
+    .anno-badge {
+      position:absolute;
+      display:inline-flex;align-items:center;gap:7px;
+      padding:9px 18px;
+      border-radius:999px;
+      border:1px solid rgba(36,95,165,.40);
+      background:rgba(36,95,165,.13);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      color:#245FA5;font-size:12px;font-weight:600;letter-spacing:.02em;
+      text-decoration:none;white-space:nowrap;cursor:pointer;
+      animation:badge-float 3.6s ease-in-out infinite;
+      transition:background .2s,border-color .2s;
+    }
+    .anno-badge:hover { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
+    .anno-badge:nth-child(3) { animation-delay:.6s; }
+    .anno-badge:nth-child(4) { animation-delay:1.2s; }
+    .anno-badge:nth-child(5) { animation-delay:1.8s; }
+    .anno-dot {
+      position:absolute;width:8px;height:8px;border-radius:50%;
+      background:#245FA5;transform:translate(-50%,-50%);
+      animation:anno-pulse 2.4s ease-in-out infinite;
+    }
   </style>
 </head>
 <body style="background:#05101E">
@@ -578,9 +609,47 @@
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,.48) 38%,rgba(255,255,255,.78) 60%,rgba(255,255,255,.95) 78%,#ffffff 100%);pointer-events:none"></div>
 </section>
 
-<!-- SECCIÓN BLANCA — Imagen principal plataforma -->
-<section style="background:#ffffff;padding:0;overflow:hidden">
-  <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
+<!-- SECCIÓN IMAGEN PLATAFORMA — con badges de anotación tipo vaulk -->
+<section style="background:#ffffff;padding:0;position:relative;overflow:hidden">
+  <div style="position:relative;width:100%">
+    <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
+
+    <!-- Líneas SVG que conectan badges con puntos en la imagen -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible" preserveAspectRatio="none">
+      <!-- Badge 1 → Vehículo izq -->
+      <line x1="21%" y1="54%" x2="28%" y2="63%" stroke="rgba(36,95,165,.50)" stroke-width="1"/>
+      <!-- Badge 2 → Vehículo centro -->
+      <line x1="52%" y1="22%" x2="50%" y2="45%" stroke="rgba(36,95,165,.50)" stroke-width="1"/>
+      <!-- Badge 3 → Plataforma derecha -->
+      <line x1="79%" y1="30%" x2="72%" y2="48%" stroke="rgba(36,95,165,.50)" stroke-width="1"/>
+      <!-- Badge 4 → Vehículo fondo -->
+      <line x1="60%" y1="72%" x2="54%" y2="60%" stroke="rgba(36,95,165,.50)" stroke-width="1"/>
+    </svg>
+
+    <!-- Puntos pulsantes en los vehículos -->
+    <div class="anno-dot" style="top:63%;left:28%"></div>
+    <div class="anno-dot" style="top:45%;left:50%;animation-delay:.5s"></div>
+    <div class="anno-dot" style="top:48%;left:72%;animation-delay:1s"></div>
+    <div class="anno-dot" style="top:60%;left:54%;animation-delay:1.5s"></div>
+
+    <!-- Badges azules con texto -->
+    <a class="anno-badge" style="top:44%;left:12%">
+      Rastreo Satelital
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a class="anno-badge" style="top:12%;left:42%">
+      Videotelemetría IA
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a class="anno-badge" style="top:20%;left:70%">
+      Plataforma de Gestión
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a class="anno-badge" style="top:62%;left:52%">
+      Control de Combustible
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
 </section>
 
 <!-- SOLUCIONES — Scroll-driven carousel -->
