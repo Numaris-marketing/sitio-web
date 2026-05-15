@@ -668,68 +668,52 @@
   </p>
 </section>
 
-<!-- SOLUCIONES — Scroll-driven carousel -->
-<div id="sol-scroll-driver" style="position:relative;height:400vh">
-<section id="soluciones" style="background:var(--bg);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:20px 0 0">
+<!-- SOLUCIONES — 2 columnas: video + bullets -->
+<section id="soluciones" style="background:var(--bg);padding:100px 0">
   <div class="max-w-6xl mx-auto px-6">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
 
-    <div class="text-center mb-12 fi">
-      <div class="tag mx-auto mb-5">Soluciones</div>
-      <h2 class="text-[30px] sm:text-[36px] font-semibold tracking-tight text-white/85 leading-tight">
-        Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
-      </h2>
-      <p class="mt-4 text-[14px] font-light max-w-xl mx-auto leading-relaxed" style="color:var(--muted)">
-        Desde el control de combustible hasta la seguridad vial con IA. Numaris unifica cada aspecto de la gestión de flotillas.
-      </p>
-    </div>
-
-    <!-- Tab switcher -->
-    <div class="flex justify-center mb-8">
-      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px;display:inline-flex;gap:2px">
-        <button id="stab-sol" onclick="solSwitchTab('sol')"
-          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .22s;background:white;color:#012750;font-family:inherit">
-          Soluciones
-        </button>
-        <button id="stab-ind" onclick="solSwitchTab('ind')"
-          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:all .22s;background:transparent;color:rgba(255,255,255,.45);font-family:inherit">
-          Industrias
-        </button>
-      </div>
-    </div>
-
-    <!-- ── SOLUCIONES PANEL ── -->
-    <div id="sp-sol">
-      <!-- Outer shell: sidebar + content -->
-      <div style="display:flex;gap:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(4,13,26,.9);min-height:480px">
-
-        <!-- Left sidebar -->
-        <div id="sol-sidebar" style="width:230px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.07);padding:10px 8px;display:flex;flex-direction:column;gap:2px"></div>
-
-        <!-- Right: large card + 2 small cards -->
-        <div id="sol-cards" style="flex:1;padding:14px;display:grid;grid-template-columns:1fr 230px;grid-template-rows:1fr 1fr;gap:10px;min-height:480px"></div>
-
+      <!-- IZQUIERDA: Marco de video -->
+      <div style="position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(75,143,212,.25);background:rgba(4,13,26,.9);aspect-ratio:16/9;box-shadow:0 0 80px rgba(36,95,165,.18)">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(4,13,26,.95) 0%,rgba(1,39,80,.6) 100%)">
+          <div style="width:68px;height:68px;border-radius:50%;background:rgba(36,95,165,.5);border:1.5px solid rgba(75,143,212,.6);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);cursor:pointer">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
       </div>
 
-      <!-- Mobile fallback: horizontal scrollable tabs -->
-      <div id="sol-mobile-tabs" style="display:none;overflow-x:auto;gap:8px;padding-bottom:4px;margin-bottom:12px;-webkit-overflow-scrolling:touch"></div>
+      <!-- DERECHA: Contenido -->
+      <div>
+        <div class="tag mb-5">Soluciones</div>
+        <h2 style="font-size:clamp(24px,2.6vw,38px);font-weight:700;color:rgba(255,255,255,.92);line-height:1.15;letter-spacing:-.02em;margin:0 0 16px">
+          Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
+        </h2>
+        <p style="font-size:14px;line-height:1.75;margin:0 0 36px;color:var(--muted)">
+          Desde el control de combustible hasta la seguridad vial con IA. Numaris unifica cada aspecto de la gestión de flotillas.
+        </p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px">
+          <li style="display:flex;align-items:center;gap:14px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
+            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Rastreo satelital en tiempo real</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:14px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
+            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Videotelemetría con inteligencia artificial</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:14px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
+            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Control de combustible y telemetría avanzada</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:14px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
+            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Gestión de flotas y mantenimiento centralizado</span>
+          </li>
+        </ul>
+      </div>
+
     </div>
-
-    <!-- ── INDUSTRIAS PANEL ── -->
-    <div id="sp-ind" style="display:none">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="ind-cards"></div>
-    </div>
-
-  </div>
-
-  <!-- Progress dots -->
-  <div style="display:flex;justify-content:center;gap:8px;padding:14px 0 0">
-    <div id="sdot-0" style="height:4px;border-radius:2px;width:24px;background:#10B981;transition:all .35s ease"></div>
-    <div id="sdot-1" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
-    <div id="sdot-2" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
-    <div id="sdot-3" style="height:4px;border-radius:2px;width:6px;background:rgba(255,255,255,.2);transition:all .35s ease"></div>
   </div>
 </section>
-</div><!-- /sol-scroll-driver -->
 
 <div class="divider"></div>
 
