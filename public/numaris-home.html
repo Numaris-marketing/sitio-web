@@ -668,42 +668,47 @@
   </p>
 </section>
 
-<!-- SOLUCIONES — Bento grid estilo sequel.co -->
-<section id="soluciones" style="background:var(--bg);padding:80px 0">
+<!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
+<section id="soluciones" style="background:#ffffff;padding:80px 0">
   <div class="max-w-6xl mx-auto px-6">
 
+    <!-- Header tipografía Montserrat + Baskerville -->
     <div style="text-align:center;margin-bottom:48px">
-      <div class="tag mx-auto mb-5">Soluciones</div>
-      <h2 style="font-size:clamp(26px,3vw,42px);font-weight:700;color:rgba(255,255,255,.92);line-height:1.15;letter-spacing:-.02em;margin:0">
-        Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
-      </h2>
+      <p style="margin:0 0 16px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#4B8FD4">Soluciones</p>
+      <p style="margin:0;font-size:clamp(28px,3.2vw,50px);font-weight:200;line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;color:#4B8FD4">
+        Todo lo que tu flota necesita,<br/><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;color:#245FA5">en una sola plataforma.</em>
+      </p>
     </div>
 
+    <!-- Bento grid -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 
       <!-- Columna izquierda -->
       <div style="display:flex;flex-direction:column;gap:10px">
 
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(4,13,26,.95);aspect-ratio:3/4;max-height:480px">
-          <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(1,39,80,.8) 0%,rgba(4,13,26,.95) 100%);display:flex;align-items:center;justify-content:center">
-            <img src="/Animacion17.svg" alt="" style="width:70%;opacity:.85">
+        <!-- Tarjeta grande imagen -->
+        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.30);aspect-ratio:3/4;max-height:480px">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px">
+            <img src="/Animacion17.svg" alt="" style="width:75%;opacity:.9">
           </div>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,1) 0%,transparent 50%);pointer-events:none"></div>
-          <div style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Transporte Pesado</span>
+          <!-- Badge -->
+          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.13);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.40);border-radius:999px;padding:6px 16px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#245FA5;text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte Pesado</span>
           </div>
+          <!-- Título abajo -->
           <div style="position:absolute;bottom:20px;left:20px;right:20px">
-            <p style="margin:0;font-size:18px;font-weight:700;color:#fff;line-height:1.2">Rastreo Satelital</p>
-            <p style="margin:4px 0 0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:uppercase">Seguridad Patrimonial</p>
+            <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#245FA5;line-height:1.2;font-family:'Montserrat',sans-serif">Rastreo <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#012750">Satelital</em></p>
+            <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(36,95,165,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Patrimonial</p>
           </div>
         </div>
 
-        <div style="border-radius:16px;background:rgba(10,20,38,.9);padding:28px;border:1px solid rgba(36,95,165,.15)">
-          <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px;display:inline-block;margin-bottom:16px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Productividad</span>
+        <!-- Tarjeta corta texto -->
+        <div style="border-radius:16px;background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.30);padding:28px">
+          <div style="background:rgba(36,95,165,.13);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.40);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#245FA5;text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span>
           </div>
-          <p style="margin:0 0 10px;font-size:19px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">“Reducimos un 35% el consumo de combustible en los primeros 3 meses.”</p>
-          <p style="margin:0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Director de Operaciones</p>
+          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:#245FA5;line-height:1.45;font-family:'Montserrat',sans-serif">"Reducimos un 35% el consumo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#012750">combustible</em> en los primeros 3 meses."</p>
+          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(36,95,165,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Director de Operaciones</p>
         </div>
 
       </div>
@@ -711,25 +716,26 @@
       <!-- Columna derecha -->
       <div style="display:flex;flex-direction:column;gap:10px">
 
-        <div style="border-radius:16px;background:rgba(10,20,38,.9);padding:28px;border:1px solid rgba(36,95,165,.15)">
-          <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px;display:inline-block;margin-bottom:16px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Seguridad Vial</span>
+        <!-- Tarjeta corta texto -->
+        <div style="border-radius:16px;background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.30);padding:28px">
+          <div style="background:rgba(36,95,165,.13);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.40);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#245FA5;text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</span>
           </div>
-          <p style="margin:0 0 10px;font-size:19px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">“Con videotelemetría IA bajamos los accidentes un 65% en flota nacional.”</p>
-          <p style="margin:0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Gerente de Flota</p>
+          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:#245FA5;line-height:1.45;font-family:'Montserrat',sans-serif">"Con videotelemetría IA bajamos los <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#012750">accidentes</em> un 65% en flota nacional."</p>
+          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(36,95,165,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Gerente de Flota</p>
         </div>
 
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(4,13,26,.95);aspect-ratio:3/4;max-height:480px">
-          <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(1,39,80,.8) 0%,rgba(4,13,26,.95) 100%);display:flex;align-items:center;justify-content:center">
-            <img src="/Animacion25.svg" alt="" style="width:70%;opacity:.85">
+        <!-- Tarjeta grande imagen -->
+        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(36,95,165,.06);border:1px solid rgba(36,95,165,.30);aspect-ratio:3/4;max-height:480px">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px">
+            <img src="/Animacion25.svg" alt="" style="width:75%;opacity:.9">
           </div>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,1) 0%,transparent 50%);pointer-events:none"></div>
-          <div style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Última Milla</span>
+          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.13);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.40);border-radius:999px;padding:6px 16px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#245FA5;text-transform:uppercase;font-family:'Montserrat',sans-serif">Última Milla</span>
           </div>
           <div style="position:absolute;bottom:20px;left:20px;right:20px">
-            <p style="margin:0;font-size:18px;font-weight:700;color:#fff;line-height:1.2">Videotelemetría IA</p>
-            <p style="margin:4px 0 0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:uppercase">Seguridad Vial</p>
+            <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#245FA5;line-height:1.2;font-family:'Montserrat',sans-serif">Videotelemetría <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#012750">IA</em></p>
+            <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(36,95,165,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</p>
           </div>
         </div>
 
