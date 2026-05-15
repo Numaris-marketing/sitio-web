@@ -740,54 +740,63 @@
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- STATS + IA CONTEXT -->
-<section style="background:var(--bg2);padding:72px 0">
-  <div class="max-w-6xl mx-auto px-6">
+<section style="background:#000;padding:100px 0">
+  <div style="max-width:1140px;margin:0 auto;padding:0 40px">
 
-    <!-- Top label -->
-    <div class="text-center mb-12 fi">
-      <p class="text-[10px] font-bold uppercase tracking-[.16em] mb-4" style="color:rgba(75,143,212,.55)">Plataforma impulsada por datos reales</p>
-      <h2 class="text-[28px] sm:text-[36px] font-bold tracking-tight leading-tight" style="color:rgba(255,255,255,.9)">
-        La IA de Numaris aprende de<br/><span class="glow-text">cada kilómetro recorrido.</span>
+    <!-- Título estilo sequel -->
+    <div class="fi" style="text-align:center;margin-bottom:88px">
+      <h2 style="font-family:'Inter',sans-serif;font-size:clamp(30px,4vw,52px);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.025em;margin:0">
+        La IA de Numaris aprende de <em style="font-family:'LibreBaskerville',Georgia,serif;font-weight:400;font-style:italic">cada kilómetro</em> recorrido.
       </h2>
-      <p class="mt-4 text-[15px] font-light max-w-xl mx-auto" style="color:rgba(208,223,240,.45)">
+      <p style="margin-top:20px;font-size:15px;color:rgba(255,255,255,.4);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7">
         Más de una década de datos de flotas mexicanas entrenan nuestros modelos. Eso es contexto que ningún competidor puede replicar.
       </p>
     </div>
 
-    <!-- 6-stat grid -->
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-px fi" style="border:1px solid rgba(36,95,165,.12);border-radius:20px;overflow:hidden;background:rgba(36,95,165,.08)">
+    <!-- Grid de stats 3×2 con líneas divisoras -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.1)">
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="200000" data-p="+" data-s="">0</p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">unidades conectadas en México</p>
+      <!-- Stat 1 -->
+      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Alcance</span>
+        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200000" data-p="+" data-s="">0</p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Unidades conectadas en México</p>
       </div>
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)">700<span style="font-size:28px;color:rgba(110,176,255,.7)">M+</span></p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">eventos de flota procesados al día</p>
+      <!-- Stat 2 -->
+      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Procesamiento</span>
+        <p style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">700<span style="font-size:.55em">M+</span></p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Eventos de flota procesados al día</p>
       </div>
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="13" data-p="" data-s=" años">0</p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">de datos de operaciones en México</p>
+      <!-- Stat 3 -->
+      <div class="fi" style="padding:48px 40px 52px;border-bottom:1px solid rgba(255,255,255,.1)">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Experiencia</span>
+        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="13" data-p="" data-s=" años">0</p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">De datos de operaciones en México</p>
       </div>
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)">96<span style="font-size:28px;color:rgba(110,176,255,.7)">%</span></p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">efectividad en recuperación de unidades</p>
+      <!-- Stat 4 -->
+      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1)">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Seguridad</span>
+        <p style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">96<span style="font-size:.55em">%</span></p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Efectividad en recuperación de unidades</p>
       </div>
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="200" data-p="+" data-s="">0</p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">técnicos certificados CESVI a nivel nacional</p>
+      <!-- Stat 5 -->
+      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1)">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Soporte</span>
+        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200" data-p="+" data-s="">0</p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Técnicos certificados CESVI nacional</p>
       </div>
 
-      <div class="flex flex-col gap-1 px-8 py-8" style="background:var(--bg2)">
-        <p class="stat-n text-[42px] font-bold leading-none" style="color:rgba(255,255,255,.92)" data-t="5000" data-p="+" data-s="">0</p>
-        <p class="text-[12px] font-medium mt-1" style="color:rgba(208,223,240,.5)">empresas confían en Numaris</p>
+      <!-- Stat 6 -->
+      <div class="fi" style="padding:48px 40px 52px">
+        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Confianza</span>
+        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="5000" data-p="+" data-s="">0</p>
+        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Empresas confían en Numaris</p>
       </div>
 
     </div><!-- /grid -->
