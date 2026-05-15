@@ -668,49 +668,72 @@
   </p>
 </section>
 
-<!-- SOLUCIONES — 2 columnas: video + bullets -->
-<section id="soluciones" style="background:var(--bg);padding:100px 0">
+<!-- SOLUCIONES — Bento grid estilo sequel.co -->
+<section id="soluciones" style="background:var(--bg);padding:80px 0">
   <div class="max-w-6xl mx-auto px-6">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
 
-      <!-- IZQUIERDA: Marco de video -->
-      <div style="position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(75,143,212,.25);background:rgba(4,13,26,.9);aspect-ratio:16/9;box-shadow:0 0 80px rgba(36,95,165,.18)">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(4,13,26,.95) 0%,rgba(1,39,80,.6) 100%)">
-          <div style="width:68px;height:68px;border-radius:50%;background:rgba(36,95,165,.5);border:1.5px solid rgba(75,143,212,.6);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);cursor:pointer">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><polygon points="5,3 19,12 5,21"/></svg>
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="tag mx-auto mb-5">Soluciones</div>
+      <h2 style="font-size:clamp(26px,3vw,42px);font-weight:700;color:rgba(255,255,255,.92);line-height:1.15;letter-spacing:-.02em;margin:0">
+        Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+      <!-- Columna izquierda -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+
+        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(4,13,26,.95);aspect-ratio:3/4;max-height:480px">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(1,39,80,.8) 0%,rgba(4,13,26,.95) 100%);display:flex;align-items:center;justify-content:center">
+            <img src="/Animacion17.svg" alt="" style="width:70%;opacity:.85">
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,1) 0%,transparent 50%);pointer-events:none"></div>
+          <div style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Transporte Pesado</span>
+          </div>
+          <div style="position:absolute;bottom:20px;left:20px;right:20px">
+            <p style="margin:0;font-size:18px;font-weight:700;color:#fff;line-height:1.2">Rastreo Satelital</p>
+            <p style="margin:4px 0 0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:uppercase">Seguridad Patrimonial</p>
           </div>
         </div>
+
+        <div style="border-radius:16px;background:rgba(10,20,38,.9);padding:28px;border:1px solid rgba(36,95,165,.15)">
+          <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px;display:inline-block;margin-bottom:16px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Productividad</span>
+          </div>
+          <p style="margin:0 0 10px;font-size:19px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">“Reducimos un 35% el consumo de combustible en los primeros 3 meses.”</p>
+          <p style="margin:0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Director de Operaciones</p>
+        </div>
+
       </div>
 
-      <!-- DERECHA: Contenido -->
-      <div>
-        <div class="tag mb-5">Soluciones</div>
-        <h2 style="font-size:clamp(24px,2.6vw,38px);font-weight:700;color:rgba(255,255,255,.92);line-height:1.15;letter-spacing:-.02em;margin:0 0 16px">
-          Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
-        </h2>
-        <p style="font-size:14px;line-height:1.75;margin:0 0 36px;color:var(--muted)">
-          Desde el control de combustible hasta la seguridad vial con IA. Numaris unifica cada aspecto de la gestión de flotillas.
-        </p>
-        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px">
-          <li style="display:flex;align-items:center;gap:14px">
-            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
-            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Rastreo satelital en tiempo real</span>
-          </li>
-          <li style="display:flex;align-items:center;gap:14px">
-            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
-            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Videotelemetría con inteligencia artificial</span>
-          </li>
-          <li style="display:flex;align-items:center;gap:14px">
-            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
-            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Control de combustible y telemetría avanzada</span>
-          </li>
-          <li style="display:flex;align-items:center;gap:14px">
-            <span style="width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0"></span>
-            <span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.78)">Gestión de flotas y mantenimiento centralizado</span>
-          </li>
-        </ul>
-      </div>
+      <!-- Columna derecha -->
+      <div style="display:flex;flex-direction:column;gap:10px">
 
+        <div style="border-radius:16px;background:rgba(10,20,38,.9);padding:28px;border:1px solid rgba(36,95,165,.15)">
+          <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px;display:inline-block;margin-bottom:16px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Seguridad Vial</span>
+          </div>
+          <p style="margin:0 0 10px;font-size:19px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">“Con videotelemetría IA bajamos los accidentes un 65% en flota nacional.”</p>
+          <p style="margin:0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Gerente de Flota</p>
+        </div>
+
+        <div style="position:relative;border-radius:16px;overflow:hidden;background:rgba(4,13,26,.95);aspect-ratio:3/4;max-height:480px">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(1,39,80,.8) 0%,rgba(4,13,26,.95) 100%);display:flex;align-items:center;justify-content:center">
+            <img src="/Animacion25.svg" alt="" style="width:70%;opacity:.85">
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,1) 0%,transparent 50%);pointer-events:none"></div>
+          <div style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.9);text-transform:uppercase">Última Milla</span>
+          </div>
+          <div style="position:absolute;bottom:20px;left:20px;right:20px">
+            <p style="margin:0;font-size:18px;font-weight:700;color:#fff;line-height:1.2">Videotelemetría IA</p>
+            <p style="margin:4px 0 0;font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:uppercase">Seguridad Vial</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
