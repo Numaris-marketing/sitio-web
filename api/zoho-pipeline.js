@@ -22,6 +22,7 @@ const OWNER_TO_INDUSTRY = {
   "Mario Rincón":                   "Transporte Pesado",
   "Daniel Ocampo":                  "Transporte Pesado",
   "Uriel San Pedro Lopez":          "Transporte Pesado",
+  "Elizabeth Cortes Aguirre":       "Transporte Pesado",
 
   // Logística y Distribución
   "Karen Andrea Gonzalez Ramirez":      "Logística y Distribución",
@@ -170,35 +171,50 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    const [activeDealsRaw, prospAccounts, campDealsRaw] = await Promise.all([
+    const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,Owner",
         dealCriteria, token),
       fetchFiltered("Accounts",
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,Closing_Date",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,Closing_Date,Owner",
         campDealCriteria, token),
+      zohoGetAll("Campaigns",
+        "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
+        token),
     ]);
 
-    // No campaigns module fetch needed — derive campaign catalog from deal Campa_a objects
-    const campaigns = [];
-
-    // Build campaign lookup by id (empty — derived from deals)
-    const campaignById = {};
+    // Build campaign details lookup from Zoho Campaigns module
+    const campaignDetails = {};
+    for (const c of campaignRecords) {
+      campaignDetails[c.id] = {
+        id:           c.id,
+        name:         c.Campaign_Name,
+        type:         c.Type         || null,
+        status:       c.Status       || null,
+        startDate:    c.Start_Date   || null,
+        endDate:      c.End_Date     || null,
+        budgetedCost: c.Budgeted_Cost || 0,
+        actualCost:   c.Actual_Cost   || 0,
+      };
+    }
 
     // Build account index (Prospecto only)
     const accountById = {};
     const marketingAccIds = new Set();
-    const accountIndustry = {}; // acc.id → industry label via owner mapping
     for (const acc of prospAccounts) {
       accountById[acc.id] = acc;
-      const ownerName = typeof acc.Owner === "object" ? (acc.Owner?.name || "") : (acc.Owner || "");
-      accountIndustry[acc.id] = OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
       if (MARKETING_SOURCES.has(acc.Se_obtuvo_por) && !EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
         marketingAccIds.add(acc.id);
       }
+    }
+
+    // Helper: industry from deal owner (propietario de oportunidad)
+    function dealIndustry(d) {
+      const ownerName = typeof d.Owner === "object" ? (d.Owner?.name || "") : (d.Owner || "");
+      return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
     // Further filter deals: must be Prospecto account and not excluded
@@ -253,11 +269,10 @@ export default async function handler(req, res) {
       totalByStage[s].subs += d.Cantidad_de_suscripciones || 0;
     }
 
-    // By industry — total active deals grouped by Account Owner → industry mapping
+    // By industry — total active deals grouped by Deal Owner → industry mapping
     const totalByIndustry = {};
     for (const d of activeDeals) {
-      const accId = getAccId(d);
-      const ind = accountIndustry[accId] || "Sin asignar";
+      const ind = dealIndustry(d);
       if (!totalByIndustry[ind]) totalByIndustry[ind] = { count: 0, value: 0 };
       totalByIndustry[ind].count++;
       totalByIndustry[ind].value += dealValue(d);
@@ -266,8 +281,7 @@ export default async function handler(req, res) {
     // By industry — marketing deals
     const mktByIndustry = {};
     for (const d of marketingDeals) {
-      const accId = getAccId(d);
-      const ind = accountIndustry[accId] || "Sin asignar";
+      const ind = dealIndustry(d);
       if (!mktByIndustry[ind]) mktByIndustry[ind] = { count: 0, value: 0 };
       mktByIndustry[ind].count++;
       mktByIndustry[ind].value += dealValue(d);
@@ -363,6 +377,7 @@ export default async function handler(req, res) {
       bySource,
       byIndustry,
       byCampaign,
+      campaignDetails,
       debug: {
         dealsWithCampaign:    dealsWithCamp,
         wonDealsWithCampaign: wonDealsWithCamp,
