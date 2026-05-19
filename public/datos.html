@@ -1096,41 +1096,20 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
           <div class="card" style="padding:1.375rem;">
             <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Concentración del pipeline total por vertical</div>
-            <div style="display:flex;flex-direction:column;gap:1rem;">
-              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Transporte Pesado</span><span style="font-size:0.875rem;font-weight:600;color:var(--blue);">40.6% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$103.7M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:40.6%;background:var(--blue);border-radius:999px;"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Servicios Financieros</span><span style="font-size:0.875rem;font-weight:600;color:var(--blue-mid);">21.8% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$55.7M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:21.8%;background:var(--blue-mid);border-radius:999px;"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Sin asignar</span><span style="font-size:0.875rem;font-weight:600;color:#94a3b8;">20.9% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$53.3M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:20.9%;background:#cbd5e1;border-radius:999px;"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">Logística y Distribución</span><span style="font-size:0.875rem;font-weight:600;color:var(--blue-dark);">14.6% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">MX$37.3M</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:14.6%;background:var(--blue-dark);border-radius:999px;"></div></div></div>
-              <div style="padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--fg-muted);"><strong style="color:var(--blue);">Riesgo de concentración:</strong> 1 vertical (Transporte Pesado) concentra el 41% del pipeline total.</div>
+            <div id="concentration-bars" style="display:flex;flex-direction:column;gap:1rem;">
+              <div style="color:var(--fg-muted);font-size:0.875rem;">Cargando datos…</div>
             </div>
           </div>
           <div class="card" style="padding:1.375rem;">
-            <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Brecha de Marketing — si alcanzara su promedio (23.3%) en cada vertical</div>
-            <div style="display:flex;flex-direction:column;gap:0.875rem;">
-              <div style="background:var(--blue-light);border:1px solid #c5daf0;border-radius:0.625rem;padding:0.875rem;">
-                <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:600;">Servicios Financieros</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue);">+MX$12.0M</span></div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual MX$1.0M (1.7%) → Objetivo MX$13.0M (23.3%)</div>
-                <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:7.5%;background:var(--blue);border-radius:999px;"></div></div>
-              </div>
-              <div style="background:var(--blue-light);border:1px solid #c5daf0;border-radius:0.625rem;padding:0.875rem;">
-                <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:600;">Logística y Distribución</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue-mid);">+MX$1.9M</span></div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual MX$6.8M (18.1%) → Objetivo MX$8.7M (23.3%)</div>
-                <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:77.5%;background:var(--blue-mid);border-radius:999px;"></div></div>
-              </div>
-              <div style="background:#e8f0f8;border:1px solid #bdd0e6;border-radius:0.625rem;padding:0.875rem;">
-                <div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;"><span style="font-size:0.8125rem;font-weight:600;">Transporte Pesado</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue-dark);">Ya supera ✓</span></div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);">Actual MX$43.8M (42.2%) — 1.8× por encima del promedio</div>
-              </div>
-              <div style="padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-size:0.8125rem;color:var(--fg-muted);">Brecha total recuperable</span>
-                <span style="font-size:1.25rem;font-weight:600;color:var(--blue);">+MX$13.9M</span>
-              </div>
+            <div id="brecha-header" style="font-size:0.7rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Brecha de Marketing — cargando…</div>
+            <div id="brecha-bars" style="display:flex;flex-direction:column;gap:0.875rem;">
+              <div style="color:var(--fg-muted);font-size:0.875rem;">Cargando datos…</div>
             </div>
           </div>
         </div>
 
-        <div class="insight" style="margin-bottom:1rem;">
-          <strong>La prioridad estratégica está clara:</strong> El 86% de la brecha de Marketing (MX$12.0M de MX$13.9M) está en Servicios Financieros — el vertical con el mayor ticket promedio (MX$18.6M por deal, 3.3× el promedio del pipeline).
+        <div id="industry-insight-static" class="insight" style="margin-bottom:1rem;">
+          Cargando análisis…
         </div>
 
         <hr class="sec-divider" />
@@ -2606,6 +2585,71 @@
       <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.25);">
         <strong>${worst[1].oppPct < META ? '' : ''} ${worst[0]}.</strong> Marketing genera <strong>${worst[1].mktCount} de ${worst[1].totalCount} oportunidades (${worst[1].oppPct}%)</strong> — ${fmtV(worst[1].mktValue)} de valor. ${worst[1].oppPct < META ? 'Por debajo de la meta de 15% — oportunidad de activar más demanda en este segmento.' : 'Participación sólida — mantener el ritmo.'}
       </div>`;
+    }
+
+    // ─── CONCENTRATION BARS (tarjeta estática arriba del Desglose) ─────────────
+    const concBars = document.getElementById('concentration-bars');
+    if (concBars) {
+      const totalAll = entries.reduce((s, [, v]) => s + v.totalValue, 0);
+      const palette = ['var(--blue)', 'var(--blue-mid)', '#94a3b8', 'var(--blue-dark)', 'var(--fg-muted)'];
+      const bgPalette = ['var(--blue)', 'var(--blue-mid)', '#cbd5e1', 'var(--blue-dark)', '#94a3b8'];
+      const top4 = entries.slice(0, 4);
+      const topPct = Math.round(top4[0][1].totalValue / totalAll * 1000) / 10;
+      const topName = top4[0][0].replace(' y Distribución','').replace(' y Movilidad','');
+      concBars.innerHTML = top4.map(([ind, v], i) => {
+        const pct = Math.round(v.totalValue / totalAll * 1000) / 10;
+        const n = ind.replace(' y Distribución','').replace(' y Movilidad','');
+        return `<div><div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;"><span style="font-size:0.875rem;font-weight:600;">${n}</span><span style="font-size:0.875rem;font-weight:600;color:${palette[i]};">${pct}% <span style="font-size:0.75rem;color:var(--fg-muted);font-weight:400;">${fmtV(v.totalValue)}</span></span></div><div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${bgPalette[i]};border-radius:999px;"></div></div></div>`;
+      }).join('') + `<div style="padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--fg-muted);"><strong style="color:var(--blue);">Riesgo de concentración:</strong> 1 vertical (${topName}) concentra el ${topPct}% del pipeline total.</div>`;
+    }
+
+    // ─── BRECHA DE MARKETING ────────────────────────────────────────────────────
+    const brechaEl = document.getElementById('brecha-bars');
+    const brechaHeader = document.getElementById('brecha-header');
+    const insightEl = document.getElementById('industry-insight-static');
+    if (brechaEl) {
+      const totalAll = entries.reduce((s, [, v]) => s + v.totalValue, 0);
+      const totalMktV = entries.reduce((s, [, v]) => s + v.mktValue, 0);
+      const avgPct = totalMktV / totalAll;
+      const avgPctFmt = Math.round(avgPct * 1000) / 10;
+      if (brechaHeader) brechaHeader.textContent = `Brecha de Marketing — si alcanzara su promedio (${avgPctFmt}%) en cada vertical`;
+
+      const under = mainEntries
+        .filter(([, v]) => v.mktValue < v.totalValue * avgPct)
+        .sort((a, b) => (b[1].totalValue * avgPct - b[1].mktValue) - (a[1].totalValue * avgPct - a[1].mktValue));
+      const over = mainEntries.filter(([, v]) => v.mktValue >= v.totalValue * avgPct);
+      const bColors = ['var(--blue)', 'var(--blue-mid)', 'var(--blue-dark)'];
+      let totalGap = 0;
+
+      const underHtml = under.map(([ind, v], i) => {
+        const target = v.totalValue * avgPct;
+        const gap = target - v.mktValue;
+        totalGap += gap;
+        const prog = Math.min(Math.round(v.mktValue / target * 1000) / 10, 100);
+        const n = ind.replace(' y Distribución','').replace(' y Movilidad','');
+        return `<div style="background:var(--blue-light);border:1px solid #c5daf0;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:${bColors[i]||bColors[0]};">+${fmtV(gap)}</span></div><div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual ${fmtV(v.mktValue)} (${v.valPct}%) → Objetivo ${fmtV(target)} (${avgPctFmt}%)</div><div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:${prog}%;background:${bColors[i]||bColors[0]};border-radius:999px;"></div></div></div>`;
+      }).join('');
+
+      const overHtml = over.map(([ind, v]) => {
+        const mult = Math.round(v.mktValue / (v.totalValue * avgPct) * 10) / 10;
+        const n = ind.replace(' y Distribución','').replace(' y Movilidad','');
+        return `<div style="background:#e8f0f8;border:1px solid #bdd0e6;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue-dark);">Ya supera ✓</span></div><div style="font-size:0.75rem;color:var(--fg-muted);">Actual ${fmtV(v.mktValue)} (${v.valPct}%) — ${mult}× por encima del promedio</div></div>`;
+      }).join('');
+
+      brechaEl.innerHTML = underHtml + overHtml + `<div style="padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.8125rem;color:var(--fg-muted);">Brecha total recuperable</span><span style="font-size:1.25rem;font-weight:600;color:var(--blue);">+${fmtV(totalGap)}</span></div>`;
+
+      if (insightEl && under.length > 0) {
+        const top = under[0];
+        const topGap = top[1].totalValue * avgPct - top[1].mktValue;
+        const pct = Math.round(topGap / totalGap * 100);
+        const totalDeals = entries.reduce((s, [, v]) => s + v.totalCount, 0);
+        const totalVal = entries.reduce((s, [, v]) => s + v.totalValue, 0);
+        const ticketAvg = totalVal / totalDeals;
+        const topTicket = top[1].totalValue / top[1].totalCount;
+        const mult = Math.round(topTicket / ticketAvg * 10) / 10;
+        const topName = top[0].replace(' y Distribución','').replace(' y Movilidad','');
+        insightEl.innerHTML = `<strong>La prioridad estratégica está clara:</strong> El ${pct}% de la brecha de Marketing (${fmtV(topGap)} de ${fmtV(totalGap)}) está en ${topName} — el vertical con el mayor ticket promedio (${fmtV(topTicket)} por deal, ${mult}× el promedio del pipeline).`;
+      }
     }
   }
 
