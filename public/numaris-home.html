@@ -660,7 +660,8 @@
 </section>
 
 <!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
-<section id="soluciones" style="background:#ffffff;padding:80px 0">
+<div id="sol-scroll-wrapper" style="position:relative;height:400vh">
+<section id="soluciones" style="background:#ffffff;padding:80px 0;position:sticky;top:0;overflow:hidden">
 
   <!-- Panels wrapper con pestañas encima -->
   <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
@@ -830,29 +831,15 @@
   </div><!-- /panels wrapper -->
 
   <script>
-  var _solTimer = null;
   var _solCurrent = 0;
-  var _SOL_DUR = 5000;
-
-  function solProgress() {
-    var fill = document.getElementById('sol-progress-fill');
-    fill.style.transition = 'none';
-    fill.style.width = '0%';
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        fill.style.transition = 'width ' + _SOL_DUR + 'ms linear';
-        fill.style.width = '100%';
-      });
-    });
-  }
 
   function solTab(idx) {
-    clearTimeout(_solTimer);
+    if (idx === _solCurrent) return;
     _solCurrent = idx;
     [0,1,2,3].forEach(function(i) {
       var p = document.getElementById('sol-panel-'+i);
       var t = document.getElementById('sol-tab-'+i);
-      if(i === idx) {
+      if (i === idx) {
         p.style.display = 'block';
         requestAnimationFrame(function() {
           p.style.opacity = '1';
@@ -866,17 +853,30 @@
         t.style.display = 'none';
       }
     });
-    solProgress();
-    _solTimer = setTimeout(function() { solTab((_solCurrent + 1) % 4); }, _SOL_DUR);
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    solProgress();
-    _solTimer = setTimeout(function() { solTab(1); }, _SOL_DUR);
+  window.addEventListener('scroll', function() {
+    var wrapper = document.getElementById('sol-scroll-wrapper');
+    if (!wrapper) return;
+    var wrapTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    var scrollSpace = wrapper.offsetHeight - window.innerHeight;
+    var scrolled = window.scrollY - wrapTop;
+    var progress = Math.max(0, Math.min(1, scrolled / scrollSpace));
+    var tabIdx = Math.min(3, Math.floor(progress * 4));
+    var tabProgress = (progress * 4) - tabIdx;
+
+    solTab(tabIdx);
+
+    var fill = document.getElementById('sol-progress-fill');
+    if (fill) {
+      fill.style.transition = 'none';
+      fill.style.width = (tabProgress * 100).toFixed(1) + '%';
+    }
   });
   </script>
 
 </section>
+</div><!-- /sol-scroll-wrapper -->
 
 <!-- MARQUEE -->
 <section style="background:rgba(1,39,80,.6);padding:40px 0">
