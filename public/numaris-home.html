@@ -662,16 +662,19 @@
 <!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
 <section id="soluciones" style="background:#ffffff;padding:80px 0">
 
-  <!-- Tab bar -->
-  <div style="display:flex;gap:8px;justify-content:center;margin-bottom:48px;flex-wrap:wrap;padding:0 24px">
-    <button onclick="solTab(0)" id="sol-tab-0" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(36,95,165,.35);background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,border-color .18s">Transporte Pesado</button>
-    <button onclick="solTab(1)" id="sol-tab-1" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(36,95,165,.2);background:transparent;color:#245FA5;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,border-color .18s">Última Milla y Reparto</button>
-    <button onclick="solTab(2)" id="sol-tab-2" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(36,95,165,.2);background:transparent;color:#245FA5;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,border-color .18s">Arrendamiento</button>
-    <button onclick="solTab(3)" id="sol-tab-3" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(36,95,165,.2);background:transparent;color:#245FA5;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,border-color .18s">Plataforma de Gestión</button>
-  </div>
-
-  <!-- Panels wrapper -->
+  <!-- Panels wrapper con pestañas encima -->
   <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
+
+    <!-- Tab bar estilo pestaña folder -->
+    <div style="display:flex;gap:4px;padding-left:2px">
+      <button onclick="solTab(0)" id="sol-tab-0" style="padding:10px 22px;border-radius:10px 10px 0 0;border:1px solid rgba(1,39,80,.15);border-bottom:none;background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,color .18s;position:relative;z-index:2">Transporte Pesado</button>
+      <button onclick="solTab(1)" id="sol-tab-1" style="padding:10px 22px;border-radius:10px 10px 0 0;border:1px solid rgba(1,39,80,.1);border-bottom:none;background:rgba(1,39,80,.06);color:rgba(1,39,80,.45);font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,color .18s;position:relative;z-index:1">Última Milla y Reparto</button>
+      <button onclick="solTab(2)" id="sol-tab-2" style="padding:10px 22px;border-radius:10px 10px 0 0;border:1px solid rgba(1,39,80,.1);border-bottom:none;background:rgba(1,39,80,.06);color:rgba(1,39,80,.45);font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,color .18s;position:relative;z-index:1">Arrendamiento</button>
+      <button onclick="solTab(3)" id="sol-tab-3" style="padding:10px 22px;border-radius:10px 10px 0 0;border:1px solid rgba(1,39,80,.1);border-bottom:none;background:rgba(1,39,80,.06);color:rgba(1,39,80,.45);font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .18s,color .18s;position:relative;z-index:1">Plataforma de Gestión</button>
+    </div>
+
+    <!-- Card contenedora que se conecta con la pestaña activa -->
+    <div style="border:1px solid rgba(1,39,80,.15);border-radius:0 12px 12px 12px;overflow:hidden;position:relative;z-index:1;padding:16px">
 
     <!-- Panel 0: Transporte Pesado -->
     <div id="sol-panel-0" style="opacity:1;transform:translateY(0);transition:opacity .18s ease,transform .18s ease">
@@ -817,6 +820,7 @@
       </div>
     </div>
 
+    </div><!-- /card contenedora -->
   </div><!-- /panels wrapper -->
 
   <script>
@@ -835,15 +839,15 @@
         });
         t.style.background = '#012750';
         t.style.color = '#fff';
-        t.style.borderColor = 'rgba(36,95,165,.35)';
+        t.style.zIndex = '2';
       } else {
         // Hide
         p.style.opacity = '0';
         p.style.transform = 'translateY(8px)';
         setTimeout(function(){ p.style.display = 'none'; }, 180);
-        t.style.background = 'transparent';
-        t.style.color = '#245FA5';
-        t.style.borderColor = 'rgba(36,95,165,.2)';
+        t.style.background = 'rgba(1,39,80,.06)';
+        t.style.color = 'rgba(1,39,80,.45)';
+        t.style.zIndex = '1';
       }
     });
   }
