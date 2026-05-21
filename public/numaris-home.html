@@ -661,74 +661,115 @@
 
 <!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
 <section id="soluciones" style="background:#ffffff;padding:80px 0">
-  <div class="max-w-6xl mx-auto px-6">
 
-    <!-- Bento grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <style>
+    .sol-item { border-top:1px solid rgba(0,0,0,.1); }
+    .sol-item:last-child { border-bottom:1px solid rgba(0,0,0,.1); }
+    .sol-content { overflow:hidden; max-height:0; transition:max-height .7s cubic-bezier(.22,1,.36,1); }
+    .sol-item.active .sol-content { max-height:600px; }
+    .sol-header { display:flex; align-items:center; padding:20px 40px; cursor:default; }
+    .sol-num { font-size:12px; color:rgba(0,0,0,.3); min-width:50px; font-family:'Montserrat',sans-serif; }
+    .sol-title { flex:1; font-size:20px; font-weight:300; color:#012750; padding:0 40px; font-family:'Montserrat',sans-serif; }
+    .sol-cat { font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(0,0,0,.35); font-family:'Montserrat',sans-serif; }
+  </style>
 
-      <!-- Columna izquierda -->
-      <div style="display:flex;flex-direction:column;gap:10px">
-
-        <!-- Tarjeta grande video -->
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
-          <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <source src="/truck-road.mp4" type="video/mp4">
-          </video>
-          <!-- Overlay suave abajo -->
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
-          <!-- Badge -->
-          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px">
+  <!-- Item 01: Rastreo Satelital -->
+  <div class="sol-item active">
+    <div class="sol-header">
+      <span class="sol-num">01.</span>
+      <span class="sol-title">Rastreo Satelital</span>
+      <span class="sol-cat">Seguridad Patrimonial</span>
+    </div>
+    <div class="sol-content">
+      <div style="position:relative;width:100%;height:520px;overflow:hidden;background:#000">
+        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+          <source src="/truck-road.mp4" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 55%);pointer-events:none"></div>
+        <div style="position:absolute;bottom:32px;left:40px;right:40px">
+          <p style="margin:0 0 10px;font-size:clamp(22px,2.2vw,30px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Rastreo <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Satelital</em></p>
+          <div style="background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px;display:inline-block">
             <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte Pesado</span>
           </div>
-          <!-- Título abajo -->
-          <div style="position:absolute;bottom:20px;left:20px;right:20px">
-            <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Rastreo <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Satelital</em></p>
-            <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Patrimonial</p>
-          </div>
         </div>
-
-        <!-- Tarjeta corta texto -->
-        <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
-          <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span>
-          </div>
-          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Reducimos un 35% el consumo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">combustible</em> en los primeros 3 meses."</p>
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Director de Operaciones</p>
-        </div>
-
-      </div>
-
-      <!-- Columna derecha -->
-      <div style="display:flex;flex-direction:column;gap:10px">
-
-        <!-- Tarjeta corta texto -->
-        <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
-          <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</span>
-          </div>
-          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Con videotelemetría IA bajamos los <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">accidentes</em> un 65% en flota nacional."</p>
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Gerente de Flota</p>
-        </div>
-
-        <!-- Tarjeta grande video -->
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
-          <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <source src="/people-smiling.mp4" type="video/mp4">
-          </video>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
-          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span>
-          </div>
-          <div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;flex-direction:column;align-items:flex-start">
-            <img src="/logo-bafar.svg" alt="Grupo Bafar" style="height:130px;width:auto;max-width:180px;object-fit:contain;object-position:left center;filter:brightness(0) invert(1);opacity:.9;display:block;margin-bottom:8px;margin-left:-4px">
-            <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif"><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">40%</em> reducción de robo de combustible en los primeros 3 meses</p>
-            <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte · 800 unidades</p>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
+
+  <!-- Item 02: Productividad -->
+  <div class="sol-item">
+    <div class="sol-header">
+      <span class="sol-num">02.</span>
+      <span class="sol-title">Productividad</span>
+      <span class="sol-cat">Eficiencia operativa</span>
+    </div>
+    <div class="sol-content">
+      <div style="background:rgba(1,39,80,.92);padding:52px 40px;height:280px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center">
+        <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:24px;align-self:flex-start">
+          <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span>
+        </div>
+        <p style="margin:0 0 16px;font-size:clamp(16px,1.5vw,22px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.5;font-family:'Montserrat',sans-serif;max-width:720px">"Reducimos un 35% el consumo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">combustible</em> en los primeros 3 meses."</p>
+        <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Director de Operaciones</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item 03: Seguridad Vial -->
+  <div class="sol-item">
+    <div class="sol-header">
+      <span class="sol-num">03.</span>
+      <span class="sol-title">Seguridad Vial</span>
+      <span class="sol-cat">Videotelemetría IA</span>
+    </div>
+    <div class="sol-content">
+      <div style="background:rgba(1,39,80,.92);padding:52px 40px;height:280px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center">
+        <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:24px;align-self:flex-start">
+          <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</span>
+        </div>
+        <p style="margin:0 0 16px;font-size:clamp(16px,1.5vw,22px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.5;font-family:'Montserrat',sans-serif;max-width:720px">"Con videotelemetría IA bajamos los <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">accidentes</em> un 65% en flota nacional."</p>
+        <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Gerente de Flota</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item 04: Casos de Éxito -->
+  <div class="sol-item">
+    <div class="sol-header">
+      <span class="sol-num">04.</span>
+      <span class="sol-title">Casos de Éxito</span>
+      <span class="sol-cat">Grupo Bafar</span>
+    </div>
+    <div class="sol-content">
+      <div style="position:relative;width:100%;height:520px;overflow:hidden;background:#000">
+        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+          <source src="/people-smiling.mp4" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.80) 0%,transparent 55%);pointer-events:none"></div>
+        <div style="position:absolute;bottom:32px;left:40px;right:40px">
+          <img src="/logo-bafar.svg" alt="Grupo Bafar" style="height:110px;width:auto;max-width:160px;object-fit:contain;object-position:left center;filter:brightness(0) invert(1);opacity:.9;display:block;margin-bottom:12px;margin-left:-4px">
+          <p style="margin:0 0 8px;font-size:clamp(16px,1.5vw,22px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.35;font-family:'Montserrat',sans-serif;max-width:600px"><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">40%</em> reducción de robo de combustible en los primeros 3 meses</p>
+          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte · 800 unidades</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var items = document.querySelectorAll('.sol-item');
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            items.forEach(function(i) { i.classList.remove('active'); });
+            e.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.3 });
+      items.forEach(function(i) { obs.observe(i); });
+      if (items[0]) items[0].classList.add('active');
+    })();
+  </script>
+
 </section>
 
 <!-- MARQUEE -->
