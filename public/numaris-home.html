@@ -661,7 +661,7 @@
 
 <!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
 <div id="sol-scroll-wrapper" style="position:relative;height:400vh">
-<section id="soluciones" style="background:#ffffff;padding:80px 0;position:sticky;top:0;overflow:hidden">
+<section id="soluciones" style="background:#ffffff;padding:80px 0;position:sticky;top:0">
 
   <!-- Panels wrapper con pestañas encima -->
   <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
@@ -860,12 +860,14 @@
     var tabIdx = Math.min(3, Math.floor(progress * 4));
     var tabProgress = (progress * 4) - tabIdx;
 
-    solTab(tabIdx);
-
-    var fill = document.getElementById('sol-progress-fill');
-    if (fill) {
-      fill.style.transition = 'none';
-      fill.style.width = (progress * 100).toFixed(1) + '%';
+    // Solo actuar mientras el wrapper está en rango
+    if (scrolled >= 0 && scrolled <= scrollSpace) {
+      solTab(tabIdx);
+      var fill = document.getElementById('sol-progress-fill');
+      if (fill) {
+        fill.style.transition = 'none';
+        fill.style.width = (progress * 100).toFixed(1) + '%';
+      }
     }
   });
   </script>
