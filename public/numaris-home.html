@@ -666,27 +666,18 @@
   <!-- Panels wrapper con pestañas encima -->
   <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
 
-    <!-- Línea de progreso con etiquetas de sección -->
-    <div style="margin-bottom:32px">
-      <!-- Etiquetas de las 4 secciones -->
-      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-        <span id="sol-label-0" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:#012750;transition:opacity .18s ease">Transporte Pesado</span>
-        <span id="sol-label-1" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Última Milla y Reparto</span>
-        <span id="sol-label-2" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Arrendamiento</span>
-        <span id="sol-label-3" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Plataforma de Gestión</span>
+    <!-- Tab bar — solo botón activo visible + línea de progreso -->
+    <div>
+      <div style="display:flex;padding-left:2px">
+        <button onclick="solTab(0)" id="sol-tab-0" style="padding:10px 22px;border-radius:10px 10px 0 0;border:none;background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;display:block">Transporte Pesado</button>
+        <button onclick="solTab(1)" id="sol-tab-1" style="padding:10px 22px;border-radius:10px 10px 0 0;border:none;background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;display:none">Última Milla y Reparto</button>
+        <button onclick="solTab(2)" id="sol-tab-2" style="padding:10px 22px;border-radius:10px 10px 0 0;border:none;background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;display:none">Arrendamiento</button>
+        <button onclick="solTab(3)" id="sol-tab-3" style="padding:10px 22px;border-radius:10px 10px 0 0;border:none;background:#012750;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'Montserrat',sans-serif;display:none">Plataforma de Gestión</button>
       </div>
-      <!-- Línea de progreso -->
+      <!-- Línea de progreso estilo carrusel -->
       <div style="width:100%;height:1px;background:rgba(1,39,80,.12);overflow:hidden">
         <div id="sol-progress-fill" style="height:100%;width:0%;background:linear-gradient(to right,#4B8FD4,#012750);transition:none"></div>
       </div>
-    </div>
-
-    <!-- Botón activo (nombre de sección actual) — ocultos los inactivos -->
-    <div style="margin-bottom:24px">
-      <button id="sol-tab-0" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:block;line-height:1.1">Transporte Pesado</button>
-      <button id="sol-tab-1" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Última Milla y Reparto</button>
-      <button id="sol-tab-2" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Arrendamiento</button>
-      <button id="sol-tab-3" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Plataforma de Gestión</button>
     </div>
 
     <!-- Card contenedora que se conecta con la pestaña activa -->
@@ -848,7 +839,6 @@
     [0,1,2,3].forEach(function(i) {
       var p = document.getElementById('sol-panel-'+i);
       var t = document.getElementById('sol-tab-'+i);
-      var l = document.getElementById('sol-label-'+i);
       if (i === idx) {
         p.style.display = 'block';
         requestAnimationFrame(function() {
@@ -856,13 +846,11 @@
           p.style.transform = 'translateY(0)';
         });
         t.style.display = 'block';
-        if (l) l.style.color = '#012750';
       } else {
         p.style.opacity = '0';
         p.style.transform = 'translateY(8px)';
         setTimeout(function(){ p.style.display = 'none'; }, 180);
         t.style.display = 'none';
-        if (l) l.style.color = 'rgba(1,39,80,.3)';
       }
     });
   }
