@@ -684,7 +684,7 @@
     <div style="border-radius:12px;overflow:hidden;position:relative;z-index:1;padding:16px">
 
     <!-- Panel 0: Transporte Pesado -->
-    <div id="sol-panel-0" style="opacity:1;transform:translateY(0);transition:opacity .18s ease,transform .18s ease">
+    <div id="sol-panel-0" style="display:block;opacity:1;transform:translateY(0);transition:opacity .18s ease,transform .18s ease">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div style="display:flex;flex-direction:column;gap:10px">
           <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
@@ -875,8 +875,14 @@
     }
   });
 
-  // Garantizar panel 0 visible en carga inicial
-  document.addEventListener('DOMContentLoaded', function() { solTab(0); });
+  // Garantizar panel 0 visible siempre — ejecución inmediata
+  (function() {
+    var p = document.getElementById('sol-panel-0');
+    if (p) { p.style.display = 'block'; p.style.opacity = '1'; p.style.transform = 'translateY(0)'; }
+    var t = document.getElementById('sol-tab-0');
+    if (t) { t.style.display = 'block'; }
+    _solCurrent = 0;
+  })();
   </script>
 
 </section>
