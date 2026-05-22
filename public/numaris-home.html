@@ -826,7 +826,7 @@
   </div><!-- /panels wrapper -->
 
   <script>
-  var _solCurrent = 0;
+  var _solCurrent = -1;
 
   function solTab(idx) {
     if (idx === _solCurrent) return;
@@ -874,6 +874,9 @@
       if (fill) { fill.style.transition = 'none'; fill.style.width = (progress * 100).toFixed(1) + '%'; }
     }
   });
+
+  // Garantizar panel 0 visible en carga inicial
+  document.addEventListener('DOMContentLoaded', function() { solTab(0); });
   </script>
 
 </section>
