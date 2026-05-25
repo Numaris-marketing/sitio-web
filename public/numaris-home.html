@@ -556,36 +556,36 @@
 </section>
 
 <!-- SOLUCIONES — imagen 3D con burbujas alrededor -->
-<section id="soluciones" style="background:#ffffff;padding:48px 0 56px;position:relative">
-  <div style="max-width:1280px;margin:0 auto;padding:0 32px">
+<section id="soluciones" style="background:#ffffff;padding:60px 0 56px;position:relative">
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 32px">
 
-    <!-- Fila superior: 3 burbujas centradas sobre la imagen -->
+    <!-- Fila superior -->
     <div style="display:flex;justify-content:center;gap:16px;margin-bottom:20px">
       <div class="sol-bubble" style="animation-delay:.2s">Videotelemetría con IA</div>
       <div class="sol-bubble" style="animation-delay:.8s">Monitoreo Inteligente</div>
       <div class="sol-bubble" style="animation-delay:1.4s">Mantenimiento</div>
     </div>
 
-    <!-- Grid: burbujas | imagen | burbujas -->
-    <div style="display:grid;grid-template-columns:210px 1fr 210px;gap:16px;align-items:center">
+    <!-- Contenedor relativo: imagen centrada + columnas absolutas a los lados -->
+    <div style="position:relative">
 
-      <!-- Columna izquierda -->
-      <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+      <!-- Columna izquierda (absolute, fuera de la imagen) -->
+      <div style="position:absolute;top:50%;left:0;transform:translateY(-50%);width:195px;display:flex;flex-direction:column;gap:14px;align-items:flex-end;z-index:2">
         <div class="sol-bubble" style="animation-delay:0s">Telemetría avanzada</div>
         <div class="sol-bubble" style="animation-delay:.6s">Rastreo Satelital</div>
         <div class="sol-bubble" style="animation-delay:1.2s">Control de combustible</div>
       </div>
 
-      <!-- Imagen central -->
-      <div style="position:relative">
+      <!-- Imagen centrada con margen para las columnas -->
+      <div style="margin:0 215px;position:relative">
         <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
         <div class="anno-dot" style="top:54%;left:34%"></div>
         <div class="anno-dot" style="top:47%;left:52%;animation-delay:.5s"></div>
         <div class="anno-dot" style="top:60%;left:65%;animation-delay:1s"></div>
       </div>
 
-      <!-- Columna derecha -->
-      <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+      <!-- Columna derecha (absolute, fuera de la imagen) -->
+      <div style="position:absolute;top:50%;right:0;transform:translateY(-50%);width:195px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;z-index:2">
         <div class="sol-bubble" style="animation-delay:.4s">Gestión de flotas</div>
         <div class="sol-bubble" style="animation-delay:1s">Remolques inteligentes</div>
         <div class="sol-bubble" style="animation-delay:1.6s">Monitoreo licencia</div>
