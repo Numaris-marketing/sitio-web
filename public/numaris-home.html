@@ -556,43 +556,37 @@
 </section>
 
 <!-- SOLUCIONES — imagen 3D con burbujas alrededor -->
-<section id="soluciones" style="background:#ffffff;padding:60px 0 380px;position:relative">
-  <div style="max-width:1400px;margin:0 auto;padding:0 24px">
+<section id="soluciones" style="background:#ffffff;padding:60px 240px 380px;position:relative">
 
-    <!-- Fila superior: 3 burbujas centradas -->
-    <div style="display:flex;justify-content:center;gap:16px;margin-bottom:20px">
-      <div class="sol-bubble" style="animation-delay:.2s">Videotelemetría con IA</div>
-      <div class="sol-bubble" style="animation-delay:.8s">Monitoreo Inteligente</div>
-      <div class="sol-bubble" style="animation-delay:1.4s">Mantenimiento</div>
-    </div>
-
-    <!-- Flex row: col-izq | imagen | col-der -->
-    <div style="display:flex;align-items:center;gap:20px">
-
-      <!-- Columna izquierda -->
-      <div style="flex-shrink:0;width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
-        <div class="sol-bubble" style="animation-delay:0s">Telemetría avanzada</div>
-        <div class="sol-bubble" style="animation-delay:.6s">Rastreo Satelital</div>
-        <div class="sol-bubble" style="animation-delay:1.2s">Control de combustible</div>
-      </div>
-
-      <!-- Imagen — flex:1 min-width:0 para que ocupe todo el espacio restante -->
-      <div style="flex:1;min-width:0;position:relative">
-        <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
-        <div class="anno-dot" style="top:54%;left:34%"></div>
-        <div class="anno-dot" style="top:47%;left:52%;animation-delay:.5s"></div>
-        <div class="anno-dot" style="top:60%;left:65%;animation-delay:1s"></div>
-      </div>
-
-      <!-- Columna derecha -->
-      <div style="flex-shrink:0;width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
-        <div class="sol-bubble" style="animation-delay:.4s">Gestión de flotas</div>
-        <div class="sol-bubble" style="animation-delay:1s">Remolques inteligentes</div>
-        <div class="sol-bubble" style="animation-delay:1.6s">Monitoreo licencia</div>
-      </div>
-
-    </div>
+  <!-- Columna izquierda — absolute en el padding -->
+  <div style="position:absolute;left:16px;top:50%;transform:translateY(-40%);width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+    <div class="sol-bubble" style="animation-delay:0s">Telemetría avanzada</div>
+    <div class="sol-bubble" style="animation-delay:.6s">Rastreo Satelital</div>
+    <div class="sol-bubble" style="animation-delay:1.2s">Control de combustible</div>
   </div>
+
+  <!-- Columna derecha — absolute en el padding -->
+  <div style="position:absolute;right:16px;top:50%;transform:translateY(-40%);width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+    <div class="sol-bubble" style="animation-delay:.4s">Gestión de flotas</div>
+    <div class="sol-bubble" style="animation-delay:1s">Remolques inteligentes</div>
+    <div class="sol-bubble" style="animation-delay:1.6s">Monitoreo licencia</div>
+  </div>
+
+  <!-- Fila superior centrada -->
+  <div style="display:flex;justify-content:center;gap:16px;margin-bottom:20px">
+    <div class="sol-bubble" style="animation-delay:.2s">Videotelemetría con IA</div>
+    <div class="sol-bubble" style="animation-delay:.8s">Monitoreo Inteligente</div>
+    <div class="sol-bubble" style="animation-delay:1.4s">Mantenimiento</div>
+  </div>
+
+  <!-- Imagen ocupa todo el área central (entre los padding de 240px) -->
+  <div style="position:relative">
+    <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
+    <div class="anno-dot" style="top:54%;left:34%"></div>
+    <div class="anno-dot" style="top:47%;left:52%;animation-delay:.5s"></div>
+    <div class="anno-dot" style="top:60%;left:65%;animation-delay:1s"></div>
+  </div>
+
 </section>
 
 <!-- FRASE — debajo de imagen plataforma -->
