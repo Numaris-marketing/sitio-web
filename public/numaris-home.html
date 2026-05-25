@@ -140,52 +140,33 @@
     .sec-card:hover::after { opacity:.6 }
 
     /* ── Nav dropdown mega-menu ── */
-    .nav-group-wrap { position:relative }
+    .nav-group-wrap { position:static }
     .nav-group-wrap > button { background:none; border:none; cursor:pointer }
-    /* Sombra sutil en los links/botones del nav principal */
     #nav-inner .hidden.lg\\:flex a,
-    #nav-inner .hidden.lg\\:flex button {
-      border-radius:999px;
-      box-shadow:0 0 0 1px rgba(255,255,255,.07), 0 2px 8px rgba(0,0,0,.22);
-      transition:box-shadow .2s,color .2s,background .2s;
-    }
-    #nav-inner .hidden.lg\\:flex a:hover,
-    #nav-inner .hidden.lg\\:flex button:hover {
-      box-shadow:0 0 0 1px rgba(255,255,255,.13), 0 3px 12px rgba(0,0,0,.32);
-    }
+    #nav-inner .hidden.lg\\:flex button { transition:color .2s }
     .nav-group-wrap .dd-panel {
-      position:absolute; top:calc(100% + 2px); left:0; z-index:200;
+      position:fixed; top:64px; left:0; right:0; z-index:200;
       opacity:0; pointer-events:none;
-      transform:translateY(8px);
-      transition:opacity .18s ease, transform .18s ease;
+      transform:translateY(-5px);
+      transition:opacity .2s ease, transform .2s ease;
     }
     .nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
     .dd-chevron { transition:transform .18s ease; display:block }
     .nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
-
+    .dd-surface {
+      background:rgba(255,255,255,.97);
+      border-bottom:1px solid rgba(0,0,0,.07);
+      box-shadow:0 8px 32px rgba(0,0,0,.1);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    }
     .nav-dd-item {
-      display:block; padding:6px 10px; border-radius:8px; font-size:12.5px;
-      color:rgba(160,195,230,.65); text-decoration:none;
-      transition:background .13s,color .13s; margin-bottom:1px;
+      display:block; padding:5px 0; font-size:13px;
+      color:rgba(0,0,0,.6); text-decoration:none;
+      transition:color .13s; margin-bottom:2px;
     }
-    .nav-dd-item:hover { background:rgba(36,95,165,.14); color:rgba(255,255,255,.92) }
-    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(75,143,212,.55); margin-bottom:5px; padding:0 10px }
-    .dd-col-tagline { font-size:11px; color:rgba(160,195,230,.38); margin-bottom:11px; padding:0 10px; line-height:1.4 }
-    .dd-box {
-      background:rgba(4,13,25,.98); border:1px solid rgba(36,95,165,.22); border-radius:16px;
-      overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(36,95,165,.06);
-      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-    }
-    .dd-top-bar { padding:14px 22px 12px; border-bottom:1px solid rgba(36,95,165,.12); display:flex; align-items:center; justify-content:space-between }
-    .dd-top-label { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:rgba(75,143,212,.55) }
-    .dd-top-link { font-size:11.5px; font-weight:500; color:rgba(75,143,212,.72); display:flex; align-items:center; gap:4px; text-decoration:none; transition:color .13s }
-    .dd-top-link:hover { color:rgba(110,176,255,.95) }
-    .dd-sec-card { padding:18px; border-radius:14px; border:1px solid rgba(36,95,165,.14); background:rgba(36,95,165,.04); transition:border-color .15s,background .15s; display:block; text-decoration:none }
-    .dd-sec-card:hover { border-color:rgba(36,95,165,.34); background:rgba(36,95,165,.1) }
-    .dd-sec-card-title { font-size:13px; font-weight:700; color:rgba(255,255,255,.82); margin-bottom:10px; letter-spacing:.01em }
-    .dd-sec-card ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px }
-    .dd-sec-card li { font-size:12px; color:rgba(160,195,230,.55); display:flex; align-items:flex-start; gap:5px }
-    .dd-sec-card li .chk { color:#3B82F6; flex-shrink:0; margin-top:1px; font-size:10px }
+    .nav-dd-item:hover { color:rgba(0,0,0,.95) }
+    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px }
+    .dd-divider { height:1px; background:rgba(0,0,0,.07); margin:18px 0 }
 
     /* Mobile accordion */
     .mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
@@ -318,7 +299,7 @@
 
 <!-- NAVBAR -->
 <header id="nav" class="fixed top-0 left-0 right-0 z-50">
-  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 76px">
+  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 76px">
     <a href="#" class="shrink-0 self-center" id="nav-logo">
       <img src="/numaris-blanco.png" alt="Numaris" style="height:36px;width:auto;object-fit:contain;display:block">
     </a>
@@ -330,55 +311,39 @@
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
           <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Soluciones</span>
         </button>
-        <div class="dd-panel" style="width:860px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Soluciones</span>
-              <a href="#soluciones" class="dd-top-link">Ver ecosistema completo <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:20px 16px 8px;gap:8px">
+        <div class="dd-panel">
+          <div class="dd-surface">
+            <div style="padding:28px 76px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:48px">
 
               <!-- Productividad -->
-              <div style="padding:0 8px">
+              <div>
                 <p class="dd-col-title">Productividad</p>
-                <p class="dd-col-tagline">Mejora la eficiencia y reduce costos</p>
                 <a href="/soluciones/productividad/telemetria-avanzada" class="nav-dd-item">Telemetría avanzada</a>
                 <a href="/soluciones/productividad/remolques-inteligentes" class="nav-dd-item">Remolques inteligentes</a>
                 <a href="/soluciones/productividad/control-de-combustible" class="nav-dd-item">Control de combustible</a>
               </div>
 
               <!-- Seguridad Patrimonial -->
-              <div style="padding:0 8px">
+              <div>
                 <p class="dd-col-title">Seguridad Patrimonial</p>
-                <p class="dd-col-tagline">Asegura tus activos y mercancía</p>
                 <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="nav-dd-item">Rastreo Satelital</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="nav-dd-item">Monitoreo Inteligente</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="nav-dd-item">Monitoreo licencia</a>
               </div>
 
               <!-- Control y Registro -->
-              <div style="padding:0 8px">
+              <div>
                 <p class="dd-col-title">Control y Registro</p>
-                <p class="dd-col-tagline">Centraliza y optimiza la gestión de tu flota</p>
                 <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Sistema de gestión de flotas</a>
                 <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Administración de mantenimiento</a>
               </div>
 
               <!-- Seguridad Vial -->
-              <div style="padding:0 8px">
+              <div>
                 <p class="dd-col-title">Seguridad Vial</p>
-                <p class="dd-col-tagline">Protege a operadores y reduce accidentes</p>
                 <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="nav-dd-item">Videotelemetría con IA</a>
               </div>
 
-            </div>
-            <!-- Ecosistema CTA -->
-            <div style="margin:4px 20px 18px;padding:13px 18px;border-radius:12px;background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.82)">Ecosistema Numaris</span>
-                <span style="font-size:12px;color:rgba(110,176,255,.45);margin-left:8px">One Stop Shop</span>
-              </div>
-              <a href="#soluciones" style="font-size:11.5px;font-weight:500;color:rgba(75,143,212,.85);background:rgba(36,95,165,.15);padding:5px 14px;border-radius:999px;border:1px solid rgba(36,95,165,.3);text-decoration:none;transition:background .13s,color .13s" onmouseover="this.style.background='rgba(36,95,165,.28)';this.style.color='white'" onmouseout="this.style.background='rgba(36,95,165,.15)';this.style.color='rgba(75,143,212,.85)'">Explorar →</a>
             </div>
           </div>
         </div>
@@ -389,57 +354,18 @@
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
           <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Sectores</span>
         </button>
-        <div class="dd-panel" style="width:940px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Sectores</span>
-              <a href="#sectores" class="dd-top-link">Ver todos los sectores <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:22px 20px 22px;gap:14px">
+        <div class="dd-panel">
+          <div class="dd-surface">
+            <div style="padding:28px 76px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:48px">
 
-              <!-- Movilidad -->
-              <a href="/sectores/movilidad" class="dd-sec-card">
-                <p class="dd-sec-card-title">Movilidad</p>
-                <ul>
-                  <li><span class="chk">✓</span>Trazabilidad</li>
-                  <li><span class="chk">✓</span>Seguimiento servicios</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Control de gasto</li>
-                </ul>
-              </a>
-
-              <!-- Distribución -->
-              <a href="/sectores/distribucion-y-logistica" class="dd-sec-card">
-                <p class="dd-sec-card-title">Distribución y Logística</p>
-                <ul>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Optimización rutas</li>
-                </ul>
-              </a>
-
-              <!-- Servicios Financieros -->
-              <a href="/sectores/servicios-financieros" class="dd-sec-card">
-                <p class="dd-sec-card-title">Servicios Financieros</p>
-                <ul>
-                  <li><span class="chk">✓</span>Control de gastos</li>
-                  <li><span class="chk">✓</span>Integración sistemas</li>
-                  <li><span class="chk">✓</span>Automatización</li>
-                  <li><span class="chk">✓</span>Valor agregado</li>
-                </ul>
-              </a>
-
-              <!-- Transporte Pesado -->
-              <a href="/sectores/transporte-pesado" class="dd-sec-card">
-                <p class="dd-sec-card-title">Transporte Pesado</p>
-                <ul>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Tarjeta combustible</li>
-                </ul>
-              </a>
+              <!-- Sectores label -->
+              <div>
+                <p class="dd-col-title">Sectores</p>
+                <a href="/sectores/movilidad" class="nav-dd-item">Movilidad</a>
+                <a href="/sectores/distribucion-y-logistica" class="nav-dd-item">Distribución y Logística</a>
+                <a href="/sectores/servicios-financieros" class="nav-dd-item">Servicios Financieros</a>
+                <a href="/sectores/transporte-pesado" class="nav-dd-item">Transporte Pesado</a>
+              </div>
 
             </div>
           </div>
