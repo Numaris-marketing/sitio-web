@@ -153,11 +153,13 @@
     .nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
     .dd-chevron { transition:transform .18s ease; display:block }
     .nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
+    /* Dropdown — fuera del hero (blanco) */
     .dd-surface {
       background:rgba(255,255,255,.97);
       border-bottom:1px solid rgba(0,0,0,.07);
       box-shadow:0 8px 32px rgba(0,0,0,.1);
       backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      transition:background .25s, border-color .25s, box-shadow .25s;
     }
     .nav-dd-item {
       display:block; padding:5px 0; font-size:13px;
@@ -165,8 +167,18 @@
       transition:color .13s; margin-bottom:2px;
     }
     .nav-dd-item:hover { color:rgba(0,0,0,.95) }
-    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px }
+    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px; transition:color .25s }
     .dd-divider { height:1px; background:rgba(0,0,0,.07); margin:18px 0 }
+
+    /* Dropdown — dentro del hero (oscuro) */
+    #nav.nav-in-hero .dd-surface {
+      background:rgba(4,13,26,.96);
+      border-bottom-color:rgba(255,255,255,.06);
+      box-shadow:0 8px 32px rgba(0,0,0,.4);
+    }
+    #nav.nav-in-hero .nav-dd-item { color:rgba(255,255,255,.55) }
+    #nav.nav-in-hero .nav-dd-item:hover { color:rgba(255,255,255,.95) }
+    #nav.nav-in-hero .dd-col-title { color:rgba(255,255,255,.25) }
 
     /* Mobile accordion */
     .mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
@@ -2092,6 +2104,25 @@ document.getElementById('modal-form').addEventListener('submit', async function(
     lastIdx = idx;
     statNum.textContent = (500 + idx).toString();
   }, {passive:true});
+})();
+</script>
+
+<!-- Nav dropdown: dark in hero, white outside hero -->
+<script>
+(function(){
+  var navEl = document.getElementById('nav');
+  var heroWrapper = document.getElementById('hero-wrapper');
+  function updateNavMode() {
+    if (!navEl || !heroWrapper) return;
+    var heroBottom = heroWrapper.getBoundingClientRect().bottom;
+    if (heroBottom > 0) {
+      navEl.classList.add('nav-in-hero');
+    } else {
+      navEl.classList.remove('nav-in-hero');
+    }
+  }
+  updateNavMode();
+  window.addEventListener('scroll', updateNavMode, { passive: true });
 })();
 </script>
 </body>
