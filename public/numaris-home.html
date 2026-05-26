@@ -752,6 +752,7 @@
   </div><!-- /panels wrapper -->
   <script>
   var _solCurrent = 0;
+  var _solHideTimers = [null, null, null, null];
   function solTab(idx) {
     if (idx === _solCurrent) return;
     _solCurrent = idx;
@@ -759,6 +760,8 @@
       var p = document.getElementById('sol-panel-'+i);
       var t = document.getElementById('sol-tab-'+i);
       var l = document.getElementById('sol-label-'+i);
+      // Cancelar cualquier timer pendiente de ocultar este panel
+      if (_solHideTimers[i]) { clearTimeout(_solHideTimers[i]); _solHideTimers[i] = null; }
       if (i === idx) {
         p.style.display = 'block';
         p.style.opacity = '0';
@@ -772,8 +775,9 @@
         t.style.display = 'block';
         if (l) l.style.color = '#012750';
       } else {
-        p.style.opacity = '0'; p.style.transform = 'translateY(8px)';
-        setTimeout(function(){ p.style.display = 'none'; }, 180);
+        p.style.opacity = '0';
+        p.style.transform = 'translateY(8px)';
+        _solHideTimers[i] = setTimeout(function(pi){ return function(){ p.style.display = 'none'; _solHideTimers[pi] = null; }; }(i), 220);
         t.style.display = 'none';
         if (l) l.style.color = 'rgba(1,39,80,.3)';
       }
