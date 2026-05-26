@@ -140,52 +140,52 @@
     .sec-card:hover::after { opacity:.6 }
 
     /* ── Nav dropdown mega-menu ── */
-    .nav-group-wrap { position:relative }
+    .nav-group-wrap { position:static }
     .nav-group-wrap > button { background:none; border:none; cursor:pointer }
-    /* Sombra sutil en los links/botones del nav principal */
     #nav-inner .hidden.lg\\:flex a,
-    #nav-inner .hidden.lg\\:flex button {
-      border-radius:999px;
-      box-shadow:0 0 0 1px rgba(255,255,255,.07), 0 2px 8px rgba(0,0,0,.22);
-      transition:box-shadow .2s,color .2s,background .2s;
-    }
-    #nav-inner .hidden.lg\\:flex a:hover,
-    #nav-inner .hidden.lg\\:flex button:hover {
-      box-shadow:0 0 0 1px rgba(255,255,255,.13), 0 3px 12px rgba(0,0,0,.32);
-    }
+    #nav-inner .hidden.lg\\:flex button { transition:color .2s }
     .nav-group-wrap .dd-panel {
-      position:absolute; top:calc(100% + 2px); left:0; z-index:200;
+      position:fixed; top:64px; left:0; right:0; z-index:200;
       opacity:0; pointer-events:none;
-      transform:translateY(8px);
-      transition:opacity .18s ease, transform .18s ease;
+      transform:translateY(-5px);
+      transition:opacity .2s ease, transform .2s ease;
     }
     .nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
     .dd-chevron { transition:transform .18s ease; display:block }
     .nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
-
+    /* Dropdown — fuera del hero (blanco) */
+    .dd-surface {
+      background:rgba(255,255,255,.97);
+      border-bottom:1px solid rgba(0,0,0,.07);
+      box-shadow:0 8px 32px rgba(0,0,0,.1);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      transition:background .25s, border-color .25s, box-shadow .25s;
+    }
     .nav-dd-item {
-      display:block; padding:6px 10px; border-radius:8px; font-size:12.5px;
-      color:rgba(160,195,230,.65); text-decoration:none;
-      transition:background .13s,color .13s; margin-bottom:1px;
+      display:block; padding:5px 0; font-size:13px;
+      color:rgba(0,0,0,.6); text-decoration:none;
+      transition:color .13s; margin-bottom:2px;
     }
-    .nav-dd-item:hover { background:rgba(36,95,165,.14); color:rgba(255,255,255,.92) }
-    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(75,143,212,.55); margin-bottom:5px; padding:0 10px }
-    .dd-col-tagline { font-size:11px; color:rgba(160,195,230,.38); margin-bottom:11px; padding:0 10px; line-height:1.4 }
-    .dd-box {
-      background:rgba(4,13,25,.98); border:1px solid rgba(36,95,165,.22); border-radius:16px;
-      overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(36,95,165,.06);
-      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    .nav-dd-item:hover { color:rgba(0,0,0,.95) }
+    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px; transition:color .25s }
+    .dd-divider { height:1px; background:rgba(0,0,0,.07); margin:18px 0 }
+
+    /* Dropdown alineado al botón */
+    .nav-group-wrap.dd-aligned { position:relative }
+    .nav-group-wrap.dd-aligned .dd-panel {
+      position:absolute; top:calc(100% + 6px); left:0; right:auto;
     }
-    .dd-top-bar { padding:14px 22px 12px; border-bottom:1px solid rgba(36,95,165,.12); display:flex; align-items:center; justify-content:space-between }
-    .dd-top-label { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:rgba(75,143,212,.55) }
-    .dd-top-link { font-size:11.5px; font-weight:500; color:rgba(75,143,212,.72); display:flex; align-items:center; gap:4px; text-decoration:none; transition:color .13s }
-    .dd-top-link:hover { color:rgba(110,176,255,.95) }
-    .dd-sec-card { padding:18px; border-radius:14px; border:1px solid rgba(36,95,165,.14); background:rgba(36,95,165,.04); transition:border-color .15s,background .15s; display:block; text-decoration:none }
-    .dd-sec-card:hover { border-color:rgba(36,95,165,.34); background:rgba(36,95,165,.1) }
-    .dd-sec-card-title { font-size:13px; font-weight:700; color:rgba(255,255,255,.82); margin-bottom:10px; letter-spacing:.01em }
-    .dd-sec-card ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px }
-    .dd-sec-card li { font-size:12px; color:rgba(160,195,230,.55); display:flex; align-items:flex-start; gap:5px }
-    .dd-sec-card li .chk { color:#3B82F6; flex-shrink:0; margin-top:1px; font-size:10px }
+
+    /* Dropdown — dentro del hero (transparente sobre video) */
+    #nav.nav-in-hero .dd-surface {
+      background:transparent;
+      border-bottom:none;
+      box-shadow:none;
+      backdrop-filter:none; -webkit-backdrop-filter:none;
+    }
+    #nav.nav-in-hero .nav-dd-item { color:rgba(255,255,255,.72) }
+    #nav.nav-in-hero .nav-dd-item:hover { color:rgba(255,255,255,1) }
+    #nav.nav-in-hero .dd-col-title { color:rgba(255,255,255,.35) }
 
     /* Mobile accordion */
     .mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
@@ -284,6 +284,23 @@
       transition:background .2s,border-color .2s;
     }
     .anno-badge:hover { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
+
+    /* ── Soluciones bubbles ── */
+    .sol-bubble {
+      display:inline-flex; align-items:center;
+      padding:10px 22px; border-radius:999px;
+      border:1px solid rgba(36,95,165,.38);
+      background:rgba(36,95,165,.05);
+      color:#245FA5; font-size:13px; font-weight:500;
+      white-space:nowrap; cursor:default;
+      animation:badge-float 3.8s ease-in-out infinite;
+      transition:background .2s,border-color .2s,box-shadow .2s;
+    }
+    .sol-bubble:hover {
+      background:rgba(36,95,165,.12);
+      border-color:rgba(36,95,165,.65);
+      box-shadow:0 4px 18px rgba(36,95,165,.15);
+    }
     .anno-badge:nth-child(3) { animation-delay:.6s; }
     .anno-badge:nth-child(4) { animation-delay:1.2s; }
     .anno-badge:nth-child(5) { animation-delay:1.8s; }
@@ -318,7 +335,7 @@
 
 <!-- NAVBAR -->
 <header id="nav" class="fixed top-0 left-0 right-0 z-50">
-  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 76px">
+  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 76px">
     <a href="#" class="shrink-0 self-center" id="nav-logo">
       <img src="/numaris-blanco.png" alt="Numaris" style="height:36px;width:auto;object-fit:contain;display:block">
     </a>
@@ -326,121 +343,52 @@
     <div class="hidden lg:flex items-center gap-0 self-center">
 
       <!-- ── SOLUCIONES dropdown ── -->
-      <div class="nav-group-wrap">
+      <div class="nav-group-wrap dd-aligned">
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
           <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Soluciones</span>
         </button>
-        <div class="dd-panel" style="width:860px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Soluciones</span>
-              <a href="#soluciones" class="dd-top-link">Ver ecosistema completo <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:20px 16px 8px;gap:8px">
+        <div class="dd-panel" style="width:580px">
+          <div class="dd-surface">
+            <div style="padding:20px 20px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
 
-              <!-- Productividad -->
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Productividad</p>
-                <p class="dd-col-tagline">Mejora la eficiencia y reduce costos</p>
+              <!-- Col 1 -->
+              <div>
                 <a href="/soluciones/productividad/telemetria-avanzada" class="nav-dd-item">Telemetría avanzada</a>
                 <a href="/soluciones/productividad/remolques-inteligentes" class="nav-dd-item">Remolques inteligentes</a>
                 <a href="/soluciones/productividad/control-de-combustible" class="nav-dd-item">Control de combustible</a>
               </div>
 
-              <!-- Seguridad Patrimonial -->
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Seguridad Patrimonial</p>
-                <p class="dd-col-tagline">Asegura tus activos y mercancía</p>
+              <!-- Col 2 -->
+              <div>
                 <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="nav-dd-item">Rastreo Satelital</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="nav-dd-item">Monitoreo Inteligente</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="nav-dd-item">Monitoreo licencia</a>
               </div>
 
-              <!-- Control y Registro -->
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Control y Registro</p>
-                <p class="dd-col-tagline">Centraliza y optimiza la gestión de tu flota</p>
-                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Sistema de gestión de flotas</a>
-                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Administración de mantenimiento</a>
-              </div>
-
-              <!-- Seguridad Vial -->
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Seguridad Vial</p>
-                <p class="dd-col-tagline">Protege a operadores y reduce accidentes</p>
+              <!-- Col 3 -->
+              <div>
+                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Gestión de flotas</a>
+                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Mantenimiento</a>
                 <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="nav-dd-item">Videotelemetría con IA</a>
               </div>
 
-            </div>
-            <!-- Ecosistema CTA -->
-            <div style="margin:4px 20px 18px;padding:13px 18px;border-radius:12px;background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.82)">Ecosistema Numaris</span>
-                <span style="font-size:12px;color:rgba(110,176,255,.45);margin-left:8px">One Stop Shop</span>
-              </div>
-              <a href="#soluciones" style="font-size:11.5px;font-weight:500;color:rgba(75,143,212,.85);background:rgba(36,95,165,.15);padding:5px 14px;border-radius:999px;border:1px solid rgba(36,95,165,.3);text-decoration:none;transition:background .13s,color .13s" onmouseover="this.style.background='rgba(36,95,165,.28)';this.style.color='white'" onmouseout="this.style.background='rgba(36,95,165,.15)';this.style.color='rgba(75,143,212,.85)'">Explorar →</a>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── SECTORES dropdown ── -->
-      <div class="nav-group-wrap">
+      <div class="nav-group-wrap dd-aligned">
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
           <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Sectores</span>
         </button>
-        <div class="dd-panel" style="width:940px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Sectores</span>
-              <a href="#sectores" class="dd-top-link">Ver todos los sectores <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:22px 20px 22px;gap:14px">
-
-              <!-- Movilidad -->
-              <a href="/sectores/movilidad" class="dd-sec-card">
-                <p class="dd-sec-card-title">Movilidad</p>
-                <ul>
-                  <li><span class="chk">✓</span>Trazabilidad</li>
-                  <li><span class="chk">✓</span>Seguimiento servicios</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Control de gasto</li>
-                </ul>
-              </a>
-
-              <!-- Distribución -->
-              <a href="/sectores/distribucion-y-logistica" class="dd-sec-card">
-                <p class="dd-sec-card-title">Distribución y Logística</p>
-                <ul>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Optimización rutas</li>
-                </ul>
-              </a>
-
-              <!-- Servicios Financieros -->
-              <a href="/sectores/servicios-financieros" class="dd-sec-card">
-                <p class="dd-sec-card-title">Servicios Financieros</p>
-                <ul>
-                  <li><span class="chk">✓</span>Control de gastos</li>
-                  <li><span class="chk">✓</span>Integración sistemas</li>
-                  <li><span class="chk">✓</span>Automatización</li>
-                  <li><span class="chk">✓</span>Valor agregado</li>
-                </ul>
-              </a>
-
-              <!-- Transporte Pesado -->
-              <a href="/sectores/transporte-pesado" class="dd-sec-card">
-                <p class="dd-sec-card-title">Transporte Pesado</p>
-                <ul>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Tarjeta combustible</li>
-                </ul>
-              </a>
-
+        <div class="dd-panel">
+          <div class="dd-surface" style="width:210px">
+            <div style="padding:20px 20px 22px">
+              <a href="/sectores/movilidad" class="nav-dd-item">Movilidad</a>
+              <a href="/sectores/distribucion-y-logistica" class="nav-dd-item">Distribución y Logística</a>
+              <a href="/sectores/servicios-financieros" class="nav-dd-item">Servicios Financieros</a>
+              <a href="/sectores/transporte-pesado" class="nav-dd-item">Transporte Pesado</a>
             </div>
           </div>
         </div>
@@ -506,7 +454,7 @@
       <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
         <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <a href="/contacto" style="display:block;text-align:center;padding:10px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none">Contacto</a>
+        <a href="/contacto" style="display:block;padding:10px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none">Contacto</a>
       </div>
     </div>
   </div>
@@ -529,14 +477,14 @@
   <div style="position:absolute;top:0;left:0;right:0;height:175px;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,0.32) 0%,transparent 100%);pointer-events:none"></div>
 
   <!-- Bottom-left: headline -->
-  <div style="position:absolute;bottom:44px;left:76px;z-index:2;max-width:500px">
+  <div style="position:absolute;bottom:200px;left:76px;z-index:2;max-width:500px">
     <p style="margin:0;font-size:clamp(29px,3.6vw,55px);font-weight:200;color:white;line-height:1.0;letter-spacing:-.03em;font-family:'Montserrat',sans-serif">
       Optimización de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0">flotas</em> con ganancia
     </p>
   </div>
 
   <!-- Hero film strip (scroll-driven) -->
-  <div id="hero-strip-wrap" style="position:absolute;bottom:24px;left:calc(50% + 22px);right:0;height:305px;z-index:2;overflow:hidden">
+  <div id="hero-strip-wrap" style="position:absolute;bottom:150px;left:calc(50% + 22px);right:0;height:305px;z-index:2;overflow:hidden">
     <div id="hero-strip" style="display:flex;gap:6px;height:100%;will-change:transform">
 
       <!-- Slide 1 — 500 -->
@@ -590,9 +538,9 @@
     </div>
   </div>
 
-  <!-- Bottom-right: Soluciones button -->
-  <a href="#soluciones" style="position:absolute;bottom:346px;left:calc(50% + 22px);z-index:2;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:rgba(255,255,255,.82);font-size:13px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(255,255,255,.15)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.28)'">
-    Soluciones
+  <!-- Bottom-right: Historias button -->
+  <a href="#exito" style="position:absolute;bottom:468px;left:calc(50% + 22px);z-index:2;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:rgba(255,255,255,.82);font-size:13px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(255,255,255,.15)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.28)'">
+    Historias de Éxito
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
 
@@ -600,217 +548,63 @@
 </section>
 </div><!-- /hero-wrapper -->
 
-<!-- SECCIÓN TRANSICIÓN — franja de árboles pegada al hero, opacidad oscura similar al video -->
-<section style="height:320px;overflow:hidden;position:relative;background:#000">
-  <img src="/arboles-transicion.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block">
-  <!-- Overlay negro para opacar los verdes -->
-  <div style="position:absolute;inset:0;background:rgba(0,0,0,.68);pointer-events:none"></div>
-  <!-- Degradado blanco: de menos (transparente, arriba) a más (blanco, abajo) desde el inicio -->
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,.48) 38%,rgba(255,255,255,.78) 60%,rgba(255,255,255,.95) 78%,#ffffff 100%);pointer-events:none"></div>
-</section>
-
 <!-- FRASE — entre hero y vehículos -->
-<section style="background:#ffffff;padding:56px 24px;text-align:center">
-  <p style="margin:0;font-size:clamp(28px,3.6vw,56px);font-weight:200;line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;color:#4B8FD4">
+<section style="background:#ffffff;padding:170px 24px 56px;border-radius:80px 80px 0 0;margin-top:-110px;position:relative;z-index:2">
+  <p style="margin:0;text-align:center;font-size:clamp(28px,3.6vw,56px);font-weight:200;line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;color:#4B8FD4">
     tecnología para <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;color:#245FA5">flotas</em>
   </p>
 </section>
 
-<!-- SECCIÓN IMAGEN PLATAFORMA — badges sobre imagen + frase centrada abajo -->
-<section style="background:#ffffff;padding:0;position:relative;overflow:hidden">
-  <div style="position:relative;width:100%;padding-bottom:0">
-    <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
+<!-- SOLUCIONES — imagen 3D con burbujas alrededor -->
+<section id="soluciones" style="background:#ffffff;padding:60px 240px 380px;position:relative">
 
-    <!-- SVG líneas: cada una toca el borde del badge y llega al vehículo -->
-    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible" preserveAspectRatio="none">
-      <!-- Rastreo Satelital → camión grande izquierdo -->
-      <line x1="16%" y1="35%" x2="38%" y2="55%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Plataforma de Gestión → pantalla -->
-      <line x1="40%" y1="22%" x2="50%" y2="45%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Videotelemetría IA → van (desde van al borde del badge) -->
-      <line x1="55%" y1="56%" x2="65%" y2="23%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-      <!-- Telemetría Avanzada → coche más pequeño (derecha) -->
-      <line x1="65%" y1="62%" x2="80%" y2="47%" stroke="rgba(36,95,165,.5)" stroke-width="1"/>
-    </svg>
-
-    <!-- Puntos pulsantes en vehículos -->
-    <div class="anno-dot" style="top:55%;left:38%"></div>
-    <div class="anno-dot" style="top:45%;left:50%;animation-delay:.6s"></div>
-    <div class="anno-dot" style="top:56%;left:55%;animation-delay:1.2s"></div>
-    <div class="anno-dot" style="top:62%;left:65%;animation-delay:1.8s"></div>
-
-    <!-- Transporte Pesado — 2cm al centro -->
-    <a class="anno-badge" style="top:34%;left:10%">
-      Transporte Pesado
-    </a>
-
-    <!-- Plataforma de Gestión — 3cm abajo -->
-    <a class="anno-badge" style="top:20%;left:34%;animation-delay:.6s">
-      Plataforma de Gestión
-    </a>
-
-    <!-- Ultima Milla y Reparto — 2cm abajo -->
-    <a class="anno-badge" style="top:22%;left:62%;animation-delay:1.2s">
-      Última Milla y Reparto
-    </a>
-
-    <!-- Arrendamiento — top derecho -->
-    <a class="anno-badge" style="top:45%;left:80%;animation-delay:1.8s">
-      Arrendamiento
-    </a>
+  <!-- Columna izquierda — absolute en el padding -->
+  <div style="position:absolute;left:16px;top:50%;transform:translateY(-40%);width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+    <div class="sol-bubble" style="animation-delay:0s">Telemetría avanzada</div>
+    <div class="sol-bubble" style="animation-delay:.6s">Rastreo Satelital</div>
+    <div class="sol-bubble" style="animation-delay:1.2s">Control de combustible</div>
   </div>
+
+  <!-- Columna derecha — absolute en el padding -->
+  <div style="position:absolute;right:16px;top:50%;transform:translateY(-40%);width:210px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+    <div class="sol-bubble" style="animation-delay:.4s">Gestión de flotas</div>
+    <div class="sol-bubble" style="animation-delay:1s">Remolques inteligentes</div>
+    <div class="sol-bubble" style="animation-delay:1.6s">Monitoreo licencia</div>
+  </div>
+
+  <!-- Fila superior centrada -->
+  <div style="display:flex;justify-content:center;gap:16px;margin-bottom:20px">
+    <div class="sol-bubble" style="animation-delay:.2s">Videotelemetría con IA</div>
+    <div class="sol-bubble" style="animation-delay:.8s">Monitoreo Inteligente</div>
+    <div class="sol-bubble" style="animation-delay:1.4s">Mantenimiento</div>
+  </div>
+
+  <!-- Imagen ocupa todo el área central (entre los padding de 240px) -->
+  <div style="position:relative">
+    <img src="/imagen-01-new.png" alt="Plataforma Numaris — gestión de flotas" style="width:100%;height:auto;display:block">
+    <div class="anno-dot" style="top:54%;left:34%"></div>
+    <div class="anno-dot" style="top:47%;left:52%;animation-delay:.5s"></div>
+    <div class="anno-dot" style="top:60%;left:65%;animation-delay:1s"></div>
+  </div>
+
 </section>
 
 <!-- FRASE — debajo de imagen plataforma -->
-<section style="background:#ffffff;padding:75px 24px 75px;margin-top:-310px;text-align:center;position:relative;z-index:10">
-  <p style="margin:0;font-size:clamp(26px,3.2vw,50px);font-weight:200;line-height:1.15;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;color:#4B8FD4">
+<section style="background:#ffffff;padding:75px 24px 75px;margin-top:-310px;position:relative;z-index:10">
+  <p style="margin:0;text-align:center;font-size:clamp(26px,3.2vw,50px);font-weight:200;line-height:1.15;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;color:#4B8FD4">
     Instala <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;color:#245FA5">tecnología</em> en tu flota<br>y mejora tus <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;color:#245FA5">resultados</em>
   </p>
 </section>
 
-<!-- SOLUCIONES — Bento grid, fondo blanco, estilo badge azul Numaris -->
-<section id="soluciones" style="background:#ffffff;padding:80px 0">
-  <div class="max-w-6xl mx-auto px-6">
-
-    <!-- Bento grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-
-      <!-- Columna izquierda -->
-      <div style="display:flex;flex-direction:column;gap:10px">
-
-        <!-- Tarjeta grande video -->
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
-          <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <source src="/truck-road.mp4" type="video/mp4">
-          </video>
-          <!-- Overlay suave abajo -->
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
-          <!-- Badge -->
-          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte Pesado</span>
-          </div>
-          <!-- Título abajo -->
-          <div style="position:absolute;bottom:20px;left:20px;right:20px">
-            <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Rastreo <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Satelital</em></p>
-            <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Patrimonial</p>
-          </div>
-        </div>
-
-        <!-- Tarjeta corta texto -->
-        <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
-          <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span>
-          </div>
-          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Reducimos un 35% el consumo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">combustible</em> en los primeros 3 meses."</p>
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Director de Operaciones</p>
-        </div>
-
-      </div>
-
-      <!-- Columna derecha -->
-      <div style="display:flex;flex-direction:column;gap:10px">
-
-        <!-- Tarjeta corta texto -->
-        <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
-          <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</span>
-          </div>
-          <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Con videotelemetría IA bajamos los <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">accidentes</em> un 65% en flota nacional."</p>
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Gerente de Flota</p>
-        </div>
-
-        <!-- Tarjeta grande video -->
-        <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
-          <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <source src="/people-smiling.mp4" type="video/mp4">
-          </video>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
-          <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span>
-          </div>
-          <div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;flex-direction:column;align-items:flex-start">
-            <img src="/logo-bafar.svg" alt="Grupo Bafar" style="height:130px;width:auto;max-width:180px;object-fit:contain;object-position:left center;filter:brightness(0) invert(1);opacity:.9;display:block;margin-bottom:8px;margin-left:-4px">
-            <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif"><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">40%</em> reducción de robo de combustible en los primeros 3 meses</p>
-            <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte · 800 unidades</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS + IA CONTEXT -->
-<section style="background:#000;padding:100px 0">
-  <div style="max-width:1140px;margin:0 auto;padding:0 40px">
-
-    <!-- Título estilo sequel -->
-    <div class="fi" style="text-align:center;margin-bottom:88px">
-      <h2 style="font-family:'Inter',sans-serif;font-size:clamp(30px,4vw,52px);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.025em;margin:0">
-        La IA de Numaris aprende de <em style="font-family:'LibreBaskerville',Georgia,serif;font-weight:400;font-style:italic">cada kilómetro</em> recorrido.
-      </h2>
-      <p style="margin-top:20px;font-size:15px;color:rgba(255,255,255,.4);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7">
-        Más de una década de datos de flotas mexicanas entrenan nuestros modelos. Eso es contexto que ningún competidor puede replicar.
-      </p>
-    </div>
-
-    <!-- Grid de stats 3×2 con líneas divisoras -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.1)">
-
-      <!-- Stat 1 -->
-      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Alcance</span>
-        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200000" data-p="+" data-s="">0</p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Unidades conectadas en México</p>
-      </div>
-
-      <!-- Stat 2 -->
-      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Procesamiento</span>
-        <p style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">700<span style="font-size:.55em">M+</span></p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Eventos de flota procesados al día</p>
-      </div>
-
-      <!-- Stat 3 -->
-      <div class="fi" style="padding:48px 40px 52px;border-bottom:1px solid rgba(255,255,255,.1)">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Experiencia</span>
-        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="13" data-p="" data-s=" años">0</p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">De datos de operaciones en México</p>
-      </div>
-
-      <!-- Stat 4 -->
-      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1)">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Seguridad</span>
-        <p style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">96<span style="font-size:.55em">%</span></p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Efectividad en recuperación de unidades</p>
-      </div>
-
-      <!-- Stat 5 -->
-      <div class="fi" style="padding:48px 40px 52px;border-right:1px solid rgba(255,255,255,.1)">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Soporte</span>
-        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200" data-p="+" data-s="">0</p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Técnicos certificados CESVI nacional</p>
-      </div>
-
-      <!-- Stat 6 -->
-      <div class="fi" style="padding:48px 40px 52px">
-        <span style="display:inline-block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px">Confianza</span>
-        <p class="stat-n" style="margin-top:52px;font-size:clamp(56px,6vw,80px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="5000" data-p="+" data-s="">0</p>
-        <p style="margin-top:14px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)">Empresas confían en Numaris</p>
-      </div>
-
-    </div><!-- /grid -->
-  </div>
-</section>
-
-<div class="divider"></div>
 
 <!-- MARQUEE -->
-<section style="background:var(--bg);padding:40px 0">
-  <p class="text-center text-[10px] font-medium uppercase tracking-widest mb-8" style="color:rgba(74,106,136,.5)">Empresas líderes que confían en Numaris</p>
+<div style="background:#ffffff;position:relative">
+  <div style="position:absolute;inset:0;border-radius:120px 120px 0 0;box-shadow:0 -6px 18px rgba(0,0,0,.18),0 -2px 6px rgba(0,0,0,.10);pointer-events:none;z-index:0"></div>
+<section style="background:#021B3A;padding:40px 0;border-radius:120px 120px 0 0;position:relative;z-index:1">
+  <p class="text-center uppercase" style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;letter-spacing:.14em;color:rgba(255,255,255,.6);margin-top:76px;margin-bottom:76px">Empresas líderes que confían en Numaris</p>
   <div class="relative overflow-hidden">
-    <div class="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to right,var(--bg),transparent)"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to left,var(--bg),transparent)"></div>
+    <div class="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to right,rgba(1,39,80,.6),transparent)"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style="background:linear-gradient(to left,rgba(1,39,80,.6),transparent)"></div>
     <div class="marquee-track">
       <div class="shrink-0 px-8 flex items-center justify-center" style="height:80px">
         <img src="logos/logo-coppel.svg" alt="Coppel" class="h-16 w-auto object-contain" style="opacity:.75;filter:brightness(0) invert(1)" loading="lazy">
@@ -960,6 +754,66 @@
     </div>
   </div>
 </section>
+</div><!-- /marquee-white-bg -->
+
+
+<!-- STATS + IA CONTEXT -->
+<section style="background:#021B3A;padding:100px 0">
+  <div style="max-width:1200px;margin:0 auto;padding:0 40px">
+
+    <!-- Título -->
+    <div class="fi" style="text-align:center;margin-bottom:80px">
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(26px,3.2vw,50px);font-weight:200;line-height:1.3;letter-spacing:-.03em;margin:0">
+        <span style="color:#4B8FD4;display:block">La IA de Numaris aprende de</span>
+        <span style="color:#245FA5;display:block"><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0">cada kilómetro</em> recorrido.</span>
+      </h2>
+      <p style="margin-top:20px;font-size:15px;color:rgba(36,95,165,.7);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7">
+        <span style="color:rgba(255,255,255,.75)">Más de una década de datos de flotas mexicanas entrenan nuestros modelos. Eso es contexto que ningún competidor puede replicar.</span>
+      </p>
+    </div>
+
+    <!-- Stats fila única — estilo sequel.co -->
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr))">
+
+      <!-- Stat 1 -->
+      <div class="fi" style="padding:40px 36px;border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08)">
+        <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px">Alcance</span>
+        <p class="stat-n" style="margin-top:114px;font-size:clamp(26px,2.6vw,36px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200000" data-p="+" data-s="">0</p>
+        <p style="margin-top:16px;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)">Unidades conectadas en México</p>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="fi" style="padding:40px 36px;border-right:1px solid rgba(255,255,255,.08)">
+        <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px">Procesamiento</span>
+        <p style="margin-top:114px;font-size:clamp(26px,2.6vw,36px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">700<span style="font-size:.55em">M+</span></p>
+        <p style="margin-top:16px;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)">Eventos de flota procesados al día</p>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="fi" style="padding:40px 36px;border-right:1px solid rgba(255,255,255,.08)">
+        <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px">Seguridad</span>
+        <p style="margin-top:114px;font-size:clamp(26px,2.6vw,36px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em">96<span style="font-size:.55em">%</span></p>
+        <p style="margin-top:16px;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)">Efectividad en recuperación de unidades</p>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="fi" style="padding:40px 36px;border-right:1px solid rgba(255,255,255,.08)">
+        <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px">Soporte</span>
+        <p class="stat-n" style="margin-top:114px;font-size:clamp(26px,2.6vw,36px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="200" data-p="+" data-s="">0</p>
+        <p style="margin-top:16px;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)">Técnicos certificados CESVI nacional</p>
+      </div>
+
+      <!-- Stat 5 -->
+      <div class="fi" style="padding:40px 36px">
+        <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px">Confianza</span>
+        <p class="stat-n" style="margin-top:114px;font-size:clamp(26px,2.6vw,36px);font-weight:200;line-height:1;color:#fff;letter-spacing:-.03em" data-t="5000" data-p="+" data-s="">0</p>
+        <p style="margin-top:16px;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)">Empresas confían en Numaris</p>
+      </div>
+
+    </div><!-- /grid -->
+  </div>
+</section>
+
 
 <script>
 (function(){
@@ -1203,24 +1057,6 @@
 })();
 </script>
 
-<script>
-(function(){
-  var driver, lastIdx = -1;
-  function onScroll(){
-    if(!driver) driver = document.getElementById('sol-scroll-driver');
-    if(!driver) return;
-    if(window.innerWidth < 768) return; /* mobile: skip scroll-drive */
-    var top = driver.getBoundingClientRect().top;
-    var scrolled = -top;
-    var scrollable = driver.offsetHeight - window.innerHeight;
-    if(scrolled <= 0){ if(lastIdx!==0){ lastIdx=0; window._solSet(0,true); } return; }
-    if(scrolled >= scrollable){ if(lastIdx!==3){ lastIdx=3; window._solSet(3,true); } return; }
-    var idx = Math.min(Math.floor((scrolled/scrollable)*4), 3);
-    if(idx !== lastIdx){ lastIdx=idx; window._solSet(idx,true); }
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-})();
-</script>
 <!-- Case study modal -->
 <div id="case-modal-overlay" style="display:none!important;position:fixed;inset:0;z-index:300;background:rgba(3,11,23,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px">
   <div id="case-modal-card" style="background:#070F1C;border:1px solid rgba(36,95,165,.28);border-radius:20px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.8);transform:scale(.95) translateY(16px);opacity:0;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .3s ease">
@@ -1565,151 +1401,136 @@ document.getElementById('case-modal-overlay').addEventListener('click', function
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCaseModal(); });
 </script><div class="divider"></div>
-<!-- LINKEDIN — último segmento -->
-<section style="background:#030D1A;border-top:1px solid rgba(10,102,194,.15)">
-  <div class="max-w-6xl mx-auto px-6 py-14">
-    <div class="flex flex-col lg:flex-row items-start gap-10">
 
-      <!-- Branding + CTA -->
-      <div class="shrink-0 lg:w-60 fi">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style="background:#0A66C2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </div>
-          <div>
-            <p class="text-[14px] font-semibold text-white/80">Numaris</p>
-            <p class="text-[11px] font-light" style="color:var(--muted)">3,554 seguidores</p>
-          </div>
-        </div>
-        <p class="text-[12px] font-light leading-relaxed mb-5" style="color:rgba(74,106,136,.7)">Tendencias del sector, casos de éxito y novedades de la plataforma.</p>
-        <a href="https://www.linkedin.com/company/numaris" target="_blank"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-semibold text-white"
-           style="background:#0A66C2;box-shadow:0 0 16px rgba(10,102,194,.3)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          Seguir en LinkedIn
-        </a>
-      </div>
-
-      <!-- Posts -->
-      <div class="flex-1 grid md:grid-cols-2 gap-4">
-
-        <!-- Post 1 -->
-        <article class="fi card glass rounded-xl p-5 flex flex-col gap-3" style="border-color:rgba(10,102,194,.18)">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
-              <svg width="32" height="32" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:5px">
-                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-              </svg>
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-[12px] font-semibold text-white/75">Numaris</p>
-              <p class="text-[11px] font-light" style="color:rgba(74,106,136,.7)">1 abr 2026</p>
-            </div>
-            <div class="w-5 h-5 rounded flex items-center justify-center shrink-0" style="background:#0A66C2">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </div>
-          </div>
-          <p class="text-[12px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.6)">¿Qué tan productiva es realmente tu operación? 🚀 Las flotas más eficientes operan con <strong class="font-medium text-white/70">datos conectados y visibilidad en tiempo real.</strong></p>
-          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.05)">
-            <span class="flex items-center gap-1 text-[11px] font-light" style="color:rgba(74,106,136,.6)">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 22
-            </span>
-            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445168115979735040" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.55)">Ver post →</a>
-          </div>
-        </article>
-
-        <!-- Post 2 -->
-        <article class="fi card glass rounded-xl p-5 flex flex-col gap-3" style="border-color:rgba(10,102,194,.18);transition-delay:.08s">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full overflow-hidden shrink-0" style="border:1px solid rgba(36,95,165,.3)">
-              <svg width="32" height="32" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:5px">
-                <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-                <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-              </svg>
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-[12px] font-semibold text-white/75">Numaris</p>
-              <p class="text-[11px] font-light" style="color:rgba(74,106,136,.7)">20 mar 2026</p>
-            </div>
-            <div class="w-5 h-5 rounded flex items-center justify-center shrink-0" style="background:#0A66C2">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </div>
-          </div>
-          <p class="text-[12px] font-light leading-relaxed flex-1" style="color:rgba(208,223,240,.6)"><strong class="font-medium text-white/70">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛 — cómo el IoT transforma la toma de decisiones en flotas.</p>
-          <div class="flex items-center gap-4 pt-2 border-t" style="border-color:rgba(255,255,255,.05)">
-            <span class="flex items-center gap-1 text-[11px] font-light" style="color:rgba(74,106,136,.6)">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 40
-            </span>
-            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440901658974273536" target="_blank" class="ml-auto text-[11px] font-medium" style="color:rgba(110,176,255,.55)">Ver post →</a>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </div>
-</section>
 
 </main>
 
 <!-- FOOTER -->
-<footer style="background:#030B17;border-top:1px solid rgba(36,95,165,.1)">
-  <div class="max-w-6xl mx-auto px-6 pt-14 pb-8">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+<footer style="background:#010F24;box-shadow:0 -6px 18px rgba(0,0,0,.18),0 -2px 6px rgba(0,0,0,.10)">
+  <!-- Wordmark — mitad de tamaño, izquierda, estilo sequel.co -->
+  <div style="padding:60px 0 0 76px">
+    <svg viewBox="188 82 333 68" fill="none" style="width:50%;max-width:480px;height:auto;display:block;opacity:.9" xmlns="http://www.w3.org/2000/svg">
+      <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
+      <path d="M193.133 103.22V142.932H201.958V104.323C201.958 100.462 206.922 93.8433 215.747 93.8433H219.056C226.226 93.8433 231.742 100.703 231.742 104.323V142.932H240.567V103.22C240.567 97.1527 233.397 86.673 221.262 86.673H212.437C206.37 86.673 193.133 92.1886 193.133 103.22Z" fill="white"/>
+      <path d="M249.943 128.694V101.014H257.537V127.745C257.537 131.067 261.808 136.762 269.402 136.762H272.249C278.419 136.762 283.165 130.859 283.165 127.745V101.014H290.759V128.694C290.759 133.915 284.653 142.932 274.212 142.932H266.49C261.27 142.932 249.943 138.186 249.943 128.694Z" fill="white"/>
+      <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
+      <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
+      <path d="M466.154 119.215V142.932H473.876V99.9105H466.154V119.215Z" fill="white"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
+    </svg>
+    <p style="margin:12px 0 0;font-size:clamp(60px,6vw,3cm);font-weight:300;color:rgba(255,255,255,1);line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;white-space:nowrap">Optimización de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;color:rgba(255,255,255,1)">flotas</em> con ganancia</p>
+  </div>
+  <div style="padding:150px 76px 32px">
+    <div style="display:flex;margin-bottom:48px;align-items:flex-start">
+      <div style="width:50%;display:flex;gap:80px">
       <div>
-        <svg width="100" height="39" viewBox="0 0 576 224" fill="none" class="mb-4 opacity-60">
-          <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
-          <path d="M193.133 103.22V142.932H201.958V104.323C201.958 100.462 206.922 93.8433 215.747 93.8433H219.056C226.226 93.8433 231.742 100.703 231.742 104.323V142.932H240.567V103.22C240.567 97.1527 233.397 86.673 221.262 86.673H212.437C206.37 86.673 193.133 92.1886 193.133 103.22Z" fill="white"/>
-          <path d="M249.943 128.694V101.014H257.537V127.745C257.537 131.067 261.808 136.762 269.402 136.762H272.249C278.419 136.762 283.165 130.859 283.165 127.745V101.014H290.759V128.694C290.759 133.915 284.653 142.932 274.212 142.932H266.49C261.27 142.932 249.943 138.186 249.943 128.694Z" fill="white"/>
-          <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
-          <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
-          <path d="M466.154 119.215V142.932H473.876V99.9105H466.154V119.215Z" fill="white"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
-          <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-          <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-        </svg>
-        <p class="text-[12px] leading-relaxed mb-5 font-light" style="color:rgba(74,106,136,.6)">Donde los datos se convierten de decisiones.</p>
-        <a href="https://linkedin.com" target="_blank" class="inline-flex items-center justify-center w-7 h-7 rounded-md" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(74,106,136,.6)"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        </a>
-      </div>
-      <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Soluciones</p>
-        <ul class="space-y-2.5">
-          <li><a href="#" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Productividad</a></li>
-          <li><a href="#" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Seguridad Patrimonial</a></li>
-          <li><a href="#" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Control y Registro</a></li>
-          <li><a href="#" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Seguridad Vial</a></li>
+        <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Contacto</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li><a href="mailto:hola@numaris.com" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">hola@numaris.com</a></li>
+          <li><a href="tel:+525556509228" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">+52 55 5650 9228</a></li>
+          <li><a href="https://wa.link/0nc3sf" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">WhatsApp</a></li>
         </ul>
       </div>
       <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Empresa</p>
-        <ul class="space-y-2.5">
-          <li><a href="#nosotros" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Nosotros</a></li>
-          <li><a href="#exito"    class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Historias de Éxito</a></li>
-          <li><a href="#blog"     class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Blog</a></li>
-          <li><a href="#"         class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Política de Privacidad</a></li>
+        <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Soluciones</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Productividad</a></li>
+          <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Patrimonial</a></li>
+          <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Control y Registro</a></li>
+          <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Vial</a></li>
         </ul>
       </div>
-      <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Contacto</p>
-        <ul class="space-y-2.5">
-          <li><a href="mailto:hola@numaris.com" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">hola@numaris.com</a></li>
-          <li><a href="tel:+525556509228"        class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">+52 55 5650 9228</a></li>
-          <li><a href="https://wa.link/0nc3sf"   class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">WhatsApp</a></li>
-          <li class="text-[12px] font-light" style="color:rgba(74,106,136,.4)">Ejército Nacional 624, CDMX</li>
-        </ul>
+      </div><!-- fin 50% izquierdo -->
+      <div style="width:50%;display:flex;justify-content:center;align-items:flex-start;padding-right:230px">
+      <div style="display:flex;gap:78px;align-items:flex-start">
+          <!-- Nosotros card -->
+          <a href="/nosotros" style="text-decoration:none;display:flex;flex-direction:column;min-width:140px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Nosotros</span>
+            <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Historia</span>
+            <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+          </a>
+          <!-- Blog card + post -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="/blog" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Blog</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Tendencias</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <!-- Blog post card -->
+            <a href="/blog" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0;background:#012750;display:flex;align-items:center;justify-content:center">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">May 2026</p>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">IA en logística:</strong> cómo las flotas inteligentes están redefiniendo la eficiencia en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">5 min</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Leer →</span>
+              </div>
+            </a>
+          </div>
+          <!-- LinkedIn card + post -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="https://linkedin.com/company/numaris" target="_blank" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">LinkedIn</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Síguenos</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <!-- Post card cuadrado -->
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440901658974273536" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0">
+                  <svg width="24" height="24" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:3px">
+                    <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
+                    <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
+                  </svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">20 mar 2026</p>
+                </div>
+                <div style="width:14px;height:14px;border-radius:3px;background:#0A66C2;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">♡ 40</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Ver post →</span>
+              </div>
+            </a>
+          </div>
       </div>
+      </div><!-- fin 50% derecho -->
     </div>
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6" style="border-top:1px solid rgba(255,255,255,.05)">
-      <p class="text-[11px] font-light" style="color:rgba(74,106,136,.4)">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
-      <div class="flex gap-5">
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Privacidad</a>
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Términos</a>
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Diseño: Superficial</a>
+    <div style="border-top:1px solid rgba(255,255,255,.18);margin-top:38px;padding-top:16px;padding-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:32px">
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">Ejército Nacional 624, CDMX</p>
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(255,255,255,.4)">Privacidad</a>
+        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(255,255,255,.4)">Términos</a>
+        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(255,255,255,.4)">Diseño: Superficial</a>
+        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(255,255,255,.4)">Política de Privacidad</a>
       </div>
     </div>
   </div>
+
 </footer>
 
 <script>
@@ -1973,7 +1794,7 @@ document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
             <img src="/logo-bafar.svg" alt="Bafar" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
           </div>
           <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"Redujimos el robo de combustible en un <span style="color:rgba(110,176,255,.85);font-weight:600">40%</span> en los primeros 3 meses."</p>
-          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Grupo Bafar · Flota de +800 unidades</p>
+          <p class="text-[10px] mt-2" style="color:rgba(255,255,255,.5)">Grupo Bafar · Flota de +800 unidades</p>
         </div>
 
         <!-- Case 2 — Tragamex -->
@@ -1982,7 +1803,7 @@ document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
             <img src="/logo-tragamex.svg" alt="Tragamex" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
           </div>
           <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"La visibilidad en tiempo real transformó nuestra operación logística por completo."</p>
-          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Tragamex · Distribución nacional</p>
+          <p class="text-[10px] mt-2" style="color:rgba(255,255,255,.5)">Tragamex · Distribución nacional</p>
         </div>
 
         <!-- Case 3 — San Juan -->
@@ -1991,12 +1812,12 @@ document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
             <img src="/logo-sanjuan.svg" alt="San Juan" style="height:22px;width:auto;filter:brightness(0) invert(1);opacity:.7">
           </div>
           <p class="text-[12px] leading-relaxed" style="color:rgba(208,223,240,.55)">"Mejoramos la disponibilidad de flota al <span style="color:rgba(110,176,255,.85);font-weight:600">95%</span> y redujimos costos de mantenimiento."</p>
-          <p class="text-[10px] mt-2" style="color:rgba(74,106,136,.5)">Huevos San Juan · +200 unidades</p>
+          <p class="text-[10px] mt-2" style="color:rgba(255,255,255,.5)">Huevos San Juan · +200 unidades</p>
         </div>
 
         <!-- Logo strip -->
         <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(36,95,165,.2),transparent);margin-bottom:16px"></div>
-        <p class="text-[9px] uppercase tracking-widest mb-3 text-center" style="color:rgba(74,106,136,.4)">Se unen empresas como</p>
+        <p class="text-[9px] uppercase tracking-widest mb-3 text-center" style="color:rgba(255,255,255,.4)">Se unen empresas como</p>
         <div class="flex flex-wrap items-center justify-center gap-4">
           <img src="/logo-zeta.svg"    alt="Zeta"   style="height:16px;width:auto;filter:brightness(0) invert(1);opacity:.4">
           <img src="/logo-ziga.svg"    alt="Ziga"   style="height:16px;width:auto;filter:brightness(0) invert(1);opacity:.4">
@@ -2074,6 +1895,25 @@ document.getElementById('modal-form').addEventListener('submit', async function(
     lastIdx = idx;
     statNum.textContent = (500 + idx).toString();
   }, {passive:true});
+})();
+</script>
+
+<!-- Nav dropdown: dark in hero, white outside hero -->
+<script>
+(function(){
+  var navEl = document.getElementById('nav');
+  var heroWrapper = document.getElementById('hero-wrapper');
+  function updateNavMode() {
+    if (!navEl || !heroWrapper) return;
+    var heroBottom = heroWrapper.getBoundingClientRect().bottom;
+    if (heroBottom > 0) {
+      navEl.classList.add('nav-in-hero');
+    } else {
+      navEl.classList.remove('nav-in-hero');
+    }
+  }
+  updateNavMode();
+  window.addEventListener('scroll', updateNavMode, { passive: true });
 })();
 </script>
 </body>
