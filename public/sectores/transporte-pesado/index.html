@@ -7,18 +7,26 @@
   <meta name="description" content="Soluciones de telemática y rastreo satelital para flotas de transporte pesado. Reduce costos de combustible, previene accidentes y cumple la normativa. Numaris México." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter','system-ui','sans-serif'] },
+          fontFamily: { sans: ['Montserrat','system-ui','sans-serif'] },
         }
       }
     }
   </script>
   <style>
+    @font-face {
+  font-family:'LibreBaskerville';
+  src:url('/fonts/LibreBaskerville-Italic.ttf') format('truetype');
+  font-style:italic;
+  font-weight:400 700;
+  font-display:swap;
+}
+
     :root {
       --bg:     #05101E;
       --bg2:    #070F1C;
@@ -30,7 +38,7 @@
     }
 
     html { scroll-behavior:smooth }
-    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:#D0DFF0; overflow-x:hidden; font-size:15px; font-weight:400; line-height:1.6 }
+    body { font-family:'Montserrat',system-ui,sans-serif; background:var(--bg); color:#D0DFF0; overflow-x:hidden; font-size:15px; font-weight:400; line-height:1.6 }
 
     @keyframes glow-pulse { 0%,100%{opacity:.22} 50%{opacity:.42} }
     .orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(100px); animation:glow-pulse 8s ease-in-out infinite }
@@ -52,12 +60,13 @@
     .fi { opacity:0; transform:translateY(20px); transition:opacity .6s ease,transform .6s ease }
     .fi.on { opacity:1; transform:translateY(0) }
 
-    #nav { transition:background .2s,border-color .2s }
-    #nav.scrolled { background:rgba(5,16,30,.96)!important; backdrop-filter:blur(20px); border-bottom:1px solid rgba(36,95,165,.15) }
-    #nav-inner { height:62px; transition:height .38s cubic-bezier(.22,1,.36,1), padding .38s ease }
-    #nav.nav-compact #nav-inner { height:50px }
-    #nav-logo { transition:transform .38s ease; transform-origin:left center; display:flex; align-items:center }
-    #nav.nav-compact #nav-logo { transform:scale(.87) }
+    #nav { padding-top:12px; background:transparent; transition:background .2s,border-color .2s,padding-top .38s cubic-bezier(.22,1,.36,1) }
+#nav.scrolled { background:linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 60%, transparent 100%) }
+#nav.nav-compact { padding-top:0 }
+#nav-inner { height:84px; transition:height .38s cubic-bezier(.22,1,.36,1), padding .38s ease }
+#nav.nav-compact #nav-inner { height:66px }
+#nav-logo { transition:transform .38s ease; transform-origin:left center; display:flex; align-items:center; align-self:center }
+#nav.nav-compact #nav-logo { transform:scale(.87) }
 
     .btn-primary {
       background:var(--blue);
@@ -78,50 +87,46 @@
 
     .tag { display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:999px; font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; border:1px solid rgba(36,95,165,.28); background:rgba(36,95,165,.08); color:rgba(110,176,255,.75) }
 
-    .nav-group-wrap { position:relative }
-    .nav-group-wrap > button { background:none; border:none; cursor:pointer }
-    .nav-group-wrap .dd-panel {
-      position:absolute; top:100%; left:0; z-index:200;
-      padding-top:8px;
-      opacity:0; pointer-events:none;
-      transform:translateY(8px);
-      transition:opacity .18s ease, transform .18s ease;
-    }
-    .nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
-    .dd-chevron { transition:transform .18s ease; display:block }
-    .nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
+    .nav-group-wrap { position:static }
+.nav-group-wrap > button { background:none; border:none; cursor:pointer }
+.nav-group-wrap .dd-panel {
+  position:fixed; top:64px; left:0; right:0; z-index:200;
+  opacity:0; pointer-events:none;
+  transform:translateY(-5px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
+.dd-chevron { transition:transform .18s ease; display:block }
+.nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
 
-    .nav-dd-item {
-      display:block; padding:6px 10px; border-radius:8px; font-size:12.5px;
-      color:rgba(160,195,230,.65); text-decoration:none;
-      transition:background .13s,color .13s; margin-bottom:1px;
-    }
-    .nav-dd-item:hover { background:rgba(36,95,165,.14); color:rgba(255,255,255,.92) }
-    .dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(75,143,212,.55); margin-bottom:5px; padding:0 10px }
-    .dd-col-tagline { font-size:11px; color:rgba(160,195,230,.38); margin-bottom:11px; padding:0 10px; line-height:1.4 }
-    .dd-box {
-      background:rgba(4,13,25,.98); border:1px solid rgba(36,95,165,.22); border-radius:16px;
-      overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(36,95,165,.06);
-      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-    }
-    .dd-top-bar { padding:14px 22px 12px; border-bottom:1px solid rgba(36,95,165,.12); display:flex; align-items:center; justify-content:space-between }
-    .dd-top-label { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:rgba(75,143,212,.55) }
-    .dd-top-link { font-size:11.5px; font-weight:500; color:rgba(75,143,212,.72); display:flex; align-items:center; gap:4px; text-decoration:none; transition:color .13s }
-    .dd-top-link:hover { color:rgba(110,176,255,.95) }
-    .dd-sec-card { padding:18px; border-radius:14px; border:1px solid rgba(36,95,165,.14); background:rgba(36,95,165,.04); transition:border-color .15s,background .15s; display:block; text-decoration:none }
-    .dd-sec-card:hover { border-color:rgba(36,95,165,.34); background:rgba(36,95,165,.1) }
-    .dd-sec-card-title { font-size:13px; font-weight:700; color:rgba(255,255,255,.82); margin-bottom:10px; letter-spacing:.01em }
-    .dd-sec-card ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px }
-    .dd-sec-card li { font-size:12px; color:rgba(160,195,230,.55); display:flex; align-items:flex-start; gap:5px }
-    .dd-sec-card li .chk { color:#3B82F6; flex-shrink:0; margin-top:1px; font-size:10px }
+.dd-surface {
+  background:rgba(255,255,255,.75);
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  transition:background .25s, border-color .25s, box-shadow .25s;
+}
+.nav-dd-item {
+  display:block; padding:5px 0; font-size:13px;
+  color:rgba(0,0,0,.6); text-decoration:none;
+  transition:color .13s; margin-bottom:2px;
+}
+.nav-dd-item:hover { color:rgba(0,0,0,.95) }
+.dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px; transition:color .25s }
+.dd-divider { height:1px; background:rgba(0,0,0,.07); margin:18px 0 }
 
-    .mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
-    .mob-acc-chevron { transition:transform .2s ease; flex-shrink:0 }
+.nav-group-wrap.dd-aligned { position:relative }
+.nav-group-wrap.dd-aligned .dd-panel {
+  position:absolute; top:100%; left:0; right:auto; padding-top:8px;
+}
 
-    .mob { max-height:0; overflow:hidden; transition:max-height .3s ease }
-    .mob.open { max-height:500px }
-    .mob-dd-item { display:block; padding:5px 8px; border-radius:7px; font-size:12px; color:rgba(160,195,230,.6); text-decoration:none; transition:background .12s,color .12s }
-    .mob-dd-item:hover { background:rgba(36,95,165,.12); color:rgba(255,255,255,.85) }
+.mob-dd-item { display:block; padding:5px 8px; border-radius:7px; font-size:12px; color:rgba(160,195,230,.6); text-decoration:none; transition:background .12s,color .12s }
+.mob-dd-item:hover { background:rgba(36,95,165,.12); color:rgba(255,255,255,.85) }
+.mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
+.mob-acc-chevron { transition:transform .2s ease; flex-shrink:0 }
+.mob { max-height:0; overflow:hidden; transition:max-height .3s ease }
+.mob.open { max-height:500px }
 
     .stat-n { font-variant-numeric:tabular-nums }
     .step-c { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; background:rgba(36,95,165,.1); border:1px solid rgba(36,95,165,.3); color:rgba(110,176,255,.8); flex-shrink:0 }
@@ -155,148 +160,81 @@
 </head>
 <body style="background:#05101E">
 
+<div id="splash" style="position:fixed;inset:0;z-index:9999;background:#05101E;pointer-events:none;transition:opacity 1.4s cubic-bezier(.4,0,.2,1);"></div>
+<script>
+(function(){
+  var splash = document.getElementById('splash');
+  setTimeout(function(){
+    splash.style.opacity = '0';
+    setTimeout(function(){ splash.style.display = 'none'; }, 1500);
+  }, 120);
+})();
+</script>
+
 <!-- NAVBAR -->
-<header id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent" style="background:rgba(5,16,30,.4)">
-  <nav id="nav-inner" class="max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
-    <a href="/" class="shrink-0" id="nav-logo">
-      <svg width="114" height="44" viewBox="0 0 576 224" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
-        <path d="M193.133 103.22C193.133 92.1886 206.37 86.673 212.437 86.673H221.262C233.397 86.673 240.567 97.1527 240.567 103.22V142.932H231.742V104.323C231.742 100.703 226.226 93.8433 219.056 93.8433H215.747C206.922 93.8433 201.958 100.462 201.958 104.323V142.932H193.133V103.22Z" fill="white"/>
-        <path d="M249.943 128.694C249.943 138.186 261.27 142.932 266.49 142.932H274.212C284.653 142.932 290.759 133.915 290.759 128.694V101.014H283.165V127.745C283.165 130.859 278.419 136.762 272.249 136.762H269.402C261.808 136.762 257.537 131.067 257.537 127.745V101.014H249.943V128.694Z" fill="white"/>
-        <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
-        <path d="M466.154 119.215V142.932H473.876V116.752V99.9105H466.154V119.215Z" fill="white"/>
-        <path d="M476.082 87.7762C476.082 90.8223 473.613 93.2918 470.567 93.2918C467.521 93.2918 465.051 90.8223 465.051 87.7762C465.051 84.73 467.521 82.2606 470.567 82.2606C473.613 82.2606 476.082 84.73 476.082 87.7762Z" fill="white"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
-        <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
-        <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-        <path d="M88.8873 92.1966L92.1966 95.506L91.3693 106.537L90.542 117.568H86.6811L88.8873 92.1966Z" fill="white"/>
-        <path d="M83.3717 157.877L85.5779 134.115L89.4389 133.012L87.2326 160.083C85.913 159.399 84.6251 158.663 83.3717 157.877Z" fill="white"/>
-        <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-        <path d="M130.807 129.703L134.288 133.012L136.322 106.537H132.461L130.807 129.703Z" fill="#245FA5"/>
-        <path d="M140.355 66.0337L138.149 89.7957L134.288 90.8989L136.494 63.8281C137.814 64.5115 139.101 65.2476 140.355 66.0337Z" fill="#245FA5"/>
-      </svg>
+<header id="nav" class="fixed top-0 left-0 right-0 z-50">
+  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 76px">
+    <a href="/" class="shrink-0 self-center" id="nav-logo">
+      <img src="/numaris-blanco.png" alt="Numaris" style="height:36px;width:auto;object-fit:contain;display:block">
     </a>
 
-    <div class="hidden lg:flex items-center gap-0">
+    <div class="hidden lg:flex items-center gap-0 self-center">
 
       <!-- SOLUCIONES dropdown -->
-      <div class="nav-group-wrap">
+      <div class="nav-group-wrap dd-aligned">
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
-          Soluciones
-          <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+          <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Soluciones</span>
         </button>
-        <div class="dd-panel" style="width:860px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Soluciones</span>
-              <a href="/#soluciones" class="dd-top-link">Ver ecosistema completo <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:20px 16px 8px;gap:8px">
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Productividad</p>
-                <p class="dd-col-tagline">Mejora la eficiencia y reduce costos</p>
+        <div class="dd-panel" style="width:580px">
+          <div class="dd-surface">
+            <div style="padding:20px 20px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+              <div>
                 <a href="/soluciones/productividad/telemetria-avanzada" class="nav-dd-item">Telemetría avanzada</a>
                 <a href="/soluciones/productividad/remolques-inteligentes" class="nav-dd-item">Remolques inteligentes</a>
                 <a href="/soluciones/productividad/control-de-combustible" class="nav-dd-item">Control de combustible</a>
               </div>
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Seguridad Patrimonial</p>
-                <p class="dd-col-tagline">Asegura tus activos y mercancía</p>
+              <div>
                 <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="nav-dd-item">Rastreo Satelital</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="nav-dd-item">Monitoreo Inteligente</a>
                 <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="nav-dd-item">Monitoreo licencia</a>
               </div>
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Control y Registro</p>
-                <p class="dd-col-tagline">Centraliza y optimiza la gestión de tu flota</p>
-                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Sistema de gestión de flotas</a>
-                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Administración de mantenimiento</a>
-              </div>
-              <div style="padding:0 8px">
-                <p class="dd-col-title">Seguridad Vial</p>
-                <p class="dd-col-tagline">Protege a operadores y reduce accidentes</p>
+              <div>
+                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Gestión de flotas</a>
+                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Mantenimiento</a>
                 <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="nav-dd-item">Videotelemetría con IA</a>
               </div>
-            </div>
-            <div style="margin:4px 20px 18px;padding:13px 18px;border-radius:12px;background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.82)">Ecosistema Numaris</span>
-                <span style="font-size:12px;color:rgba(110,176,255,.45);margin-left:8px">One Stop Shop</span>
-              </div>
-              <a href="/#soluciones" style="font-size:11.5px;font-weight:500;color:rgba(75,143,212,.85);background:rgba(36,95,165,.15);padding:5px 14px;border-radius:999px;border:1px solid rgba(36,95,165,.3);text-decoration:none;transition:background .13s,color .13s" onmouseover="this.style.background='rgba(36,95,165,.28)';this.style.color='white'" onmouseout="this.style.background='rgba(36,95,165,.15)';this.style.color='rgba(75,143,212,.85)'">Explorar →</a>
             </div>
           </div>
         </div>
       </div>
 
       <!-- SECTORES dropdown -->
-      <div class="nav-group-wrap">
+      <div class="nav-group-wrap dd-aligned">
         <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
-          Sectores
-          <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+          <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Sectores</span>
         </button>
-        <div class="dd-panel" style="width:940px">
-          <div class="dd-box">
-            <div class="dd-top-bar">
-              <span class="dd-top-label">Sectores</span>
-              <a href="/#sectores" class="dd-top-link">Ver todos los sectores <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></a>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:22px 20px 22px;gap:14px">
-              <a href="/sectores/movilidad" class="dd-sec-card">
-                <p class="dd-sec-card-title">Movilidad</p>
-                <ul>
-                  <li><span class="chk">✓</span>Trazabilidad</li>
-                  <li><span class="chk">✓</span>Seguimiento servicios</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Control de gasto</li>
-                </ul>
-              </a>
-              <a href="/sectores/distribucion-y-logistica" class="dd-sec-card">
-                <p class="dd-sec-card-title">Distribución y Logística</p>
-                <ul>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Optimización rutas</li>
-                </ul>
-              </a>
-              <a href="/sectores/servicios-financieros" class="dd-sec-card">
-                <p class="dd-sec-card-title">Servicios Financieros</p>
-                <ul>
-                  <li><span class="chk">✓</span>Control de gastos</li>
-                  <li><span class="chk">✓</span>Integración sistemas</li>
-                  <li><span class="chk">✓</span>Automatización</li>
-                  <li><span class="chk">✓</span>Valor agregado</li>
-                </ul>
-              </a>
-              <a href="/sectores/transporte-pesado" class="dd-sec-card" style="border-color:rgba(36,95,165,.34);background:rgba(36,95,165,.08)">
-                <p class="dd-sec-card-title" style="color:rgba(110,176,255,.9)">Transporte Pesado</p>
-                <ul>
-                  <li><span class="chk">✓</span>Eficiencia combustible</li>
-                  <li><span class="chk">✓</span>Prevención accidentes</li>
-                  <li><span class="chk">✓</span>Localización</li>
-                  <li><span class="chk">✓</span>Tarjeta combustible</li>
-                </ul>
-              </a>
+        <div class="dd-panel">
+          <div class="dd-surface" style="width:210px">
+            <div style="padding:20px 20px 22px">
+              <a href="/sectores/movilidad" class="nav-dd-item">Movilidad</a>
+              <a href="/sectores/distribucion-y-logistica" class="nav-dd-item">Distribución y Logística</a>
+              <a href="/sectores/servicios-financieros" class="nav-dd-item">Servicios Financieros</a>
+              <a href="/sectores/transporte-pesado" class="nav-dd-item" style="color:rgba(0,0,0,.9);font-weight:600">Transporte Pesado</a>
             </div>
           </div>
         </div>
       </div>
 
-      <a href="/#nosotros"   class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Nosotros</a>
-      <a href="/#exito"      class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Historias de Éxito</a>
-      <a href="/#blog"       class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Blog</a>
+      <a href="/#exito" class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Historias de Éxito</a>
     </div>
 
-    <div class="hidden lg:flex items-center gap-3 shrink-0">
-      <a href="tel:+525556509228" class="text-[13px] text-white/60 hover:text-white/90 transition-colors">+52 55 5650 9228</a>
-      <a href="/contacto" class="btn-primary px-5 py-2 rounded-full text-[13px] font-medium text-white">Contacto</a>
+    <div class="flex items-center justify-end gap-3 self-center">
+      <a href="/contacto" class="hidden lg:inline-flex" style="align-items:center;padding:9px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s,box-shadow .2s;box-shadow:0 2px 14px rgba(255,255,255,.18),0 1px 4px rgba(0,0,0,.25)" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Contacto →</a>
+      <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
+        <svg id="ico-o" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="ico-c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-
-    <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
-      <svg id="ico-o" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <svg id="ico-c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
   </nav>
   <div id="mob-menu" class="mob lg:hidden border-t border-white/5" style="background:rgba(5,16,30,.98)">
     <div class="px-6 py-4 flex flex-col gap-0.5">
@@ -307,18 +245,14 @@
         </button>
         <div class="mob-acc-content">
           <div style="padding:4px 0 12px 10px;display:flex;flex-direction:column;gap:1px">
-            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:6px 6px 3px">Productividad</p>
             <a href="/soluciones/productividad/telemetria-avanzada" class="mob-dd-item">Telemetría avanzada</a>
             <a href="/soluciones/productividad/remolques-inteligentes" class="mob-dd-item">Remolques inteligentes</a>
             <a href="/soluciones/productividad/control-de-combustible" class="mob-dd-item">Control de combustible</a>
-            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Patrimonial</p>
             <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="mob-dd-item">Rastreo Satelital</a>
             <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="mob-dd-item">Monitoreo Inteligente</a>
             <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="mob-dd-item">Monitoreo licencia</a>
-            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Control y Registro</p>
-            <a href="/soluciones/control-registro/sistema-gestion-flotas" class="mob-dd-item">Sistema de gestión de flotas</a>
-            <a href="/soluciones/control-registro/administracion-mantenimiento" class="mob-dd-item">Administración de mantenimiento</a>
-            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Vial</p>
+            <a href="/soluciones/control-registro/sistema-gestion-flotas" class="mob-dd-item">Gestión de flotas</a>
+            <a href="/soluciones/control-registro/administracion-mantenimiento" class="mob-dd-item">Mantenimiento</a>
             <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="mob-dd-item">Videotelemetría con IA</a>
           </div>
         </div>
@@ -337,12 +271,9 @@
           </div>
         </div>
       </div>
-      <a href="/#nosotros" class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Nosotros</a>
-      <a href="/#exito"    class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Historias de Éxito</a>
-      <a href="/#blog"     class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
+      <a href="/#exito" class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Historias de Éxito</a>
       <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
-        <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
-        <a href="/contacto" class="btn-primary py-2.5 text-[13px] font-medium text-white text-center rounded-full w-full block">Contacto</a>
+        <a href="/contacto" style="display:block;padding:10px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;text-align:center">Contacto</a>
       </div>
     </div>
   </div>
@@ -809,60 +740,127 @@
 </main>
 
 <!-- FOOTER -->
-<footer style="background:#030B17;border-top:1px solid rgba(36,95,165,.1)">
-  <div class="max-w-6xl mx-auto px-6 pt-14 pb-8">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-      <div>
-        <svg width="100" height="39" viewBox="0 0 576 224" fill="none" class="mb-4 opacity-60">
-          <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
-          <path d="M193.133 103.22V142.932H201.958V104.323C201.958 100.462 206.922 93.8433 215.747 93.8433H219.056C226.226 93.8433 231.742 100.703 231.742 104.323V142.932H240.567V103.22C240.567 97.1527 233.397 86.673 221.262 86.673H212.437C206.37 86.673 193.133 92.1886 193.133 103.22Z" fill="white"/>
-          <path d="M249.943 128.694V101.014H257.537V127.745C257.537 131.067 261.808 136.762 269.402 136.762H272.249C278.419 136.762 283.165 130.859 283.165 127.745V101.014H290.759V128.694C290.759 133.915 284.653 142.932 274.212 142.932H266.49C261.27 142.932 249.943 138.186 249.943 128.694Z" fill="white"/>
-          <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
-          <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
-          <path d="M466.154 119.215V142.932H473.876V99.9105H466.154V119.215Z" fill="white"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
-          <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
-          <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
-        </svg>
-        <p class="text-[12px] leading-relaxed mb-5 font-light" style="color:rgba(74,106,136,.6)">Movilidad más eficiente, segura y conectada.</p>
-        <a href="https://linkedin.com/company/numaris" target="_blank" class="inline-flex items-center justify-center w-7 h-7 rounded-md" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(74,106,136,.6)"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        </a>
+<footer style="background:#010F24;box-shadow:0 -6px 18px rgba(0,0,0,.18),0 -2px 6px rgba(0,0,0,.10)">
+  <!-- Wordmark -->
+  <div style="padding:60px 0 0 76px">
+    <div style="display:inline-block;width:57%;max-width:700px">
+      <svg viewBox="188 82 333 68" fill="none" style="width:100%;height:auto;display:block;opacity:.9" xmlns="http://www.w3.org/2000/svg">
+        <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
+        <path d="M193.133 103.22V142.932H201.958V104.323C201.958 100.462 206.922 93.8433 215.747 93.8433H219.056C226.226 93.8433 231.742 100.703 231.742 104.323V142.932H240.567V103.22C240.567 97.1527 233.397 86.673 221.262 86.673H212.437C206.37 86.673 193.133 92.1886 193.133 103.22Z" fill="white"/>
+        <path d="M249.943 128.694V101.014H257.537V127.745C257.537 131.067 261.808 136.762 269.402 136.762H272.249C278.419 136.762 283.165 130.859 283.165 127.745V101.014H290.759V128.694C290.759 133.915 284.653 142.932 274.212 142.932H266.49C261.27 142.932 249.943 138.186 249.943 128.694Z" fill="white"/>
+        <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
+        <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
+        <path d="M466.154 119.215V142.932H473.876V99.9105H466.154V119.215Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
+      </svg>
+      <p style="margin:12px 0 0;font-size:clamp(24px,2.1vw,32px);font-weight:200;color:rgba(255,255,255,.75);line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;white-space:nowrap">Optimización de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:0;color:rgba(255,255,255,.75)">flotas</em> con ganancia</p>
+    </div>
+  </div>
+  <div style="padding:150px 76px 0">
+    <div style="display:flex;margin-bottom:48px;align-items:flex-start">
+      <div style="width:50%;display:flex;gap:80px">
+        <div>
+          <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Contacto</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+            <li><a href="mailto:hola@numaris.com" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">hola@numaris.com</a></li>
+            <li><a href="tel:+525556509228" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">+52 55 5650 9228</a></li>
+            <li><a href="https://wa.link/0nc3sf" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">WhatsApp</a></li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Soluciones</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Productividad</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Patrimonial</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Control y Registro</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Vial</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Soluciones</p>
-        <ul class="space-y-2.5">
-          <li><a href="/" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Productividad</a></li>
-          <li><a href="/" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Seguridad Patrimonial</a></li>
-          <li><a href="/" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Control y Registro</a></li>
-          <li><a href="/" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Seguridad Vial</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Empresa</p>
-        <ul class="space-y-2.5">
-          <li><a href="/#nosotros" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Nosotros</a></li>
-          <li><a href="/#exito"    class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Historias de Éxito</a></li>
-          <li><a href="/#blog"     class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Blog</a></li>
-          <li><a href="#"          class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">Política de Privacidad</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="text-[10px] font-medium uppercase tracking-widest mb-4" style="color:rgba(255,255,255,.22)">Contacto</p>
-        <ul class="space-y-2.5">
-          <li><a href="mailto:hola@numaris.com" class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">hola@numaris.com</a></li>
-          <li><a href="tel:+525556509228"        class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">+52 55 5650 9228</a></li>
-          <li><a href="https://wa.link/0nc3sf"   class="text-[12px] font-light hover:text-white/70 transition-colors" style="color:rgba(74,106,136,.65)">WhatsApp</a></li>
-          <li class="text-[12px] font-light" style="color:rgba(74,106,136,.4)">Ejército Nacional 624, CDMX</li>
-        </ul>
+      <div style="width:50%;display:flex;justify-content:center;align-items:flex-start;padding-right:230px">
+        <div style="display:flex;gap:78px;align-items:flex-start">
+          <!-- Nosotros -->
+          <a href="/nosotros" style="text-decoration:none;display:flex;flex-direction:column;min-width:140px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Nosotros</span>
+            <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Historia</span>
+            <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+          </a>
+          <!-- Blog -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="/blog" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Blog</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Tendencias</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <a href="/blog" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0;background:#012750;display:flex;align-items:center;justify-content:center">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">May 2026</p>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">IA en logística:</strong> cómo las flotas inteligentes están redefiniendo la eficiencia en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">5 min</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Leer →</span>
+              </div>
+            </a>
+          </div>
+          <!-- LinkedIn -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="https://linkedin.com/company/numaris" target="_blank" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">LinkedIn</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Síguenos</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <a href="https://www.linkedin.com/company/numaris" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0">
+                  <svg width="24" height="24" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:3px">
+                    <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
+                    <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
+                  </svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">20 mar 2026</p>
+                </div>
+                <div style="width:14px;height:14px;border-radius:3px;background:#0A66C2;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">♡ 40</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Ver post →</span>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6" style="border-top:1px solid rgba(255,255,255,.05)">
-      <p class="text-[11px] font-light" style="color:rgba(74,106,136,.4)">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
-      <div class="flex gap-5">
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Privacidad</a>
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Términos</a>
-        <a href="#" class="text-[11px] font-light hover:text-white/50 transition-colors" style="color:rgba(74,106,136,.4)">Diseño: Superficial</a>
+    <div style="border-top:1px solid rgba(255,255,255,.18);margin-top:38px;padding-top:0.5cm;padding-bottom:20px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:32px">
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">Ejército Nacional 624, CDMX</p>
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Privacidad</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Términos</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Diseño: Superficial</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Política de Privacidad</a>
       </div>
     </div>
   </div>
