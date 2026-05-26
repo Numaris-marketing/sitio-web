@@ -761,7 +761,14 @@
       var l = document.getElementById('sol-label-'+i);
       if (i === idx) {
         p.style.display = 'block';
-        requestAnimationFrame(function() { p.style.opacity = '1'; p.style.transform = 'translateY(0)'; });
+        p.style.opacity = '0';
+        p.style.transform = 'translateY(8px)';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            p.style.opacity = '1';
+            p.style.transform = 'translateY(0)';
+          });
+        });
         t.style.display = 'block';
         if (l) l.style.color = '#012750';
       } else {
