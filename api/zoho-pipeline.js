@@ -179,7 +179,7 @@ export default async function handler(req, res) {
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,Closing_Date,Owner",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_vehiculos,Closing_Date,Owner",
         campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
@@ -332,22 +332,24 @@ export default async function handler(req, res) {
       if (!byCampaign[campId]) {
         byCampaign[campId] = {
           name:         campName,
-          count:        0, value:      0, subs:     0,  // active pipeline
-          wonCount:     0, wonValue:   0,                 // closed/won
-          totalCount:   0, totalValue: 0,                 // all combined
+          count:        0, value:      0, subs:     0, vehicles: 0,  // active pipeline
+          wonCount:     0, wonValue:   0,                               // closed/won
+          totalCount:   0, totalValue: 0,                               // all combined
         };
       }
 
       const v = dealValue(d);
       const s = d.Cantidad_de_suscripciones || 0;
+      const vh = d.No_de_vehiculos || 0;
 
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
 
       if (isActive) {
         byCampaign[campId].count++;
-        byCampaign[campId].value += v;
-        byCampaign[campId].subs  += s;
+        byCampaign[campId].value    += v;
+        byCampaign[campId].subs     += s;
+        byCampaign[campId].vehicles += vh;
       } else if (isWon) {
         byCampaign[campId].wonCount++;
         byCampaign[campId].wonValue += v;

@@ -1979,6 +1979,7 @@
         count:      deal.count      || 0,
         value:      deal.value      || 0,
         subs:       deal.subs       || 0,
+        vehicles:   deal.vehicles   || 0,
         wonCount:   deal.wonCount   || 0,
         wonValue:   deal.wonValue   || 0,
         totalCount: deal.totalCount || 0,
@@ -2092,9 +2093,11 @@
     // Event detail cards — ALL campaigns
     if (!cardsEl) return;
     cardsEl.innerHTML = entries.map((e) => {
-      const meta  = e.meta;
-      const color = e.color;
-      const cost  = e.cost || 0;
+      const meta     = e.meta;
+      const color    = e.color;
+      const cost     = e.cost     || 0;
+      const subs     = e.subs     || 0;
+      const vehicles = e.vehicles || 0;
       const roi   = cost > 0 ? (e.totalValue / cost) : null;
       const roiColor = roi === null ? 'var(--fg-muted)' : roi >= 5 ? 'var(--green)' : roi >= 1 ? 'var(--orange)' : '#f87171';
       const roiBadge = roi !== null
@@ -2150,6 +2153,18 @@
                 <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Oportunidades</div>
                 <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${e.totalCount || 0} deals</div>
               </div>
+              ${subs > 0 ? `
+              <div style="width:1px;background:var(--border);"></div>
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Suscripciones</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${subs.toLocaleString('es-MX')}</div>
+              </div>` : ''}
+              ${vehicles > 0 ? `
+              <div style="width:1px;background:var(--border);"></div>
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);">Vehículos</div>
+                <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${vehicles.toLocaleString('es-MX')}</div>
+              </div>` : ''}
             </div>
             ${meta?.descripcion ? `
             <!-- Description -->
