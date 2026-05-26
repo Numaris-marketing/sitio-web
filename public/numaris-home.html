@@ -597,31 +597,42 @@
 </section>
 
 
-<!-- SOLUCIONES — Burbujas animadas -->
-<section id="soluciones-grid" style="background:#ffffff;padding:80px 0 70px">
-  <div style="max-width:1140px;margin:0 auto;padding:0 40px">
-    <!-- Header centrado -->
-    <div style="text-align:center;margin-bottom:64px">
-      <p style="font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(1,39,80,.38);margin:0 0 16px;font-family:'Montserrat',sans-serif">Ecosistema Numaris</p>
-      <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(26px,3vw,40px);font-weight:200;color:#012750;line-height:1.2;margin:0">
-        Todo lo que necesitas para<br>
-        <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#245FA5">optimizar tu flota</em>
+<!-- SOLUCIONES — Samsara-style interactive explorer -->
+<section id="soluciones-explorer" class="py-28" style="background:var(--bg)">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12 fi">
+      <div class="tag mx-auto mb-5">Soluciones</div>
+      <h2 class="text-[30px] sm:text-[36px] font-semibold tracking-tight text-white/85 leading-tight">
+        Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
       </h2>
+      <p class="mt-4 text-[14px] font-light max-w-xl mx-auto leading-relaxed" style="color:var(--muted)">
+        Desde el control de combustible hasta la seguridad vial con IA. Numaris unifica cada aspecto de la gestión de flotillas.
+      </p>
     </div>
-    <!-- Canvas de burbujas -->
-    <div style="position:relative;height:500px">
-      <!-- Fila 1 -->
-      <div class="sol-bubble" style="left:2%;top:20px;animation-delay:0s">Telemetría avanzada</div>
-      <div class="sol-bubble" style="left:36%;top:10px;animation-delay:.5s">Rastreo Satelital</div>
-      <div class="sol-bubble" style="left:68%;top:30px;animation-delay:.3s">Gestión de flotas</div>
-      <!-- Fila 2 -->
-      <div class="sol-bubble" style="left:15%;top:170px;animation-delay:.9s">Remolques inteligentes</div>
-      <div class="sol-bubble" style="left:47%;top:160px;animation-delay:1.3s">Monitoreo Inteligente</div>
-      <div class="sol-bubble" style="left:74%;top:180px;animation-delay:.7s">Mantenimiento</div>
-      <!-- Fila 3 -->
-      <div class="sol-bubble" style="left:4%;top:340px;animation-delay:1.1s">Control de combustible</div>
-      <div class="sol-bubble" style="left:36%;top:330px;animation-delay:.4s">Monitoreo licencia</div>
-      <div class="sol-bubble" style="left:62%;top:350px;animation-delay:1.5s">Videotelemetría con IA</div>
+    <!-- Tab switcher -->
+    <div class="flex justify-center mb-8">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px;display:inline-flex;gap:2px">
+        <button id="stab-sol" onclick="solSwitchTab('sol')"
+          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .22s;background:white;color:#012750;font-family:inherit">
+          Soluciones
+        </button>
+        <button id="stab-ind" onclick="solSwitchTab('ind')"
+          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:all .22s;background:transparent;color:rgba(255,255,255,.45);font-family:inherit">
+          Industrias
+        </button>
+      </div>
+    </div>
+    <!-- ── SOLUCIONES PANEL ── -->
+    <div id="sp-sol">
+      <div style="display:flex;gap:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(4,13,26,.9);min-height:480px">
+        <div id="sol-sidebar" style="width:230px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.07);padding:10px 8px;display:flex;flex-direction:column;gap:2px"></div>
+        <div id="sol-cards" style="flex:1;padding:14px;display:grid;grid-template-columns:1fr 230px;grid-template-rows:1fr 1fr;gap:10px;min-height:480px"></div>
+      </div>
+      <div id="sol-mobile-tabs" style="display:none;overflow-x:auto;gap:8px;padding-bottom:4px;margin-bottom:12px;-webkit-overflow-scrolling:touch"></div>
+    </div>
+    <!-- ── INDUSTRIAS PANEL ── -->
+    <div id="sp-ind" style="display:none">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="ind-cards"></div>
     </div>
   </div>
 </section>
