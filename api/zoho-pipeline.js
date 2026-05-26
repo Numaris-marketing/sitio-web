@@ -387,8 +387,8 @@ export default async function handler(req, res) {
         activeDealsRawTotal:  activeDealsRaw.length,
         sampleCampa_aDeal:    sampleCampa,
         sampleCampaignSrcDeal: sampleCampSrc,
-        // Temp debug: all field keys on first deal with Campa_a (to identify No. de vehiculos API name)
-        sampleCampa_aDealAllKeys: sampleCampa ? Object.keys(sampleCampa) : [],
+        // Temp debug: fetch one full deal (no field filter) to identify all available API field names
+        sampleFullDeal: sampleCampa?.id ? await zohoRequest(ZOHO_BASE, `/crm/v2/Deals/${sampleCampa.id}`, "GET", null, token).then(r => r.data?.[0] ? Object.keys(r.data[0]) : []).catch(() => []) : [],
       },
     });
 
