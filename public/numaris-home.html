@@ -598,8 +598,8 @@
 
 
 <!-- SOLUCIONES — scroll-driven 4 paneles -->
-<div id="sol-scroll-wrapper" style="position:relative;height:400vh">
-<section id="soluciones-sectores" style="background:#ffffff;padding:80px 0;position:sticky;top:0;overflow:hidden">
+<div id="sol-scroll-wrapper" style="position:relative;height:500vh">
+<section id="soluciones-sectores" style="background:#ffffff;padding:80px 0;position:sticky;top:0;overflow:hidden;min-height:100vh">
   <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
     <div style="margin-bottom:32px">
       <div style="width:100%;height:1px;background:rgba(1,39,80,.12);overflow:hidden">
@@ -790,7 +790,7 @@
     var scrollSpace = wrapper.offsetHeight - window.innerHeight;
     var scrolled = window.scrollY - wrapTop;
     var progress = Math.max(0, Math.min(1, scrolled / scrollSpace));
-    var tabIdx = Math.min(3, Math.floor(progress * 4));
+    var tabIdx = progress < 0.25 ? 0 : progress < 0.5 ? 1 : progress < 0.72 ? 2 : 3;
     solTab(tabIdx);
     var fill = document.getElementById('sol-progress-fill');
     if (fill) { fill.style.transition = 'none'; fill.style.width = (progress * 100).toFixed(1) + '%'; }
