@@ -332,24 +332,24 @@ export default async function handler(req, res) {
       if (!byCampaign[campId]) {
         byCampaign[campId] = {
           name:         campName,
-          count:        0, value:      0, subs:     0, vehicles: 0,  // active pipeline
+          count:        0, value:      0, subs:     0,  // active pipeline
           wonCount:     0, wonValue:   0,                               // closed/won
           totalCount:   0, totalValue: 0,                               // all combined
         };
       }
 
       const v = dealValue(d);
-      const s = d.Cantidad_de_suscripciones || 0;
-      const vh = d.No_de_vehiculos || 0;
+      // Use whichever field has a value — some deals use Cantidad_de_suscripciones,
+      // others use No_de_vehiculos. Sum both so no deal is left uncounted.
+      const s = (d.Cantidad_de_suscripciones || 0) + (d.No_de_vehiculos || 0);
 
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
 
       if (isActive) {
         byCampaign[campId].count++;
-        byCampaign[campId].value    += v;
-        byCampaign[campId].subs     += s;
-        byCampaign[campId].vehicles += vh;
+        byCampaign[campId].value += v;
+        byCampaign[campId].subs  += s;
       } else if (isWon) {
         byCampaign[campId].wonCount++;
         byCampaign[campId].wonValue += v;
