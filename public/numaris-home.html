@@ -597,45 +597,207 @@
 </section>
 
 
-<!-- SOLUCIONES — Samsara-style interactive explorer -->
-<section id="soluciones-explorer" class="py-28" style="background:var(--bg)">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12 fi">
-      <div class="tag mx-auto mb-5">Soluciones</div>
-      <h2 class="text-[30px] sm:text-[36px] font-semibold tracking-tight text-white/85 leading-tight">
-        Todo lo que tu flota necesita,<br/><span class="glow-text-sm">en una sola plataforma.</span>
-      </h2>
-      <p class="mt-4 text-[14px] font-light max-w-xl mx-auto leading-relaxed" style="color:var(--muted)">
-        Desde el control de combustible hasta la seguridad vial con IA. Numaris unifica cada aspecto de la gestión de flotillas.
-      </p>
-    </div>
-    <!-- Tab switcher -->
-    <div class="flex justify-center mb-8">
-      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px;display:inline-flex;gap:2px">
-        <button id="stab-sol" onclick="solSwitchTab('sol')"
-          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .22s;background:white;color:#012750;font-family:inherit">
-          Soluciones
-        </button>
-        <button id="stab-ind" onclick="solSwitchTab('ind')"
-          style="padding:9px 28px;border-radius:999px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:all .22s;background:transparent;color:rgba(255,255,255,.45);font-family:inherit">
-          Industrias
-        </button>
+<!-- SOLUCIONES — scroll-driven 4 paneles -->
+<div id="sol-scroll-wrapper" style="position:relative;height:400vh">
+<section id="soluciones-sectores" style="background:#ffffff;padding:80px 0;position:sticky;top:0;overflow:hidden">
+  <div style="position:relative;max-width:1140px;margin:0 auto;padding:0 24px">
+    <div style="margin-bottom:32px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <span id="sol-label-0" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:#012750;transition:opacity .18s ease">Transporte Pesado</span>
+        <span id="sol-label-1" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Última Milla y Reparto</span>
+        <span id="sol-label-2" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Arrendamiento</span>
+        <span id="sol-label-3" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;color:rgba(1,39,80,.3);transition:opacity .18s ease">Plataforma de Gestión</span>
+      </div>
+      <div style="width:100%;height:1px;background:rgba(1,39,80,.12);overflow:hidden">
+        <div id="sol-progress-fill" style="height:100%;width:0%;background:linear-gradient(to right,#4B8FD4,#012750);transition:none"></div>
       </div>
     </div>
-    <!-- ── SOLUCIONES PANEL ── -->
-    <div id="sp-sol">
-      <div style="display:flex;gap:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(4,13,26,.9);min-height:480px">
-        <div id="sol-sidebar" style="width:230px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.07);padding:10px 8px;display:flex;flex-direction:column;gap:2px"></div>
-        <div id="sol-cards" style="flex:1;padding:14px;display:grid;grid-template-columns:1fr 230px;grid-template-rows:1fr 1fr;gap:10px;min-height:480px"></div>
+    <div style="margin-bottom:24px">
+      <button id="sol-tab-0" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:block;line-height:1.1">Transporte Pesado</button>
+      <button id="sol-tab-1" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Última Milla y Reparto</button>
+      <button id="sol-tab-2" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Arrendamiento</button>
+      <button id="sol-tab-3" style="padding:0;border:none;background:none;font-size:clamp(28px,3.5vw,44px);font-weight:200;color:#012750;cursor:default;font-family:'Montserrat',sans-serif;display:none;line-height:1.1">Plataforma de Gestión</button>
+    </div>
+    <div style="border-radius:12px;overflow:hidden;position:relative;z-index:1;padding:16px">
+      <!-- Panel 0: Transporte Pesado -->
+      <div id="sol-panel-0" style="opacity:1;transform:translateY(0);transition:opacity .18s ease,transform .18s ease">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
+              <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"><source src="/truck-road.mp4" type="video/mp4"></video>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
+              <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte Pesado</span></div>
+              <div style="position:absolute;bottom:20px;left:20px;right:20px">
+                <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Rastreo <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Satelital</em></p>
+                <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Patrimonial</p>
+              </div>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Reducimos un 35% el consumo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">combustible</em> en los primeros 3 meses."</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Director de Operaciones</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad Vial</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">"Con videotelemetría IA bajamos los <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">accidentes</em> un 65% en flota nacional."</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Gerente de Flota</p>
+            </div>
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
+              <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"><source src="/people-smiling.mp4" type="video/mp4"></video>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,13,26,.75) 0%,transparent 50%);pointer-events:none"></div>
+              <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span></div>
+              <div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;flex-direction:column;align-items:flex-start">
+                <img src="/logo-bafar.svg" alt="Grupo Bafar" style="height:130px;width:auto;max-width:180px;object-fit:contain;object-position:left center;filter:brightness(0) invert(1);opacity:.9;display:block;margin-bottom:8px;margin-left:-4px">
+                <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif"><em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">40%</em> reducción de robo de combustible en los primeros 3 meses</p>
+                <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Transporte · 800 unidades</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="sol-mobile-tabs" style="display:none;overflow-x:auto;gap:8px;padding-bottom:4px;margin-bottom:12px;-webkit-overflow-scrolling:touch"></div>
-    </div>
-    <!-- ── INDUSTRIAS PANEL ── -->
-    <div id="sp-ind" style="display:none">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="ind-cards"></div>
-    </div>
-  </div>
+      <!-- Panel 1: Última Milla y Reparto -->
+      <div id="sol-panel-1" style="opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
+              <div style="position:absolute;inset:0;background:rgba(1,39,80,.4)"></div>
+              <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Última Milla</span></div>
+              <div style="position:absolute;bottom:20px;left:20px;right:20px">
+                <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Monitoreo de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Reparto</em></p>
+                <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Video por agregar</p>
+              </div>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Última Milla.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Última Milla.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);aspect-ratio:3/4;max-height:480px;padding:28px;display:flex;align-items:flex-end">
+              <div>
+                <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span></div>
+                <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif">Video / caso de éxito por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">agregar</em></p>
+                <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Sector · Unidades</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 2: Arrendamiento -->
+      <div id="sol-panel-2" style="opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
+              <div style="position:absolute;inset:0;background:rgba(1,39,80,.4)"></div>
+              <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Arrendamiento</span></div>
+              <div style="position:absolute;bottom:20px;left:20px;right:20px">
+                <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Control de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Activos</em></p>
+                <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Video por agregar</p>
+              </div>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Arrendamiento.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Arrendamiento.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);aspect-ratio:3/4;max-height:480px;padding:28px;display:flex;align-items:flex-end">
+              <div>
+                <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span></div>
+                <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif">Video / caso de éxito por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">agregar</em></p>
+                <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Sector · Unidades</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 3: Plataforma de Gestión -->
+      <div id="sol-panel-3" style="opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#000;outline:2px solid #ffffff;aspect-ratio:3/4;max-height:480px">
+              <div style="position:absolute;inset:0;background:rgba(1,39,80,.4)"></div>
+              <div style="position:absolute;top:16px;left:16px;background:rgba(36,95,165,.25);backdrop-filter:blur(14px);border:1px solid rgba(36,95,165,.50);border-radius:999px;padding:6px 16px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;text-transform:uppercase;font-family:'Montserrat',sans-serif">Plataforma</span></div>
+              <div style="position:absolute;bottom:20px;left:20px;right:20px">
+                <p style="margin:0;font-size:clamp(16px,1.6vw,22px);font-weight:200;color:#fff;line-height:1.2;font-family:'Montserrat',sans-serif">Gestión de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:rgba(255,255,255,.85)">Flotas</em></p>
+                <p style="margin:4px 0 0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.5);text-transform:uppercase;font-family:'Montserrat',sans-serif">Video por agregar</p>
+              </div>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Productividad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Plataforma.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);padding:28px">
+              <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Seguridad</span></div>
+              <p style="margin:0 0 12px;font-size:clamp(16px,1.5vw,20px);font-weight:200;color:rgba(255,255,255,.9);line-height:1.45;font-family:'Montserrat',sans-serif">Texto por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400;color:#fff">agregar</em> para Plataforma.</p>
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;font-family:'Montserrat',sans-serif">Cargo por agregar</p>
+            </div>
+            <div style="border-radius:16px;background:rgba(1,39,80,.6);aspect-ratio:3/4;max-height:480px;padding:28px;display:flex;align-items:flex-end">
+              <div>
+                <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;display:inline-block;margin-bottom:18px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.82);text-transform:uppercase;font-family:'Montserrat',sans-serif">Casos de Éxito</span></div>
+                <p style="margin:0 0 6px;font-size:clamp(14px,1.4vw,18px);font-weight:200;color:rgba(255,255,255,.92);line-height:1.3;font-family:'Montserrat',sans-serif">Video / caso de éxito por <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:400">agregar</em></p>
+                <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Montserrat',sans-serif">Sector · Unidades</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /card contenedora -->
+  </div><!-- /panels wrapper -->
+  <script>
+  var _solCurrent = 0;
+  function solTab(idx) {
+    if (idx === _solCurrent) return;
+    _solCurrent = idx;
+    [0,1,2,3].forEach(function(i) {
+      var p = document.getElementById('sol-panel-'+i);
+      var t = document.getElementById('sol-tab-'+i);
+      var l = document.getElementById('sol-label-'+i);
+      if (i === idx) {
+        p.style.display = 'block';
+        requestAnimationFrame(function() { p.style.opacity = '1'; p.style.transform = 'translateY(0)'; });
+        t.style.display = 'block';
+        if (l) l.style.color = '#012750';
+      } else {
+        p.style.opacity = '0'; p.style.transform = 'translateY(8px)';
+        setTimeout(function(){ p.style.display = 'none'; }, 180);
+        t.style.display = 'none';
+        if (l) l.style.color = 'rgba(1,39,80,.3)';
+      }
+    });
+  }
+  window.addEventListener('scroll', function() {
+    var wrapper = document.getElementById('sol-scroll-wrapper');
+    if (!wrapper) return;
+    var wrapTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    var scrollSpace = wrapper.offsetHeight - window.innerHeight;
+    var scrolled = window.scrollY - wrapTop;
+    var progress = Math.max(0, Math.min(1, scrolled / scrollSpace));
+    var tabIdx = Math.min(3, Math.floor(progress * 4));
+    solTab(tabIdx);
+    var fill = document.getElementById('sol-progress-fill');
+    if (fill) { fill.style.transition = 'none'; fill.style.width = (progress * 100).toFixed(1) + '%'; }
+  });
+  </script>
 </section>
+</div><!-- /sol-scroll-wrapper -->
 
 <!-- MARQUEE -->
 <div style="background:#ffffff;position:relative">
