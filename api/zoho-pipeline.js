@@ -179,7 +179,7 @@ export default async function handler(req, res) {
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_vehiculos,Closing_Date,Owner",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner",
         campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
@@ -341,7 +341,7 @@ export default async function handler(req, res) {
       const v = dealValue(d);
       // Use whichever field has a value — some deals use Cantidad_de_suscripciones,
       // others use No_de_vehiculos. Sum both so no deal is left uncounted.
-      const s = (d.Cantidad_de_suscripciones || 0) + (d.No_de_vehiculos || 0);
+      const s = (d.Cantidad_de_suscripciones || 0) + (d.No_de_Veh_culos || 0);
 
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
@@ -387,8 +387,7 @@ export default async function handler(req, res) {
         activeDealsRawTotal:  activeDealsRaw.length,
         sampleCampa_aDeal:    sampleCampa,
         sampleCampaignSrcDeal: sampleCampSrc,
-        // Temp debug: fetch one full deal (no field filter) to identify all available API field names
-        sampleFullDeal: sampleCampa?.id ? await zohoRequest(ZOHO_BASE, `/crm/v2/Deals/${sampleCampa.id}`, "GET", null, token).then(r => r.data?.[0] ? Object.keys(r.data[0]) : []).catch(() => []) : [],
+        sampleCampa_aDealAllKeys: sampleCampa ? Object.keys(sampleCampa) : [],
       },
     });
 
