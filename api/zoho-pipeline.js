@@ -332,24 +332,25 @@ export default async function handler(req, res) {
       if (!byCampaign[campId]) {
         byCampaign[campId] = {
           name:         campName,
-          count:        0, value:      0, subs:     0,  // active pipeline
-          wonCount:     0, wonValue:   0,                               // closed/won
-          totalCount:   0, totalValue: 0,                               // all combined
+          count:        0, value:      0,  // active pipeline
+          wonCount:     0, wonValue:   0,  // closed/won
+          totalCount:   0, totalValue: 0,  // all combined
+          subs:         0,                 // active + won (Cantidad_de_suscripciones + No_de_Veh_culos)
         };
       }
 
       const v = dealValue(d);
-      // Use whichever field has a value — some deals use Cantidad_de_suscripciones,
-      // others use No_de_vehiculos. Sum both so no deal is left uncounted.
+      // Sum both subscription fields — some deals use Cantidad_de_suscripciones,
+      // others use No_de_Veh_culos. Count subs for active AND won deals.
       const s = (d.Cantidad_de_suscripciones || 0) + (d.No_de_Veh_culos || 0);
 
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
+      byCampaign[campId].subs += s;  // accumulate regardless of stage
 
       if (isActive) {
         byCampaign[campId].count++;
         byCampaign[campId].value += v;
-        byCampaign[campId].subs  += s;
       } else if (isWon) {
         byCampaign[campId].wonCount++;
         byCampaign[campId].wonValue += v;
