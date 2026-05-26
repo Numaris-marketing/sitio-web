@@ -387,6 +387,8 @@ export default async function handler(req, res) {
         activeDealsRawTotal:  activeDealsRaw.length,
         sampleCampa_aDeal:    sampleCampa,
         sampleCampaignSrcDeal: sampleCampSrc,
+        // Temp debug: all field keys on first deal with Campa_a (to identify No. de vehiculos API name)
+        sampleCampa_aDealAllKeys: sampleCampa ? Object.keys(sampleCampa) : [],
       },
     });
 
