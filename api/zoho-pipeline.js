@@ -173,7 +173,7 @@ export default async function handler(req, res) {
 
     const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,Owner",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner",
         dealCriteria, token),
       fetchFiltered("Accounts",
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
@@ -212,6 +212,12 @@ export default async function handler(req, res) {
     }
 
     // Helper: industry from deal owner (propietario de oportunidad)
+    // Suscripciones: usa Cantidad_de_suscripciones si tiene valor, si no No_de_Veh_culos.
+    // No se suman porque son dos plantillas distintas; el valor que exista es el correcto.
+    function dealSubs(d) {
+      return d.Cantidad_de_suscripciones || d.No_de_Veh_culos || 0;
+    }
+
     function dealIndustry(d) {
       const ownerName = typeof d.Owner === "object" ? (d.Owner?.name || "") : (d.Owner || "");
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
@@ -247,7 +253,7 @@ export default async function handler(req, res) {
       if (!byStage[s]) byStage[s] = { count: 0, value: 0, subs: 0 };
       byStage[s].count++;
       byStage[s].value += dealValue(d);
-      byStage[s].subs += d.Cantidad_de_suscripciones || 0;
+      byStage[s].subs += dealSubs(d);
     }
 
     // By source
@@ -266,7 +272,7 @@ export default async function handler(req, res) {
       if (!totalByStage[s]) totalByStage[s] = { count: 0, value: 0, subs: 0 };
       totalByStage[s].count++;
       totalByStage[s].value += dealValue(d);
-      totalByStage[s].subs += d.Cantidad_de_suscripciones || 0;
+      totalByStage[s].subs += dealSubs(d);
     }
 
     // By industry — total active deals grouped by Deal Owner → industry mapping
@@ -340,9 +346,9 @@ export default async function handler(req, res) {
       }
 
       const v = dealValue(d);
-      // Sum both subscription fields — some deals use Cantidad_de_suscripciones,
-      // others use No_de_Veh_culos. Count subs for active AND won deals.
-      const s = (d.Cantidad_de_suscripciones || 0) + (d.No_de_Veh_culos || 0);
+      // Subs: usa Cantidad_de_suscripciones si tiene valor, si no No_de_Veh_culos.
+      // No se suman — son dos plantillas distintas de oportunidad.
+      const s = dealSubs(d);
 
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
@@ -373,7 +379,7 @@ export default async function handler(req, res) {
         marketingPct: Math.round(oppPct * 10) / 10,
         marketingValPct: Math.round(valPct * 10) / 10,
         marketingSubs: Object.values(byStage).reduce((acc, s) => acc + (s.subs || 0), 0),
-        totalSubs: activeDeals.reduce((acc, d) => acc + (d.Cantidad_de_suscripciones || 0), 0),
+        totalSubs: activeDeals.reduce((acc, d) => acc + dealSubs(d), 0),
       },
       byStage,
       totalByStage,
