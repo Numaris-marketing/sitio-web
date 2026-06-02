@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es" style="background:#05101E">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transporte Pesado — Numaris</title>
+  <meta name="description" content="Soluciones de telemática y rastreo satelital para flotas de transporte pesado. Reduce costos de combustible, previene accidentes y cumple la normativa. Numaris México." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Montserrat','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face {
+  font-family:'LibreBaskerville';
+  src:url('/fonts/LibreBaskerville-Italic.ttf') format('truetype');
+  font-style:italic;
+  font-weight:400 700;
+  font-display:swap;
+}
+
+    :root {
+      --bg:     #05101E;
+      --bg2:    #070F1C;
+      --navy:   #012750;
+      --blue:   #245FA5;
+      --blue-l: #4B8FD4;
+      --muted:  #4A6A88;
+      --border: rgba(36,95,165,.18);
+    }
+
+    html { scroll-behavior:smooth }
+    body { font-family:'Montserrat',system-ui,sans-serif; background:var(--bg); color:#D0DFF0; overflow-x:hidden; font-size:15px; font-weight:400; line-height:1.6 }
+
+    @keyframes glow-pulse { 0%,100%{opacity:.22} 50%{opacity:.42} }
+    .orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(100px); animation:glow-pulse 8s ease-in-out infinite }
+
+    .glow-text {
+      background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 60%,#245FA5 100%);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 18px rgba(59,130,246,.35));
+    }
+
+    .glass {
+      background:rgba(255,255,255,.025);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(36,95,165,.18);
+    }
+
+    .divider { height:1px; background:linear-gradient(90deg,transparent,rgba(36,95,165,.2),transparent) }
+
+    .fi { opacity:0; transform:translateY(20px); transition:opacity .6s ease,transform .6s ease }
+    .fi.on { opacity:1; transform:translateY(0) }
+
+    #nav { padding-top:12px; background:transparent; transition:background .2s,border-color .2s,padding-top .38s cubic-bezier(.22,1,.36,1) }
+#nav.scrolled { background:linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 60%, transparent 100%) }
+#nav.nav-compact { padding-top:0 }
+#nav-inner { height:84px; transition:height .38s cubic-bezier(.22,1,.36,1), padding .38s ease }
+#nav.nav-compact #nav-inner { height:66px }
+#nav-logo { transition:transform .38s ease; transform-origin:left center; display:flex; align-items:center; align-self:center }
+#nav.nav-compact #nav-logo { transform:scale(.87) }
+
+    .btn-primary {
+      background:var(--blue);
+      box-shadow:0 0 20px rgba(36,95,165,.35),inset 0 1px 0 rgba(255,255,255,.08);
+      transition:box-shadow .2s,transform .15s;
+    }
+    .btn-primary:hover { box-shadow:0 0 36px rgba(59,130,246,.45),inset 0 1px 0 rgba(255,255,255,.1); transform:translateY(-1px) }
+
+    .btn-ghost {
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.1);
+      transition:background .2s,border-color .2s,transform .15s;
+    }
+    .btn-ghost:hover { background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.18); transform:translateY(-1px) }
+
+    .card { transition:border-color .2s,box-shadow .2s,transform .2s }
+    .card:hover { border-color:rgba(36,95,165,.4)!important; box-shadow:0 0 28px rgba(36,95,165,.1); transform:translateY(-2px) }
+
+    .tag { display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:999px; font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; border:1px solid rgba(36,95,165,.28); background:rgba(36,95,165,.08); color:rgba(110,176,255,.75) }
+
+    .nav-group-wrap { position:static }
+.nav-group-wrap > button { background:none; border:none; cursor:pointer }
+.nav-group-wrap .dd-panel {
+  position:fixed; top:64px; left:0; right:0; z-index:200;
+  opacity:0; pointer-events:none;
+  transform:translateY(-5px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.nav-group-wrap:hover .dd-panel { opacity:1; pointer-events:auto; transform:translateY(0) }
+.dd-chevron { transition:transform .18s ease; display:block }
+.nav-group-wrap:hover .dd-chevron { transform:rotate(180deg) }
+
+.dd-surface {
+  background:rgba(255,255,255,.75);
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  transition:background .25s, border-color .25s, box-shadow .25s;
+}
+.nav-dd-item {
+  display:block; padding:5px 0; font-size:13px;
+  color:rgba(0,0,0,.6); text-decoration:none;
+  transition:color .13s; margin-bottom:2px;
+}
+.nav-dd-item:hover { color:rgba(0,0,0,.95) }
+.dd-col-title { font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.28); margin-bottom:10px; transition:color .25s }
+.dd-divider { height:1px; background:rgba(0,0,0,.07); margin:18px 0 }
+
+.nav-group-wrap.dd-aligned { position:relative }
+.nav-group-wrap.dd-aligned .dd-panel {
+  position:absolute; top:100%; left:0; right:auto; padding-top:8px;
+}
+
+.mob-dd-item { display:block; padding:5px 8px; border-radius:7px; font-size:12px; color:rgba(160,195,230,.6); text-decoration:none; transition:background .12s,color .12s }
+.mob-dd-item:hover { background:rgba(36,95,165,.12); color:rgba(255,255,255,.85) }
+.mob-acc-content { max-height:0; overflow:hidden; transition:max-height .32s ease }
+.mob-acc-chevron { transition:transform .2s ease; flex-shrink:0 }
+.mob { max-height:0; overflow:hidden; transition:max-height .3s ease }
+.mob.open { max-height:500px }
+
+    .stat-n { font-variant-numeric:tabular-nums }
+    .step-c { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; background:rgba(36,95,165,.1); border:1px solid rgba(36,95,165,.3); color:rgba(110,176,255,.8); flex-shrink:0 }
+
+    .form-input {
+      width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(36,95,165,.2);
+      border-radius:10px; padding:12px 16px; font-size:13px; color:rgba(255,255,255,.8);
+      font-family:inherit; outline:none; transition:border-color .2s,box-shadow .2s;
+      appearance:none; -webkit-appearance:none;
+    }
+    .form-input::placeholder { color:rgba(74,106,136,.65) }
+    .form-input:focus { border-color:rgba(75,143,212,.55); box-shadow:0 0 0 3px rgba(36,95,165,.12) }
+    .form-input option { background:#0A1628; color:rgba(255,255,255,.8) }
+    .form-label { display:block; font-size:11px; font-weight:500; letter-spacing:.04em; margin-bottom:6px; color:rgba(74,106,136,.8); text-transform:uppercase }
+
+    .pain-card { border-left:3px solid rgba(239,68,68,.4) }
+    .pain-card:hover { border-left-color:rgba(239,68,68,.7)!important }
+
+    @keyframes pdot { 0%,100%{box-shadow:0 0 0 0 rgba(36,95,165,.65)} 60%{box-shadow:0 0 0 8px rgba(36,95,165,0)} }
+    .pdot { animation:pdot 2.4s ease-in-out infinite }
+
+    @keyframes hero-fade-up { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes hero-fade-in { from{opacity:0} to{opacity:1} }
+    .hero-title-anim { animation:hero-fade-up .8s cubic-bezier(.22,1,.36,1) .2s both }
+    .hero-sub-anim   { animation:hero-fade-up .8s cubic-bezier(.22,1,.36,1) .35s both }
+    .hero-cta-anim   { animation:hero-fade-up .8s cubic-bezier(.22,1,.36,1) .5s both }
+    .hero-trust-anim { animation:hero-fade-up .8s cubic-bezier(.22,1,.36,1) .65s both }
+    .hero-card-anim  { animation:hero-fade-up .9s cubic-bezier(.22,1,.36,1) .3s both }
+    .hero-orb-anim   { animation:hero-fade-in 1.4s ease .0s both }
+  </style>
+</head>
+<body style="background:#05101E">
+
+<div id="splash" style="position:fixed;inset:0;z-index:9999;background:#05101E;pointer-events:none;transition:opacity 1.4s cubic-bezier(.4,0,.2,1);"></div>
+<script>
+(function(){
+  var splash = document.getElementById('splash');
+  setTimeout(function(){
+    splash.style.opacity = '0';
+    setTimeout(function(){ splash.style.display = 'none'; }, 1500);
+  }, 120);
+})();
+</script>
+
+<!-- NAVBAR -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-50">
+  <nav id="nav-inner" class="w-full" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 76px">
+    <a href="/" class="shrink-0 self-center" id="nav-logo">
+      <img src="/numaris-blanco.png" alt="Numaris" style="height:36px;width:auto;object-fit:contain;display:block">
+    </a>
+
+    <div class="hidden lg:flex items-center gap-0 self-center">
+
+      <!-- SOLUCIONES dropdown -->
+      <div class="nav-group-wrap dd-aligned">
+        <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
+          <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Soluciones</span>
+        </button>
+        <div class="dd-panel" style="width:580px">
+          <div class="dd-surface">
+            <div style="padding:20px 20px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+              <div>
+                <a href="/soluciones/productividad/telemetria-avanzada" class="nav-dd-item">Telemetría avanzada</a>
+                <a href="/soluciones/productividad/remolques-inteligentes" class="nav-dd-item">Remolques inteligentes</a>
+                <a href="/soluciones/productividad/control-de-combustible" class="nav-dd-item">Control de combustible</a>
+              </div>
+              <div>
+                <a href="/soluciones/seguridad-patrimonial/rastreo-satelital" class="nav-dd-item">Rastreo Satelital</a>
+                <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="nav-dd-item">Monitoreo Inteligente</a>
+                <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia" class="nav-dd-item">Monitoreo licencia</a>
+              </div>
+              <div>
+                <a href="/soluciones/control-registro/sistema-gestion-flotas" class="nav-dd-item">Gestión de flotas</a>
+                <a href="/soluciones/control-registro/administracion-mantenimiento" class="nav-dd-item">Mantenimiento</a>
+                <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="nav-dd-item">Videotelemetría con IA</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTORES dropdown -->
+      <div class="nav-group-wrap dd-aligned">
+        <button class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors flex items-center gap-1">
+          <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.6);text-underline-offset:4px;text-decoration-thickness:1px">Sectores</span>
+        </button>
+        <div class="dd-panel">
+          <div class="dd-surface" style="width:210px">
+            <div style="padding:20px 20px 22px">
+              <a href="/sectores/movilidad" class="nav-dd-item">Movilidad</a>
+              <a href="/sectores/distribucion-y-logistica" class="nav-dd-item">Distribución y Logística</a>
+              <a href="/sectores/servicios-financieros" class="nav-dd-item">Servicios Financieros</a>
+              <a href="/sectores/transporte-pesado" class="nav-dd-item" style="color:rgba(0,0,0,.9);font-weight:600">Transporte Pesado</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="/#exito" class="px-3.5 py-2 text-[13px] font-medium text-white/75 hover:text-white transition-colors">Historias de Éxito</a>
+    </div>
+
+    <div class="flex items-center justify-end gap-3 self-center">
+      <a href="/contacto" class="hidden lg:inline-flex" style="align-items:center;padding:9px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s,box-shadow .2s;box-shadow:0 2px 14px rgba(255,255,255,.18),0 1px 4px rgba(0,0,0,.25)" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Contacto →</a>
+      <button id="ham" class="lg:hidden p-1.5 text-white/50 hover:text-white">
+        <svg id="ico-o" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="ico-c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="mob-menu" class="mob lg:hidden border-t border-white/5" style="background:rgba(5,16,30,.98)">
+    <div class="px-6 py-4 flex flex-col gap-0.5">
+      <div>
+        <button onclick="toggleMobAcc(this)" class="w-full py-2.5 text-[13px] text-white/55 hover:text-white font-medium flex items-center justify-between">
+          Soluciones
+          <svg class="mob-acc-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="mob-acc-content">
+          <div style="padding:4px 0 12px 10px;display:flex;flex-direction:column;gap:1px">
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:6px 6px 3px">Productividad</p>
+            <a href="/soluciones/productividad/telemetria-avanzada"          class="mob-dd-item">Telemetría avanzada</a>
+            <a href="/soluciones/productividad/remolques-inteligentes"        class="mob-dd-item">Remolques inteligentes</a>
+            <a href="/soluciones/productividad/control-de-combustible"        class="mob-dd-item">Control de combustible</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Patrimonial</p>
+            <a href="/soluciones/seguridad-patrimonial/rastreo-satelital"     class="mob-dd-item">Rastreo Satelital</a>
+            <a href="/soluciones/seguridad-patrimonial/monitoreo-inteligente" class="mob-dd-item">Monitoreo Inteligente</a>
+            <a href="/soluciones/seguridad-patrimonial/monitoreo-licencia"    class="mob-dd-item">Monitoreo licencia</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Control y Registro</p>
+            <a href="/soluciones/control-registro/sistema-gestion-flotas"         class="mob-dd-item">Sistema de gestión de flotas</a>
+            <a href="/soluciones/control-registro/administracion-mantenimiento"    class="mob-dd-item">Administración de mantenimiento</a>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(75,143,212,.5);padding:8px 6px 3px">Seguridad Vial</p>
+            <a href="/soluciones/seguridad-vial/videotelemetria-ia" class="mob-dd-item">Videotelemetría con IA</a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button onclick="toggleMobAcc(this)" class="w-full py-2.5 text-[13px] text-white/55 hover:text-white font-medium flex items-center justify-between">
+          Sectores
+          <svg class="mob-acc-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="mob-acc-content">
+          <div style="padding:4px 0 12px 10px;display:flex;flex-direction:column;gap:1px">
+            <a href="/sectores/movilidad"                  class="mob-dd-item">Movilidad</a>
+            <a href="/sectores/distribucion-y-logistica"   class="mob-dd-item">Distribución y Logística</a>
+            <a href="/sectores/servicios-financieros"      class="mob-dd-item">Servicios Financieros</a>
+            <a href="/sectores/transporte-pesado"          class="mob-dd-item">Transporte Pesado</a>
+          </div>
+        </div>
+      </div>
+      <a href="#nosotros"   class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Nosotros</a>
+      <a href="#exito"      class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Historias de Éxito</a>
+      <a href="#blog"       class="py-2.5 text-[13px] text-white/55 hover:text-white font-medium">Blog</a>
+      <div class="pt-4 mt-2 border-t border-white/8 flex flex-col gap-2">
+        <a href="tel:+525556509228" class="py-2.5 text-[13px] text-center text-white/50 border border-white/12 rounded-full">+52 55 5650 9228</a>
+        <a href="/contacto" style="display:block;padding:10px 22px;border-radius:999px;background:white;color:#012750;font-size:13px;font-weight:600;text-decoration:none">Contacto</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="relative overflow-hidden" style="background:var(--bg);padding-top:140px;min-height:72vh">
+  <div class="orb hero-orb-anim" style="width:900px;height:600px;background:radial-gradient(ellipse,rgba(36,95,165,.13) 0%,transparent 65%);top:-80px;left:50%;transform:translateX(-50%)"></div>
+  <div class="orb hero-orb-anim" style="width:400px;height:300px;background:radial-gradient(ellipse,rgba(75,143,212,.08) 0%,transparent 70%);top:200px;right:-80px;animation-delay:2s"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.1) 1px,transparent 1px);background-size:48px 48px;opacity:.12"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pb-24">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- LEFT — Copy -->
+      <div>
+        <div class="tag mb-6 hero-title-anim" style="display:inline-flex">
+          <span class="w-1.5 h-1.5 rounded-full pdot" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6"></span>
+          Sector · Transporte Pesado
+        </div>
+
+        <h1 class="hero-title-anim text-[42px] sm:text-[56px] lg:text-[66px] font-bold leading-[1.05] tracking-[-0.025em] text-white/92 mb-6">
+          Controla tu flota.<br/>
+          <span class="glow-text">Reduce costos.</span><br/>
+          Llega a tiempo.
+        </h1>
+
+        <p class="hero-sub-anim text-[18px] font-light leading-relaxed mb-8" style="color:rgba(208,223,240,.62);max-width:520px">
+          Telemática avanzada diseñada para flotas de carga pesada. Visibilidad en tiempo real, control de combustible, videotelemetría con IA y cumplimiento normativo desde una sola plataforma.
+        </p>
+
+        <div class="hero-cta-anim flex flex-wrap items-center gap-3 mb-8">
+          <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-semibold text-white">
+            Solicitar demo gratis
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <a href="#beneficios" class="btn-ghost flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-medium text-white/80">
+            Ver beneficios →
+          </a>
+        </div>
+
+        <div class="hero-trust-anim flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]" style="color:rgba(255,255,255,.4)">
+          <span class="flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+            Hasta 25% menos combustible
+          </span>
+          <span class="flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+            Monitoreo 24/7
+          </span>
+          <span class="flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+            Cobertura nacional
+          </span>
+        </div>
+      </div>
+
+      <!-- RIGHT — Visual card -->
+      <div class="hero-card-anim">
+        <!-- Stats card visual -->
+        <div style="border-radius:24px;background:rgba(255,255,255,.03);border:1px solid rgba(36,95,165,.22);padding:32px;box-shadow:0 0 80px rgba(36,95,165,.15),0 32px 64px rgba(0,0,0,.5)">
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.5);margin-bottom:2px">Panel de control</p>
+              <p style="font-size:15px;font-weight:600;color:rgba(255,255,255,.85)">Flota activa — Hoy</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)">
+              <span style="width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:pdot 2.4s ease-in-out infinite"></span>
+              <span style="font-size:11px;font-weight:500;color:rgba(52,211,153,.8)">En línea</span>
+            </div>
+          </div>
+
+          <!-- Metric row -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">142</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Unidades activas</p>
+            </div>
+            <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#34D399,#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">-23%</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Combustible</p>
+            </div>
+            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">98%</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">En ruta</p>
+            </div>
+          </div>
+
+          <!-- Route list mock -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0812 — CDMX → Monterrey</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 12 seg · 94 km/h</p>
+              </div>
+              <span style="font-size:10px;color:rgba(52,211,153,.7);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);padding:2px 8px;border-radius:999px">En ruta</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#3B82F6;box-shadow:0 0 6px #3B82F6;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0547 — Guadalajara → Culiacán</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 28 seg · 87 km/h</p>
+              </div>
+              <span style="font-size:10px;color:rgba(110,176,255,.7);background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);padding:2px 8px;border-radius:999px">En ruta</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;box-shadow:0 0 6px #F59E0B;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0331 — Parada programada</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Caseta Querétaro · 18 min detenido</p>
+              </div>
+              <span style="font-size:10px;color:rgba(251,191,36,.7);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);padding:2px 8px;border-radius:999px">Detenido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     PAIN POINTS
+══════════════════════════════════════════════ -->
+<section class="relative py-24 overflow-hidden fi" style="background:var(--bg)">
+  <div class="orb" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(239,68,68,.04) 0%,transparent 70%);top:50%;left:20%;transform:translate(-50%,-50%)"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fi">
+      <div class="tag mb-4" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06);color:rgba(252,165,165,.7)">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Los retos de tu operación
+      </div>
+      <h2 class="text-[32px] sm:text-[40px] font-bold leading-tight tracking-tight text-white/90 mb-4">
+        ¿Qué le cuesta dinero a tu flota?
+      </h2>
+      <p class="text-[16px] font-light max-w-xl mx-auto" style="color:rgba(208,223,240,.55)">
+        Cada kilómetro sin datos es dinero que se pierde. Estos son los problemas más comunes en el transporte pesado.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.05s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Robo de combustible</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Sin control preciso, el huachicol y las desvíos de combustible representan pérdidas de hasta el 15% del gasto operativo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.1s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Conducción riesgosa</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Exceso de velocidad, frenados bruscos y fatiga al volante que aumentan accidentes y desgastan las unidades.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.15s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Sin visibilidad de carga</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">No sabes si el remolque llegó, si fue abierto sin autorización o si la carga fue manipulada en ruta.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.2s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Incumplimiento normativo</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Multas por exceso de horas de conducción, falta de registros de mantenimiento y ausencia de evidencia ante auditorías de la SCT.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.25s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Mantenimiento reactivo</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Unidades que se detienen en carretera por fallas no detectadas a tiempo, generando costos de grúa y demoras en entregas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi card pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.3s">
+        <div class="flex items-start gap-4">
+          <div style="font-size:26px;line-height:1;flex-shrink:0">🔴</div>
+          <div>
+            <h3 class="text-[15px] font-semibold text-white/88 mb-2">Información fragmentada</h3>
+            <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Múltiples sistemas desconectados que no te dan una visión unificada de tu flota, operadores y costos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     BENEFICIOS / FEATURES
+══════════════════════════════════════════════ -->
+<section id="beneficios" class="relative py-24 overflow-hidden" style="background:var(--bg2)">
+  <div class="orb" style="width:700px;height:500px;background:radial-gradient(ellipse,rgba(36,95,165,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fi">
+      <div class="tag mb-4">
+        <span class="w-1.5 h-1.5 rounded-full pdot" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6"></span>
+        Soluciones Numaris
+      </div>
+      <h2 class="text-[32px] sm:text-[40px] font-bold leading-tight tracking-tight text-white/90 mb-4">
+        Todo lo que necesita tu operación
+      </h2>
+      <p class="text-[16px] font-light max-w-xl mx-auto" style="color:rgba(208,223,240,.55)">
+        Un ecosistema completo diseñado para las exigencias del transporte de carga a larga distancia.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Control de combustible -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(36,95,165,.3);box-shadow:0 0 20px rgba(36,95,165,.07);transition-delay:.05s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.18);border:1px solid rgba(36,95,165,.4)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6EB0FF" stroke-width="2"><path d="M3 22V4a2 2 0 012-2h10a2 2 0 012 2v3h1a2 2 0 012 2v3.5M7 8h4M7 12h2"/><path d="M19 13v4a2 2 0 01-2 2h-1M19 13l2-2-2-2"/></svg>
+        </div>
+        <div class="flex items-center gap-2 mb-2">
+          <h3 class="text-[15px] font-semibold text-white/88">Control de combustible</h3>
+          <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:rgba(52,211,153,.8)">-25%</span>
+        </div>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Tarjeta de combustible inteligente con límites por unidad, monitoreo de litros cargados vs. consumidos y alertas de desvíos en tiempo real.</p>
+      </div>
+
+      <!-- GPS y rastreo -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.1s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/><circle cx="12" cy="12" r="10" stroke-opacity=".3"/></svg>
+        </div>
+        <h3 class="text-[15px] font-semibold text-white/88 mb-2">Rastreo satelital en tiempo real</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Localización precisa de tractos y remolques cada 30 segundos. Geocercas, historial de rutas y alertas de desvíos desde web y app móvil.</p>
+      </div>
+
+      <!-- Videotelemetría IA -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.15s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>
+        </div>
+        <h3 class="text-[15px] font-semibold text-white/88 mb-2">Videotelemetría con IA</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Cámara DMS + ADAS que detecta somnolencia, distracción, seguimiento de carril y colisiones. Evidencia en video ante incidentes y aseguradoras.</p>
+      </div>
+
+      <!-- Remolques inteligentes -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.2s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h3 class="text-[15px] font-semibold text-white/88 mb-2">Remolques inteligentes</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Sensores de apertura de puertas, temperatura de carga, presión de llantas y estado del candado electrónico. Alertas inmediatas ante accesos no autorizados.</p>
+      </div>
+
+      <!-- Mantenimiento -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.25s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3 class="text-[15px] font-semibold text-white/88 mb-2">Mantenimiento predictivo</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Alertas por odómetro, horas motor y lecturas OBD. Programa servicios antes de que ocurran fallas. Reduce tiempos muertos y costos de reparación.</p>
+      </div>
+
+      <!-- Reportes y cumplimiento -->
+      <div class="fi card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.3s">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(36,95,165,.12);border:1px solid rgba(36,95,165,.25)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B8FD4" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        </div>
+        <h3 class="text-[15px] font-semibold text-white/88 mb-2">Reportes y cumplimiento SCT</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">Registros automáticos de horas de conducción, bitácoras digitales y reportes listos para auditorías. Cumple la NOM-087 sin papeleo manual.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     STATS
+══════════════════════════════════════════════ -->
+<section class="relative py-20 overflow-hidden" style="background:var(--bg)">
+  <div class="orb" style="width:800px;height:400px;background:radial-gradient(ellipse,rgba(36,95,165,.09) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 fi">
+
+      <div class="text-center">
+        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+          <span class="stat-n" data-p="-" data-t="25" data-s="%">-25%</span>
+        </div>
+        <p class="text-[13px] font-medium text-white/70 mb-1">Reducción de combustible</p>
+        <p class="text-[11px] font-light" style="color:rgba(208,223,240,.4)">promedio en flotas activas</p>
+      </div>
+
+      <div class="text-center">
+        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+          <span class="stat-n" data-p="+" data-t="5000" data-s="">+5K</span>
+        </div>
+        <p class="text-[13px] font-medium text-white/70 mb-1">Empresas activas</p>
+        <p class="text-[11px] font-light" style="color:rgba(208,223,240,.4)">en toda la República</p>
+      </div>
+
+      <div class="text-center">
+        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+          <span class="stat-n" data-t="48" data-s=" hrs">48 hrs</span>
+        </div>
+        <p class="text-[13px] font-medium text-white/70 mb-1">Tiempo de instalación</p>
+        <p class="text-[11px] font-light" style="color:rgba(208,223,240,.4)">sin paro operativo</p>
+      </div>
+
+      <div class="text-center">
+        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+          24/7
+        </div>
+        <p class="text-[13px] font-medium text-white/70 mb-1">Monitoreo continuo</p>
+        <p class="text-[11px] font-light" style="color:rgba(208,223,240,.4)">con centro de control</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════ -->
+<section class="relative py-24 overflow-hidden" style="background:var(--bg2)">
+  <div class="orb" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(36,95,165,.08) 0%,transparent 70%);top:60%;left:60%;transform:translate(-50%,-50%)"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fi">
+      <div class="tag mb-4">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        Proceso
+      </div>
+      <h2 class="text-[32px] sm:text-[40px] font-bold leading-tight tracking-tight text-white/90 mb-4">
+        Empieza en 3 pasos
+      </h2>
+      <p class="text-[16px] font-light max-w-md mx-auto" style="color:rgba(208,223,240,.55)">
+        De la firma del contrato al monitoreo activo de toda tu flota en menos de 48 horas hábiles.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8 relative">
+      <div class="hidden lg:block absolute top-10 left-[calc(33.33%-20px)] right-[calc(33.33%-20px)] h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.25),rgba(36,95,165,.15),rgba(36,95,165,.25))"></div>
+
+      <div class="fi card rounded-2xl p-7" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.05s">
+        <div class="flex items-center gap-4 mb-5">
+          <div class="step-c">1</div>
+          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.3),transparent)"></div>
+        </div>
+        <h3 class="text-[17px] font-bold text-white/88 mb-3">Diagnóstico y propuesta</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">
+          Un especialista Numaris analiza tu operación actual, tamaño de flota y necesidades específicas. Te entregamos una propuesta personalizada en 24 horas.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-[12px]" style="color:rgba(110,176,255,.6)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          Sin compromiso inicial
+        </div>
+      </div>
+
+      <div class="fi card rounded-2xl p-7" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.15s">
+        <div class="flex items-center gap-4 mb-5">
+          <div class="step-c">2</div>
+          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.3),transparent)"></div>
+        </div>
+        <h3 class="text-[17px] font-bold text-white/88 mb-3">Instalación sin paro</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">
+          Nuestros +170 técnicos certificados instalan los dispositivos en tus unidades donde estén, con agenda flexible para no interrumpir tu operación.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-[12px]" style="color:rgba(110,176,255,.6)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          +170 técnicos en todo México
+        </div>
+      </div>
+
+      <div class="fi card rounded-2xl p-7" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition-delay:.25s">
+        <div class="flex items-center gap-4 mb-5">
+          <div class="step-c" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:rgba(52,211,153,.8)">3</div>
+          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(16,185,129,.3),transparent)"></div>
+        </div>
+        <h3 class="text-[17px] font-bold text-white/88 mb-3">Control total en tiempo real</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.55)">
+          Desde el primer día tienes acceso completo al dashboard, la app móvil y el soporte 24/7 de nuestro equipo de operaciones.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-[12px]" style="color:rgba(52,211,153,.7)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          Soporte 24/7 incluido
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     CTA BANNER
+══════════════════════════════════════════════ -->
+<section class="relative py-24 overflow-hidden fi" style="background:linear-gradient(135deg,#010E20 0%,#031628 40%,#012044 70%,#020C1A 100%)">
+  <div class="orb" style="width:900px;height:500px;background:radial-gradient(ellipse,rgba(36,95,165,.18) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.15) 1px,transparent 1px);background-size:48px 48px;opacity:.15"></div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <div class="tag mb-6" style="display:inline-flex;border-color:rgba(36,95,165,.4);background:rgba(36,95,165,.12)">
+      <span class="w-1.5 h-1.5 rounded-full pdot" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6"></span>
+      Demo gratuita
+    </div>
+
+    <h2 class="text-[36px] sm:text-[48px] lg:text-[56px] font-bold leading-tight tracking-tight text-white/92 mb-5">
+      ¿Listo para tener tu flota<br class="hidden sm:block"/> bajo control?
+    </h2>
+
+    <p class="text-[17px] font-light leading-relaxed mb-10 max-w-xl mx-auto" style="color:rgba(208,223,240,.6)">
+      Más de 5,000 empresas ya reducen costos con Numaris. Agenda una demo y ve cómo funciona con tu operación real.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <button onclick="openDemoModal()" class="btn-primary flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-semibold text-white">
+        Solicitar demo gratis
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <a href="https://wa.link/0nc3sf" target="_blank" class="btn-ghost flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-medium text-white/80">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Hablar con un experto
+      </a>
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px]" style="color:rgba(255,255,255,.35)">
+      <span>+5,000 empresas activas</span>
+      <span style="color:rgba(36,95,165,.4)">·</span>
+      <span>Instalación en 48 hrs</span>
+      <span style="color:rgba(36,95,165,.4)">·</span>
+      <span>Sin tarjeta de crédito</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer style="background:#010F24;box-shadow:0 -6px 18px rgba(0,0,0,.18),0 -2px 6px rgba(0,0,0,.10)">
+  <!-- Wordmark -->
+  <div style="padding:60px 0 0 76px">
+    <div style="display:inline-block;width:57%;max-width:700px">
+      <svg viewBox="188 82 333 68" fill="none" style="width:100%;height:auto;display:block;opacity:.9" xmlns="http://www.w3.org/2000/svg">
+        <path d="M516.898 113.148H509.176C509.176 109.839 505.867 106.529 501.454 106.529C493.732 106.529 491.526 109.839 491.526 113.148C491.526 114.986 493.512 118.663 501.454 118.663C511.382 118.663 518.001 123.076 518.001 130.798C518.001 138.52 511.382 144.035 501.454 144.035C487.114 144.035 482.701 137.416 482.701 130.798H490.423C490.423 135.21 495.277 137.416 501.454 137.416C506.97 137.416 510.279 134.328 510.279 130.798C510.279 126.937 505.867 125.834 501.454 125.834C486.011 125.834 483.804 117.56 483.804 113.148C483.804 108.184 485.459 99.9105 501.454 99.9105C506.97 99.9105 516.898 102.668 516.898 113.148Z" fill="white"/>
+        <path d="M193.133 103.22V142.932H201.958V104.323C201.958 100.462 206.922 93.8433 215.747 93.8433H219.056C226.226 93.8433 231.742 100.703 231.742 104.323V142.932H240.567V103.22C240.567 97.1527 233.397 86.673 221.262 86.673H212.437C206.37 86.673 193.133 92.1886 193.133 103.22Z" fill="white"/>
+        <path d="M249.943 128.694V101.014H257.537V127.745C257.537 131.067 261.808 136.762 269.402 136.762H272.249C278.419 136.762 283.165 130.859 283.165 127.745V101.014H290.759V128.694C290.759 133.915 284.653 142.932 274.212 142.932H266.49C261.27 142.932 249.943 138.186 249.943 128.694Z" fill="white"/>
+        <path d="M316.682 100.461C303.445 100.461 298.481 109.172 298.481 118.663V142.931H306.754V116.2C306.754 112.878 308.96 107.632 317.234 107.632C324.404 107.632 327.162 112.907 327.162 115.906V142.931H335.435V115.906C335.435 112.878 337.641 107.632 345.915 107.632C353.085 107.632 355.843 112.907 355.843 115.906V142.931H364.116V118.663C364.116 112.045 359.704 100.461 345.363 100.461C338.453 100.461 333.797 102.835 330.925 106.454C328 103.038 323.445 100.461 316.682 100.461Z" fill="white"/>
+        <path d="M423.684 119.215V142.932H431.406V116.752C431.406 113.429 433.612 107.081 441.886 107.081C449.056 107.081 452.365 112.596 452.365 118.663H460.087C460.087 111.493 456.226 99.9105 441.886 99.9105C428.648 99.9105 423.684 109.723 423.684 119.215Z" fill="white"/>
+        <path d="M466.154 119.215V142.932H473.876V99.9105H466.154V119.215Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M392.246 144.035C380.061 144.035 370.183 134.158 370.183 121.973C370.183 109.788 380.061 99.9105 392.246 99.9105C404.43 99.9105 414.308 109.788 414.308 121.973V142.932L406.714 142.932V137.416C403.277 141.277 397.781 144.035 392.246 144.035ZM392.246 136.313C400.166 136.313 406.586 129.893 406.586 121.973C406.586 114.053 400.166 107.632 392.246 107.632C384.325 107.632 377.905 114.053 377.905 121.973C377.905 129.893 384.325 136.313 392.246 136.313Z" fill="white"/>
+      </svg>
+      <p style="margin:12px 0 0;font-size:clamp(24px,2.1vw,32px);font-weight:200;color:rgba(255,255,255,.75);line-height:1.1;letter-spacing:-.03em;font-family:'Montserrat',sans-serif;white-space:nowrap">Optimización de <em style="font-family:'LibreBaskerville',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:0;color:rgba(255,255,255,.75)">flotas</em> con ganancia</p>
+    </div>
+  </div>
+  <div style="padding:150px 76px 0">
+    <div style="display:flex;margin-bottom:48px;align-items:flex-start">
+      <div style="width:50%;display:flex;gap:80px">
+        <div>
+          <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Contacto</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+            <li><a href="mailto:hola@numaris.com" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">hola@numaris.com</a></li>
+            <li><a href="tel:+525556509228" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">+52 55 5650 9228</a></li>
+            <li><a href="https://wa.link/0nc3sf" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">WhatsApp</a></li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:20px;font-family:'Montserrat',sans-serif">Soluciones</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Productividad</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Patrimonial</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Control y Registro</a></li>
+            <li><a href="#" style="font-size:15px;font-weight:400;color:rgba(255,255,255,.85);text-decoration:none">Seguridad Vial</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="width:50%;display:flex;justify-content:center;align-items:flex-start;padding-right:230px">
+        <div style="display:flex;gap:78px;align-items:flex-start">
+          <!-- Nosotros -->
+          <a href="/nosotros" style="text-decoration:none;display:flex;flex-direction:column;min-width:140px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Nosotros</span>
+            <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Historia</span>
+            <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+          </a>
+          <!-- Blog -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="/blog" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">Blog</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Tendencias</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <a href="/blog" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0;background:#012750;display:flex;align-items:center;justify-content:center">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">May 2026</p>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">IA en logística:</strong> cómo las flotas inteligentes están redefiniendo la eficiencia en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">5 min</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Leer →</span>
+              </div>
+            </a>
+          </div>
+          <!-- LinkedIn -->
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:140px">
+            <a href="https://linkedin.com/company/numaris" target="_blank" style="text-decoration:none;display:flex;flex-direction:column">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2" style="margin-bottom:20px">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+              <span style="font-size:31px;font-weight:400;color:rgba(255,255,255,.9);display:block;margin-bottom:6px;font-family:'Montserrat',sans-serif">LinkedIn</span>
+              <span style="font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:16px;font-family:'Montserrat',sans-serif">Síguenos</span>
+              <div style="width:100%;height:1px;background:rgba(255,255,255,.35)"></div>
+            </a>
+            <a href="https://www.linkedin.com/company/numaris" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;width:140px;box-sizing:border-box">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid rgba(36,95,165,.3);flex-shrink:0">
+                  <svg width="24" height="24" viewBox="0 0 576 224" fill="none" style="background:#012750;padding:3px">
+                    <path d="M58 112.053C58 82.2002 82.2002 58 112.053 58C118.646 58 124.964 59.1805 130.806 61.3417L125.842 125.29L113.156 113.156V95.506L94.9544 78.9592H84.4748L78.9592 154.794C66.2076 144.906 58 129.438 58 112.053Z" fill="white"/>
+                    <path d="M166.107 112.053C166.107 141.905 141.906 166.106 112.054 166.106C105.46 166.106 99.1428 164.925 93.3008 162.764L97.7133 99.9187L110.951 113.156V130.806L127.497 145.698H137.977L144.782 69.0314C157.742 78.9057 166.107 94.5025 166.107 112.053Z" fill="#245FA5"/>
+                  </svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <p style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);margin:0">Numaris</p>
+                  <p style="font-size:9px;font-weight:300;color:rgba(74,106,136,.7);margin:0">20 mar 2026</p>
+                </div>
+                <div style="width:14px;height:14px;border-radius:3px;background:#0A66C2;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </div>
+              </div>
+              <p style="font-size:10px;font-weight:300;line-height:1.5;color:rgba(208,223,240,.6);margin:0;flex:1"><strong style="font-weight:500;color:rgba(255,255,255,.7)">De los datos a las decisiones.</strong> Así es como Numaris está cambiando la logística en México 🚛</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)">
+                <span style="font-size:9px;font-weight:300;color:rgba(255,255,255,.5)">♡ 40</span>
+                <span style="font-size:9px;font-weight:500;color:rgba(110,176,255,.6)">Ver post →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.18);margin-top:38px;padding-top:0.5cm;padding-bottom:20px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:32px">
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">Ejército Nacional 624, CDMX</p>
+        <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,.3);margin:0">© 2026 Numaris Technologies SA de CV. Todos los derechos reservados.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Privacidad</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Términos</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Diseño: Superficial</a>
+        <a href="#" style="font-size:11px;font-weight:400;color:rgba(255,255,255,.4);text-decoration:none">Política de Privacidad</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', scrollY > 20);
+  nav.classList.toggle('nav-compact', scrollY > 80);
+}, {passive:true});
+
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mob-menu');
+const icoO = document.getElementById('ico-o');
+const icoC = document.getElementById('ico-c');
+let open = false;
+ham.addEventListener('click', () => {
+  open = !open;
+  mob.classList.toggle('open', open);
+  icoO.classList.toggle('hidden', open);
+  icoC.classList.toggle('hidden', !open);
+});
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  open = false; mob.classList.remove('open'); icoO.classList.remove('hidden'); icoC.classList.add('hidden');
+}));
+
+function toggleMobAcc(btn) {
+  const content = btn.nextElementSibling;
+  const chevron = btn.querySelector('.mob-acc-chevron');
+  const isOpen  = content.style.maxHeight && content.style.maxHeight !== '0px';
+  content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+// Intersection observer — fade-in
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+}), { threshold: 0.06 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// Stat counter
+function countUp(el) {
+  const t = parseFloat(el.dataset.t), p = el.dataset.p||'', s = el.dataset.s||'';
+  const fl = t % 1 !== 0, dur = 1600, st = performance.now();
+  (function f(now) {
+    const prog = Math.min((now - st) / dur, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    const cur = t * ease;
+    el.textContent = p + (fl ? cur.toFixed(1) : Math.floor(cur).toLocaleString('es-MX')) + s;
+    if (prog < 1) requestAnimationFrame(f);
+  })(st);
+}
+const so = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { countUp(e.target); so.unobserve(e.target); }
+}), { threshold: 0.5 });
+document.querySelectorAll('.stat-n').forEach(el => so.observe(el));
+</script>
+
+<!-- DEMO MODAL -->
+<div id="demo-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4"
+     style="display:none!important;background:rgba(3,11,23,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+  <div id="modal-card"
+       class="relative w-full rounded-2xl overflow-hidden flex"
+       style="max-width:900px;background:#070F1C;border:1px solid rgba(36,95,165,.25);
+              box-shadow:0 0 60px rgba(36,95,165,.15),0 32px 64px rgba(0,0,0,.7);
+              transform:scale(.95) translateY(12px);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s ease">
+
+    <div class="flex flex-col" style="flex:1;min-width:0">
+      <div class="flex items-center justify-between px-7 py-5" style="border-bottom:1px solid rgba(36,95,165,.15)">
+        <div>
+          <p class="text-[11px] font-medium uppercase tracking-widest mb-0.5" style="color:rgba(110,176,255,.55)">Demo gratuita · Transporte Pesado</p>
+          <h3 class="text-[18px] font-bold text-white/88 leading-tight tracking-tight">
+            Controla tu flota con <span style="background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Numaris</span>
+          </h3>
+        </div>
+        <button onclick="closeDemoModal()"
+                class="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/8"
+                style="border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="px-7 py-6 overflow-y-auto" style="max-height:calc(90vh - 140px)">
+        <form id="modal-form" action="https://formspree.io/f/xyzgpojb" method="POST" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Nombre completo</label>
+              <input type="text" name="nombre" placeholder="Tu nombre" class="form-input" required />
+            </div>
+            <div>
+              <label class="form-label">Correo electrónico</label>
+              <input type="email" name="email" placeholder="correo@empresa.com" class="form-input" required />
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Celular</label>
+            <div class="flex gap-2">
+              <div class="flex items-center gap-2 px-3 rounded-[10px] shrink-0 text-[13px] font-medium"
+                   style="background:rgba(255,255,255,.04);border:1px solid rgba(36,95,165,.2);color:rgba(255,255,255,.7);min-width:80px;height:44px">
+                <span>🇲🇽</span><span>+52</span>
+              </div>
+              <input type="tel" name="celular" placeholder="Celular" class="form-input" />
+            </div>
+          </div>
+          <div>
+            <label class="form-label">¿Cómo te enteraste de nosotros?</label>
+            <select name="fuente" class="form-input">
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="google">Google / Búsqueda web</option>
+              <option value="redes">Redes sociales</option>
+              <option value="recomendacion">Recomendación</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="evento">Evento / Feria</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Empresa</label>
+            <input type="text" name="empresa" placeholder="Nombre de tu empresa" class="form-input" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Número de unidades</label>
+              <select name="unidades" class="form-input">
+                <option value="" disabled selected>Unidades</option>
+                <option value="1-10">1 – 10</option>
+                <option value="11-50">11 – 50</option>
+                <option value="51-100">51 – 100</option>
+                <option value="101-500">101 – 500</option>
+                <option value="500+">Más de 500</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Servicio de interés</label>
+              <select name="servicio" class="form-input">
+                <option value="" disabled selected>Servicio</option>
+                <option value="rastreo">Rastreo satelital</option>
+                <option value="combustible">Control de combustible</option>
+                <option value="video">Videotelemetría IA</option>
+                <option value="remolques">Remolques inteligentes</option>
+                <option value="mantenimiento">Mantenimiento</option>
+                <option value="todo">Ecosistema completo</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="sector" value="Transporte Pesado" />
+          <button type="submit" class="btn-primary w-full py-3.5 rounded-xl text-[14px] font-semibold text-white flex items-center justify-center gap-2 mt-2">
+            Solicitar demo gratis
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p class="text-center text-[11px]" style="color:rgba(74,106,136,.5)">Sin compromiso. Te contactamos en menos de 24 horas.</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right panel — trust -->
+    <div class="hidden lg:flex flex-col justify-center px-8 py-10" style="width:300px;flex-shrink:0;background:rgba(36,95,165,.05);border-left:1px solid rgba(36,95,165,.12)">
+      <p class="text-[11px] font-semibold uppercase tracking-widest mb-6" style="color:rgba(110,176,255,.45)">Por qué Numaris</p>
+      <div class="space-y-5">
+        <div class="flex items-start gap-3">
+          <div style="width:28px;height:28px;border-radius:8px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(52,211,153,.8)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <div>
+            <p style="font-size:13px;font-weight:600;color:rgba(255,255,255,.78);margin-bottom:2px">-25% combustible</p>
+            <p style="font-size:11px;color:rgba(208,223,240,.4);line-height:1.4">Ahorro comprobado en flotas de transporte pesado</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div style="width:28px;height:28px;border-radius:8px;background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(110,176,255,.8)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <div>
+            <p style="font-size:13px;font-weight:600;color:rgba(255,255,255,.78);margin-bottom:2px">+170 técnicos</p>
+            <p style="font-size:11px;color:rgba(208,223,240,.4);line-height:1.4">Instalación en 48 hrs sin paro operativo</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div style="width:28px;height:28px;border-radius:8px;background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(110,176,255,.8)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <div>
+            <p style="font-size:13px;font-weight:600;color:rgba(255,255,255,.78);margin-bottom:2px">One Stop Shop</p>
+            <p style="font-size:11px;color:rgba(208,223,240,.4);line-height:1.4">GPS, combustible, video y mantenimiento en una sola plataforma</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div style="width:28px;height:28px;border-radius:8px;background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(110,176,255,.8)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <div>
+            <p style="font-size:13px;font-weight:600;color:rgba(255,255,255,.78);margin-bottom:2px">Soporte 24/7</p>
+            <p style="font-size:11px;color:rgba(208,223,240,.4);line-height:1.4">Centro de control y atención permanente</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6" style="border-top:1px solid rgba(36,95,165,.15)">
+        <p class="text-[11px] font-light" style="color:rgba(208,223,240,.35);line-height:1.5">"+Con Numaris redujimos el consumo de combustible un 22% en los primeros 3 meses y tenemos visibilidad total de nuestra flota."</p>
+        <p class="text-[11px] font-medium mt-2" style="color:rgba(110,176,255,.5)">— Director de Operaciones, Flechisa</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openDemoModal() {
+  const m = document.getElementById('demo-modal');
+  const c = document.getElementById('modal-card');
+  m.style.removeProperty('display');
+  m.style.display = 'flex';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    c.style.transform = 'scale(1) translateY(0)';
+    c.style.opacity   = '1';
+  }));
+  document.body.style.overflow = 'hidden';
+}
+function closeDemoModal() {
+  const m = document.getElementById('demo-modal');
+  const c = document.getElementById('modal-card');
+  c.style.transform = 'scale(.95) translateY(12px)';
+  c.style.opacity   = '0';
+  setTimeout(() => { m.style.display = 'none'; document.body.style.overflow = ''; }, 280);
+}
+document.getElementById('demo-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDemoModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemoModal(); });
+</script>
+
+</body>
+</html>
