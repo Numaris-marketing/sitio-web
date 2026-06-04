@@ -298,9 +298,13 @@
     border:1.5px solid rgba(36,95,165,.4);
     box-shadow:0 0 0 7px rgba(36,95,165,.07),0 0 0 13px rgba(36,95,165,.035),0 4px 16px rgba(0,0,0,.1);
   }
-  .ilabel {
-    font-size:12.5px;color:#012750;text-align:center;margin:7px 0 0;
-    font-family:'Montserrat',sans-serif;line-height:1.3;width:110px;
+  .itag {
+    display:inline-flex;align-items:center;gap:5px;
+    padding:5px 14px;border-radius:999px;
+    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+    border:1px solid rgba(36,95,165,.3);background:white;color:#245FA5;
+    white-space:nowrap;font-family:'Montserrat',sans-serif;
+    box-shadow:0 2px 8px rgba(36,95,165,.1);
   }
 </style>
 <section style="background:#EDF2F8;padding:80px 0 72px">
@@ -322,56 +326,57 @@
       <svg viewBox="0 0 1000 440" preserveAspectRatio="none"
            style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible">
 
-        <!-- Video Telemetría → cab roof / camera mount -->
-        <line x1="100" y1="55" x2="628" y2="78" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Video Telemetría → cab roof / camera mount (circle right edge ~x:275, mid-y) -->
+        <line x1="276" y1="55" x2="628" y2="78" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="628" cy="78" r="3.5" fill="#245FA5"/>
 
-        <!-- Telemetría Avanzada → cab door / ECU area -->
-        <line x1="82" y1="225" x2="610" y2="205" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Telemetría Avanzada → cab door / ECU area (circle right edge ~x:278) -->
+        <line x1="278" y1="218" x2="610" y2="205" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="610" cy="205" r="3.5" fill="#245FA5"/>
 
-        <!-- Control de combustible → fuel tank below cab -->
-        <line x1="178" y1="370" x2="572" y2="315" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Control de combustible → fuel tank below cab (circle right edge ~x:340) -->
+        <line x1="340" y1="338" x2="572" y2="315" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="572" cy="315" r="3.5" fill="#245FA5"/>
 
-        <!-- Monitoreo → trailer top area -->
-        <line x1="900" y1="55" x2="730" y2="80" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Monitoreo → trailer top area (circle left edge ~x:724) -->
+        <line x1="724" y1="55" x2="730" y2="80" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="730" cy="80" r="3.5" fill="#245FA5"/>
 
-        <!-- Rastreo → trailer mid -->
-        <line x1="918" y1="225" x2="740" y2="200" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Rastreo → trailer mid (circle left edge ~x:724) -->
+        <line x1="724" y1="218" x2="740" y2="200" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="740" cy="200" r="3.5" fill="#245FA5"/>
 
-        <!-- Remolques → trailer lower / rear connection -->
-        <line x1="822" y1="370" x2="660" y2="312" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
+        <!-- Remolques → trailer lower / rear connection (circle left edge ~x:700) -->
+        <line x1="700" y1="338" x2="660" y2="312" stroke="#245FA5" stroke-width="1.4" stroke-dasharray="5,4" opacity=".6"/>
         <circle cx="660" cy="312" r="3.5" fill="#245FA5"/>
 
       </svg>
 
       <!-- ── CALLOUT 1 — Video Telemetría (top-left) ── -->
-      <div style="position:absolute;left:2%;top:2%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+        <span class="itag">Video Telemetría</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.893L15 14"/>
             <rect x="2" y="7" width="13" height="10" rx="2"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Video</strong> Telemetría</p>
       </div>
 
       <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
-      <div style="position:absolute;left:0.5%;top:38%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+        <span class="itag">Telemetría Avanzada</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="7" y="7" width="10" height="10" rx="1"/>
             <path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M4 9h3M4 12h3M4 15h3M17 9h3M17 12h3M17 15h3"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Telemetría</strong> Avanzada</p>
       </div>
 
       <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
-      <div style="position:absolute;left:9%;top:68%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+        <span class="itag">Control de combustible</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16"/>
@@ -379,33 +384,32 @@
             <path d="M13 6.5h1.5l2 2V14a1.5 1.5 0 003 0v-2l-2-2"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Control</strong> de combustible</p>
       </div>
 
       <!-- ── CALLOUT 4 — Monitoreo (top-right) ── -->
-      <div style="position:absolute;right:2%;top:2%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Monitoreo</strong></p>
+        <span class="itag">Monitoreo</span>
       </div>
 
       <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
-      <div style="position:absolute;right:0.5%;top:38%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7z"/>
             <circle cx="12" cy="9" r="2.5"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Rastreo</strong></p>
+        <span class="itag">Rastreo</span>
       </div>
 
       <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
-      <div style="position:absolute;right:9%;top:68%;display:flex;flex-direction:column;align-items:center;z-index:3">
+      <div style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="1" y="7" width="14" height="10" rx="1.5"/>
@@ -414,7 +418,7 @@
             <circle cx="17" cy="19" r="2"/>
           </svg>
         </div>
-        <p class="ilabel"><strong>Remolques</strong></p>
+        <span class="itag">Remolques</span>
       </div>
 
     </div>
