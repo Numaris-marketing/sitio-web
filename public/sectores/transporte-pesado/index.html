@@ -298,14 +298,27 @@
     border:1.5px solid rgba(36,95,165,.4);
     box-shadow:0 0 0 7px rgba(36,95,165,.07),0 0 0 13px rgba(36,95,165,.035),0 4px 16px rgba(0,0,0,.1);
   }
+  @keyframes itag-float {
+    0%,100% { transform:translateY(0px); }
+    50%      { transform:translateY(-5px); }
+  }
   .itag {
     display:inline-flex;align-items:center;gap:5px;
-    padding:5px 14px;border-radius:999px;
-    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
-    border:1px solid rgba(36,95,165,.3);background:white;color:#245FA5;
-    white-space:nowrap;font-family:'Montserrat',sans-serif;
-    box-shadow:0 2px 8px rgba(36,95,165,.1);
+    padding:9px 18px;border-radius:999px;
+    font-size:12px;font-weight:600;letter-spacing:.02em;
+    border:1px solid rgba(36,95,165,.40);
+    background:rgba(36,95,165,.13);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    color:#245FA5;white-space:nowrap;font-family:'Montserrat',sans-serif;
+    animation:itag-float 3.6s ease-in-out infinite;
+    transition:background .2s,border-color .2s;
   }
+  .itag:hover { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
+  .itag-d1 { animation-delay:.4s; }
+  .itag-d2 { animation-delay:.8s; }
+  .itag-d3 { animation-delay:1.2s; }
+  .itag-d4 { animation-delay:1.6s; }
+  .itag-d5 { animation-delay:2.0s; }
 </style>
 <section style="background:#EDF2F8;padding:80px 0 72px">
   <div style="max-width:1200px;margin:0 auto;padding:0 40px">
@@ -365,7 +378,7 @@
 
       <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
       <div style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
-        <span class="itag">Telemetría Avanzada</span>
+        <span class="itag itag-d1">Telemetría Avanzada</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="7" y="7" width="10" height="10" rx="1"/>
@@ -376,7 +389,7 @@
 
       <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
       <div style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
-        <span class="itag">Control de combustible</span>
+        <span class="itag itag-d2">Control de combustible</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16"/>
@@ -394,7 +407,7 @@
             <circle cx="12" cy="12" r="3"/>
           </svg>
         </div>
-        <span class="itag">Monitoreo</span>
+        <span class="itag itag-d3">Monitoreo</span>
       </div>
 
       <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
@@ -405,7 +418,7 @@
             <circle cx="12" cy="9" r="2.5"/>
           </svg>
         </div>
-        <span class="itag">Rastreo</span>
+        <span class="itag itag-d4">Rastreo</span>
       </div>
 
       <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
@@ -418,7 +431,7 @@
             <circle cx="17" cy="19" r="2"/>
           </svg>
         </div>
-        <span class="itag">Remolques</span>
+        <span class="itag itag-d5">Remolques</span>
       </div>
 
     </div>
