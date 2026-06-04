@@ -291,79 +291,138 @@
 <!-- ══════════════════════════════════════════════
      TRUCK INFOGRAPHIC
 ══════════════════════════════════════════════ -->
+<style>
+  .infobubble {
+    width:80px;height:80px;border-radius:50%;background:white;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    border:1.5px solid rgba(36,95,165,.45);
+    box-shadow:0 0 0 6px rgba(36,95,165,.08),0 0 0 11px rgba(36,95,165,.04),0 4px 18px rgba(0,0,0,.09);
+  }
+  .infoline { height:1.5px;background:rgba(36,95,165,.45);flex-shrink:0; }
+  .infodiamond {
+    width:7px;height:7px;background:#245FA5;transform:rotate(45deg);flex-shrink:0;
+  }
+</style>
 <section style="background:#EDF2F8;padding:80px 0 72px">
-  <div style="max-width:1280px;margin:0 auto;padding:0 48px">
+  <div style="max-width:1300px;margin:0 auto;padding:0 40px">
 
     <!-- Title -->
     <p style="text-align:center;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#245FA5;margin-bottom:10px">Tecnología embarcada</p>
-    <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 56px">
+    <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 52px">
       Unidades inteligentes con<br><strong style="font-weight:700">tecnología integrada</strong>
     </h2>
 
     <!-- 3-col infographic -->
-    <div style="display:grid;grid-template-columns:1fr 480px 1fr;align-items:center;gap:0">
+    <div style="display:grid;grid-template-columns:1fr 460px 1fr;align-items:center">
 
-      <!-- LEFT callouts -->
-      <div style="display:flex;flex-direction:column;gap:40px;padding-right:8px">
+      <!-- ── LEFT callouts ── -->
+      <div style="display:flex;flex-direction:column;gap:36px">
 
         <!-- Video Telemetría -->
-        <div style="text-align:right">
-          <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 5px"><strong style="font-weight:700">Video</strong> Telemetría</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0 0 10px">Detecta y alerta en tiempo real sobre <strong style="font-weight:600;color:#245FA5">comportamientos de riesgo</strong> para prevenir accidentes.</p>
-          <div style="display:flex;justify-content:flex-end;align-items:center">
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
+        <div>
+          <div style="text-align:right;margin-bottom:10px">
+            <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 4px"><strong style="font-weight:700">Video</strong> Telemetría</h3>
+            <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">Detecta y alerta en tiempo real sobre <strong style="font-weight:600;color:#245FA5">comportamientos de riesgo</strong> para prevenir accidentes.</p>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:0">
+            <div class="infoline" style="width:32px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infobubble">
+              <!-- video camera icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.893L15 14"/>
+                <rect x="2" y="7" width="13" height="10" rx="2"/>
+              </svg>
+            </div>
           </div>
         </div>
 
         <!-- Telemetría Avanzada -->
-        <div style="text-align:right">
-          <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 5px"><strong style="font-weight:700">Telemetría</strong> Avanzada</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0 0 10px">Optimiza el <strong style="font-weight:600;color:#245FA5">rendimiento de tu flota</strong> con un análisis predictivo detallado de tu operación.</p>
-          <div style="display:flex;justify-content:flex-end;align-items:center">
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
+        <div>
+          <div style="text-align:right;margin-bottom:10px">
+            <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 4px"><strong style="font-weight:700">Telemetría</strong> Avanzada</h3>
+            <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">Optimiza el <strong style="font-weight:600;color:#245FA5">rendimiento de tu flota</strong> con análisis predictivo detallado de tu operación.</p>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:0">
+            <div class="infoline" style="width:32px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infobubble">
+              <!-- analytics / chip icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="7" width="10" height="10" rx="1"/>
+                <path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M4 9h3M4 12h3M4 15h3M17 9h3M17 12h3M17 15h3"/>
+              </svg>
+            </div>
           </div>
         </div>
 
         <!-- Control de combustible -->
-        <div style="text-align:right">
-          <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 5px"><strong style="font-weight:700">Control</strong> de combustible</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0 0 10px">Identifica y <strong style="font-weight:600;color:#245FA5">evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo.</p>
-          <div style="display:flex;justify-content:flex-end;align-items:center">
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
+        <div>
+          <div style="text-align:right;margin-bottom:10px">
+            <h3 style="font-size:15px;font-weight:400;color:#012750;margin:0 0 4px"><strong style="font-weight:700">Control</strong> de combustible</h3>
+            <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">Identifica y <strong style="font-weight:600;color:#245FA5">evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo.</p>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:0">
+            <div class="infoline" style="width:32px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infobubble">
+              <!-- fuel pump icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16"/>
+                <path d="M3 22h10M3 11h10"/>
+                <path d="M13 6.5h1.5l2 2V14a1.5 1.5 0 003 0v-2l-2-2"/>
+              </svg>
+            </div>
           </div>
         </div>
 
       </div>
 
-      <!-- CENTER — truck -->
-      <div style="text-align:center;padding:0 16px">
+      <!-- ── CENTER truck ── -->
+      <div style="padding:0 12px">
         <img src="/truck-3d.jpg" alt="Tracto camión Numaris" style="width:100%;height:auto;display:block">
       </div>
 
-      <!-- RIGHT callouts -->
-      <div style="display:flex;flex-direction:column;gap:40px;padding-left:8px">
+      <!-- ── RIGHT callouts ── -->
+      <div style="display:flex;flex-direction:column;gap:36px">
 
         <!-- Monitoreo -->
         <div>
-          <div style="display:flex;align-items:center;margin-bottom:10px">
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
+          <div style="display:flex;align-items:center;gap:0;margin-bottom:10px">
+            <div class="infobubble">
+              <!-- eye / monitor icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:32px"></div>
           </div>
-          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 5px">Monitoreo</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0">Prevención de siniestros con <strong style="font-weight:600;color:#245FA5">protocolos y respuestas inmediatas</strong> por excepción.</p>
+          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 4px">Monitoreo</h3>
+          <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">Prevención de siniestros con <strong style="font-weight:600;color:#245FA5">protocolos y respuestas inmediatas</strong> por excepción.</p>
         </div>
 
         <!-- Rastreo -->
         <div>
-          <div style="display:flex;align-items:center;margin-bottom:10px">
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
+          <div style="display:flex;align-items:center;gap:0;margin-bottom:10px">
+            <div class="infobubble">
+              <!-- satellite / GPS icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:32px"></div>
           </div>
-          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 5px">Rastreo</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0">
+          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 4px">Rastreo</h3>
+          <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">
             <strong style="font-weight:600;color:#012750">Tractos:</strong> Incrementa la seguridad y <strong style="font-weight:600;color:#245FA5">visibilidad en tiempo real.</strong><br>
             <strong style="font-weight:600;color:#012750">Mercancía:</strong> Protege y visualiza tu <strong style="font-weight:600;color:#245FA5">carga</strong> en todo momento.
           </p>
@@ -371,12 +430,22 @@
 
         <!-- Remolques -->
         <div>
-          <div style="display:flex;align-items:center;margin-bottom:10px">
-            <div style="width:8px;height:8px;border-radius:50%;background:#245FA5;flex-shrink:0"></div>
-            <div style="width:48px;height:1.5px;background:#245FA5;opacity:.6"></div>
+          <div style="display:flex;align-items:center;gap:0;margin-bottom:10px">
+            <div class="infobubble">
+              <!-- trailer / temperature icon -->
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="7" width="14" height="10" rx="1.5"/>
+                <path d="M15 10h3.5l2.5 3v3h-6V10z"/>
+                <circle cx="5.5" cy="19" r="2"/>
+                <circle cx="17" cy="19" r="2"/>
+              </svg>
+            </div>
+            <div class="infoline" style="width:12px"></div>
+            <div class="infodiamond"></div>
+            <div class="infoline" style="width:32px"></div>
           </div>
-          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 5px">Remolques</h3>
-          <p style="font-size:12.5px;color:#4a6080;line-height:1.55;margin:0">Aumenta la productividad, controla la <strong style="font-weight:600;color:#245FA5">temperatura y accesos</strong> de tus cajas y remolques.</p>
+          <h3 style="font-size:15px;font-weight:700;color:#012750;margin:0 0 4px">Remolques</h3>
+          <p style="font-size:12px;color:#4a6080;line-height:1.55;margin:0">Aumenta la productividad, controla la <strong style="font-weight:600;color:#245FA5">temperatura y accesos</strong> de tus cajas y remolques.</p>
         </div>
 
       </div>
