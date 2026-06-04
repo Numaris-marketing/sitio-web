@@ -297,6 +297,7 @@
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
     border:1.5px solid rgba(36,95,165,.4);
     box-shadow:0 0 0 7px rgba(36,95,165,.07),0 0 0 13px rgba(36,95,165,.035),0 4px 16px rgba(0,0,0,.1);
+    animation:itag-float 3.6s ease-in-out infinite;
   }
   @keyframes itag-float {
     0%,100% { transform:translateY(0px); }
@@ -366,7 +367,7 @@
       </svg>
 
       <!-- ── CALLOUT 1 — Video Telemetría (top-left) ── -->
-      <div style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+      <div style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag">Video Telemetría</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -377,9 +378,9 @@
       </div>
 
       <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
-      <div style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+      <div style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag itag-d1">Telemetría Avanzada</span>
-        <div class="ibubble">
+        <div class="ibubble itag-d1">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="7" y="7" width="10" height="10" rx="1"/>
             <path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M4 9h3M4 12h3M4 15h3M17 9h3M17 12h3M17 15h3"/>
@@ -388,9 +389,9 @@
       </div>
 
       <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
-      <div style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
+      <div style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag itag-d2">Control de combustible</span>
-        <div class="ibubble">
+        <div class="ibubble itag-d2">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16"/>
             <path d="M3 22h10M3 11h10"/>
@@ -400,8 +401,8 @@
       </div>
 
       <!-- ── CALLOUT 4 — Monitoreo (top-right) ── -->
-      <div style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
-        <div class="ibubble">
+      <div style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+        <div class="ibubble itag-d3">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
@@ -411,8 +412,8 @@
       </div>
 
       <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
-      <div style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
-        <div class="ibubble">
+      <div style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+        <div class="ibubble itag-d4">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7z"/>
             <circle cx="12" cy="9" r="2.5"/>
@@ -422,8 +423,8 @@
       </div>
 
       <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
-      <div style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:10px;z-index:3">
-        <div class="ibubble">
+      <div style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+        <div class="ibubble itag-d5">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="1" y="7" width="14" height="10" rx="1.5"/>
             <path d="M15 10h3.5l2.5 3v3h-6V10z"/>
