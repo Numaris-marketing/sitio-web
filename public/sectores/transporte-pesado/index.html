@@ -289,9 +289,20 @@
 <main>
 
 <!-- ══════════════════════════════════════════════
+     TRUCK FULL WIDTH
+══════════════════════════════════════════════ -->
+<div style="width:100%;overflow:hidden;background:var(--bg);padding-top:72px">
+  <img
+    src="/truck-3d.jpg"
+    alt="Tracto camión — Transporte Pesado Numaris"
+    style="width:100%;height:auto;display:block;mix-blend-mode:lighten;filter:drop-shadow(0 0 80px rgba(36,95,165,.25))"
+  >
+</div>
+
+<!-- ══════════════════════════════════════════════
      HERO
 ══════════════════════════════════════════════ -->
-<section class="relative overflow-hidden" style="background:var(--bg);padding-top:140px;min-height:72vh">
+<section class="relative overflow-hidden" style="background:var(--bg);padding-top:48px;min-height:72vh">
   <div class="orb hero-orb-anim" style="width:900px;height:600px;background:radial-gradient(ellipse,rgba(36,95,165,.13) 0%,transparent 65%);top:-80px;left:50%;transform:translateX(-50%)"></div>
   <div class="orb hero-orb-anim" style="width:400px;height:300px;background:radial-gradient(ellipse,rgba(75,143,212,.08) 0%,transparent 70%);top:200px;right:-80px;animation-delay:2s"></div>
   <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.1) 1px,transparent 1px);background-size:48px 48px;opacity:.12"></div>
@@ -342,13 +353,66 @@
         </div>
       </div>
 
-      <!-- RIGHT — Truck image -->
-      <div class="hero-card-anim flex items-center justify-center">
-        <img
-          src="/truck-3d.jpg"
-          alt="Tracto camión — Transporte Pesado Numaris"
-          style="width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 24px 80px rgba(36,95,165,.35)) drop-shadow(0 0 120px rgba(75,143,212,.18));mix-blend-mode:lighten"
-        >
+      <!-- RIGHT — Visual card -->
+      <div class="hero-card-anim">
+        <!-- Stats card visual -->
+        <div style="border-radius:24px;background:rgba(255,255,255,.03);border:1px solid rgba(36,95,165,.22);padding:32px;box-shadow:0 0 80px rgba(36,95,165,.15),0 32px 64px rgba(0,0,0,.5)">
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.5);margin-bottom:2px">Panel de control</p>
+              <p style="font-size:15px;font-weight:600;color:rgba(255,255,255,.85)">Flota activa — Hoy</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)">
+              <span style="width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:pdot 2.4s ease-in-out infinite"></span>
+              <span style="font-size:11px;font-weight:500;color:rgba(52,211,153,.8)">En línea</span>
+            </div>
+          </div>
+
+          <!-- Metric row -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">142</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Unidades activas</p>
+            </div>
+            <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#34D399,#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">-23%</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Combustible</p>
+            </div>
+            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">98%</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">En ruta</p>
+            </div>
+          </div>
+
+          <!-- Route list mock -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0812 — CDMX → Monterrey</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 12 seg · 94 km/h</p>
+              </div>
+              <span style="font-size:10px;color:rgba(52,211,153,.7);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);padding:2px 8px;border-radius:999px">En ruta</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#3B82F6;box-shadow:0 0 6px #3B82F6;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0547 — Guadalajara → Culiacán</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 28 seg · 87 km/h</p>
+              </div>
+              <span style="font-size:10px;color:rgba(110,176,255,.7);background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);padding:2px 8px;border-radius:999px">En ruta</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;box-shadow:0 0 6px #F59E0B;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0331 — Parada programada</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Caseta Querétaro · 18 min detenido</p>
+              </div>
+              <span style="font-size:10px;color:rgba(251,191,36,.7);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);padding:2px 8px;border-radius:999px">Detenido</span>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
