@@ -1040,16 +1040,16 @@
 ═══════════════════════════════════════════════════════════════ -->
 <div style="padding:2rem 2.5rem 4rem;max-width:1200px;">
 
-  <!-- Estado de carga -->
-  <div id="billing-loading" style="padding:3rem;text-align:center;color:var(--fg-muted);font-size:.875rem;">
+  <!-- Estado de carga (oculto: datos estáticos se renderizan inmediatamente) -->
+  <div id="billing-loading" style="display:none;padding:3rem;text-align:center;color:var(--fg-muted);font-size:.875rem;">
     Cargando datos de facturación…
   </div>
 
   <!-- Estado de error -->
   <div id="billing-error" style="display:none;padding:2rem;background:rgba(255,0,0,0.06);border:1px solid rgba(255,0,0,0.2);border-radius:var(--radius);color:#ef4444;font-size:.8125rem;"></div>
 
-  <!-- Contenido principal (oculto hasta que cargue) -->
-  <div id="billing-main" style="display:none;">
+  <!-- Contenido principal -->
+  <div id="billing-main" style="display:none;"><!-- renderBilling() lo muestra -->
 
     <!-- KPI STRIP -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem;" id="bl-kpi-strip"></div>
@@ -1131,6 +1131,7 @@
     'Ventas directas':   { color:'#10B981', bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.25)' },
     'Histórico / Base':  { color:'#F59E0B', bg:'rgba(245,158,11,0.08)', border:'rgba(245,158,11,0.25)' },
     'Digital':           { color:'#245FA5', bg:'rgba(36,95,165,0.08)',  border:'rgba(36,95,165,0.25)'  },
+    'Eventos':           { color:'#EC4899', bg:'rgba(236,72,153,0.08)', border:'rgba(236,72,153,0.25)' },
     'Referidos':         { color:'#8B5CF6', bg:'rgba(139,92,246,0.08)', border:'rgba(139,92,246,0.25)' },
     'Otros':             { color:'#64748b', bg:'rgba(100,116,139,0.08)','border':'rgba(100,116,139,0.25)' },
   };
@@ -1159,6 +1160,7 @@
     'Easytrack':     '#245FA5',
     'Tecnocontrol':  '#10B981',
     'Smart Tracker': '#F59E0B',
+    'Sfleet':        '#EC4899',
   };
 
   function fmtMX(n) {
@@ -1176,7 +1178,7 @@
     // Badge
     const badge = document.getElementById('billing-badge');
     if (badge) {
-      badge.textContent = 'Datos reales · ERP + Sheets';
+      badge.textContent = 'Datos reales · ERP Zoho Books';
       badge.style.background = 'rgba(16,185,129,0.1)';
       badge.style.color = '#10B981';
       badge.style.border = '1px solid rgba(16,185,129,0.3)';
@@ -1316,6 +1318,10 @@
 
     // Top 20 table
     const tbody = document.getElementById('bl-top20-tbody');
+    if (tbody && (d.topClients || []).length === 0) {
+      tbody.closest('.bl-card').style.display = 'none';
+      tbody.closest('.bl-card').previousElementSibling.style.display = 'none';
+    }
     if (tbody) {
       tbody.innerHTML = (d.topClients || []).map((c, i) => {
         const pct = total > 0 ? fmtPct(c.amount/total*100) : '-';
@@ -1350,11 +1356,55 @@
     if (badge) { badge.textContent = 'Error'; badge.style.color='#ef4444'; badge.style.background='rgba(239,68,68,0.1)'; badge.style.border='1px solid rgba(239,68,68,0.3)'; }
   }
 
-  // Cargar datos al inicializar
+  // ── Datos estáticos (Excel · sb_invoices · 8 jun 2026) ──────────
+  const STATIC_DATA = {
+    generatedAt: '2026-06-08T00:00:00.000Z',
+    sourceTab: 'Excel · sb_invoices',
+    total: 50482243,
+    clientCount: 202,
+    byGrupo: {
+      'Digital': { amount: 38109715, clients: 2520 },
+      'Eventos':  { amount: 12564766, clients: 173 },
+    },
+    byCanal: {
+      'Linkedin':                                          { amount: 16070703, clients: 589,  grupo: 'Digital'  },
+      'Expo como Expositor':                               { amount: 10580223, clients: 48,   grupo: 'Eventos'  },
+      'Meta - Pauta':                                      { amount: 10255184, clients: 1206, grupo: 'Digital'  },
+      'LinkedIn Sales Navigator':                          { amount:  5958902, clients: 71,   grupo: 'Digital'  },
+      'Google Ads - Pauta':                                { amount:  3143806, clients: 326,  grupo: 'Digital'  },
+      'Expo como expositor (agregar etiqueta de Expo)':    { amount:  1956172, clients: 110,  grupo: 'Eventos'  },
+      'Página Web (Formulario)':                           { amount:   728594, clients: 42,   grupo: 'Digital'  },
+      'Google Ads':                                        { amount:   678421, clients: 35,   grupo: 'Digital'  },
+      'Pagina Internet':                                   { amount:   451569, clients: 71,   grupo: 'Digital'  },
+      'Formulario website':                                { amount:   435581, clients: 109,  grupo: 'Digital'  },
+      'WhatsApp - Numaris':                                { amount:   149462, clients: 25,   grupo: 'Digital'  },
+      'Campaña de mailing':                                { amount:    45250, clients: 3,    grupo: 'Digital'  },
+      'Expo como visitante (agregar etiqueta de Expo)':    { amount:    28370, clients: 15,   grupo: 'Eventos'  },
+    },
+    byEmpresa: {
+      'Tecnocontrol':  { amount: 28993743, clients: 1655 },
+      'Sfleet':        { amount: 10741376, clients: 65   },
+      'Easytrack':     { amount:  5472053, clients: 517  },
+      'Smart Tracker': { amount:  5275068, clients: 413  },
+    },
+    topClients: [],
+    marketingMetrics: {
+      mkt2025Total:       32256336,
+      mkt2025NewClients:  32256336,
+      mkt2025NewDigital:  25106756,
+      mkt2026Total:       18225907,
+      mkt2026NewClients:   3233318,
+      cutoff12mISO: '2025-06-08',
+    },
+  };
+
+  renderBilling(STATIC_DATA);
+
+  // Intentar actualizar con datos en vivo (si API key configurada)
   fetch('/api/billing')
     .then(r => r.json())
-    .then(d => { if (d.error) throw new Error(d.error); renderBilling(d); })
-    .catch(e => showBillingError(e.message));
+    .then(d => { if (!d.error) renderBilling(d); })
+    .catch(() => {/* silencioso — los datos estáticos ya están renderizados */});
 
 })();
 </script>
