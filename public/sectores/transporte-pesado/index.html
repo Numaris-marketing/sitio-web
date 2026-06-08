@@ -321,29 +321,29 @@
   .itag-d4 { animation-delay:1.6s; }
   .itag-d5 { animation-delay:2.0s; }
 
-  /* ── Callout wrapper + tooltip ── */
+  /* ── Callout wrapper ── */
   .icallout { cursor:pointer; }
-  .icallout:hover { z-index:100 !important; }
-  .itooltip {
-    position:absolute;
-    width:220px;
-    background:white;
-    border:1px solid rgba(36,95,165,.22);
-    border-radius:14px;
-    padding:14px 16px;
-    font-size:12px;color:#4a6080;line-height:1.6;
-    font-family:'Montserrat',sans-serif;
-    box-shadow:0 8px 30px rgba(36,95,165,.14),0 2px 8px rgba(0,0,0,.06);
-    opacity:0;pointer-events:none;
-    transition:opacity .22s ease,transform .22s ease;
-    transform:translateY(6px);
-    z-index:200;white-space:normal;
-  }
-  .icallout:hover .itooltip {
-    opacity:1;transform:translateY(0);pointer-events:auto;
-  }
   .icallout:hover .itag {
     background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65);
+  }
+  /* ── Tooltip panel (debajo del infográfico) ── */
+  #itip-panel {
+    min-height:72px;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:24px;
+    transition:opacity .22s ease;
+    opacity:0;pointer-events:none;
+  }
+  #itip-panel.active { opacity:1;pointer-events:auto; }
+  #itip-panel .itip-card {
+    background:white;
+    border:1px solid rgba(36,95,165,.2);
+    border-radius:14px;
+    padding:16px 24px;
+    font-size:13px;color:#4a6080;line-height:1.65;
+    font-family:'Montserrat',sans-serif;
+    box-shadow:0 6px 24px rgba(36,95,165,.12);
+    max-width:480px;text-align:center;
   }
 </style>
 <section style="background:#EDF2F8;padding:80px 0 72px">
@@ -392,7 +392,8 @@
       </svg>
 
       <!-- ── CALLOUT 1 — Video Telemetría (top-left) ── -->
-      <div class="icallout" style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="Detecta y alerta en tiempo real sobre <strong style='color:#245FA5'>comportamientos de riesgo</strong> para prevenir accidentes."
+           style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag">Video Telemetría</span>
         <div class="ibubble">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -400,13 +401,11 @@
             <rect x="2" y="7" width="13" height="10" rx="2"/>
           </svg>
         </div>
-        <div class="itooltip" style="top:calc(100% + 10px);left:0">
-          Detecta y alerta en tiempo real sobre <strong style="color:#245FA5">comportamientos de riesgo</strong> para prevenir accidentes.
-        </div>
       </div>
 
       <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
-      <div class="icallout" style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="Optimiza el <strong style='color:#245FA5'>rendimiento de tu flota</strong> con un análisis predictivo detallado de tu operación."
+           style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag itag-d1">Telemetría Avanzada</span>
         <div class="ibubble itag-d1">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -414,13 +413,11 @@
             <path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M4 9h3M4 12h3M4 15h3M17 9h3M17 12h3M17 15h3"/>
           </svg>
         </div>
-        <div class="itooltip" style="top:calc(100% + 10px);left:0">
-          Optimiza el <strong style="color:#245FA5">rendimiento de tu flota</strong> con un análisis predictivo detallado de tu operación.
-        </div>
       </div>
 
       <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
-      <div class="icallout" style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="Identifica y <strong style='color:#245FA5'>evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo."
+           style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <span class="itag itag-d2">Control de combustible</span>
         <div class="ibubble itag-d2">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -429,13 +426,11 @@
             <path d="M13 6.5h1.5l2 2V14a1.5 1.5 0 003 0v-2l-2-2"/>
           </svg>
         </div>
-        <div class="itooltip" style="bottom:calc(100% + 10px);left:0">
-          Identifica y <strong style="color:#245FA5">evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo.
-        </div>
       </div>
 
       <!-- ── CALLOUT 4 — Monitoreo (top-right) ── -->
-      <div class="icallout" style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="Prevención de siniestros con <strong style='color:#245FA5'>protocolos y respuestas inmediatas</strong> por excepción."
+           style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <div class="ibubble itag-d3">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -443,13 +438,11 @@
           </svg>
         </div>
         <span class="itag itag-d3">Monitoreo</span>
-        <div class="itooltip" style="top:calc(100% + 10px);right:0">
-          Prevención de siniestros con <strong style="color:#245FA5">protocolos y respuestas inmediatas</strong> por excepción.
-        </div>
       </div>
 
       <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
-      <div class="icallout" style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="<strong style='color:#012750'>Tractos:</strong> Incrementa la seguridad y eficiencia de tu flota con <strong style='color:#245FA5'>visibilidad en tiempo real.</strong><br><br><strong style='color:#012750'>Mercancía:</strong> Protege y visualiza tu <strong style='color:#245FA5'>mercancía</strong> en todo momento."
+           style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <div class="ibubble itag-d4">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7z"/>
@@ -457,16 +450,11 @@
           </svg>
         </div>
         <span class="itag itag-d4">Rastreo</span>
-        <div class="itooltip" style="top:calc(100% + 10px);right:0;width:240px">
-          <strong style="color:#012750;display:block;margin-bottom:4px">Tractos:</strong>
-          Incrementa la seguridad y eficiencia de tu flota con <strong style="color:#245FA5">visibilidad en tiempo real.</strong>
-          <strong style="color:#012750;display:block;margin:8px 0 4px">Mercancía:</strong>
-          Protege y visualiza tu <strong style="color:#245FA5">mercancía</strong> en todo momento.
-        </div>
       </div>
 
       <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
-      <div class="icallout" style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
+      <div class="icallout" data-tip="Aumenta la <strong style='color:#245FA5'>productividad</strong>, controla la temperatura y accesos de tus cajas y remolques."
+           style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:3px;z-index:3">
         <div class="ibubble itag-d5">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="1" y="7" width="14" height="10" rx="1.5"/>
@@ -476,14 +464,33 @@
           </svg>
         </div>
         <span class="itag itag-d5">Remolques</span>
-        <div class="itooltip" style="bottom:calc(100% + 10px);right:0">
-          Aumenta la <strong style="color:#245FA5">productividad</strong>, controla la temperatura y accesos de tus cajas y remolques.
-        </div>
       </div>
 
     </div>
+
+    <!-- Panel de texto — aparece debajo del infográfico al hacer hover -->
+    <div id="itip-panel">
+      <div class="itip-card" id="itip-card"></div>
+    </div>
+
   </div>
 </section>
+
+<script>
+  (function(){
+    var panel = document.getElementById('itip-panel');
+    var card  = document.getElementById('itip-card');
+    document.querySelectorAll('.icallout').forEach(function(el){
+      el.addEventListener('mouseenter', function(){
+        card.innerHTML = el.getAttribute('data-tip');
+        panel.classList.add('active');
+      });
+      el.addEventListener('mouseleave', function(){
+        panel.classList.remove('active');
+      });
+    });
+  })();
+</script>
 
 <!-- ══════════════════════════════════════════════
      HERO
