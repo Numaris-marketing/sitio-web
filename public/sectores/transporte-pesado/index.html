@@ -323,6 +323,7 @@
 
   /* ── Callout wrapper + tooltip ── */
   .icallout { cursor:pointer; }
+  .icallout:hover { z-index:100 !important; }
   .itooltip {
     position:absolute;
     width:220px;
@@ -336,7 +337,7 @@
     opacity:0;pointer-events:none;
     transition:opacity .22s ease,transform .22s ease;
     transform:translateY(6px);
-    z-index:20;white-space:normal;
+    z-index:200;white-space:normal;
   }
   .icallout:hover .itooltip {
     opacity:1;transform:translateY(0);pointer-events:auto;
@@ -354,7 +355,7 @@
     </h2>
 
     <!-- Positioned infographic container (16:7 aspect ratio) -->
-    <div style="position:relative;width:100%;padding-bottom:44%">
+    <div style="position:relative;width:100%;padding-bottom:44%;overflow:visible">
 
       <!-- Truck centered -->
       <img src="/truck-3d.png" alt="Tracto Numaris"
