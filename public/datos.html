@@ -1077,12 +1077,12 @@
       <div id="bl-roi-table"></div>
     </div>
 
-    <!-- SECCIONES POR AÑO (2×2 grid) -->
-    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+    <!-- SECCIONES POR AÑO (apiladas full-width) -->
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
       <div class="bl-section-bar" style="background:#245FA5;"></div>
       <h3 class="bl-section-title" style="color:#245FA5;">Facturación por canal y año</h3>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;" id="bl-year-grid"></div>
+    <div id="bl-year-grid" style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2rem;"></div>
 
 
   </div><!-- /billing-main -->
@@ -1298,20 +1298,62 @@
       const TAG_LABEL   = { 'todos': 'Todos los clientes', 'nuevos': 'Clientes nuevos' };
       yearGrid.innerHTML = d.yearSections.map(s => {
         const accent = YEAR_ACCENT[s.year] || '#245FA5';
-        const tagBg  = s.tag === 'nuevos' ? 'rgba(16,185,129,0.1)' : 'rgba(36,95,165,0.08)';
+        const tagBg  = s.tag === 'nuevos' ? 'rgba(16,185,129,0.12)' : 'rgba(36,95,165,0.1)';
         const tagCol = s.tag === 'nuevos' ? '#10B981' : '#4B8FD4';
-        return `<div class="bl-card" style="padding:1.25rem 1.5rem;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;">
+
+        // Top clients table
+        const topHTML = (s.topClients || []).map((c, i) => {
+          const col    = CANAL_COLORS[c.canal] || '#64748b';
+          const empCol = EMP_COLORS[c.empresa]  || '#64748b';
+          const pct    = s.total > 0 ? fmtPct(c.amount / s.total * 100) : '-';
+          const bg     = i % 2 === 1 ? 'background:rgba(255,255,255,0.025);' : '';
+          return `<tr style="border-bottom:1px solid var(--border);${bg}">
+            <td style="padding:.55rem .75rem;font-size:.72rem;color:var(--fg-muted);font-weight:600;">${i+1}</td>
+            <td style="padding:.55rem .75rem;font-size:.8rem;font-weight:700;color:var(--fg);">${c.name}</td>
+            <td style="padding:.55rem .75rem;">
+              <span style="font-size:.62rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;background:${col}20;color:${col};border:1px solid ${col}40;">${c.canal}</span>
+            </td>
+            <td style="padding:.55rem .75rem;">
+              <span style="font-size:.62rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;background:${empCol}20;color:${empCol};border:1px solid ${empCol}40;">${c.empresa}</span>
+            </td>
+            <td style="padding:.55rem .75rem;text-align:right;font-size:.8rem;font-weight:800;color:var(--fg);">${fmtMX(c.amount)}</td>
+            <td style="padding:.55rem .75rem;text-align:right;font-size:.72rem;color:var(--fg-muted);">${pct}</td>
+          </tr>`;
+        }).join('');
+
+        return `<div class="bl-card" style="padding:1.75rem 2rem;">
+          <!-- Header -->
+          <div style="display:flex;align-items:baseline;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+            <span style="font-size:.85rem;font-weight:800;color:${accent};letter-spacing:.04em;">${s.year}</span>
+            <span style="font-size:.68rem;font-weight:700;padding:.2rem .65rem;border-radius:999px;background:${tagBg};color:${tagCol};">${TAG_LABEL[s.tag]}</span>
+            <span style="font-size:2rem;font-weight:800;color:var(--fg);line-height:1;margin-left:.25rem;">${fmtMX(s.total)}</span>
+            <span style="font-size:.78rem;color:var(--fg-muted);">${s.clients} clientes${s.note ? ' · '+s.note : ''}</span>
+          </div>
+          <!-- Dos columnas: canales | top clientes -->
+          <div style="display:grid;grid-template-columns:380px 1fr;gap:2rem;align-items:start;">
+            <!-- Canales -->
             <div>
-              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem;">
-                <span style="font-size:.75rem;font-weight:800;color:${accent};">${s.year}</span>
-                <span style="font-size:.65rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;background:${tagBg};color:${tagCol};">${TAG_LABEL[s.tag]}</span>
-              </div>
-              <div style="font-size:1.6rem;font-weight:800;color:var(--fg);line-height:1;">${fmtMX(s.total)}</div>
-              <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.25rem;">${s.clients} clientes${s.note ? ' · <em>'+s.note+'</em>' : ''}</div>
+              <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.75rem;">Por canal</div>
+              ${renderCanalRows(s.canales, s.total)}
+            </div>
+            <!-- Top clientes -->
+            <div>
+              <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.75rem;">Top clientes</div>
+              <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border);">
+                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">#</th>
+                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Cliente</th>
+                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Canal</th>
+                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Plataforma</th>
+                    <th style="padding:.35rem .75rem;text-align:right;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Facturado</th>
+                    <th style="padding:.35rem .75rem;text-align:right;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">%</th>
+                  </tr>
+                </thead>
+                <tbody>${topHTML}</tbody>
+              </table>
             </div>
           </div>
-          <div>${renderCanalRows(s.canales, s.total)}</div>
         </div>`;
       }).join('');
     }
@@ -1348,12 +1390,24 @@
           { name:'Google Ads',      amount: 2230111, clients:34 },
           { name:'Página Web',      amount: 1090083, clients:21 },
           { name:'WhatsApp',        amount:   73279, clients: 2 },
-          { name:'Mailing',         amount:       0, clients: 0 },
+        ],
+        topClients: [
+          {name:'VALVULAS URREA',                    canal:'Expos y Eventos', empresa:'Sfleet',        amount:6743692},
+          {name:'GRUPO SOLUFI',                      canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:4543455},
+          {name:'SURMAN MEXICO',                     canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:3831844},
+          {name:'ARRENDADORA YAYA',                  canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:1408096},
+          {name:'COMERCIALIZADORA MOTRIZ DE YUCATAN',canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:1241380},
+          {name:'LOGISTICA Y SEG. FARMACEUTICA',     canal:'Meta',            empresa:'Smart Tracker', amount: 730104},
+          {name:'LL MEX',                            canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 620275},
+          {name:'TRANSPORTES RAMLOY',                canal:'Meta',            empresa:'Smart Tracker', amount: 532001},
+          {name:'MICROS LAFIN',                      canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 483757},
+          {name:'URBA INGENIERIA',                   canal:'Google Ads',      empresa:'Tecnocontrol',  amount: 427425},
         ],
       },
       {
         label: '2025 · Clientes nuevos', year: '2025', tag: 'nuevos',
         total: 32256336, clients: 183,
+        note: 'Todos los clientes 2025 son nuevos — canales de marketing arrancaron ese año',
         canales: [
           { name:'LinkedIn',        amount:14990251, clients:36 },
           { name:'Expos y Eventos', amount: 7076300, clients: 6 },
@@ -1361,9 +1415,19 @@
           { name:'Google Ads',      amount: 2230111, clients:34 },
           { name:'Página Web',      amount: 1090083, clients:21 },
           { name:'WhatsApp',        amount:   73279, clients: 2 },
-          { name:'Mailing',         amount:       0, clients: 0 },
         ],
-        note: 'Todos los clientes 2025 son nuevos — canales de marketing arrancaron ese año',
+        topClients: [
+          {name:'VALVULAS URREA',                    canal:'Expos y Eventos', empresa:'Sfleet',        amount:6743692},
+          {name:'GRUPO SOLUFI',                      canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:4543455},
+          {name:'SURMAN MEXICO',                     canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:3831844},
+          {name:'ARRENDADORA YAYA',                  canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:1408096},
+          {name:'COMERCIALIZADORA MOTRIZ DE YUCATAN',canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:1241380},
+          {name:'LOGISTICA Y SEG. FARMACEUTICA',     canal:'Meta',            empresa:'Smart Tracker', amount: 730104},
+          {name:'LL MEX',                            canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 620275},
+          {name:'TRANSPORTES RAMLOY',                canal:'Meta',            empresa:'Smart Tracker', amount: 532001},
+          {name:'MICROS LAFIN',                      canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 483757},
+          {name:'URBA INGENIERIA',                   canal:'Google Ads',      empresa:'Tecnocontrol',  amount: 427425},
+        ],
       },
       {
         label: '2026 · Todos los clientes', year: '2026', tag: 'todos',
@@ -1377,10 +1441,23 @@
           { name:'WhatsApp',        amount:   76183, clients: 2 },
           { name:'Mailing',         amount:   45250, clients: 1 },
         ],
+        topClients: [
+          {name:'VALVULAS URREA',                      canal:'Expos y Eventos', empresa:'Sfleet',        amount:3836531},
+          {name:'GA SOLUCION LEASING',                 canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:2611826},
+          {name:'GRUPO SOLUFI',                        canal:'LinkedIn',        empresa:'Tecnocontrol',  amount:1262802},
+          {name:'LLANTRACTO AUTOTRANSPORTES ESPECIAL', canal:'Expos y Eventos', empresa:'Easytrack',     amount:1209347},
+          {name:'COMERCIALIZADORA MOTRIZ DE YUCATAN',  canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 747069},
+          {name:'AGROEQUIPOS MOTOMEX',                 canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 514860},
+          {name:'LL MEX',                              canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 421467},
+          {name:'TRANSPORTES RAMLOY',                  canal:'Meta',            empresa:'Smart Tracker', amount: 391412},
+          {name:'LOGISTICA Y SEG. FARMACEUTICA',       canal:'Meta',            empresa:'Smart Tracker', amount: 354432},
+          {name:'FRATSA',                              canal:'Meta',            empresa:'Tecnocontrol',  amount: 321933},
+        ],
       },
       {
         label: '2026 · Clientes nuevos', year: '2026', tag: 'nuevos',
         total: 3233317, clients: 44,
+        note: 'Primera factura en los últimos 12 meses',
         canales: [
           { name:'LinkedIn',        amount:  514860, clients: 1 },
           { name:'Expos y Eventos', amount: 1651934, clients: 8 },
@@ -1390,7 +1467,18 @@
           { name:'WhatsApp',        amount:   73687, clients: 1 },
           { name:'Mailing',         amount:   45250, clients: 1 },
         ],
-        note: 'Primera factura en los últimos 12 meses',
+        topClients: [
+          {name:'LLANTRACTO AUTOTRANSPORTES ESPECIAL', canal:'Expos y Eventos', empresa:'Easytrack',     amount:1209347},
+          {name:'AGROEQUIPOS MOTOMEX',                 canal:'LinkedIn',        empresa:'Tecnocontrol',  amount: 514860},
+          {name:'SEGUROS BANORTE',                     canal:'Expos y Eventos', empresa:'Easytrack',     amount: 225640},
+          {name:'CORPORACION INTEGRAL DE MEXICO',      canal:'Google Ads',      empresa:'Tecnocontrol',  amount: 191899},
+          {name:'AUTOTRANSPORTES CUAUHTEMOC',          canal:'Google Ads',      empresa:'Easytrack',     amount: 111953},
+          {name:'PROVEEDORA DE QUIMICOS',              canal:'Google Ads',      empresa:'Easytrack',     amount:  79611},
+          {name:'LOGISTICA Y DISTRIBUCION 360',        canal:'Página Web',      empresa:'Sfleet',        amount:  76300},
+          {name:'INDUSTRIAS TECNOS',                   canal:'Expos y Eventos', empresa:'Tecnocontrol',  amount:  74424},
+          {name:'MARISKET',                            canal:'WhatsApp',        empresa:'Easytrack',     amount:  73687},
+          {name:'SANDRA MORELOS ZARAGOZA',             canal:'Página Web',      empresa:'Easytrack',     amount:  71742},
+        ],
       },
     ],
     byEmpresa: {
