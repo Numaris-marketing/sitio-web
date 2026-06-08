@@ -1078,7 +1078,7 @@
     </div>
 
     <!-- Grupo cards -->
-    <div id="bl-grupo-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-bottom:2rem;"></div>
+    <div id="bl-grupo-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem;"></div>
 
     <!-- PLATAFORMA -->
     <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;margin-top:1.5rem;">
@@ -1128,6 +1128,15 @@
 
   // ── Color config ──────────────────────────────────────────────
   const GRUPO_COLORS = {
+    // Grupos de marketing agrupados
+    'LinkedIn':          { color:'#0A66C2', bg:'rgba(10,102,194,0.08)',  border:'rgba(10,102,194,0.25)'  },
+    'Expos y Eventos':   { color:'#EC4899', bg:'rgba(236,72,153,0.08)',  border:'rgba(236,72,153,0.25)'  },
+    'Meta':              { color:'#1877F2', bg:'rgba(24,119,242,0.08)',   border:'rgba(24,119,242,0.25)'  },
+    'Google Ads':        { color:'#EA4335', bg:'rgba(234,67,53,0.08)',    border:'rgba(234,67,53,0.25)'   },
+    'Página Web':        { color:'#10B981', bg:'rgba(16,185,129,0.08)',   border:'rgba(16,185,129,0.25)'  },
+    'WhatsApp':          { color:'#25D366', bg:'rgba(37,211,102,0.08)',   border:'rgba(37,211,102,0.25)'  },
+    'Mailing':           { color:'#F59E0B', bg:'rgba(245,158,11,0.08)',   border:'rgba(245,158,11,0.25)'  },
+    // Grupos generales
     'Ventas directas':   { color:'#10B981', bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.25)' },
     'Histórico / Base':  { color:'#F59E0B', bg:'rgba(245,158,11,0.08)', border:'rgba(245,158,11,0.25)' },
     'Digital':           { color:'#245FA5', bg:'rgba(36,95,165,0.08)',  border:'rgba(36,95,165,0.25)'  },
@@ -1136,10 +1145,20 @@
     'Otros':             { color:'#64748b', bg:'rgba(100,116,139,0.08)','border':'rgba(100,116,139,0.25)' },
   };
   const CANAL_COLORS = {
+    // Grupos de marketing
+    'LinkedIn':          '#0A66C2',
+    'Expos y Eventos':   '#EC4899',
+    'Meta':              '#1877F2',
+    'Google Ads':        '#EA4335',
+    'Página Web':        '#10B981',
+    'WhatsApp':          '#25D366',
+    'Mailing':           '#F59E0B',
+    // Canales individuales legacy
     'Linkedin':                          '#0A66C2',
+    'LinkedIn Sales Navigator':          '#0A66C2',
     'Meta - Pauta':                      '#1877F2',
     'Google Ads - Pauta':                '#EA4335',
-    'Formulario website':                '#34d399',
+    'Formulario website':                '#10B981',
     'Google +':                          '#EA4335',
     'Cartera de clientes del vendedor':  '#10B981',
     'Llamada o Visita en Frio Vendedor': '#059669',
@@ -1363,23 +1382,22 @@
     total: 50482243,
     clientCount: 202,
     byGrupo: {
-      'Digital': { amount: 38109715, clients: 2520 },
-      'Eventos':  { amount: 12564766, clients: 173 },
+      'LinkedIn':        { amount: 22029606, clients: 660  },
+      'Expos y Eventos': { amount: 12564766, clients: 173  },
+      'Meta':            { amount: 10255184, clients: 1206 },
+      'Google Ads':      { amount:  3822227, clients: 361  },
+      'Página Web':      { amount:  1615745, clients: 222  },
+      'WhatsApp':        { amount:   149462, clients: 25   },
+      'Mailing':         { amount:    45250, clients: 3    },
     },
     byCanal: {
-      'Linkedin':                                          { amount: 16070703, clients: 589,  grupo: 'Digital'  },
-      'Expo como Expositor':                               { amount: 10580223, clients: 48,   grupo: 'Eventos'  },
-      'Meta - Pauta':                                      { amount: 10255184, clients: 1206, grupo: 'Digital'  },
-      'LinkedIn Sales Navigator':                          { amount:  5958902, clients: 71,   grupo: 'Digital'  },
-      'Google Ads - Pauta':                                { amount:  3143806, clients: 326,  grupo: 'Digital'  },
-      'Expo como expositor (agregar etiqueta de Expo)':    { amount:  1956172, clients: 110,  grupo: 'Eventos'  },
-      'Página Web (Formulario)':                           { amount:   728594, clients: 42,   grupo: 'Digital'  },
-      'Google Ads':                                        { amount:   678421, clients: 35,   grupo: 'Digital'  },
-      'Pagina Internet':                                   { amount:   451569, clients: 71,   grupo: 'Digital'  },
-      'Formulario website':                                { amount:   435581, clients: 109,  grupo: 'Digital'  },
-      'WhatsApp - Numaris':                                { amount:   149462, clients: 25,   grupo: 'Digital'  },
-      'Campaña de mailing':                                { amount:    45250, clients: 3,    grupo: 'Digital'  },
-      'Expo como visitante (agregar etiqueta de Expo)':    { amount:    28370, clients: 15,   grupo: 'Eventos'  },
+      'LinkedIn':        { amount: 22029606, clients: 660,  grupo: 'LinkedIn'        },
+      'Expos y Eventos': { amount: 12564766, clients: 173,  grupo: 'Expos y Eventos' },
+      'Meta':            { amount: 10255184, clients: 1206, grupo: 'Meta'            },
+      'Google Ads':      { amount:  3822227, clients: 361,  grupo: 'Google Ads'      },
+      'Página Web':      { amount:  1615745, clients: 222,  grupo: 'Página Web'      },
+      'WhatsApp':        { amount:   149462, clients: 25,   grupo: 'WhatsApp'        },
+      'Mailing':         { amount:    45250, clients: 3,    grupo: 'Mailing'         },
     },
     byEmpresa: {
       'Tecnocontrol':  { amount: 28993743, clients: 1655 },
