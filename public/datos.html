@@ -1052,32 +1052,37 @@
   <div id="billing-main" style="display:none;"><!-- renderBilling() lo muestra -->
 
     <!-- MÉTRICAS DE MARKETING -->
-    <div class="sec-head">
-      <h2>Métricas de Marketing</h2>
-      <p>Facturación generada desde canales de marketing · Zoho Books · datos reales</p>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+      <div class="bl-section-bar" style="background:#EC4899;"></div>
+      <h3 class="bl-section-title" style="color:#EC4899;">Métricas de Marketing</h3>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;" id="bl-mkt-2025"></div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;" id="bl-mkt-2026"></div>
-
-    <hr class="sec-divider" />
+    <!-- Fila 1: 2025 (3 tarjetas) -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.75rem;" id="bl-mkt-2025"></div>
+    <!-- Fila 2: 2026 (2 tarjetas) -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:2rem;" id="bl-mkt-2026"></div>
 
     <!-- ROI DEL ÁREA 2025 -->
-    <div class="sec-head">
-      <h2>ROI del Área de Marketing · 2025</h2>
-      <p>Gasto total del área vs. facturación generada desde canales de marketing · año completo 2025</p>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+      <div class="bl-section-bar" style="background:#10B981;"></div>
+      <h3 class="bl-section-title" style="color:#10B981;">ROI del Área de Marketing · 2025</h3>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem;" id="bl-roi-kpis"></div>
-    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:0.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);" id="bl-roi-table-wrap">
-      <div style="padding:0.875rem 1rem;border-bottom:1px solid var(--border);background:#f8fafc;">
-        <span style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">ROI por canal · 2025 — gasto ajustado incluye proporción de agencia de pauta</span>
+    <!-- KPIs de ROI -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem;" id="bl-roi-kpis"></div>
+    <!-- Tabla ROI por canal -->
+    <div class="bl-card" style="overflow:hidden;margin-bottom:2rem;" id="bl-roi-table-wrap">
+      <div style="padding:.875rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:.8125rem;font-weight:700;color:var(--fg);">ROI por canal · 2025</span>
+        <span style="font-size:.65rem;color:var(--fg-muted);">gasto ajustado incluye proporción de agencia de pauta</span>
       </div>
       <div id="bl-roi-table"></div>
     </div>
 
-    <hr class="sec-divider" />
-
-    <!-- SECCIONES POR AÑO -->
-    <div id="bl-year-grid" style="margin-bottom:2rem;"></div>
+    <!-- SECCIONES POR AÑO (2×2 grid) -->
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+      <div class="bl-section-bar" style="background:#245FA5;"></div>
+      <h3 class="bl-section-title" style="color:#245FA5;">Facturación por canal y año</h3>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;" id="bl-year-grid"></div>
 
 
   </div><!-- /billing-main -->
@@ -1171,11 +1176,11 @@
     // ── Métricas de Marketing ─────────────────────────────────────
     const mm = d.marketingMetrics || {};
     function mktCard(label, val, sub, accent, note) {
-      return `<div class="kpi-card" style="border-top:3px solid ${accent};">
-        <div class="kpi-label">${label}</div>
-        <div class="kpi-val" style="color:${accent};">${val}</div>
-        <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${sub}</div>
-        ${note ? `<div style="font-size:0.72rem;color:${accent};margin-top:0.35rem;font-weight:600;">${note}</div>` : ''}
+      return `<div style="padding:1.25rem 1.5rem;background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.2);border-radius:var(--radius);">
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${accent};margin-bottom:.35rem;">${label}</div>
+        <div style="font-size:1.5rem;font-weight:700;color:var(--fg);line-height:1.1;">${val}</div>
+        <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${sub}</div>
+        ${note ? `<div style="font-size:.65rem;color:${accent};margin-top:.4rem;font-weight:600;">${note}</div>` : ''}
       </div>`;
     }
     const mkt25El = document.getElementById('bl-mkt-2025');
@@ -1211,10 +1216,10 @@
         { label:'Facturación total',  val:fmtMX(roi.facturacion),                            sub:'ingresos de canales marketing',  color:'#10B981' },
         { label:'Resultado neto',     val:fmtMX(roi.resultado),                              sub:'facturación menos gasto',        color:'#10B981' },
         { label:'ROAS del área',      val:roi.roas.toFixed(2)+'x',                           sub:'por cada MX$1 invertido',        color:'#245FA5' },
-      ].map(k => `<div class="kpi-card" style="border-top:3px solid ${k.color};">
-        <div class="kpi-label">${k.label}</div>
-        <div class="kpi-val" style="color:${k.color};">${k.val}</div>
-        <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${k.sub}</div>
+      ].map(k => `<div style="padding:1.25rem 1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);">
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${k.color};margin-bottom:.35rem;">${k.label}</div>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--fg);line-height:1.1;">${k.val}</div>
+        <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${k.sub}</div>
       </div>`).join('');
     }
 
@@ -1222,67 +1227,67 @@
     if (roiTable && roi) {
       const maxRoas = Math.max(...roi.canales.filter(c=>c.roas).map(c=>c.roas));
       roiTable.innerHTML = `
-        <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
           <thead>
-            <tr style="background:#f8fafc;">
-              <th style="padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Canal</th>
-              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Gasto</th>
-              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Facturación</th>
-              <th style="padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">ROAS</th>
-              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">CAC</th>
-              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Rev/Cliente</th>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);">
+              <th style="padding:.5rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Canal</th>
+              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Gasto</th>
+              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Facturación</th>
+              <th style="padding:.5rem .75rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">ROAS</th>
+              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">CAC</th>
+              <th style="padding:.5rem 1rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Rev/Cliente</th>
             </tr>
           </thead>
           <tbody>
             ${roi.canales.map((c,i) => {
               const col = CANAL_COLORS[c.name] || '#64748b';
+              const bg  = i%2===1 ? 'background:rgba(255,255,255,0.02);' : '';
               const roasBarW = c.roas ? Math.min(c.roas/maxRoas*100,100).toFixed(1) : 0;
               const roasLabel = c.roas ? c.roas.toFixed(1)+'x' : '∞ orgánico';
               const roasColor = !c.roas ? '#10B981' : c.roas >= 20 ? '#10B981' : c.roas >= 5 ? '#F59E0B' : '#ef4444';
-              return `<tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:0.75rem 1rem;">
-                  <div style="display:flex;align-items:center;gap:0.5rem;">
+              return `<tr style="border-bottom:1px solid var(--border);${bg}">
+                <td style="padding:.625rem 1rem;">
+                  <div style="display:flex;align-items:center;gap:.5rem;">
                     <div style="width:8px;height:8px;border-radius:2px;background:${col};flex-shrink:0;"></div>
-                    <span style="font-size:0.875rem;font-weight:600;color:var(--fg);">${c.name}</span>
-                    <span style="font-size:0.75rem;color:var(--fg-muted);">${c.clientes} clientes</span>
+                    <span style="font-size:.8rem;font-weight:600;color:var(--fg);">${c.name}</span>
+                    <span style="font-size:.65rem;color:var(--fg-muted);">${c.clientes} clientes</span>
                   </div>
                 </td>
-                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;color:var(--fg-muted);">${c.gasto ? 'MX$'+c.gasto.toLocaleString('es-MX') : '—'}</td>
-                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;font-weight:700;color:var(--fg);">${fmtMX(c.facturacion)}</td>
-                <td style="padding:0.75rem 1rem;min-width:160px;">
-                  <div style="display:flex;align-items:center;gap:0.6rem;">
-                    <div style="flex:1;height:8px;border-radius:999px;background:var(--border);overflow:hidden;">
+                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;color:var(--fg-muted);">${c.gasto ? 'MX$'+c.gasto.toLocaleString('es-MX') : '—'}</td>
+                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;font-weight:700;color:var(--fg);">${fmtMX(c.facturacion)}</td>
+                <td style="padding:.625rem .75rem;min-width:140px;">
+                  <div style="display:flex;align-items:center;gap:.5rem;">
+                    <div style="flex:1;height:5px;border-radius:999px;background:var(--border);overflow:hidden;">
                       <div style="height:100%;width:${roasBarW}%;background:${roasColor};border-radius:999px;"></div>
                     </div>
-                    <span style="font-size:0.875rem;font-weight:800;color:${roasColor};min-width:64px;">${roasLabel}</span>
+                    <span style="font-size:.78rem;font-weight:800;color:${roasColor};min-width:60px;">${roasLabel}</span>
                   </div>
                 </td>
-                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;color:var(--fg-muted);">${c.cac ? 'MX$'+c.cac.toLocaleString('es-MX') : '—'}</td>
-                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;font-weight:600;color:var(--fg);">${fmtMX(c.revCliente)}</td>
+                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;color:var(--fg-muted);">${c.cac ? 'MX$'+c.cac.toLocaleString('es-MX') : '—'}</td>
+                <td style="padding:.625rem 1rem;text-align:right;font-size:.78rem;font-weight:600;color:var(--fg);">${fmtMX(c.revCliente)}</td>
               </tr>`;
             }).join('')}
           </tbody>
         </table>`;
     }
 
-    // ── Year sections ─────────────────────────────────────────────
-    function renderCanalBars(canales, sectionTotal) {
+    // ── Year sections (2×2 grid) ──────────────────────────────────
+    function renderCanalRows(canales, sectionTotal) {
       const max = Math.max(...canales.map(c => c.amount), 1);
       return canales.filter(c => c.amount > 0).map(c => {
-        const col  = CANAL_COLORS[c.name] || '#64748b';
+        const col = CANAL_COLORS[c.name] || '#64748b';
         const barW = (c.amount / max * 100).toFixed(1);
         const pct  = sectionTotal > 0 ? fmtPct(c.amount / sectionTotal * 100) : '-';
-        return `<div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
-            <div style="font-size:0.875rem;font-weight:700;color:var(--fg);display:flex;align-items:center;gap:0.45rem;">
-              <div style="width:8px;height:8px;border-radius:2px;background:${col};flex-shrink:0;"></div>${c.name}
-            </div>
-            <div style="font-size:0.9375rem;font-weight:800;color:${col};">${fmtMX(c.amount)}</div>
+        return `<div style="display:grid;grid-template-columns:130px 1fr 80px 55px 45px;gap:.5rem;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--border);">
+          <div style="font-size:.75rem;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:.4rem;">
+            <div style="width:7px;height:7px;border-radius:2px;background:${col};flex-shrink:0;"></div>${c.name}
           </div>
-          <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+          <div style="height:5px;border-radius:999px;background:var(--border);overflow:hidden;">
             <div style="height:100%;width:${barW}%;background:${col};border-radius:999px;"></div>
           </div>
-          <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${pct} del total · ${c.clients} clientes</div>
+          <div style="text-align:right;font-size:.75rem;font-weight:700;color:var(--fg);">${fmtMX(c.amount)}</div>
+          <div style="text-align:right;font-size:.68rem;color:var(--fg-muted);">${c.clients}c</div>
+          <div style="text-align:right;font-size:.7rem;color:var(--fg-muted);">${pct}</div>
         </div>`;
       }).join('');
     }
@@ -1291,66 +1296,23 @@
     if (yearGrid && d.yearSections) {
       const YEAR_ACCENT = { '2025': '#245FA5', '2026': '#10B981' };
       const TAG_LABEL   = { 'todos': 'Todos los clientes', 'nuevos': 'Clientes nuevos' };
-      yearGrid.innerHTML = d.yearSections.map((s, si) => {
+      yearGrid.innerHTML = d.yearSections.map(s => {
         const accent = YEAR_ACCENT[s.year] || '#245FA5';
+        const tagBg  = s.tag === 'nuevos' ? 'rgba(16,185,129,0.1)' : 'rgba(36,95,165,0.08)';
         const tagCol = s.tag === 'nuevos' ? '#10B981' : '#4B8FD4';
-
-        // Top clients table rows
-        const topHTML = (s.topClients || []).map((c, i) => {
-          const col    = CANAL_COLORS[c.canal] || '#64748b';
-          const empCol = EMP_COLORS[c.empresa]  || '#64748b';
-          const pct    = s.total > 0 ? fmtPct(c.amount / s.total * 100) : '-';
-          const empBadge = c.empresa
-            ? `<span style="font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:999px;background:${empCol}18;color:${empCol};border:1px solid ${empCol}35;">${c.empresa}</span>`
-            : '';
-          return `<tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:0.65rem 0.75rem;font-size:0.75rem;color:var(--fg-muted);font-weight:600;width:2rem;">${i+1}</td>
-            <td style="padding:0.65rem 0.75rem;font-size:0.875rem;font-weight:600;color:var(--fg);">${c.name}</td>
-            <td style="padding:0.65rem 0.75rem;">
-              <span style="font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:999px;background:${col}18;color:${col};border:1px solid ${col}35;">${c.canal}</span>
-            </td>
-            <td style="padding:0.65rem 0.75rem;">${empBadge}</td>
-            <td style="padding:0.65rem 0.75rem;text-align:right;font-size:0.875rem;font-weight:800;color:var(--fg);">${fmtMX(c.amount)}</td>
-            <td style="padding:0.65rem 1rem;text-align:right;font-size:0.8rem;color:var(--fg-muted);">${pct}</td>
-          </tr>`;
-        }).join('');
-
-        const divider = si > 0 ? '<hr class="sec-divider" />' : '';
-        return `${divider}
-          <div class="sec-head">
-            <h2>${s.year} · ${TAG_LABEL[s.tag]}</h2>
-            <p><strong style="color:${accent};">${fmtMX(s.total)}</strong> · ${s.clients} clientes${s.note ? ' · '+s.note : ''}</p>
-          </div>
-          <div class="funnel-card" style="margin-bottom:0.5rem;">
-            <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:2.5rem;align-items:start;">
-              <!-- Canales -->
-              <div>
-                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Por canal</div>
-                <div style="display:flex;flex-direction:column;gap:1.125rem;">
-                  ${renderCanalBars(s.canales, s.total)}
-                </div>
+        return `<div class="bl-card" style="padding:1.25rem 1.5rem;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;">
+            <div>
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem;">
+                <span style="font-size:.75rem;font-weight:800;color:${accent};">${s.year}</span>
+                <span style="font-size:.65rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;background:${tagBg};color:${tagCol};">${TAG_LABEL[s.tag]}</span>
               </div>
-              <!-- Top clientes -->
-              <div>
-                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Top clientes</div>
-                <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
-                  <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
-                    <thead>
-                      <tr style="background:#f8fafc;">
-                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">#</th>
-                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Cliente</th>
-                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Canal</th>
-                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Plataforma</th>
-                        <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Facturado</th>
-                        <th style="padding:0.6rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">%</th>
-                      </tr>
-                    </thead>
-                    <tbody>${topHTML}</tbody>
-                  </table>
-                </div>
-              </div>
+              <div style="font-size:1.6rem;font-weight:800;color:var(--fg);line-height:1;">${fmtMX(s.total)}</div>
+              <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.25rem;">${s.clients} clientes${s.note ? ' · <em>'+s.note+'</em>' : ''}</div>
             </div>
-          </div>`;
+          </div>
+          <div>${renderCanalRows(s.canales, s.total)}</div>
+        </div>`;
       }).join('');
     }
 
@@ -1370,132 +1332,93 @@
   // ── Datos estáticos (Excel · sb_invoices · 8 jun 2026) ──────────
   const STATIC_DATA = {
     generatedAt: '2026-06-08T00:00:00.000Z',
-    sourceTab: 'Excel · Facturación · jun 2026',
-    total: 81435606,
-    clientCount: 199,
+    sourceTab: 'Excel · sb_invoices',
+    total: 50482243,
+    clientCount: 202,
     byCanal: {},   // no usado — ver yearSections
     byGrupo: {},   // no usado — ver yearSections
     yearSections: [
       {
         label: '2025 · Todos los clientes', year: '2025', tag: 'todos',
-        total: 52940448, clients: 190,
+        total: 32256336, clients: 183,
         canales: [
-          { name:'LinkedIn',        amount:21098991, clients:38 },
-          { name:'Meta',            amount:16265333, clients:95 },
-          { name:'Expos y Eventos', amount:11393527, clients: 6 },
-          { name:'Google Ads',      amount: 2325865, clients:25 },
-          { name:'Página Web',      amount: 1848937, clients:25 },
-          { name:'WhatsApp',        amount:    7795, clients: 1 },
-        ],
-        topClients: [
-          {name:'Válvulas URREA',                     canal:'Expos y Eventos', empresa:'', amount:10266299},
-          {name:'GRUPO SOLUFI',                       canal:'LinkedIn',        empresa:'', amount: 9464286},
-          {name:'LEVIC',                              canal:'Meta',            empresa:'', amount: 5154492},
-          {name:'ARRENDADORA YAYA',                   canal:'LinkedIn',        empresa:'', amount: 2820623},
-          {name:'SIA LEASE',                          canal:'LinkedIn',        empresa:'', amount: 2091045},
-          {name:'COMERCIALIZADORA MOTRIZ DE YUCATAN', canal:'LinkedIn',        empresa:'', amount: 1440001},
-          {name:'LOGISTICA Y SEGURIDAD FARMACEUTICA', canal:'Meta',            empresa:'', amount: 1260086},
-          {name:'INDUSTRIAS TECNOS',                  canal:'Expos y Eventos', empresa:'', amount: 1058800},
-          {name:'BIT ARRENDADORA DE VEHICULOS',       canal:'Meta',            empresa:'', amount:  972428},
-          {name:'LL MEX',                             canal:'LinkedIn',        empresa:'', amount:  906395},
+          { name:'LinkedIn',        amount:14990251, clients:36 },
+          { name:'Expos y Eventos', amount: 7076300, clients: 6 },
+          { name:'Meta',            amount: 6796309, clients:84 },
+          { name:'Google Ads',      amount: 2230111, clients:34 },
+          { name:'Página Web',      amount: 1090083, clients:21 },
+          { name:'WhatsApp',        amount:   73279, clients: 2 },
+          { name:'Mailing',         amount:       0, clients: 0 },
         ],
       },
       {
         label: '2025 · Clientes nuevos', year: '2025', tag: 'nuevos',
-        total: 14768668, clients: 39,
-        note: 'Fecha de creación en CRM >= ene 2025',
+        total: 32256336, clients: 183,
         canales: [
-          { name:'Expos y Eventos', amount:11393527, clients: 6 },
-          { name:'Google Ads',      amount: 1701333, clients:18 },
-          { name:'LinkedIn',        amount: 1400369, clients: 6 },
-          { name:'Meta',            amount:  213377, clients: 5 },
-          { name:'Página Web',      amount:   52266, clients: 3 },
-          { name:'WhatsApp',        amount:    7795, clients: 1 },
+          { name:'LinkedIn',        amount:14990251, clients:36 },
+          { name:'Expos y Eventos', amount: 7076300, clients: 6 },
+          { name:'Meta',            amount: 6796309, clients:84 },
+          { name:'Google Ads',      amount: 2230111, clients:34 },
+          { name:'Página Web',      amount: 1090083, clients:21 },
+          { name:'WhatsApp',        amount:   73279, clients: 2 },
+          { name:'Mailing',         amount:       0, clients: 0 },
         ],
-        topClients: [
-          {name:'Válvulas URREA',                       canal:'Expos y Eventos', empresa:'', amount:10266298},
-          {name:'INDUSTRIAS TECNOS',                    canal:'Expos y Eventos', empresa:'', amount: 1058800},
-          {name:'LL MEX',                               canal:'LinkedIn',        empresa:'', amount:  906395},
-          {name:'COORPORACION INTEGRAL DE MEXICO',      canal:'Google Ads',      empresa:'', amount:  631226},
-          {name:'TRANSPORTES LOGISTICOS VAZQUEZ',       canal:'Google Ads',      empresa:'', amount:  339156},
-          {name:'FACTOR GFC LEASING',                   canal:'LinkedIn',        empresa:'', amount:  239460},
-          {name:'MARTE AUTORENTAS',                     canal:'LinkedIn',        empresa:'', amount:  230260},
-          {name:'G&EM ASOCIADOS A.B SC',                canal:'Google Ads',      empresa:'', amount:  228587},
-          {name:'LINEAS LOGISTICAS JUVAR',              canal:'Google Ads',      empresa:'', amount:  165196},
-          {name:'SNI NUTRICION Y SALUD SINERGICA',      canal:'Google Ads',      empresa:'', amount:   97347},
-        ],
+        note: 'Todos los clientes 2025 son nuevos — canales de marketing arrancaron ese año',
       },
       {
         label: '2026 · Todos los clientes', year: '2026', tag: 'todos',
-        total: 28495159, clients: 149,
+        total: 18225907, clients: 157,
         canales: [
-          { name:'Meta',            amount:10744250, clients:68 },
-          { name:'LinkedIn',        amount:10660663, clients:30 },
-          { name:'Expos y Eventos', amount: 5113005, clients: 9 },
-          { name:'Google Ads',      amount: 1588867, clients:23 },
-          { name:'Página Web',      amount:  386444, clients:18 },
-          { name:'WhatsApp',        amount:    1930, clients: 1 },
-        ],
-        topClients: [
-          {name:'Válvulas URREA',                                    canal:'Expos y Eventos', empresa:'', amount: 3706834},
-          {name:'GA SOLUCION LEASING',                               canal:'LinkedIn',        empresa:'', amount: 2823912},
-          {name:'GRUPO SOLUFI',                                      canal:'LinkedIn',        empresa:'', amount: 2579805},
-          {name:'TRANSPORTACIONES DE COMERCIO INTERCONTINENTAL',    canal:'Meta',            empresa:'', amount: 2165058},
-          {name:'LEVIC',                                             canal:'Meta',            empresa:'', amount: 1997111},
-          {name:'TOREO MOTORS',                                      canal:'Meta',            empresa:'', amount: 1524612},
-          {name:'LLANTRACTO AUTOTRANSPORTES ESPECIALIZADOS',        canal:'Expos y Eventos', empresa:'', amount: 1113837},
-          {name:'SIA LEASE',                                         canal:'LinkedIn',        empresa:'', amount: 1083306},
-          {name:'COMERCIALIZADORA MOTRIZ DE YUCATAN',               canal:'LinkedIn',        empresa:'', amount:  896225},
-          {name:'BIT ARRENDADORA DE VEHICULOS',                     canal:'Meta',            empresa:'', amount:  642591},
+          { name:'LinkedIn',        amount: 7039354, clients:27 },
+          { name:'Expos y Eventos', amount: 5488465, clients: 9 },
+          { name:'Meta',            amount: 3458875, clients:62 },
+          { name:'Google Ads',      amount: 1592115, clients:36 },
+          { name:'Página Web',      amount:  525662, clients:20 },
+          { name:'WhatsApp',        amount:   76183, clients: 2 },
+          { name:'Mailing',         amount:   45250, clients: 1 },
         ],
       },
       {
         label: '2026 · Clientes nuevos', year: '2026', tag: 'nuevos',
-        total: 1869585, clients: 11,
-        note: 'Fecha de creación en CRM >= jun 2025',
+        total: 3233317, clients: 44,
         canales: [
-          { name:'Expos y Eventos', amount: 1298638, clients: 6 },
-          { name:'LinkedIn',        amount:  546116, clients: 1 },
-          { name:'Meta',            amount:   12518, clients: 1 },
-          { name:'Google Ads',      amount:   10382, clients: 2 },
-          { name:'WhatsApp',        amount:    1930, clients: 1 },
+          { name:'LinkedIn',        amount:  514860, clients: 1 },
+          { name:'Expos y Eventos', amount: 1651934, clients: 8 },
+          { name:'Meta',            amount:   79263, clients: 7 },
+          { name:'Google Ads',      amount:  693404, clients:19 },
+          { name:'Página Web',      amount:  174919, clients: 7 },
+          { name:'WhatsApp',        amount:   73687, clients: 1 },
+          { name:'Mailing',         amount:   45250, clients: 1 },
         ],
-        topClients: [
-          {name:'LLANTRACTO AUTOTRANSPORTES ESPECIALIZADOS',                      canal:'Expos y Eventos', empresa:'', amount:1113836},
-          {name:'AGROEQUIPOS MOTOMEX',                                            canal:'LinkedIn',        empresa:'', amount: 546116},
-          {name:'LOGISTICA SAGAM',                                                canal:'Expos y Eventos', empresa:'', amount: 100510},
-          {name:'LLANTRACTO REMOLQUES-CONTROLCOMBUSTIBLE',                       canal:'Expos y Eventos', empresa:'', amount:  59020},
-          {name:'BP EXPRESS LOGISTICS',                                           canal:'Meta',            empresa:'', amount:  12518},
-          {name:'MAERSA SERVICIOS DE TRANSPORTACION',                             canal:'Expos y Eventos', empresa:'', amount:  10440},
-          {name:'LLANTRACTO AUTOTRANSPORTES ESPECIALIZADOS (RASTREO STD)',        canal:'Expos y Eventos', empresa:'', amount:   9610},
-          {name:'DIEGO EFRAIN ESCOBAR VARGAS',                                    canal:'Google Ads',      empresa:'', amount:   5985},
-          {name:'JJG COMERCIALIZADORA LOGISTICA E INDUSTRIAL',                   canal:'Expos y Eventos', empresa:'', amount:   5220},
-          {name:'RANCHO SAN EPIGMENIO',                                           canal:'Google Ads',      empresa:'', amount:   4396},
-        ],
+        note: 'Primera factura en los últimos 12 meses',
       },
     ],
+    byEmpresa: {
+      'Tecnocontrol':  { amount: 28993743, clients: 1655 },
+      'Sfleet':        { amount: 10741376, clients: 65   },
+      'Easytrack':     { amount:  5472053, clients: 517  },
+      'Smart Tracker': { amount:  5275068, clients: 413  },
+    },
     topClients: [],
     roi2025: {
-      // Gasto: dato manual · Facturación: total marketing 2025 sin TIP/Central/MSTAR
       gastoTotal:   8084000,
-      facturacion:  52940448,
-      resultado:    44856448,
-      roas:          6.55,
-      cac:         207282,   // gastoTotal / 39 clientes nuevos 2025
+      facturacion:  32256336,
+      resultado:    24172336,
+      roas:         3.99,
+      cac:          44175,
       canales: [
-        // roas = facturacion/gasto | cac = gasto/clientes | revCliente = facturacion/clientes
-        { name:'LinkedIn',         gasto:   92720, facturacion:21098990, roas:227.6, cac:  2440, revCliente: 555236, clientes:38 },
-        { name:'Meta',             gasto:  386398, facturacion:16265332, roas: 42.1, cac:  4067, revCliente: 171214, clientes:95 },
-        { name:'Expos y Eventos',  gasto: 3122592, facturacion:11393527, roas:  3.6, cac:520432, revCliente:1898921, clientes: 6 },
-        { name:'Google Ads + Web', gasto:  359593, facturacion: 4174801, roas: 11.6, cac:  7192, revCliente:  83496, clientes:50 },
+        { name:'LinkedIn',        gasto:   92720, facturacion:14990251, roas:161.7, cac:  2576, revCliente: 416396, clientes:36 },
+        { name:'Expos y Eventos', gasto: 3122592, facturacion: 7076300, roas:  2.3, cac:520432, revCliente:1179383, clientes: 6 },
+        { name:'Meta',            gasto:  386398, facturacion: 6796309, roas: 17.6, cac:  4600, revCliente:  80908, clientes:84 },
+        { name:'Google Ads + Web', gasto:  359593, facturacion: 3320194, roas:  9.2, cac:  6538, revCliente:  60367, clientes:55 },
       ],
     },
     marketingMetrics: {
-      mkt2025Total:       52940448,
-      mkt2025NewClients:  14768668,  // clientes con fecha creación >= ene 2025
-      mkt2025NewDigital:   3367346,  // nuevos 2025 vía canales digitales (sin Expos)
-      mkt2026Total:       28495159,
-      mkt2026NewClients:   1869585,  // clientes con fecha creación >= jun 2025
+      mkt2025Total:       32256336,
+      mkt2025NewClients:  32256336,
+      mkt2025NewDigital:  25106756,
+      mkt2026Total:       18225907,
+      mkt2026NewClients:   3233318,
       cutoff12mISO: '2025-06-08',
     },
   };
