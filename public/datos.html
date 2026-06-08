@@ -1052,37 +1052,32 @@
   <div id="billing-main" style="display:none;"><!-- renderBilling() lo muestra -->
 
     <!-- MÉTRICAS DE MARKETING -->
-    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
-      <div class="bl-section-bar" style="background:#EC4899;"></div>
-      <h3 class="bl-section-title" style="color:#EC4899;">Métricas de Marketing</h3>
+    <div class="sec-head">
+      <h2>Métricas de Marketing</h2>
+      <p>Facturación generada desde canales de marketing · Zoho Books · datos reales</p>
     </div>
-    <!-- Fila 1: 2025 (3 tarjetas) -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.75rem;" id="bl-mkt-2025"></div>
-    <!-- Fila 2: 2026 (2 tarjetas) -->
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:2rem;" id="bl-mkt-2026"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;" id="bl-mkt-2025"></div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;" id="bl-mkt-2026"></div>
+
+    <hr class="sec-divider" />
 
     <!-- ROI DEL ÁREA 2025 -->
-    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
-      <div class="bl-section-bar" style="background:#10B981;"></div>
-      <h3 class="bl-section-title" style="color:#10B981;">ROI del Área de Marketing · 2025</h3>
+    <div class="sec-head">
+      <h2>ROI del Área de Marketing · 2025</h2>
+      <p>Gasto total del área vs. facturación generada desde canales de marketing · año completo 2025</p>
     </div>
-    <!-- KPIs de ROI -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem;" id="bl-roi-kpis"></div>
-    <!-- Tabla ROI por canal -->
-    <div class="bl-card" style="overflow:hidden;margin-bottom:2rem;" id="bl-roi-table-wrap">
-      <div style="padding:.875rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;">
-        <span style="font-size:.8125rem;font-weight:700;color:var(--fg);">ROI por canal · 2025</span>
-        <span style="font-size:.65rem;color:var(--fg-muted);">gasto ajustado incluye proporción de agencia de pauta</span>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem;" id="bl-roi-kpis"></div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:0.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);" id="bl-roi-table-wrap">
+      <div style="padding:0.875rem 1rem;border-bottom:1px solid var(--border);background:#f8fafc;">
+        <span style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">ROI por canal · 2025 — gasto ajustado incluye proporción de agencia de pauta</span>
       </div>
       <div id="bl-roi-table"></div>
     </div>
 
-    <!-- SECCIONES POR AÑO (apiladas full-width) -->
-    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
-      <div class="bl-section-bar" style="background:#245FA5;"></div>
-      <h3 class="bl-section-title" style="color:#245FA5;">Facturación por canal y año</h3>
-    </div>
-    <div id="bl-year-grid" style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2rem;"></div>
+    <hr class="sec-divider" />
+
+    <!-- SECCIONES POR AÑO -->
+    <div id="bl-year-grid" style="margin-bottom:2rem;"></div>
 
 
   </div><!-- /billing-main -->
@@ -1176,11 +1171,11 @@
     // ── Métricas de Marketing ─────────────────────────────────────
     const mm = d.marketingMetrics || {};
     function mktCard(label, val, sub, accent, note) {
-      return `<div style="padding:1.25rem 1.5rem;background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.2);border-radius:var(--radius);">
-        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${accent};margin-bottom:.35rem;">${label}</div>
-        <div style="font-size:1.5rem;font-weight:700;color:var(--fg);line-height:1.1;">${val}</div>
-        <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${sub}</div>
-        ${note ? `<div style="font-size:.65rem;color:${accent};margin-top:.4rem;font-weight:600;">${note}</div>` : ''}
+      return `<div class="kpi-card" style="border-top:3px solid ${accent};">
+        <div class="kpi-label">${label}</div>
+        <div class="kpi-val" style="color:${accent};">${val}</div>
+        <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${sub}</div>
+        ${note ? `<div style="font-size:0.72rem;color:${accent};margin-top:0.35rem;font-weight:600;">${note}</div>` : ''}
       </div>`;
     }
     const mkt25El = document.getElementById('bl-mkt-2025');
@@ -1216,10 +1211,10 @@
         { label:'Facturación total',  val:fmtMX(roi.facturacion),                            sub:'ingresos de canales marketing',  color:'#10B981' },
         { label:'Resultado neto',     val:fmtMX(roi.resultado),                              sub:'facturación menos gasto',        color:'#10B981' },
         { label:'ROAS del área',      val:roi.roas.toFixed(2)+'x',                           sub:'por cada MX$1 invertido',        color:'#245FA5' },
-      ].map(k => `<div style="padding:1.25rem 1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);">
-        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${k.color};margin-bottom:.35rem;">${k.label}</div>
-        <div style="font-size:1.5rem;font-weight:800;color:var(--fg);line-height:1.1;">${k.val}</div>
-        <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${k.sub}</div>
+      ].map(k => `<div class="kpi-card" style="border-top:3px solid ${k.color};">
+        <div class="kpi-label">${k.label}</div>
+        <div class="kpi-val" style="color:${k.color};">${k.val}</div>
+        <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${k.sub}</div>
       </div>`).join('');
     }
 
@@ -1227,67 +1222,67 @@
     if (roiTable && roi) {
       const maxRoas = Math.max(...roi.canales.filter(c=>c.roas).map(c=>c.roas));
       roiTable.innerHTML = `
-        <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
           <thead>
-            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);">
-              <th style="padding:.5rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Canal</th>
-              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Gasto</th>
-              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Facturación</th>
-              <th style="padding:.5rem .75rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">ROAS</th>
-              <th style="padding:.5rem .75rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">CAC</th>
-              <th style="padding:.5rem 1rem;text-align:right;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Rev/Cliente</th>
+            <tr style="background:#f8fafc;">
+              <th style="padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Canal</th>
+              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Gasto</th>
+              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Facturación</th>
+              <th style="padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">ROAS</th>
+              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">CAC</th>
+              <th style="padding:0.75rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Rev/Cliente</th>
             </tr>
           </thead>
           <tbody>
             ${roi.canales.map((c,i) => {
               const col = CANAL_COLORS[c.name] || '#64748b';
-              const bg  = i%2===1 ? 'background:rgba(255,255,255,0.02);' : '';
               const roasBarW = c.roas ? Math.min(c.roas/maxRoas*100,100).toFixed(1) : 0;
               const roasLabel = c.roas ? c.roas.toFixed(1)+'x' : '∞ orgánico';
               const roasColor = !c.roas ? '#10B981' : c.roas >= 20 ? '#10B981' : c.roas >= 5 ? '#F59E0B' : '#ef4444';
-              return `<tr style="border-bottom:1px solid var(--border);${bg}">
-                <td style="padding:.625rem 1rem;">
-                  <div style="display:flex;align-items:center;gap:.5rem;">
+              return `<tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.75rem 1rem;">
+                  <div style="display:flex;align-items:center;gap:0.5rem;">
                     <div style="width:8px;height:8px;border-radius:2px;background:${col};flex-shrink:0;"></div>
-                    <span style="font-size:.8rem;font-weight:600;color:var(--fg);">${c.name}</span>
-                    <span style="font-size:.65rem;color:var(--fg-muted);">${c.clientes} clientes</span>
+                    <span style="font-size:0.875rem;font-weight:600;color:var(--fg);">${c.name}</span>
+                    <span style="font-size:0.75rem;color:var(--fg-muted);">${c.clientes} clientes</span>
                   </div>
                 </td>
-                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;color:var(--fg-muted);">${c.gasto ? 'MX$'+c.gasto.toLocaleString('es-MX') : '—'}</td>
-                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;font-weight:700;color:var(--fg);">${fmtMX(c.facturacion)}</td>
-                <td style="padding:.625rem .75rem;min-width:140px;">
-                  <div style="display:flex;align-items:center;gap:.5rem;">
-                    <div style="flex:1;height:5px;border-radius:999px;background:var(--border);overflow:hidden;">
+                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;color:var(--fg-muted);">${c.gasto ? 'MX$'+c.gasto.toLocaleString('es-MX') : '—'}</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;font-weight:700;color:var(--fg);">${fmtMX(c.facturacion)}</td>
+                <td style="padding:0.75rem 1rem;min-width:160px;">
+                  <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div style="flex:1;height:8px;border-radius:999px;background:var(--border);overflow:hidden;">
                       <div style="height:100%;width:${roasBarW}%;background:${roasColor};border-radius:999px;"></div>
                     </div>
-                    <span style="font-size:.78rem;font-weight:800;color:${roasColor};min-width:60px;">${roasLabel}</span>
+                    <span style="font-size:0.875rem;font-weight:800;color:${roasColor};min-width:64px;">${roasLabel}</span>
                   </div>
                 </td>
-                <td style="padding:.625rem .75rem;text-align:right;font-size:.78rem;color:var(--fg-muted);">${c.cac ? 'MX$'+c.cac.toLocaleString('es-MX') : '—'}</td>
-                <td style="padding:.625rem 1rem;text-align:right;font-size:.78rem;font-weight:600;color:var(--fg);">${fmtMX(c.revCliente)}</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;color:var(--fg-muted);">${c.cac ? 'MX$'+c.cac.toLocaleString('es-MX') : '—'}</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-size:0.875rem;font-weight:600;color:var(--fg);">${fmtMX(c.revCliente)}</td>
               </tr>`;
             }).join('')}
           </tbody>
         </table>`;
     }
 
-    // ── Year sections (2×2 grid) ──────────────────────────────────
-    function renderCanalRows(canales, sectionTotal) {
+    // ── Year sections ─────────────────────────────────────────────
+    function renderCanalBars(canales, sectionTotal) {
       const max = Math.max(...canales.map(c => c.amount), 1);
       return canales.filter(c => c.amount > 0).map(c => {
-        const col = CANAL_COLORS[c.name] || '#64748b';
+        const col  = CANAL_COLORS[c.name] || '#64748b';
         const barW = (c.amount / max * 100).toFixed(1);
         const pct  = sectionTotal > 0 ? fmtPct(c.amount / sectionTotal * 100) : '-';
-        return `<div style="display:grid;grid-template-columns:130px 1fr 80px 55px 45px;gap:.5rem;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--border);">
-          <div style="font-size:.75rem;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:.4rem;">
-            <div style="width:7px;height:7px;border-radius:2px;background:${col};flex-shrink:0;"></div>${c.name}
+        return `<div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+            <div style="font-size:0.875rem;font-weight:700;color:var(--fg);display:flex;align-items:center;gap:0.45rem;">
+              <div style="width:8px;height:8px;border-radius:2px;background:${col};flex-shrink:0;"></div>${c.name}
+            </div>
+            <div style="font-size:0.9375rem;font-weight:800;color:${col};">${fmtMX(c.amount)}</div>
           </div>
-          <div style="height:5px;border-radius:999px;background:var(--border);overflow:hidden;">
+          <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
             <div style="height:100%;width:${barW}%;background:${col};border-radius:999px;"></div>
           </div>
-          <div style="text-align:right;font-size:.75rem;font-weight:700;color:var(--fg);">${fmtMX(c.amount)}</div>
-          <div style="text-align:right;font-size:.68rem;color:var(--fg-muted);">${c.clients}c</div>
-          <div style="text-align:right;font-size:.7rem;color:var(--fg-muted);">${pct}</div>
+          <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${pct} del total · ${c.clients} clientes</div>
         </div>`;
       }).join('');
     }
@@ -1296,65 +1291,65 @@
     if (yearGrid && d.yearSections) {
       const YEAR_ACCENT = { '2025': '#245FA5', '2026': '#10B981' };
       const TAG_LABEL   = { 'todos': 'Todos los clientes', 'nuevos': 'Clientes nuevos' };
-      yearGrid.innerHTML = d.yearSections.map(s => {
+      yearGrid.innerHTML = d.yearSections.map((s, si) => {
         const accent = YEAR_ACCENT[s.year] || '#245FA5';
-        const tagBg  = s.tag === 'nuevos' ? 'rgba(16,185,129,0.12)' : 'rgba(36,95,165,0.1)';
         const tagCol = s.tag === 'nuevos' ? '#10B981' : '#4B8FD4';
 
-        // Top clients table
+        // Top clients table rows
         const topHTML = (s.topClients || []).map((c, i) => {
           const col    = CANAL_COLORS[c.canal] || '#64748b';
           const empCol = EMP_COLORS[c.empresa]  || '#64748b';
           const pct    = s.total > 0 ? fmtPct(c.amount / s.total * 100) : '-';
-          const bg     = i % 2 === 1 ? 'background:rgba(255,255,255,0.025);' : '';
-          return `<tr style="border-bottom:1px solid var(--border);${bg}">
-            <td style="padding:.55rem .75rem;font-size:.72rem;color:var(--fg-muted);font-weight:600;">${i+1}</td>
-            <td style="padding:.55rem .75rem;font-size:.8rem;font-weight:700;color:var(--fg);">${c.name}</td>
-            <td style="padding:.55rem .75rem;">
-              <span style="font-size:.62rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;background:${col}20;color:${col};border:1px solid ${col}40;">${c.canal}</span>
+          return `<tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:0.65rem 0.75rem;font-size:0.75rem;color:var(--fg-muted);font-weight:600;width:2rem;">${i+1}</td>
+            <td style="padding:0.65rem 0.75rem;font-size:0.875rem;font-weight:600;color:var(--fg);">${c.name}</td>
+            <td style="padding:0.65rem 0.75rem;">
+              <span style="font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:999px;background:${col}18;color:${col};border:1px solid ${col}35;">${c.canal}</span>
             </td>
-            <td style="padding:.55rem .75rem;">
-              <span style="font-size:.62rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;background:${empCol}20;color:${empCol};border:1px solid ${empCol}40;">${c.empresa}</span>
+            <td style="padding:0.65rem 0.75rem;">
+              <span style="font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:999px;background:${empCol}18;color:${empCol};border:1px solid ${empCol}35;">${c.empresa}</span>
             </td>
-            <td style="padding:.55rem .75rem;text-align:right;font-size:.8rem;font-weight:800;color:var(--fg);">${fmtMX(c.amount)}</td>
-            <td style="padding:.55rem .75rem;text-align:right;font-size:.72rem;color:var(--fg-muted);">${pct}</td>
+            <td style="padding:0.65rem 0.75rem;text-align:right;font-size:0.875rem;font-weight:800;color:var(--fg);">${fmtMX(c.amount)}</td>
+            <td style="padding:0.65rem 1rem;text-align:right;font-size:0.8rem;color:var(--fg-muted);">${pct}</td>
           </tr>`;
         }).join('');
 
-        return `<div class="bl-card" style="padding:1.75rem 2rem;">
-          <!-- Header -->
-          <div style="display:flex;align-items:baseline;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap;">
-            <span style="font-size:.85rem;font-weight:800;color:${accent};letter-spacing:.04em;">${s.year}</span>
-            <span style="font-size:.68rem;font-weight:700;padding:.2rem .65rem;border-radius:999px;background:${tagBg};color:${tagCol};">${TAG_LABEL[s.tag]}</span>
-            <span style="font-size:2rem;font-weight:800;color:var(--fg);line-height:1;margin-left:.25rem;">${fmtMX(s.total)}</span>
-            <span style="font-size:.78rem;color:var(--fg-muted);">${s.clients} clientes${s.note ? ' · '+s.note : ''}</span>
+        const divider = si > 0 ? '<hr class="sec-divider" />' : '';
+        return `${divider}
+          <div class="sec-head">
+            <h2>${s.year} · ${TAG_LABEL[s.tag]}</h2>
+            <p><strong style="color:${accent};">${fmtMX(s.total)}</strong> · ${s.clients} clientes${s.note ? ' · '+s.note : ''}</p>
           </div>
-          <!-- Dos columnas: canales | top clientes -->
-          <div style="display:grid;grid-template-columns:380px 1fr;gap:2rem;align-items:start;">
-            <!-- Canales -->
-            <div>
-              <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.75rem;">Por canal</div>
-              ${renderCanalRows(s.canales, s.total)}
+          <div class="funnel-card" style="margin-bottom:0.5rem;">
+            <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:2.5rem;align-items:start;">
+              <!-- Canales -->
+              <div>
+                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Por canal</div>
+                <div style="display:flex;flex-direction:column;gap:1.125rem;">
+                  ${renderCanalBars(s.canales, s.total)}
+                </div>
+              </div>
+              <!-- Top clientes -->
+              <div>
+                <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Top clientes</div>
+                <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+                  <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+                    <thead>
+                      <tr style="background:#f8fafc;">
+                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">#</th>
+                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Cliente</th>
+                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Canal</th>
+                        <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Plataforma</th>
+                        <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">Facturado</th>
+                        <th style="padding:0.6rem 1rem;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;border-bottom:1px solid var(--border);">%</th>
+                      </tr>
+                    </thead>
+                    <tbody>${topHTML}</tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <!-- Top clientes -->
-            <div>
-              <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.75rem;">Top clientes</div>
-              <table style="width:100%;border-collapse:collapse;">
-                <thead>
-                  <tr style="border-bottom:1px solid var(--border);">
-                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">#</th>
-                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Cliente</th>
-                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Canal</th>
-                    <th style="padding:.35rem .75rem;text-align:left;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Plataforma</th>
-                    <th style="padding:.35rem .75rem;text-align:right;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">Facturado</th>
-                    <th style="padding:.35rem .75rem;text-align:right;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);">%</th>
-                  </tr>
-                </thead>
-                <tbody>${topHTML}</tbody>
-              </table>
-            </div>
-          </div>
-        </div>`;
+          </div>`;
       }).join('');
     }
 
