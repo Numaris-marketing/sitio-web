@@ -1,4 +1,4 @@
-// Vercel Serverless Function — Facturación por Canal
+// Vercel Serverless Function — Facturación por Canal + Métricas de Marketing
 // GET /api/billing
 // Lee Google Sheets (hoja pública) y agrega facturación por canal, plataforma y top clientes.
 // Requiere env var: GOOGLE_SHEETS_API_KEY
@@ -10,10 +10,19 @@ const SHEET_ID = "1ZtLdMDRp5zcoZSufboj8cO0R9Kdb2EuAUzpkyKeShVg";
 // Mapeo de canal individual → grupo para el dashboard
 const CANAL_GRUPO = {
   "Linkedin":                         "Digital",
+  "LinkedIn Sales Navigator":         "Digital",
   "Meta - Pauta":                     "Digital",
   "Google Ads - Pauta":               "Digital",
+  "Google Ads":                       "Digital",
   "Formulario website":               "Digital",
+  "Página Web (Formulario)":          "Digital",
+  "Pagina Internet":                  "Digital",
+  "Campaña de mailing":               "Digital",
   "Google +":                         "Digital",
+  "WhatsApp - Numaris":               "Digital",
+  "Expo como Expositor":              "Digital",
+  "Expo como expositor (agregar etiqueta de Expo)": "Digital",
+  "Expo como visitante (agregar etiqueta de Expo)": "Digital",
   "Cartera de clientes del vendedor": "Ventas directas",
   "Llamada o Visita en Frio Vendedor":"Ventas directas",
   "Prospección vendedor":             "Ventas directas",
@@ -29,6 +38,30 @@ const CANAL_GRUPO = {
   "Referido Numaris":                 "Referidos",
   "Subcliente":                       "Referidos",
 };
+
+// Canales que cuentan como "Marketing" para las métricas especiales
+const MARKETING_CHANNELS = new Set([
+  "Campaña de mailing",
+  "Expo como Expositor",
+  "Expo como expositor (agregar etiqueta de Expo)",
+  "Expo como visitante (agregar etiqueta de Expo)",
+  "Formulario website",
+  "Google Ads",
+  "Google Ads - Pauta",
+  "Linkedin",
+  "LinkedIn Sales Navigator",
+  "Meta - Pauta",
+  "Pagina Internet",
+  "Página Web (Formulario)",
+  "WhatsApp - Numaris",
+]);
+
+// Sub-set de canales 100% digitales (para métrica 3)
+const DIGITAL_CHANNELS = new Set([
+  "Google Ads", "Google Ads - Pauta", "Meta - Pauta", "Formulario website",
+  "Linkedin", "LinkedIn Sales Navigator", "Pagina Internet",
+  "Página Web (Formulario)", "Campaña de mailing",
+]);
 
 function sheetsGet(path, apiKey) {
   return new Promise((resolve, reject) => {
@@ -71,6 +104,19 @@ async function findBillingSheet(apiKey) {
   return null;
 }
 
+// Parsea fecha en formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS
+function parseYear(str) {
+  if (!str) return null;
+  const m = String(str).match(/^(\d{4})-/);
+  return m ? m[1] : null;
+}
+
+// Devuelve la fecha ISO YYYY-MM-DD (primeros 10 chars)
+function isoDate(str) {
+  if (!str) return "";
+  return String(str).slice(0, 10);
+}
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   // Cache 1 hora (datos se actualizan ~1 vez al día)
@@ -96,11 +142,12 @@ export default async function handler(req, res) {
 
     // Encontrar índices de columnas por nombre
     const idx = (col) => headers.indexOf(col);
-    const companyCol    = idx("Company Name") !== -1 ? idx("Company Name") : 1;
-    const amountCol     = idx("subtotal_bcy");
-    const empresaCol    = idx("empresa_numaris");
-    const canalCol      = idx("clasificacion_origen");
-    const primeraCol    = idx("primera_factura");
+    const companyCol  = idx("Company Name") !== -1 ? idx("Company Name") : 1;
+    const amountCol   = idx("subtotal_bcy");
+    const empresaCol  = idx("empresa_numaris");
+    const canalCol    = idx("clasificacion_origen");
+    const primeraCol  = idx("primera_factura");
+    const fechaCol    = idx("fecha_emision");
 
     if (amountCol === -1 || empresaCol === -1 || canalCol === -1) {
       throw new Error(`Columnas faltantes en tab "${tabName}". Headers: ${headers.join(", ")}`);
@@ -115,6 +162,18 @@ export default async function handler(req, res) {
     const clients   = [];
     let total = 0;
 
+    // Métricas de marketing — fecha de corte para "últimos 12 meses"
+    const today = new Date();
+    const cutoff12m = new Date(today);
+    cutoff12m.setFullYear(cutoff12m.getFullYear() - 1);
+    const cutoff12mISO = cutoff12m.toISOString().slice(0, 10);
+
+    let mkt2025Total      = 0;
+    let mkt2025NewClients = 0;
+    let mkt2025NewDigital = 0;
+    let mkt2026Total      = 0;
+    let mkt2026NewClients = 0;
+
     for (let i = dataStart; i < rows.length; i++) {
       const row = rows[i];
       if (!row || row.length <= empresaCol) continue;
@@ -123,17 +182,19 @@ export default async function handler(req, res) {
       const empresa   = (row[empresaCol] || "").trim();
       const canal     = (row[canalCol]   || "").trim();
       const company   = (row[companyCol] || "").replace(/"/g, "").trim();
-      const primera   = row[primeraCol]  || "";
+      const primera   = isoDate(row[primeraCol] || "");
+      const fecha     = isoDate(fechaCol !== -1 ? (row[fechaCol] || "") : (row[0] || ""));
 
       if (!amountRaw || !empresa || !canal) continue;
       const amount = parseFloat(amountRaw);
       if (isNaN(amount) || amount < 1) continue;
 
       const grupo = CANAL_GRUPO[canal] || "Otros";
+      const year  = parseYear(fecha);
 
-      if (!byCanal[canal])   byCanal[canal]   = { amount: 0, clients: 0, grupo };
+      if (!byCanal[canal])    byCanal[canal]    = { amount: 0, clients: 0, grupo };
       if (!byEmpresa[empresa]) byEmpresa[empresa] = { amount: 0, clients: 0 };
-      if (!byGrupo[grupo])   byGrupo[grupo]   = { amount: 0, clients: 0 };
+      if (!byGrupo[grupo])    byGrupo[grupo]    = { amount: 0, clients: 0 };
 
       byCanal[canal].amount   += amount;
       byCanal[canal].clients  += 1;
@@ -144,6 +205,24 @@ export default async function handler(req, res) {
 
       clients.push({ company, amount, empresa, canal, grupo, primera });
       total += amount;
+
+      // ── Métricas de marketing ──────────────────────────────────────
+      if (MARKETING_CHANNELS.has(canal)) {
+        if (year === "2025") {
+          mkt2025Total += amount;
+          if (primera.startsWith("2025")) {
+            mkt2025NewClients += amount;
+            if (DIGITAL_CHANNELS.has(canal)) {
+              mkt2025NewDigital += amount;
+            }
+          }
+        } else if (year === "2026") {
+          mkt2026Total += amount;
+          if (primera >= cutoff12mISO) {
+            mkt2026NewClients += amount;
+          }
+        }
+      }
     }
 
     // Redondear todos los amounts
@@ -163,6 +242,14 @@ export default async function handler(req, res) {
       byCanal,
       byEmpresa,
       topClients:   clients.slice(0, 20),
+      marketingMetrics: {
+        mkt2025Total:       Math.round(mkt2025Total),
+        mkt2025NewClients:  Math.round(mkt2025NewClients),
+        mkt2025NewDigital:  Math.round(mkt2025NewDigital),
+        mkt2026Total:       Math.round(mkt2026Total),
+        mkt2026NewClients:  Math.round(mkt2026NewClients),
+        cutoff12mISO,
+      },
     });
 
   } catch (err) {

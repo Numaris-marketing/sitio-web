@@ -1054,6 +1054,16 @@
     <!-- KPI STRIP -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem;" id="bl-kpi-strip"></div>
 
+    <!-- MÉTRICAS DE MARKETING -->
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+      <div class="bl-section-bar" style="background:#EC4899;"></div>
+      <h3 class="bl-section-title" style="color:#EC4899;">Métricas de Marketing</h3>
+    </div>
+    <!-- Fila 1: 2025 (3 tarjetas) -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.75rem;" id="bl-mkt-2025"></div>
+    <!-- Fila 2: 2026 (2 tarjetas) -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:2rem;" id="bl-mkt-2026"></div>
+
     <!-- COMPOSICIÓN POR GRUPO -->
     <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
       <div class="bl-section-bar" style="background:#245FA5;"></div>
@@ -1193,6 +1203,40 @@
           <div style="font-size:1.5rem;font-weight:700;color:var(--fg);line-height:1.1;">${k.val}</div>
           <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${k.sub}</div>
         </div>`).join('');
+    }
+
+    // ── Métricas de Marketing ─────────────────────────────────────
+    const mm = d.marketingMetrics || {};
+    function mktCard(label, val, sub, accent, note) {
+      return `<div style="padding:1.25rem 1.5rem;background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.2);border-radius:var(--radius);">
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${accent};margin-bottom:.35rem;">${label}</div>
+        <div style="font-size:1.5rem;font-weight:700;color:var(--fg);line-height:1.1;">${val}</div>
+        <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.3rem;">${sub}</div>
+        ${note ? `<div style="font-size:.65rem;color:${accent};margin-top:.4rem;font-weight:600;">${note}</div>` : ''}
+      </div>`;
+    }
+    const mkt25El = document.getElementById('bl-mkt-2025');
+    if (mkt25El) {
+      const t25 = mm.mkt2025Total || 0;
+      const n25 = mm.mkt2025NewClients || 0;
+      const d25 = mm.mkt2025NewDigital || 0;
+      mkt25El.innerHTML = [
+        mktCard('Facturación Marketing 2025', fmtMX(t25), 'Todos los clientes · año completo', '#EC4899', null),
+        mktCard('Clientes Nuevos Marketing 2025', fmtMX(n25), 'Primera factura en 2025', '#EC4899',
+          t25 > 0 ? fmtPct(n25/t25*100)+' del marketing 2025' : null),
+        mktCard('Nuevos Clientes Digitales 2025', fmtMX(d25), 'Canales digitales · primera factura 2025', '#4B8FD4',
+          n25 > 0 ? fmtPct(d25/n25*100)+' de los nuevos 2025' : null),
+      ].join('');
+    }
+    const mkt26El = document.getElementById('bl-mkt-2026');
+    if (mkt26El) {
+      const t26 = mm.mkt2026Total || 0;
+      const n26 = mm.mkt2026NewClients || 0;
+      mkt26El.innerHTML = [
+        mktCard('Facturación Marketing 2026', fmtMX(t26), 'Todos los clientes · lo que va del año', '#EC4899', null),
+        mktCard('Clientes Nuevos Marketing 2026', fmtMX(n26), 'Primera factura en últimos 12 meses', '#EC4899',
+          t26 > 0 ? fmtPct(n26/t26*100)+' del marketing 2026' : null),
+      ].join('');
     }
 
     // Stacked bar + legend
