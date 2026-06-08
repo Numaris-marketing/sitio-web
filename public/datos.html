@@ -1292,7 +1292,7 @@
         return `<div style="padding:1rem;background:${c.bg};border:1px solid ${c.border};border-radius:var(--radius);">
           <div style="font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${c.color};margin-bottom:.35rem;">${g}</div>
           <div style="font-size:1.05rem;font-weight:700;color:var(--fg);">${fmtMX(gd.amount)}</div>
-          <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.2rem;">${pct} · ${gd.clients} clientes</div>
+          <div style="font-size:.7rem;color:var(--fg-muted);margin-top:.2rem;">${pct} · ${gd.clients} ${gd.clients===1?'cliente':'clientes'}</div>
         </div>`;
       }).join('');
     }
@@ -1324,12 +1324,13 @@
         const pct = total > 0 ? fmtPct(cd.amount/total*100) : '-';
         const col = CANAL_COLORS[c] || '#64748b';
         const barW = (cd.amount/maxAmt*100).toFixed(1);
-        return `<div style="display:grid;grid-template-columns:220px 1fr 90px 60px;gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);">
-          <div style="font-size:.78rem;font-weight:500;color:var(--fg);">${c}</div>
+        return `<div style="display:grid;grid-template-columns:180px 1fr 100px 80px 60px;gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);">
+          <div style="font-size:.78rem;font-weight:600;color:var(--fg);">${c}</div>
           <div style="height:6px;border-radius:999px;background:var(--border);overflow:hidden;">
             <div style="height:100%;width:${barW}%;background:${col};border-radius:999px;"></div>
           </div>
           <div style="text-align:right;font-size:.78rem;font-weight:700;color:var(--fg);">${fmtMX(cd.amount)}</div>
+          <div style="text-align:right;font-size:.72rem;color:var(--fg-muted);">${cd.clients} cliente${cd.clients===1?'':'s'}</div>
           <div style="text-align:right;font-size:.75rem;color:var(--fg-muted);">${pct}</div>
         </div>`;
       }).join('');
@@ -1382,22 +1383,22 @@
     total: 50482243,
     clientCount: 202,
     byGrupo: {
-      'LinkedIn':        { amount: 22029606, clients: 660  },
-      'Expos y Eventos': { amount: 12564766, clients: 173  },
-      'Meta':            { amount: 10255184, clients: 1206 },
-      'Google Ads':      { amount:  3822227, clients: 361  },
-      'Página Web':      { amount:  1615745, clients: 222  },
-      'WhatsApp':        { amount:   149462, clients: 25   },
-      'Mailing':         { amount:    45250, clients: 3    },
+      'LinkedIn':        { amount: 22029606, clients: 37 },
+      'Expos y Eventos': { amount: 12564766, clients: 11 },
+      'Meta':            { amount: 10255184, clients: 86 },
+      'Google Ads':      { amount:  3822227, clients: 40 },
+      'Página Web':      { amount:  1615745, clients: 25 },
+      'WhatsApp':        { amount:   149462, clients:  2 },
+      'Mailing':         { amount:    45250, clients:  1 },
     },
     byCanal: {
-      'LinkedIn':        { amount: 22029606, clients: 660,  grupo: 'LinkedIn'        },
-      'Expos y Eventos': { amount: 12564766, clients: 173,  grupo: 'Expos y Eventos' },
-      'Meta':            { amount: 10255184, clients: 1206, grupo: 'Meta'            },
-      'Google Ads':      { amount:  3822227, clients: 361,  grupo: 'Google Ads'      },
-      'Página Web':      { amount:  1615745, clients: 222,  grupo: 'Página Web'      },
-      'WhatsApp':        { amount:   149462, clients: 25,   grupo: 'WhatsApp'        },
-      'Mailing':         { amount:    45250, clients: 3,    grupo: 'Mailing'         },
+      'LinkedIn':        { amount: 22029606, clients: 37, grupo: 'LinkedIn'        },
+      'Expos y Eventos': { amount: 12564766, clients: 11, grupo: 'Expos y Eventos' },
+      'Meta':            { amount: 10255184, clients: 86, grupo: 'Meta'            },
+      'Google Ads':      { amount:  3822227, clients: 40, grupo: 'Google Ads'      },
+      'Página Web':      { amount:  1615745, clients: 25, grupo: 'Página Web'      },
+      'WhatsApp':        { amount:   149462, clients:  2, grupo: 'WhatsApp'        },
+      'Mailing':         { amount:    45250, clients:  1, grupo: 'Mailing'         },
     },
     byEmpresa: {
       'Tecnocontrol':  { amount: 28993743, clients: 1655 },
