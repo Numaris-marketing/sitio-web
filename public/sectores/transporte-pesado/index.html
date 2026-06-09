@@ -289,6 +289,134 @@
 <main>
 
 <!-- ══════════════════════════════════════════════
+     SIDEBAR NAV
+══════════════════════════════════════════════ -->
+<style>
+  @media (max-width:1380px){ #side-nav{display:none!important} }
+
+  .snav-item {
+    display:flex;align-items:center;gap:10px;
+    text-decoration:none;position:relative;
+    padding:6px 0;cursor:pointer;
+  }
+  .snav-track {
+    position:relative;width:14px;flex-shrink:0;
+    display:flex;flex-direction:column;align-items:center;gap:0;
+  }
+  .snav-dot {
+    width:8px;height:8px;border-radius:50%;
+    background:transparent;
+    border:1.5px solid rgba(110,176,255,.28);
+    flex-shrink:0;position:relative;z-index:1;
+    transition:background .25s,border-color .25s,box-shadow .25s,transform .25s;
+  }
+  .snav-item.active .snav-dot {
+    background:#3B82F6;border-color:#3B82F6;
+    box-shadow:0 0 10px rgba(59,130,246,.55);
+    transform:scale(1.2);
+  }
+  .snav-connector {
+    width:1px;height:22px;
+    background:linear-gradient(to bottom,rgba(36,95,165,.35),rgba(36,95,165,.15));
+    flex-shrink:0;
+  }
+  .snav-label {
+    font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    font-family:'Montserrat',sans-serif;
+    color:rgba(255,255,255,.28);
+    transition:color .25s;white-space:nowrap;
+    line-height:1;
+  }
+  .snav-item.active .snav-label { color:rgba(110,176,255,.92); }
+  .snav-item:hover:not(.active) .snav-label { color:rgba(255,255,255,.55); }
+  .snav-item:hover:not(.active) .snav-dot { border-color:rgba(110,176,255,.55); }
+</style>
+
+<aside id="side-nav" aria-label="Navegación" style="
+  position:fixed;left:26px;top:50%;transform:translateY(-50%);
+  z-index:50;
+  display:flex;flex-direction:column;
+  background:rgba(1,39,80,.76);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(36,95,165,.28);
+  border-radius:14px;
+  padding:18px 18px 18px 14px;
+">
+
+  <a class="snav-item" href="#igg-section">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+      <div class="snav-connector"></div>
+    </div>
+    <span class="snav-label">Tecnología</span>
+  </a>
+
+  <a class="snav-item" href="#hero">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+      <div class="snav-connector"></div>
+    </div>
+    <span class="snav-label">Solución</span>
+  </a>
+
+  <a class="snav-item" href="#retos">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+      <div class="snav-connector"></div>
+    </div>
+    <span class="snav-label">Retos</span>
+  </a>
+
+  <a class="snav-item" href="#beneficios">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+      <div class="snav-connector"></div>
+    </div>
+    <span class="snav-label">Beneficios</span>
+  </a>
+
+  <a class="snav-item" href="#proceso">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+      <div class="snav-connector"></div>
+    </div>
+    <span class="snav-label">Proceso</span>
+  </a>
+
+  <a class="snav-item" href="#cta-demo">
+    <div class="snav-track">
+      <div class="snav-dot"></div>
+    </div>
+    <span class="snav-label">Demo</span>
+  </a>
+
+</aside>
+
+<script>
+  (function(){
+    var ids  = ['igg-section','hero','retos','beneficios','proceso','cta-demo'];
+    var items = document.querySelectorAll('.snav-item');
+
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        items.forEach(function(item){
+          item.classList.toggle('active', item.getAttribute('href') === '#'+e.target.id);
+        });
+      });
+    }, { rootMargin:'-35% 0px -35% 0px', threshold:0 });
+
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) obs.observe(el);
+    });
+
+    /* Set first item active on load */
+    if(items[0]) items[0].classList.add('active');
+  })();
+</script>
+
+<!-- ══════════════════════════════════════════════
      TRUCK INFOGRAPHIC
 ══════════════════════════════════════════════ -->
 <style>
@@ -556,7 +684,7 @@
 <!-- ══════════════════════════════════════════════
      HERO
 ══════════════════════════════════════════════ -->
-<section class="relative overflow-hidden" style="background:#EDF2F8;padding-top:140px;min-height:72vh">
+<section id="hero" class="relative overflow-hidden" style="background:#EDF2F8;padding-top:140px;min-height:72vh">
   <div class="orb hero-orb-anim" style="width:900px;height:600px;background:radial-gradient(ellipse,rgba(36,95,165,.07) 0%,transparent 65%);top:-80px;left:50%;transform:translateX(-50%)"></div>
   <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.12) 1px,transparent 1px);background-size:48px 48px;opacity:.18"></div>
 
@@ -680,7 +808,7 @@
 <!-- ══════════════════════════════════════════════
      PAIN POINTS
 ══════════════════════════════════════════════ -->
-<section class="relative py-24 overflow-hidden fi" style="background:var(--bg)">
+<section id="retos" class="relative py-24 overflow-hidden fi" style="background:var(--bg)">
   <div class="orb" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(239,68,68,.04) 0%,transparent 70%);top:50%;left:20%;transform:translate(-50%,-50%)"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -898,7 +1026,7 @@
 <!-- ══════════════════════════════════════════════
      HOW IT WORKS
 ══════════════════════════════════════════════ -->
-<section class="relative py-24 overflow-hidden" style="background:var(--bg2)">
+<section id="proceso" class="relative py-24 overflow-hidden" style="background:var(--bg2)">
   <div class="orb" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(36,95,165,.08) 0%,transparent 70%);top:60%;left:60%;transform:translate(-50%,-50%)"></div>
 
   <div class="relative z-10 max-w-6xl mx-auto px-6">
@@ -972,7 +1100,7 @@
 <!-- ══════════════════════════════════════════════
      CTA BANNER
 ══════════════════════════════════════════════ -->
-<section class="relative py-24 overflow-hidden fi" style="background:linear-gradient(135deg,#010E20 0%,#031628 40%,#012044 70%,#020C1A 100%)">
+<section id="cta-demo" class="relative py-24 overflow-hidden fi" style="background:linear-gradient(135deg,#010E20 0%,#031628 40%,#012044 70%,#020C1A 100%)">
   <div class="orb" style="width:900px;height:500px;background:radial-gradient(ellipse,rgba(36,95,165,.18) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
   <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.15) 1px,transparent 1px);background-size:48px 48px;opacity:.15"></div>
 
