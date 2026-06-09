@@ -670,6 +670,9 @@
       }, { threshold: 0.2 });
       if(section) obs.observe(section);
     }
+
+    /* ── Exponer setSnavActive para otros módulos ── */
+    window._snavSet = setSnavActive;
   })();
 </script>
 
@@ -875,6 +878,73 @@
       window.setHeroSolution(parseInt(item.getAttribute('data-idx'),10));
     });
   });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════
+   HERO CAROUSEL — scroll dentro del hero avanza solución
+══════════════════════════════════════════════ */
+(function(){
+  var heroEl  = document.getElementById('hero');
+  var SOL_MAX = 6;
+  var heroIdx = 0;
+  var locked  = false;
+  var LOCK_MS = 700;
+
+  /* ── Detectar si el hero está centrado en pantalla ── */
+  function heroActive(){
+    if(!heroEl) return false;
+    var r   = heroEl.getBoundingClientRect();
+    var mid = window.innerHeight * 0.5;
+    return r.top <= mid && r.bottom >= mid * 0.4;
+  }
+
+  /* ── Reiniciar al entrar desde arriba ── */
+  var prevY = window.scrollY;
+  var resetObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && window.scrollY >= prevY){
+        heroIdx = 0;
+        if(typeof window._snavSet === 'function') window._snavSet(0);
+      }
+      prevY = window.scrollY;
+    });
+  }, { threshold: 0.35 });
+  if(heroEl) resetObs.observe(heroEl);
+
+  /* ── Wheel: un scroll = una solución ── */
+  window.addEventListener('wheel', function(e){
+    if(!heroActive()) return;
+    if(e.deltaY <= 0) return;                   /* scroll hacia arriba: pasar */
+    if(heroIdx >= SOL_MAX - 1) return;          /* ya en la última: pasar */
+    e.preventDefault();
+    if(locked) return;
+    locked = true;
+    heroIdx++;
+    if(typeof window._snavSet === 'function') window._snavSet(heroIdx);
+    setTimeout(function(){ locked = false; }, LOCK_MS);
+  }, {passive: false});
+
+  /* ── Touch ── */
+  var ty0h = 0;
+  window.addEventListener('touchstart', function(e){
+    ty0h = e.touches[0].clientY;
+  }, {passive: true});
+  window.addEventListener('touchmove', function(e){
+    if(!heroActive()) return;
+    var dy = ty0h - e.touches[0].clientY;
+    if(dy < 35) return;
+    if(heroIdx >= SOL_MAX - 1) return;
+    e.preventDefault();
+    ty0h = e.touches[0].clientY;
+    if(!locked){
+      locked = true;
+      heroIdx++;
+      if(typeof window._snavSet === 'function') window._snavSet(heroIdx);
+      setTimeout(function(){ locked = false; }, LOCK_MS);
+    }
+  }, {passive: false});
 })();
 </script>
 
