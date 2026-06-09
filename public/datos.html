@@ -2437,45 +2437,55 @@
 
 
 
-  // ── TREND CHART (Pipeline ACV placeholder) ────────────────────────────────
-  (function initTrendChart() {
+  // ── TREND CHART (Pipeline ACV — live from /api/pipeline-snapshot) ───────────
+  const TREND_STAGES = [
+    { label: 'Contrato firmado', color: '#10b981' },
+    { label: 'Formalización',    color: '#3b82f6' },
+    { label: 'Negociación',      color: '#f59e0b' },
+    { label: 'Prueba Demo',      color: '#8b5cf6' },
+    { label: 'Presentación',     color: '#ec4899' },
+    { label: 'Levantamiento',    color: '#06b6d4' },
+  ];
+
+  let trendChartInstance = null;
+
+  function renderTrendChart(timeline) {
     const canvas = document.getElementById('trend-chart');
     if (!canvas || typeof Chart === 'undefined') return;
 
-    const trendLabels = ['Abr 13','Abr 16','Abr 19','Abr 22','Abr 25','Abr 28','May 1','May 4','May 7','May 10','May 13'];
-    const stages = [
-      { label: 'Contrato firmado',   color: '#10b981', data: [8,9,10,10,11,11,12,12,13,14,14] },
-      { label: 'Formalización',      color: '#3b82f6', data: [25,26,27,28,28,29,30,30,31,32,33] },
-      { label: 'Negociación',        color: '#f59e0b', data: [55,57,58,60,62,63,65,66,68,70,72] },
-      { label: 'Prueba Demo',        color: '#8b5cf6', data: [90,92,95,96,98,100,102,105,108,110,112] },
-      { label: 'Presentación',       color: '#ec4899', data: [130,132,135,137,140,142,145,148,150,152,155] },
-      { label: 'Levantamiento',      color: '#06b6d4', data: [150,152,155,158,160,162,165,168,170,172,174] },
-    ];
-
-    // Build legend
+    // Build legend once
     const legendEl = document.getElementById('trend-legend');
-    if (legendEl) {
-      legendEl.innerHTML = stages.map(s =>
+    if (legendEl && !legendEl.dataset.built) {
+      legendEl.innerHTML = TREND_STAGES.map(s =>
         `<span class="trend-legend-item"><span class="trend-legend-dot" style="background:${s.color};"></span>${s.label}</span>`
       ).join('');
+      legendEl.dataset.built = '1';
     }
 
-    new Chart(canvas, {
+    const labels = timeline.map(t => t.label);
+    const datasets = TREND_STAGES.map(s => ({
+      label: s.label,
+      data: timeline.map(t => t.stages[s.label] ?? null),
+      borderColor: s.color,
+      backgroundColor: s.color + '18',
+      fill: true,
+      tension: 0.4,
+      borderWidth: 2,
+      pointRadius: timeline.length > 30 ? 0 : 2,
+      pointHoverRadius: 4,
+      spanGaps: false,
+    }));
+
+    if (trendChartInstance) {
+      trendChartInstance.data.labels = labels;
+      trendChartInstance.data.datasets = datasets;
+      trendChartInstance.update('none');
+      return;
+    }
+
+    trendChartInstance = new Chart(canvas, {
       type: 'line',
-      data: {
-        labels: trendLabels,
-        datasets: stages.map(s => ({
-          label: s.label,
-          data: s.data,
-          borderColor: s.color,
-          backgroundColor: s.color + '18',
-          fill: true,
-          tension: 0.4,
-          borderWidth: 2,
-          pointRadius: 2,
-          pointHoverRadius: 4,
-        }))
-      },
+      data: { labels, datasets },
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -2489,14 +2499,14 @@
             borderColor: '#e2e8f0',
             borderWidth: 1,
             callbacks: {
-              label: ctx => ' ' + ctx.dataset.label + ': MX$' + ctx.parsed.y + 'M'
+              label: ctx => ' ' + ctx.dataset.label + ': MX$' + (ctx.parsed.y ?? '—') + 'M'
             }
           }
         },
         scales: {
           x: {
             grid: { color: '#f1f4f8' },
-            ticks: { color: '#94a3b8', font: { size: 10 } }
+            ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 12 }
           },
           y: {
             stacked: false,
@@ -2510,7 +2520,49 @@
         }
       }
     });
-  })();
+  }
+
+  async function loadTrendChart() {
+    const canvas = document.getElementById('trend-chart');
+    if (!canvas) return;
+
+    // Show a loading state on first call
+    const wrap = canvas.closest('.chart-wrap') || canvas.parentElement;
+    if (!trendChartInstance) {
+      wrap && (wrap.style.opacity = '0.4');
+    }
+
+    try {
+      const res = await fetch('/api/pipeline-snapshot');
+      const json = await res.json();
+      wrap && (wrap.style.opacity = '1');
+
+      if (json.timeline && json.timeline.length > 0) {
+        renderTrendChart(json.timeline);
+      } else {
+        // No history yet — render empty chart with today's label as placeholder
+        const today = new Date();
+        const months = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        const lbl = months[today.getMonth() + 1] + ' ' + today.getDate();
+        const empty = [{ label: lbl, stages: {} }];
+        renderTrendChart(empty);
+        // Show a hint
+        const legendEl = document.getElementById('trend-legend');
+        if (legendEl) {
+          legendEl.insertAdjacentHTML('beforeend',
+            '<span style="color:#94a3b8;font-size:11px;margin-left:12px;">· Acumulando histórico diario…</span>'
+          );
+        }
+      }
+    } catch (e) {
+      wrap && (wrap.style.opacity = '1');
+      console.warn('pipeline-snapshot fetch failed', e);
+    }
+  }
+
+  // Initial load + refresh every 10 min (snapshots are daily so this is just a safety net)
+  loadTrendChart();
+  setInterval(loadTrendChart, 10 * 60 * 1000);
 
   // ── FILTER STUBS (UI only — no data filtering logic needed) ───────────────
   function applyFilters() { /* placeholder — filter logic lives in Zoho data layer */ }

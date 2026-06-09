@@ -15,8 +15,15 @@
     "api/billing.js": {
       "memory": 256,
       "maxDuration": 30
+    },
+    "api/pipeline-snapshot.js": {
+      "memory": 256,
+      "maxDuration": 30
     }
   },
+  "crons": [
+    { "path": "/api/pipeline-snapshot", "schedule": "0 22 * * 1-5" }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/numaris-home.html" },
     { "source": "/datos", "destination": "/datos.html" },
