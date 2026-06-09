@@ -359,13 +359,7 @@
   }
 </style>
 
-<!--
-  Scroll-pin wrapper: la sección se ancla al top mientras el usuario
-  avanza 220 px × 6 pasos y cada callout aparece uno a uno.
--->
-<div id="igg-pin" style="position:relative;">
-  <div id="igg-sticky" style="position:sticky;top:0;z-index:20;">
-    <section style="background:#EDF2F8;padding:80px 0 72px">
+<section id="igg-section" style="background:#EDF2F8;padding:80px 0 72px">
       <div style="max-width:1200px;margin:0 auto;padding:0 40px">
 
         <p style="text-align:center;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#245FA5;margin-bottom:10px">Transporte Pesado</p>
@@ -488,11 +482,6 @@
 
       </div>
     </section>
-  </div>
-
-  <!-- Espacio extra de scroll: 6 pasos × 220 px = 1320 px -->
-  <div id="igg-spacer" style="height:1320px;background:#EDF2F8;" aria-hidden="true"></div>
-</div>
 
 <script>
   (function(){
@@ -509,38 +498,64 @@
       });
     });
 
-    /* ── Scroll reveal ── */
-    var callouts = Array.from(document.querySelectorAll('.icallout'));   // 6 items
-    var svgLines = Array.from(document.querySelectorAll('.isvg-line'));  // 6 items
-    var svgDots  = Array.from(document.querySelectorAll('.isvg-dot'));   // 6 items
-    var pin      = document.getElementById('igg-pin');
-    var STEP     = 220;   /* px de scroll para revelar cada callout */
+    /* ── Scroll reveal: un callout por evento de scroll ── */
+    var callouts = Array.from(document.querySelectorAll('.icallout'));
+    var svgLines = Array.from(document.querySelectorAll('.isvg-line'));
+    var svgDots  = Array.from(document.querySelectorAll('.isvg-dot'));
+    var section  = document.getElementById('igg-section');
     var N        = callouts.length;
+    var revealed = 0;
+    var locked   = false;
+    var LOCK_MS  = 650; /* ms entre cada reveal */
 
-    function revealAt(i){
-      callouts[i].classList.add('igg-visible');
-      if (svgLines[i]) svgLines[i].style.opacity = '0.65';
-      if (svgDots[i])  svgDots[i].style.opacity  = '0.8';
+    function revealNext(){
+      if (revealed >= N) return;
+      callouts[revealed].classList.add('igg-visible');
+      if (svgLines[revealed]) svgLines[revealed].style.opacity = '0.65';
+      if (svgDots[revealed])  svgDots[revealed].style.opacity  = '0.8';
+      revealed++;
     }
 
-    var maxRevealed = 0;
+    /* La sección está "activa" cuando su área ocupa la zona central del viewport */
+    function sectionActive(){
+      if (!section) return false;
+      var r = section.getBoundingClientRect();
+      var mid = window.innerHeight * 0.5;
+      return r.top <= mid && r.bottom >= mid * 0.4;
+    }
 
-    function update(){
-      if (!pin) return;
-      /* cuántos px hemos entrado en el pin wrapper */
-      var scrolled = -(pin.getBoundingClientRect().top);
-      if (scrolled < 0) return;
-      /* número de pasos completados */
-      var count = Math.min(N, Math.ceil(scrolled / STEP));
-      for (var i = maxRevealed; i < count; i++){
-        revealAt(i);
+    /* Wheel: interceptar solo scroll hacia abajo mientras haya callouts ocultos */
+    window.addEventListener('wheel', function(e){
+      if (revealed >= N) return;          /* todos visibles → scroll normal */
+      if (!sectionActive()) return;       /* sección fuera de foco → normal */
+      if (e.deltaY <= 0) return;          /* scroll hacia arriba → normal */
+
+      e.preventDefault();                 /* evitar que la página baje */
+      if (locked) return;
+      locked = true;
+      revealNext();
+      setTimeout(function(){ locked = false; }, LOCK_MS);
+    }, {passive: false});
+
+    /* Touch: misma lógica con swipe hacia arriba */
+    var ty0 = 0;
+    window.addEventListener('touchstart', function(e){
+      ty0 = e.touches[0].clientY;
+    }, {passive: true});
+
+    window.addEventListener('touchmove', function(e){
+      if (revealed >= N) return;
+      if (!sectionActive()) return;
+      var dy = ty0 - e.touches[0].clientY;
+      if (dy < 35) return;                /* umbral mínimo de swipe */
+      e.preventDefault();
+      ty0 = e.touches[0].clientY;
+      if (!locked){
+        locked = true;
+        revealNext();
+        setTimeout(function(){ locked = false; }, LOCK_MS);
       }
-      if (count > maxRevealed) maxRevealed = count;
-    }
-
-    window.addEventListener('scroll', update, {passive:true});
-    /* Ejecutar una vez por si la sección ya es visible al cargar */
-    update();
+    }, {passive: false});
   })();
 </script>
 
