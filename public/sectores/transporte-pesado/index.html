@@ -342,6 +342,8 @@
   z-index:50;
   display:flex;flex-direction:column;
   padding:0 16px 0 0;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
 ">
   <!-- Línea vertical continua -->
   <div style="position:absolute;left:3px;top:14px;bottom:14px;width:1.5px;
@@ -1045,6 +1047,21 @@
     t0 = e.touches[0].clientY;
     if(!locked){ locked = true; idx++; window._snavSet && window._snavSet(idx); setTimeout(function(){ locked = false; }, LOCK); }
   }, {passive: false});
+})();
+</script>
+
+<script>
+/* Sidebar visible SOLO cuando la sección #hero está en pantalla */
+(function(){
+  var nav = document.getElementById('side-nav');
+  var sec = document.getElementById('hero');
+  if(!nav || !sec) return;
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      nav.style.opacity        = e.isIntersecting ? '1'    : '0';
+      nav.style.pointerEvents  = e.isIntersecting ? 'auto' : 'none';
+    });
+  }, { threshold: 0.15 }).observe(sec);
 })();
 </script>
 
