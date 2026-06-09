@@ -995,6 +995,59 @@
   </div><!-- /container -->
 </section>
 
+<script>
+/* ══════════════════════════════════════════════
+   CARRUSEL — sección #hero avanza 1 solución por scroll
+══════════════════════════════════════════════ */
+(function(){
+  var secEl   = document.getElementById('hero');
+  var SOL_MAX = 6;
+  var idx     = 0;
+  var locked  = false;
+  var LOCK    = 700;
+
+  function isActive(){
+    if(!secEl) return false;
+    var r = secEl.getBoundingClientRect();
+    return r.top <= window.innerHeight * 0.5 && r.bottom >= window.innerHeight * 0.25;
+  }
+
+  /* Al entrar a la sección por primera vez (desde arriba) → resetear a 0 */
+  var entered = false;
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ idx = 0; entered = true; window._snavSet && window._snavSet(0); }
+      else { entered = false; }
+    });
+  }, {threshold: 0.4}).observe(secEl);
+
+  /* Wheel */
+  window.addEventListener('wheel', function(e){
+    if(!isActive()) return;
+    if(e.deltaY <= 0) return;
+    if(idx >= SOL_MAX - 1) return;
+    e.preventDefault();
+    if(locked) return;
+    locked = true;
+    idx++;
+    window._snavSet && window._snavSet(idx);
+    setTimeout(function(){ locked = false; }, LOCK);
+  }, {passive: false});
+
+  /* Touch */
+  var t0 = 0;
+  window.addEventListener('touchstart', function(e){ t0 = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchmove', function(e){
+    if(!isActive()) return;
+    var dy = t0 - e.touches[0].clientY;
+    if(dy < 35 || idx >= SOL_MAX - 1) return;
+    e.preventDefault();
+    t0 = e.touches[0].clientY;
+    if(!locked){ locked = true; idx++; window._snavSet && window._snavSet(idx); setTimeout(function(){ locked = false; }, LOCK); }
+  }, {passive: false});
+})();
+</script>
+
 <!-- ══════════════════════════════════════════════
      BENTO — SOLUCIONES EN DETALLE
 ══════════════════════════════════════════════ -->
