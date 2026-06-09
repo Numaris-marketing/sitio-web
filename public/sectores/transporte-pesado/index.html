@@ -579,11 +579,15 @@
     var locked    = false;
     var LOCK_MS   = 650;
 
-    /* ── Actualizar sidebar activo ── */
+    /* ── Actualizar sidebar activo y hero ── */
     function setSnavActive(idx){
       snavItems.forEach(function(item, i){
         item.classList.toggle('active', i === idx);
       });
+      /* Cambiar contenido del hero */
+      if(typeof window.setHeroSolution === 'function'){
+        window.setHeroSolution(idx);
+      }
     }
 
     /* ── Revelar callout i y activar su item en el sidebar ── */
@@ -649,8 +653,7 @@
       }
     }, {passive: false});
 
-    /* ── IntersectionObserver: cuando la sección entra al viewport
-          resalta el sidebar aunque no haya interacción ── */
+    /* ── IntersectionObserver: cuando la sección entra al viewport ── */
     if (snavItems.length){
       var obs = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
@@ -660,6 +663,210 @@
       if(section) obs.observe(section);
     }
   })();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════
+   HERO CONTENT SWITCHER — cambia con el sidebar
+══════════════════════════════════════════════ */
+(function(){
+  /* ─── Contenido por solución ─── */
+  var sol = [
+    /* 0 — Video Telemetría */
+    {
+      badge: 'Video Telemetría',
+      h1: 'Detecta riesgos.<br/><span class="glow-text">Previene accidentes.</span><br/>Protege tu flota.',
+      desc: 'Cámaras con IA que monitorean en tiempo real el comportamiento del conductor y alertan ante fatiga, distracción o maniobras de riesgo.',
+      trust: ['94% menos siniestros','Alertas en tiempo real','Video en la nube'],
+      cardTitle: 'Video Telemetría', cardSub: 'Eventos — Hoy',
+      metrics: [
+        { val:'94%',  label:'Menos siniestros', green:true },
+        { val:'12',   label:'Alertas activas',  green:false },
+        { val:'24/7', label:'Monitoreo',        green:false }
+      ],
+      rows: [
+        { dot:'#EF4444', title:'Unidad 0812 — Fatiga detectada',    sub:'Hace 4 min · Libramiento Monterrey', tag:'Alerta',  tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',    tagBorder:'rgba(239,68,68,.22)' },
+        { dot:'#F59E0B', title:'Unidad 0547 — Exceso de velocidad', sub:'Hace 11 min · Autopista GDL',        tag:'Aviso',   tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)',   tagBorder:'rgba(245,158,11,.22)' },
+        { dot:'#10B981', title:'Unidad 0331 — Sin eventos',         sub:'Ruta CDMX → Puebla · 112 km/h',     tag:'Normal',  tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)',   tagBorder:'rgba(16,185,129,.2)' }
+      ]
+    },
+    /* 1 — Telemetría Avanzada */
+    {
+      badge: 'Telemetría Avanzada',
+      h1: 'Conoce tu flota.<br/><span class="glow-text">Optimiza rutas.</span><br/>Decide con datos.',
+      desc: 'Análisis en tiempo real de velocidad, frenados, temperatura y estado de motor para maximizar la eficiencia y vida útil de cada unidad.',
+      trust: ['Datos en tiempo real','Reportes automáticos','Alertas por excepción'],
+      cardTitle: 'Telemetría Avanzada', cardSub: 'Rendimiento — Hoy',
+      metrics: [
+        { val:'142', label:'Unidades activas', green:false },
+        { val:'+18%',label:'Eficiencia',       green:true  },
+        { val:'98%', label:'Datos en vivo',    green:false }
+      ],
+      rows: [
+        { dot:'#10B981', title:'Tracto 0812 — Rendimiento óptimo',  sub:'94 km/h · Temp. motor 82°C',         tag:'En ruta', tagColor:'rgba(52,211,153,.7)', tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#3B82F6', title:'Tracto 0547 — GDL → Culiacán',      sub:'87 km/h · Frenados normales',        tag:'En ruta', tagColor:'rgba(110,176,255,.7)',tagBg:'rgba(36,95,165,.1)',   tagBorder:'rgba(36,95,165,.25)' },
+        { dot:'#F59E0B', title:'Tracto 0331 — Motor en alerta',      sub:'Caseta Querétaro · 18 min parado',   tag:'Revisar', tagColor:'rgba(251,191,36,.7)', tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
+      ]
+    },
+    /* 2 — Control Combustible */
+    {
+      badge: 'Control Combustible',
+      h1: 'Elimina pérdidas.<br/><span class="glow-text">Ahorra hasta 25%.</span><br/>Cada litro cuenta.',
+      desc: 'Sensores de nivel que detectan extracciones no autorizadas, reportan consumo real y controlan el rendimiento de cada tanque en tiempo real.',
+      trust: ['Hasta 25% de ahorro','Alertas de extracción','Consumo por ruta'],
+      cardTitle: 'Control Combustible', cardSub: 'Consumo — Hoy',
+      metrics: [
+        { val:'-23%', label:'Menos consumo',  green:true  },
+        { val:'3',    label:'Alertas robo',   green:false },
+        { val:'98%',  label:'Eficiencia',     green:false }
+      ],
+      rows: [
+        { dot:'#EF4444', title:'Unidad 0812 — Extracción detectada', sub:'450 L · Hace 22 min · Torreón',       tag:'Alerta',  tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',  tagBorder:'rgba(239,68,68,.22)' },
+        { dot:'#10B981', title:'Unidad 0547 — Consumo normal',       sub:'8.2 km/L · Ruta GDL → Culiacán',     tag:'Normal',  tagColor:'rgba(52,211,153,.7)', tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#10B981', title:'Unidad 0331 — Tanque lleno',         sub:'680 L · Cargó en Querétaro',          tag:'Normal',  tagColor:'rgba(52,211,153,.7)', tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' }
+      ]
+    },
+    /* 3 — Monitoreo */
+    {
+      badge: 'Monitoreo',
+      h1: 'Responde al instante.<br/><span class="glow-text">Previene siniestros.</span><br/>Opera sin sorpresas.',
+      desc: 'Protocolos de respuesta inmediata ante incidentes: alertas automáticas, notificaciones y escalamiento para mantener tu operación segura.',
+      trust: ['Respuesta < 3 min','Monitoreo 24/7','Cobertura nacional'],
+      cardTitle: 'Monitoreo', cardSub: 'Incidentes — Hoy',
+      metrics: [
+        { val:'< 3min', label:'Tiempo respuesta', green:true  },
+        { val:'5',      label:'Incidentes hoy',   green:false },
+        { val:'24/7',   label:'Cobertura',        green:false }
+      ],
+      rows: [
+        { dot:'#EF4444', title:'Unidad 0812 — Parada no autorizada', sub:'Hace 8 min · Autopista 57',           tag:'Alerta',   tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',  tagBorder:'rgba(239,68,68,.22)' },
+        { dot:'#10B981', title:'Unidad 0547 — Geocerca activa',      sub:'Dentro de zona autorizada',           tag:'Segura',   tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#3B82F6', title:'Unidad 0331 — Protocolo activo',     sub:'Respuesta enviada · Agente en camino',tag:'Atención', tagColor:'rgba(110,176,255,.7)', tagBg:'rgba(36,95,165,.1)',   tagBorder:'rgba(36,95,165,.25)' }
+      ]
+    },
+    /* 4 — Rastreo */
+    {
+      badge: 'Rastreo',
+      h1: 'Ubica tu flota.<br/><span class="glow-text">Sin puntos ciegos.</span><br/>En tiempo real.',
+      desc: 'Rastreo satelital de tractos y mercancía con actualizaciones cada 30 segundos. Visibilidad total desde el origen hasta el destino.',
+      trust: ['Actualización 30 seg','Historial de rutas','Geocercas personalizadas'],
+      cardTitle: 'Rastreo Satelital', cardSub: 'Ubicaciones — Ahora',
+      metrics: [
+        { val:'142', label:'Unidades activas', green:false },
+        { val:'98%', label:'Cobertura GPS',    green:true  },
+        { val:'30s', label:'Actualización',    green:false }
+      ],
+      rows: [
+        { dot:'#10B981', title:'Tracto 0812 — CDMX → Monterrey',    sub:'Actualizado hace 12 seg · 94 km/h',   tag:'En ruta',  tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#3B82F6', title:'Tracto 0547 — GDL → Culiacán',      sub:'Actualizado hace 28 seg · 87 km/h',   tag:'En ruta',  tagColor:'rgba(110,176,255,.7)', tagBg:'rgba(36,95,165,.1)',   tagBorder:'rgba(36,95,165,.25)' },
+        { dot:'#F59E0B', title:'Tracto 0331 — Parada programada',    sub:'Caseta Querétaro · 18 min detenido',  tag:'Detenido', tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
+      ]
+    },
+    /* 5 — Remolques */
+    {
+      badge: 'Remolques',
+      h1: 'Controla la carga.<br/><span class="glow-text">Accesos seguros.</span><br/>Sin interrupciones.',
+      desc: 'Monitoreo de cajas y remolques: temperatura, humedad, apertura de puertas y ubicación en tiempo real para proteger tu mercancía.',
+      trust: ['Control de temperatura','Alertas de apertura','Gestión de remolques'],
+      cardTitle: 'Remolques', cardSub: 'Estado — Ahora',
+      metrics: [
+        { val:'38',  label:'Remolques activos', green:false },
+        { val:'2°C', label:'Temp. promedio',    green:true  },
+        { val:'0',   label:'Aperturas no auth.',green:false }
+      ],
+      rows: [
+        { dot:'#10B981', title:'Remolque R-04 — Refrigerado OK',     sub:'2°C · Puertas cerradas · En ruta',    tag:'Normal', tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#10B981', title:'Remolque R-07 — Temperatura estable',sub:'4°C · CDMX → Veracruz',              tag:'Normal', tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#F59E0B', title:'Remolque R-12 — Revisar sello',      sub:'Alerta de puerta · Bodega Puebla',    tag:'Revisar',tagColor:'rgba(251,191,36,.7)', tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
+      ]
+    }
+  ];
+
+  /* ─── Helpers ─── */
+  var chk = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+
+  function metricHtml(m){
+    var grad = m.green
+      ? 'linear-gradient(135deg,#34D399,#10B981)'
+      : 'linear-gradient(135deg,#6EB0FF,#3B82F6)';
+    var bg  = m.green ? 'rgba(16,185,129,.06)' : 'rgba(36,95,165,.08)';
+    var bdr = m.green ? 'rgba(16,185,129,.18)' : 'rgba(36,95,165,.18)';
+    return '<div style="background:'+bg+';border:1px solid '+bdr+';border-radius:14px;padding:16px 14px;text-align:center">'
+      +'<p style="font-size:28px;font-weight:700;background:'+grad+';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">'+m.val+'</p>'
+      +'<p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">'+m.label+'</p>'
+      +'</div>';
+  }
+
+  function rowHtml(r){
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">'
+      +'<div style="width:8px;height:8px;border-radius:50%;background:'+r.dot+';box-shadow:0 0 6px '+r.dot+';flex-shrink:0"></div>'
+      +'<div style="flex:1">'
+      +'<p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">'+r.title+'</p>'
+      +'<p style="font-size:10px;color:rgba(208,223,240,.38)">'+r.sub+'</p>'
+      +'</div>'
+      +'<span style="font-size:10px;color:'+r.tagColor+';background:'+r.tagBg+';border:1px solid '+r.tagBorder+';padding:2px 8px;border-radius:999px">'+r.tag+'</span>'
+      +'</div>';
+  }
+
+  function buildCard(s){
+    return '<div class="flex items-center justify-between mb-6">'
+      +'<div>'
+      +'<p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.5);margin-bottom:2px">'+s.cardTitle+'</p>'
+      +'<p style="font-size:15px;font-weight:600;color:rgba(255,255,255,.85)">'+s.cardSub+'</p>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)">'
+      +'<span style="width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:pdot 2.4s ease-in-out infinite"></span>'
+      +'<span style="font-size:11px;font-weight:500;color:rgba(52,211,153,.8)">En línea</span>'
+      +'</div></div>'
+      +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">'
+      + s.metrics.map(metricHtml).join('') +'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:8px">'
+      + s.rows.map(rowHtml).join('') +'</div>';
+  }
+
+  function trustHtml(items){
+    return items.map(function(t){
+      return '<span class="flex items-center gap-1.5">'+chk+t+'</span>';
+    }).join('');
+  }
+
+  /* ─── Función principal ─── */
+  window.setHeroSolution = function(idx){
+    var s = sol[idx];
+    if(!s) return;
+
+    var badgeTxt  = document.getElementById('hero-badge-txt');
+    var h1        = document.getElementById('hero-h1');
+    var desc      = document.getElementById('hero-desc');
+    var trust     = document.getElementById('hero-trust');
+    var cardInner = document.getElementById('hero-card-inner');
+
+    /* Fade out */
+    [h1,desc,trust,cardInner].forEach(function(el){ if(el) el.style.opacity='0'; });
+    if(badgeTxt) badgeTxt.style.opacity='0';
+
+    setTimeout(function(){
+      if(badgeTxt) badgeTxt.textContent = s.badge;
+      if(h1)       h1.innerHTML = s.h1;
+      if(desc)     desc.textContent = s.desc;
+      if(trust)    trust.innerHTML = trustHtml(s.trust);
+      if(cardInner)cardInner.innerHTML = buildCard(s);
+      /* Fade in */
+      [h1,desc,trust,cardInner].forEach(function(el){ if(el) el.style.opacity='1'; });
+      if(badgeTxt) badgeTxt.style.opacity='1';
+    }, 300);
+  };
+
+  /* Inicializar con la primera solución */
+  window.setHeroSolution(0);
+
+  /* Escuchar cambios del sidebar */
+  document.querySelectorAll('.snav-item').forEach(function(item){
+    item.addEventListener('snav-active', function(){
+      window.setHeroSolution(parseInt(item.getAttribute('data-idx'),10));
+    });
+  });
+})();
 </script>
 
 <!-- ══════════════════════════════════════════════
@@ -678,18 +885,18 @@
           <span class="w-1.5 h-1.5 rounded-full pdot" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;flex-shrink:0"></span>
           Sector · Transporte Pesado
           <span style="width:1px;height:12px;background:rgba(36,95,165,.3);align-self:center"></span>
-          <span class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;flex-shrink:0"></span>
-          Video Telemetría
+          <span id="hero-badge-sol" class="w-1.5 h-1.5 rounded-full" style="background:#3B82F6;box-shadow:0 0 8px #3B82F6;flex-shrink:0"></span>
+          <span id="hero-badge-txt">Video Telemetría</span>
         </div>
 
-        <h1 class="hero-title-anim text-[42px] sm:text-[56px] lg:text-[66px] font-bold leading-[1.05] tracking-[-0.025em] mb-6" style="color:#012750">
-          Controla tu flota.<br/>
-          <span class="glow-text">Reduce costos.</span><br/>
-          Llega a tiempo.
+        <h1 id="hero-h1" class="hero-title-anim text-[42px] sm:text-[56px] lg:text-[66px] font-bold leading-[1.05] tracking-[-0.025em] mb-6" style="color:#012750;transition:opacity .3s ease">
+          Detecta riesgos.<br/>
+          <span class="glow-text">Previene accidentes.</span><br/>
+          Protege tu flota.
         </h1>
 
-        <p class="hero-sub-anim text-[18px] font-light leading-relaxed mb-8" style="color:rgba(1,39,80,.58);max-width:520px">
-          Telemática avanzada diseñada para flotas de carga pesada. Visibilidad en tiempo real, control de combustible, videotelemetría con IA y cumplimiento normativo desde una sola plataforma.
+        <p id="hero-desc" class="hero-sub-anim text-[18px] font-light leading-relaxed mb-8" style="color:rgba(1,39,80,.58);max-width:520px;transition:opacity .3s ease">
+          Cámaras con IA que monitorean en tiempo real el comportamiento del conductor y alertan ante fatiga, distracción o maniobras de riesgo.
         </p>
 
         <div class="hero-cta-anim flex flex-wrap items-center gap-3 mb-8">
@@ -702,31 +909,22 @@
           </a>
         </div>
 
-        <div class="hero-trust-anim flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]" style="color:rgba(1,39,80,.5)">
-          <span class="flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
-            Hasta 25% menos combustible
-          </span>
-          <span class="flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
-            Monitoreo 24/7
-          </span>
-          <span class="flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
-            Cobertura nacional
-          </span>
+        <div id="hero-trust" class="hero-trust-anim flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]" style="color:rgba(1,39,80,.5);transition:opacity .3s ease">
+          <span class="flex items-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>94% reducción siniestros</span>
+          <span class="flex items-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>Alertas en tiempo real</span>
+          <span class="flex items-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>Video en la nube</span>
         </div>
       </div>
 
       <!-- RIGHT — Visual card -->
       <div class="hero-card-anim">
-        <!-- Stats card visual -->
         <div style="border-radius:24px;background:rgba(1,39,80,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(36,95,165,.35);padding:32px;box-shadow:0 0 60px rgba(36,95,165,.15),0 24px 48px rgba(1,39,80,.18)">
+          <div id="hero-card-inner" style="transition:opacity .3s ease">
           <!-- Header -->
           <div class="flex items-center justify-between mb-6">
             <div>
-              <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.5);margin-bottom:2px">Panel de control</p>
-              <p style="font-size:15px;font-weight:600;color:rgba(255,255,255,.85)">Flota activa — Hoy</p>
+              <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(110,176,255,.5);margin-bottom:2px">Video Telemetría</p>
+              <p style="font-size:15px;font-weight:600;color:rgba(255,255,255,.85)">Eventos — Hoy</p>
             </div>
             <div style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)">
               <span style="width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:pdot 2.4s ease-in-out infinite"></span>
@@ -736,52 +934,53 @@
 
           <!-- Metric row -->
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
-            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
-              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">142</p>
-              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Unidades activas</p>
-            </div>
             <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);border-radius:14px;padding:16px 14px;text-align:center">
-              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#34D399,#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">-23%</p>
-              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Combustible</p>
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#34D399,#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">94%</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Menos siniestros</p>
             </div>
             <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
-              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">98%</p>
-              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">En ruta</p>
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">12</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Alertas activas</p>
+            </div>
+            <div style="background:rgba(36,95,165,.08);border:1px solid rgba(36,95,165,.18);border-radius:14px;padding:16px 14px;text-align:center">
+              <p style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#6EB0FF,#3B82F6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:4px">24/7</p>
+              <p style="font-size:10px;color:rgba(208,223,240,.5);font-weight:500">Monitoreo</p>
             </div>
           </div>
 
-          <!-- Route list mock -->
+          <!-- Event list -->
           <div style="display:flex;flex-direction:column;gap:8px">
             <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
-              <div style="width:8px;height:8px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;flex-shrink:0"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#EF4444;box-shadow:0 0 6px #EF4444;flex-shrink:0"></div>
               <div style="flex:1">
-                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0812 — CDMX → Monterrey</p>
-                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 12 seg · 94 km/h</p>
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Unidad 0812 — Fatiga detectada</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Hace 4 min · Libramiento Monterrey</p>
               </div>
-              <span style="font-size:10px;color:rgba(52,211,153,.7);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);padding:2px 8px;border-radius:999px">En ruta</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
-              <div style="width:8px;height:8px;border-radius:50%;background:#3B82F6;box-shadow:0 0 6px #3B82F6;flex-shrink:0"></div>
-              <div style="flex:1">
-                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0547 — Guadalajara → Culiacán</p>
-                <p style="font-size:10px;color:rgba(208,223,240,.38)">Actualizado hace 28 seg · 87 km/h</p>
-              </div>
-              <span style="font-size:10px;color:rgba(110,176,255,.7);background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);padding:2px 8px;border-radius:999px">En ruta</span>
+              <span style="font-size:10px;color:rgba(252,165,165,.8);background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);padding:2px 8px;border-radius:999px">Alerta</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
               <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;box-shadow:0 0 6px #F59E0B;flex-shrink:0"></div>
               <div style="flex:1">
-                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Tracto 0331 — Parada programada</p>
-                <p style="font-size:10px;color:rgba(208,223,240,.38)">Caseta Querétaro · 18 min detenido</p>
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Unidad 0547 — Exceso de velocidad</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Hace 11 min · Autopista GDL</p>
               </div>
-              <span style="font-size:10px;color:rgba(251,191,36,.7);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);padding:2px 8px;border-radius:999px">Detenido</span>
+              <span style="font-size:10px;color:rgba(251,191,36,.7);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);padding:2px 8px;border-radius:999px">Aviso</span>
             </div>
-          </div>
-        </div>
-      </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+              <div style="width:8px;height:8px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;flex-shrink:0"></div>
+              <div style="flex:1">
+                <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.75)">Unidad 0331 — Sin eventos</p>
+                <p style="font-size:10px;color:rgba(208,223,240,.38)">Ruta CDMX → Puebla · 112 km/h</p>
+              </div>
+              <span style="font-size:10px;color:rgba(52,211,153,.7);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);padding:2px 8px;border-radius:999px">Normal</span>
+            </div>
+          </div><!-- /event list -->
+          </div><!-- /hero-card-inner -->
+        </div><!-- /card -->
+      </div><!-- /hero-card-anim -->
 
-    </div>
-  </div>
+    </div><!-- /grid -->
+  </div><!-- /container -->
 </section>
 
 <div class="divider"></div>
