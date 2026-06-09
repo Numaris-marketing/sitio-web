@@ -337,55 +337,32 @@
               background:linear-gradient(to bottom,transparent,rgba(36,95,165,.3) 10%,rgba(36,95,165,.3) 90%,transparent);
               border-radius:2px;pointer-events:none"></div>
 
-  <a class="snav-item" href="#igg-section">
+  <!-- data-idx: índice del callout correspondiente (0-based) -->
+  <a class="snav-item" href="#igg-section" data-idx="0">
     <div class="snav-dot"></div>
-    <span class="snav-label">Tecnología</span>
+    <span class="snav-label">Video Telemetría</span>
   </a>
-  <a class="snav-item" href="#hero">
+  <a class="snav-item" href="#igg-section" data-idx="1">
     <div class="snav-dot"></div>
-    <span class="snav-label">Solución</span>
+    <span class="snav-label">Telemetría Avanzada</span>
   </a>
-  <a class="snav-item" href="#retos">
+  <a class="snav-item" href="#igg-section" data-idx="2">
     <div class="snav-dot"></div>
-    <span class="snav-label">Retos</span>
+    <span class="snav-label">Control Combustible</span>
   </a>
-  <a class="snav-item" href="#beneficios">
+  <a class="snav-item" href="#igg-section" data-idx="3">
     <div class="snav-dot"></div>
-    <span class="snav-label">Beneficios</span>
+    <span class="snav-label">Monitoreo</span>
   </a>
-  <a class="snav-item" href="#proceso">
+  <a class="snav-item" href="#igg-section" data-idx="4">
     <div class="snav-dot"></div>
-    <span class="snav-label">Proceso</span>
+    <span class="snav-label">Rastreo</span>
   </a>
-  <a class="snav-item" href="#cta-demo">
+  <a class="snav-item" href="#igg-section" data-idx="5">
     <div class="snav-dot"></div>
-    <span class="snav-label">Demo</span>
+    <span class="snav-label">Remolques</span>
   </a>
 </aside>
-
-<script>
-  (function(){
-    var ids  = ['igg-section','hero','retos','beneficios','proceso','cta-demo'];
-    var items = document.querySelectorAll('.snav-item');
-
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(!e.isIntersecting) return;
-        items.forEach(function(item){
-          item.classList.toggle('active', item.getAttribute('href') === '#'+e.target.id);
-        });
-      });
-    }, { rootMargin:'-35% 0px -35% 0px', threshold:0 });
-
-    ids.forEach(function(id){
-      var el = document.getElementById(id);
-      if(el) obs.observe(el);
-    });
-
-    /* Set first item active on load */
-    if(items[0]) items[0].classList.add('active');
-  })();
-</script>
 
 <!-- ══════════════════════════════════════════════
      TRUCK INFOGRAPHIC
@@ -591,25 +568,49 @@
 
 <script>
   (function(){
-    /* ── Scroll reveal: un callout por evento de scroll ── */
-    var callouts = Array.from(document.querySelectorAll('.icallout'));
-    var svgLines = Array.from(document.querySelectorAll('.isvg-line'));
-    var svgDots  = Array.from(document.querySelectorAll('.isvg-dot'));
-    var section  = document.getElementById('igg-section');
-    var N        = callouts.length;
-    var revealed = 0;
-    var locked   = false;
-    var LOCK_MS  = 650; /* ms entre cada reveal */
+    /* ── Referencias ── */
+    var callouts  = Array.from(document.querySelectorAll('.icallout'));
+    var svgLines  = Array.from(document.querySelectorAll('.isvg-line'));
+    var svgDots   = Array.from(document.querySelectorAll('.isvg-dot'));
+    var snavItems = Array.from(document.querySelectorAll('.snav-item'));
+    var section   = document.getElementById('igg-section');
+    var N         = callouts.length;
+    var revealed  = 0;
+    var locked    = false;
+    var LOCK_MS   = 650;
 
+    /* ── Actualizar sidebar activo ── */
+    function setSnavActive(idx){
+      snavItems.forEach(function(item, i){
+        item.classList.toggle('active', i === idx);
+      });
+    }
+
+    /* ── Revelar callout i y activar su item en el sidebar ── */
     function revealNext(){
       if (revealed >= N) return;
       callouts[revealed].classList.add('igg-visible');
       if (svgLines[revealed]) svgLines[revealed].style.opacity = '0.65';
       if (svgDots[revealed])  svgDots[revealed].style.opacity  = '0.8';
+      setSnavActive(revealed);
       revealed++;
     }
 
-    /* La sección está "activa" cuando su área ocupa la zona central del viewport */
+    /* ── Click en sidebar: revelar hasta ese índice ── */
+    snavItems.forEach(function(item){
+      item.addEventListener('click', function(e){
+        e.preventDefault();
+        var target = parseInt(item.getAttribute('data-idx'), 10);
+        /* scroll a la sección primero */
+        if(section) section.scrollIntoView({behavior:'smooth', block:'center'});
+        /* revelar todos hasta el índice clickeado */
+        setTimeout(function(){
+          while(revealed <= target){ revealNext(); }
+        }, 400);
+      });
+    });
+
+    /* ── Sección activa cuando ocupa el centro del viewport ── */
     function sectionActive(){
       if (!section) return false;
       var r = section.getBoundingClientRect();
@@ -617,30 +618,28 @@
       return r.top <= mid && r.bottom >= mid * 0.4;
     }
 
-    /* Wheel: interceptar solo scroll hacia abajo mientras haya callouts ocultos */
+    /* ── Wheel: un scroll = un callout ── */
     window.addEventListener('wheel', function(e){
-      if (revealed >= N) return;          /* todos visibles → scroll normal */
-      if (!sectionActive()) return;       /* sección fuera de foco → normal */
-      if (e.deltaY <= 0) return;          /* scroll hacia arriba → normal */
-
-      e.preventDefault();                 /* evitar que la página baje */
+      if (revealed >= N) return;
+      if (!sectionActive()) return;
+      if (e.deltaY <= 0) return;
+      e.preventDefault();
       if (locked) return;
       locked = true;
       revealNext();
       setTimeout(function(){ locked = false; }, LOCK_MS);
     }, {passive: false});
 
-    /* Touch: misma lógica con swipe hacia arriba */
+    /* ── Touch ── */
     var ty0 = 0;
     window.addEventListener('touchstart', function(e){
       ty0 = e.touches[0].clientY;
     }, {passive: true});
-
     window.addEventListener('touchmove', function(e){
       if (revealed >= N) return;
       if (!sectionActive()) return;
       var dy = ty0 - e.touches[0].clientY;
-      if (dy < 35) return;                /* umbral mínimo de swipe */
+      if (dy < 35) return;
       e.preventDefault();
       ty0 = e.touches[0].clientY;
       if (!locked){
@@ -649,6 +648,17 @@
         setTimeout(function(){ locked = false; }, LOCK_MS);
       }
     }, {passive: false});
+
+    /* ── IntersectionObserver: cuando la sección entra al viewport
+          resalta el sidebar aunque no haya interacción ── */
+    if (snavItems.length){
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && revealed === 0) setSnavActive(0);
+        });
+      }, { threshold: 0.2 });
+      if(section) obs.observe(section);
+    }
   })();
 </script>
 
