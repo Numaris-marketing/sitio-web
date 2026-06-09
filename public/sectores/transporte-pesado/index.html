@@ -335,8 +335,6 @@
   }
   .snav-item.active .snav-num { color:#3B82F6; }
 
-  /* Sidebar solo visible en el hero */
-  #side-nav.snav-visible { opacity:1 !important; pointer-events:auto !important; }
 </style>
 
 <aside id="side-nav" aria-label="Navegación" style="
@@ -344,8 +342,6 @@
   z-index:50;
   display:flex;flex-direction:column;
   padding:0 16px 0 0;
-  opacity:0;pointer-events:none;
-  transition:opacity .4s ease;
 ">
   <!-- Línea vertical continua -->
   <div style="position:absolute;left:3px;top:14px;bottom:14px;width:1.5px;
@@ -874,17 +870,6 @@
   /* Inicializar con la primera solución */
   window.setHeroSolution(0);
 
-  /* Mostrar sidebar solo cuando el hero está en pantalla */
-  var heroEl  = document.getElementById('hero');
-  var sideEl  = document.getElementById('side-nav');
-  if(heroEl && sideEl){
-    var heroVis = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        sideEl.classList.toggle('snav-visible', e.isIntersecting);
-      });
-    }, { threshold: 0.15 });
-    heroVis.observe(heroEl);
-  }
 
   /* Escuchar cambios del sidebar */
   document.querySelectorAll('.snav-item').forEach(function(item){
