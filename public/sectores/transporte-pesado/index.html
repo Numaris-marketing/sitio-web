@@ -324,6 +324,19 @@
   .snav-item.active .snav-label { color:#245FA5; }
   .snav-item:hover:not(.active) .snav-label { color:rgba(36,95,165,.7); }
   .snav-item:hover:not(.active) .snav-dot { border-color:rgba(36,95,165,.6); }
+
+  /* Número de item */
+  .snav-num {
+    font-style:normal;
+    font-size:8px;font-weight:700;
+    color:rgba(36,95,165,.35);
+    margin-right:2px;
+    transition:color .25s;
+  }
+  .snav-item.active .snav-num { color:#3B82F6; }
+
+  /* Sidebar solo visible en el hero */
+  #side-nav.snav-visible { opacity:1 !important; pointer-events:auto !important; }
 </style>
 
 <aside id="side-nav" aria-label="Navegación" style="
@@ -331,36 +344,37 @@
   z-index:50;
   display:flex;flex-direction:column;
   padding:0 16px 0 0;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
 ">
-  <!-- Línea vertical continua detrás de los bullets -->
+  <!-- Línea vertical continua -->
   <div style="position:absolute;left:3px;top:14px;bottom:14px;width:1.5px;
               background:linear-gradient(to bottom,transparent,rgba(36,95,165,.3) 10%,rgba(36,95,165,.3) 90%,transparent);
               border-radius:2px;pointer-events:none"></div>
 
-  <!-- data-idx: índice del callout correspondiente (0-based) -->
   <a class="snav-item" href="#igg-section" data-idx="0">
     <div class="snav-dot"></div>
-    <span class="snav-label">Video Telemetría</span>
+    <span class="snav-label"><em class="snav-num">1</em> Video Telemetría</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="1">
     <div class="snav-dot"></div>
-    <span class="snav-label">Telemetría Avanzada</span>
+    <span class="snav-label"><em class="snav-num">2</em> Telemetría Avanzada</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="2">
     <div class="snav-dot"></div>
-    <span class="snav-label">Control Combustible</span>
+    <span class="snav-label"><em class="snav-num">3</em> Control Combustible</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="3">
     <div class="snav-dot"></div>
-    <span class="snav-label">Monitoreo</span>
+    <span class="snav-label"><em class="snav-num">4</em> Monitoreo</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="4">
     <div class="snav-dot"></div>
-    <span class="snav-label">Rastreo</span>
+    <span class="snav-label"><em class="snav-num">5</em> Rastreo</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="5">
     <div class="snav-dot"></div>
-    <span class="snav-label">Remolques</span>
+    <span class="snav-label"><em class="snav-num">6</em> Remolques</span>
   </a>
 </aside>
 
@@ -859,6 +873,18 @@
 
   /* Inicializar con la primera solución */
   window.setHeroSolution(0);
+
+  /* Mostrar sidebar solo cuando el hero está en pantalla */
+  var heroEl  = document.getElementById('hero');
+  var sideEl  = document.getElementById('side-nav');
+  if(heroEl && sideEl){
+    var heroVis = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        sideEl.classList.toggle('snav-visible', e.isIntersecting);
+      });
+    }, { threshold: 0.15 });
+    heroVis.observe(heroEl);
+  }
 
   /* Escuchar cambios del sidebar */
   document.querySelectorAll('.snav-item').forEach(function(item){
