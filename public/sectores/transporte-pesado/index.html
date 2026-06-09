@@ -316,18 +316,28 @@
     animation:itag-float 3.6s ease-in-out infinite;
     transition:background .2s,border-color .2s;
   }
-  .itag:hover { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
   .itag-d1 { animation-delay:.4s; }
   .itag-d2 { animation-delay:.8s; }
   .itag-d3 { animation-delay:1.2s; }
   .itag-d4 { animation-delay:1.6s; }
   .itag-d5 { animation-delay:2.0s; }
 
-  /* ── Callout wrapper ── */
-  .icallout { cursor:pointer; }
-  .icallout:hover .itag {
-    background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65);
+  /* ── Callout — scroll reveal ── */
+  .icallout {
+    cursor:pointer;
+    opacity:0;
+    transition:opacity .55s ease, transform .55s ease;
+    will-change:opacity,transform;
   }
+  .icallout.igg-left  { transform:translateX(-16px); }
+  .icallout.igg-right { transform:translateX(16px); }
+  .icallout.igg-visible { opacity:1 !important; transform:translateX(0) !important; }
+  .icallout:hover .itag { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
+
+  /* ── SVG elements — scroll reveal ── */
+  .isvg-line { transition:opacity .65s ease; }
+  .isvg-dot  { transition:opacity .4s ease .35s; }
+
   /* ── Tooltip panel (debajo del infográfico) ── */
   #itip-panel {
     min-height:72px;
@@ -348,120 +358,145 @@
     max-width:480px;text-align:center;
   }
 </style>
-<section style="background:#EDF2F8;padding:80px 0 72px">
-  <div style="max-width:1200px;margin:0 auto;padding:0 40px">
 
-    <p style="text-align:center;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#245FA5;margin-bottom:10px">Transporte Pesado</p>
-    <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 40px">
-      Unidades inteligentes con<br><strong style="font-weight:700">tecnología integrada</strong>
-    </h2>
+<!--
+  Scroll-pin wrapper: la sección se ancla al top mientras el usuario
+  avanza 220 px × 6 pasos y cada callout aparece uno a uno.
+-->
+<div id="igg-pin" style="position:relative;">
+  <div id="igg-sticky" style="position:sticky;top:0;z-index:20;">
+    <section style="background:#EDF2F8;padding:80px 0 72px">
+      <div style="max-width:1200px;margin:0 auto;padding:0 40px">
 
-    <!-- Positioned infographic container (16:7 aspect ratio) -->
-    <div style="position:relative;width:100%;padding-bottom:44%;overflow:visible">
+        <p style="text-align:center;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#245FA5;margin-bottom:10px">Transporte Pesado</p>
+        <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 40px">
+          Unidades inteligentes con<br><strong style="font-weight:700">tecnología integrada</strong>
+        </h2>
 
-      <!-- Truck centered -->
-      <img src="/truck-3d.png" alt="Tracto Numaris"
-           style="position:absolute;left:22%;top:3%;width:56%;height:auto;z-index:1">
+        <!-- Positioned infographic container (16:7 aspect ratio) -->
+        <div style="position:relative;width:100%;padding-bottom:44%;overflow:visible">
 
-      <!-- SVG lines overlay (viewBox 0 0 1000 440, escala uniforme con el contenedor) -->
-      <svg viewBox="0 0 1000 440" preserveAspectRatio="none"
-           style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible">
+          <!-- Truck centered — visible desde el primer momento -->
+          <img src="/truck-3d.png" alt="Tracto Numaris"
+               style="position:absolute;left:22%;top:3%;width:56%;height:auto;z-index:1">
 
-        <!-- Video Telemetría → techo de la cabina (cámara) -->
-        <line x1="248" y1="54" x2="658" y2="95" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="658" cy="95" r="4" fill="#245FA5" opacity=".8"/>
+          <!-- SVG lines overlay -->
+          <svg viewBox="0 0 1000 440" preserveAspectRatio="none"
+               style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible">
 
-        <!-- Telemetría Avanzada → puerta / costado de la cabina -->
-        <line x1="248" y1="215" x2="632" y2="198" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="632" cy="198" r="4" fill="#245FA5" opacity=".8"/>
+            <!-- 1 Video Telemetría → techo cabina -->
+            <line class="isvg-line" x1="248" y1="54" x2="658" y2="95"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="658" cy="95" r="4" fill="#245FA5" style="opacity:0"/>
 
-        <!-- Control de combustible → tanque bajo el trailer -->
-        <line x1="318" y1="344" x2="460" y2="298" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="460" cy="298" r="4" fill="#245FA5" opacity=".8"/>
+            <!-- 2 Telemetría Avanzada → puerta cabina -->
+            <line class="isvg-line" x1="248" y1="215" x2="632" y2="198"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="632" cy="198" r="4" fill="#245FA5" style="opacity:0"/>
 
-        <!-- Monitoreo → techo del trailer (parte delantera) -->
-        <line x1="808" y1="54" x2="528" y2="72" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="528" cy="72" r="4" fill="#245FA5" opacity=".8"/>
+            <!-- 3 Control de combustible → tanque -->
+            <line class="isvg-line" x1="318" y1="344" x2="460" y2="298"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="460" cy="298" r="4" fill="#245FA5" style="opacity:0"/>
 
-        <!-- Rastreo → costado del trailer (centro) -->
-        <line x1="838" y1="215" x2="418" y2="192" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="418" cy="192" r="4" fill="#245FA5" opacity=".8"/>
+            <!-- 4 Monitoreo → techo trailer -->
+            <line class="isvg-line" x1="808" y1="54" x2="528" y2="72"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="528" cy="72" r="4" fill="#245FA5" style="opacity:0"/>
 
-        <!-- Remolques → parte trasera del trailer -->
-        <line x1="770" y1="344" x2="272" y2="238" stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" opacity=".65"/>
-        <circle cx="272" cy="238" r="4" fill="#245FA5" opacity=".8"/>
+            <!-- 5 Rastreo → costado trailer -->
+            <line class="isvg-line" x1="838" y1="215" x2="418" y2="192"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="418" cy="192" r="4" fill="#245FA5" style="opacity:0"/>
 
-      </svg>
+            <!-- 6 Remolques → trasera trailer -->
+            <line class="isvg-line" x1="770" y1="344" x2="272" y2="238"
+                  stroke="#245FA5" stroke-width="1.5" stroke-dasharray="5,4" style="opacity:0"/>
+            <circle class="isvg-dot" cx="272" cy="238" r="4" fill="#245FA5" style="opacity:0"/>
 
-      <!-- ── CALLOUT 1 — Video Telemetría (top-left) ── -->
-      <div class="icallout" data-tip="Detecta y alerta en tiempo real sobre <strong style='color:#245FA5'>comportamientos de riesgo</strong> para prevenir accidentes."
-           style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <span class="itag" style="padding-right:40px">Video Telemetría</span>
-        <div class="ibubble" style="margin-left:-22px">
-          <img src="/equipo-jc400.png" alt="JC400" style="width:74%;height:74%;object-fit:contain">
-        </div>
-      </div>
-
-      <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
-      <div class="icallout" data-tip="Optimiza el <strong style='color:#245FA5'>rendimiento de tu flota</strong> con un análisis predictivo detallado de tu operación."
-           style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <span class="itag itag-d1" style="padding-right:40px">Telemetría Avanzada</span>
-        <div class="ibubble itag-d1" style="margin-left:-22px">
-          <img src="/equipo-fijo.png" alt="Fijo" style="width:74%;height:74%;object-fit:contain">
-        </div>
-      </div>
-
-      <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
-      <div class="icallout" data-tip="Identifica y <strong style='color:#245FA5'>evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo."
-           style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <span class="itag itag-d2" style="padding-right:40px">Control de combustible</span>
-        <div class="ibubble itag-d2" style="margin-left:-22px">
-          <img src="/equipo-sensor-lls5.png" alt="Sensor LLS5" style="width:74%;height:74%;object-fit:contain">
-        </div>
-      </div>
-
-      <!-- ── CALLOUT 4 — Monitoreo (top-right) ── -->
-      <div class="icallout" data-tip="Prevención de siniestros con <strong style='color:#245FA5'>protocolos y respuestas inmediatas</strong> por excepción."
-           style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <div class="ibubble itag-d3" style="margin-right:-22px">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
           </svg>
+
+          <!-- ── CALLOUT 1 — Video Telemetría (top-left) ── -->
+          <div class="icallout igg-left"
+               data-tip="Detecta y alerta en tiempo real sobre <strong style='color:#245FA5'>comportamientos de riesgo</strong> para prevenir accidentes."
+               style="position:absolute;left:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <span class="itag" style="padding-right:40px">Video Telemetría</span>
+            <div class="ibubble" style="margin-left:-22px">
+              <img src="/equipo-jc400.png" alt="JC400" style="width:74%;height:74%;object-fit:contain">
+            </div>
+          </div>
+
+          <!-- ── CALLOUT 2 — Telemetría Avanzada (mid-left) ── -->
+          <div class="icallout igg-left"
+               data-tip="Optimiza el <strong style='color:#245FA5'>rendimiento de tu flota</strong> con un análisis predictivo detallado de tu operación."
+               style="position:absolute;left:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <span class="itag itag-d1" style="padding-right:40px">Telemetría Avanzada</span>
+            <div class="ibubble itag-d1" style="margin-left:-22px">
+              <img src="/equipo-fijo.png" alt="Fijo" style="width:74%;height:74%;object-fit:contain">
+            </div>
+          </div>
+
+          <!-- ── CALLOUT 3 — Control de combustible (bottom-left) ── -->
+          <div class="icallout igg-left"
+               data-tip="Identifica y <strong style='color:#245FA5'>evita pérdidas por extracciones</strong> no autorizadas o consumo excesivo."
+               style="position:absolute;left:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <span class="itag itag-d2" style="padding-right:40px">Control de combustible</span>
+            <div class="ibubble itag-d2" style="margin-left:-22px">
+              <img src="/equipo-sensor-lls5.png" alt="Sensor LLS5" style="width:74%;height:74%;object-fit:contain">
+            </div>
+          </div>
+
+          <!-- ── CALLOUT 4 — Monitoreo (top-right) ── -->
+          <div class="icallout igg-right"
+               data-tip="Prevención de siniestros con <strong style='color:#245FA5'>protocolos y respuestas inmediatas</strong> por excepción."
+               style="position:absolute;right:1%;top:4%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <div class="ibubble itag-d3" style="margin-right:-22px">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#245FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <span class="itag itag-d3" style="padding-left:40px">Monitoreo</span>
+          </div>
+
+          <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
+          <div class="icallout igg-right"
+               data-tip="<strong style='color:#012750'>Tractos:</strong> Incrementa la seguridad y eficiencia de tu flota con <strong style='color:#245FA5'>visibilidad en tiempo real.</strong><br><br><strong style='color:#012750'>Mercancía:</strong> Protege y visualiza tu <strong style='color:#245FA5'>mercancía</strong> en todo momento."
+               style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <div class="ibubble itag-d4" style="margin-right:-22px">
+              <img src="/equipo-mtt.png" alt="MTT" style="width:74%;height:74%;object-fit:contain">
+            </div>
+            <span class="itag itag-d4" style="padding-left:40px">Rastreo</span>
+          </div>
+
+          <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
+          <div class="icallout igg-right"
+               data-tip="Aumenta la <strong style='color:#245FA5'>productividad</strong>, controla la temperatura y accesos de tus cajas y remolques."
+               style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
+            <div class="ibubble itag-d5" style="margin-right:-22px">
+              <img src="/equipo-cerradura.png" alt="Cerradura" style="width:74%;height:74%;object-fit:contain">
+            </div>
+            <span class="itag itag-d5" style="padding-left:40px">Remolques</span>
+          </div>
+
         </div>
-        <span class="itag itag-d3" style="padding-left:40px">Monitoreo</span>
-      </div>
 
-      <!-- ── CALLOUT 5 — Rastreo (mid-right) ── -->
-      <div class="icallout" data-tip="<strong style='color:#012750'>Tractos:</strong> Incrementa la seguridad y eficiencia de tu flota con <strong style='color:#245FA5'>visibilidad en tiempo real.</strong><br><br><strong style='color:#012750'>Mercancía:</strong> Protege y visualiza tu <strong style='color:#245FA5'>mercancía</strong> en todo momento."
-           style="position:absolute;right:1%;top:40%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <div class="ibubble itag-d4" style="margin-right:-22px">
-          <img src="/equipo-mtt.png" alt="MTT" style="width:74%;height:74%;object-fit:contain">
+        <!-- Panel de texto — aparece debajo del infográfico al hacer hover -->
+        <div id="itip-panel">
+          <div class="itip-card" id="itip-card"></div>
         </div>
-        <span class="itag itag-d4" style="padding-left:40px">Rastreo</span>
+
       </div>
-
-      <!-- ── CALLOUT 6 — Remolques (bottom-right) ── -->
-      <div class="icallout" data-tip="Aumenta la <strong style='color:#245FA5'>productividad</strong>, controla la temperatura y accesos de tus cajas y remolques."
-           style="position:absolute;right:7%;top:70%;display:flex;flex-direction:row;align-items:center;gap:0;z-index:3">
-        <div class="ibubble itag-d5" style="margin-right:-22px">
-          <img src="/equipo-cerradura.png" alt="Cerradura" style="width:74%;height:74%;object-fit:contain">
-        </div>
-        <span class="itag itag-d5" style="padding-left:40px">Remolques</span>
-      </div>
-
-    </div>
-
-    <!-- Panel de texto — aparece debajo del infográfico al hacer hover -->
-    <div id="itip-panel">
-      <div class="itip-card" id="itip-card"></div>
-    </div>
-
+    </section>
   </div>
-</section>
+
+  <!-- Espacio extra de scroll: 6 pasos × 220 px = 1320 px -->
+  <div id="igg-spacer" style="height:1320px;background:#EDF2F8;" aria-hidden="true"></div>
+</div>
 
 <script>
   (function(){
+    /* ── Tooltip ── */
     var panel = document.getElementById('itip-panel');
     var card  = document.getElementById('itip-card');
     document.querySelectorAll('.icallout').forEach(function(el){
@@ -473,6 +508,39 @@
         panel.classList.remove('active');
       });
     });
+
+    /* ── Scroll reveal ── */
+    var callouts = Array.from(document.querySelectorAll('.icallout'));   // 6 items
+    var svgLines = Array.from(document.querySelectorAll('.isvg-line'));  // 6 items
+    var svgDots  = Array.from(document.querySelectorAll('.isvg-dot'));   // 6 items
+    var pin      = document.getElementById('igg-pin');
+    var STEP     = 220;   /* px de scroll para revelar cada callout */
+    var N        = callouts.length;
+
+    function revealAt(i){
+      callouts[i].classList.add('igg-visible');
+      if (svgLines[i]) svgLines[i].style.opacity = '0.65';
+      if (svgDots[i])  svgDots[i].style.opacity  = '0.8';
+    }
+
+    var maxRevealed = 0;
+
+    function update(){
+      if (!pin) return;
+      /* cuántos px hemos entrado en el pin wrapper */
+      var scrolled = -(pin.getBoundingClientRect().top);
+      if (scrolled < 0) return;
+      /* número de pasos completados */
+      var count = Math.min(N, Math.ceil(scrolled / STEP));
+      for (var i = maxRevealed; i < count; i++){
+        revealAt(i);
+      }
+      if (count > maxRevealed) maxRevealed = count;
+    }
+
+    window.addEventListener('scroll', update, {passive:true});
+    /* Ejecutar una vez por si la sección ya es visible al cargar */
+    update();
   })();
 </script>
 
