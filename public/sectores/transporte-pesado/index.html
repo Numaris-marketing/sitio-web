@@ -294,102 +294,73 @@
 <style>
   @media (max-width:1380px){ #side-nav{display:none!important} }
 
+  /* ── Items ── */
   .snav-item {
-    display:flex;align-items:center;gap:10px;
-    text-decoration:none;position:relative;
-    padding:6px 0;cursor:pointer;
+    display:flex;align-items:center;gap:11px;
+    text-decoration:none;
+    padding:10px 0;cursor:pointer;
+    position:relative;
   }
-  .snav-track {
-    position:relative;width:14px;flex-shrink:0;
-    display:flex;flex-direction:column;align-items:center;gap:0;
-  }
+  /* ── Dot ── */
   .snav-dot {
-    width:8px;height:8px;border-radius:50%;
+    width:8px;height:8px;border-radius:50%;flex-shrink:0;
     background:transparent;
-    border:1.5px solid rgba(110,176,255,.28);
-    flex-shrink:0;position:relative;z-index:1;
+    border:1.5px solid rgba(36,95,165,.35);
+    position:relative;z-index:1;
     transition:background .25s,border-color .25s,box-shadow .25s,transform .25s;
   }
   .snav-item.active .snav-dot {
     background:#3B82F6;border-color:#3B82F6;
-    box-shadow:0 0 10px rgba(59,130,246,.55);
-    transform:scale(1.2);
+    box-shadow:0 0 10px rgba(59,130,246,.6);
+    transform:scale(1.25);
   }
-  .snav-connector {
-    width:1px;height:22px;
-    background:linear-gradient(to bottom,rgba(36,95,165,.35),rgba(36,95,165,.15));
-    flex-shrink:0;
-  }
+  /* ── Label ── */
   .snav-label {
-    font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
     font-family:'Montserrat',sans-serif;
-    color:rgba(255,255,255,.28);
-    transition:color .25s;white-space:nowrap;
-    line-height:1;
+    color:rgba(36,95,165,.45);
+    transition:color .25s;white-space:nowrap;line-height:1;
   }
-  .snav-item.active .snav-label { color:rgba(110,176,255,.92); }
-  .snav-item:hover:not(.active) .snav-label { color:rgba(255,255,255,.55); }
-  .snav-item:hover:not(.active) .snav-dot { border-color:rgba(110,176,255,.55); }
+  .snav-item.active .snav-label { color:#245FA5; }
+  .snav-item:hover:not(.active) .snav-label { color:rgba(36,95,165,.7); }
+  .snav-item:hover:not(.active) .snav-dot { border-color:rgba(36,95,165,.6); }
 </style>
 
 <aside id="side-nav" aria-label="Navegación" style="
   position:fixed;left:26px;top:50%;transform:translateY(-50%);
   z-index:50;
   display:flex;flex-direction:column;
-  background:rgba(1,39,80,.76);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(36,95,165,.28);
-  border-radius:14px;
-  padding:18px 18px 18px 14px;
+  padding:0 16px 0 0;
 ">
+  <!-- Línea vertical continua detrás de los bullets -->
+  <div style="position:absolute;left:3px;top:14px;bottom:14px;width:1.5px;
+              background:linear-gradient(to bottom,transparent,rgba(36,95,165,.3) 10%,rgba(36,95,165,.3) 90%,transparent);
+              border-radius:2px;pointer-events:none"></div>
 
   <a class="snav-item" href="#igg-section">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-      <div class="snav-connector"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Tecnología</span>
   </a>
-
   <a class="snav-item" href="#hero">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-      <div class="snav-connector"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Solución</span>
   </a>
-
   <a class="snav-item" href="#retos">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-      <div class="snav-connector"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Retos</span>
   </a>
-
   <a class="snav-item" href="#beneficios">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-      <div class="snav-connector"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Beneficios</span>
   </a>
-
   <a class="snav-item" href="#proceso">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-      <div class="snav-connector"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Proceso</span>
   </a>
-
   <a class="snav-item" href="#cta-demo">
-    <div class="snav-track">
-      <div class="snav-dot"></div>
-    </div>
+    <div class="snav-dot"></div>
     <span class="snav-label">Demo</span>
   </a>
-
 </aside>
 
 <script>
