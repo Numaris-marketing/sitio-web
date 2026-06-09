@@ -340,9 +340,8 @@
 
   /* ── Tooltip panel (debajo del infográfico) ── */
   #itip-panel {
-    min-height:72px;
+    min-height:56px;
     display:flex;align-items:center;justify-content:center;
-    margin-top:24px;
     transition:opacity .22s ease;
     opacity:0;pointer-events:none;
   }
@@ -363,9 +362,14 @@
       <div style="max-width:1200px;margin:0 auto;padding:0 40px">
 
         <p style="text-align:center;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#245FA5;margin-bottom:10px">Transporte Pesado</p>
-        <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 40px">
+        <h2 style="text-align:center;font-size:34px;font-weight:400;line-height:1.25;color:#012750;margin:0 0 16px">
           Unidades inteligentes con<br><strong style="font-weight:700">tecnología integrada</strong>
         </h2>
+
+        <!-- Panel de texto — aparece al hacer hover sobre un callout -->
+        <div id="itip-panel" style="margin-bottom:24px">
+          <div class="itip-card" id="itip-card"></div>
+        </div>
 
         <!-- Positioned infographic container (16:7 aspect ratio) -->
         <div style="position:relative;width:100%;padding-bottom:44%;overflow:visible">
@@ -473,11 +477,6 @@
             <span class="itag itag-d5" style="padding-left:40px">Remolques</span>
           </div>
 
-        </div>
-
-        <!-- Panel de texto — aparece debajo del infográfico al hacer hover -->
-        <div id="itip-panel">
-          <div class="itip-card" id="itip-card"></div>
         </div>
 
       </div>
