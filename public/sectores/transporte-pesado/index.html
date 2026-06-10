@@ -1049,29 +1049,40 @@
   /* Ejecutar al cargar por si ya está en pantalla */
   updateNav(); checkReset();
 
-  /* ── Wheel: un scroll = una solución ── */
+  /* ── Wheel: scroll abajo = siguiente solución, scroll arriba = anterior ── */
   window.addEventListener('wheel', function(e){
     if(!isActive()) return;
-    if(e.deltaY <= 0) return;
-    if(idx >= SOL_MAX - 1) return;
+    var down = e.deltaY > 0;
+    var up   = e.deltaY < 0;
+    if(down && idx >= SOL_MAX - 1) return; /* en la última → dejar pasar hacia abajo */
+    if(up   && idx <= 0)           return; /* en la primera → dejar pasar hacia arriba */
     e.preventDefault();
     if(locked) return;
     locked = true;
-    idx++;
+    idx += down ? 1 : -1;
     window._snavSet && window._snavSet(idx);
     setTimeout(function(){ locked = false; }, LOCK);
   }, {passive: false});
 
-  /* ── Touch ── */
+  /* ── Touch: deslizar arriba = siguiente, deslizar abajo = anterior ── */
   var t0 = 0;
   window.addEventListener('touchstart', function(e){ t0 = e.touches[0].clientY; }, {passive:true});
   window.addEventListener('touchmove', function(e){
     if(!isActive()) return;
-    var dy = t0 - e.touches[0].clientY;
-    if(dy < 35 || idx >= SOL_MAX - 1) return;
+    var dy   = t0 - e.touches[0].clientY; /* positivo = deslizar hacia arriba */
+    var down = dy > 35;
+    var up   = dy < -35;
+    if(!down && !up) return;
+    if(down && idx >= SOL_MAX - 1) return;
+    if(up   && idx <= 0)           return;
     e.preventDefault();
     t0 = e.touches[0].clientY;
-    if(!locked){ locked = true; idx++; window._snavSet && window._snavSet(idx); setTimeout(function(){ locked = false; }, LOCK); }
+    if(!locked){
+      locked = true;
+      idx += down ? 1 : -1;
+      window._snavSet && window._snavSet(idx);
+      setTimeout(function(){ locked = false; }, LOCK);
+    }
   }, {passive: false});
 
   /* ── Click en sidebar: cuando el hero está activo, cambia directo sin ir a la infografía ── */
