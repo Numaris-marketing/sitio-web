@@ -1073,6 +1073,18 @@
     t0 = e.touches[0].clientY;
     if(!locked){ locked = true; idx++; window._snavSet && window._snavSet(idx); setTimeout(function(){ locked = false; }, LOCK); }
   }, {passive: false});
+
+  /* ── Click en sidebar: cuando el hero está activo, cambia directo sin ir a la infografía ── */
+  document.querySelectorAll('.snav-item').forEach(function(item){
+    item.addEventListener('click', function(e){
+      if(!fullyVisible()) return;          /* si el hero no está en pantalla, deja actuar al handler de la infografía */
+      e.preventDefault();
+      e.stopImmediatePropagation();        /* evita que el handler de la infografía también se dispare */
+      var target = parseInt(item.getAttribute('data-idx'), 10);
+      idx = target;
+      window._snavSet && window._snavSet(target);
+    }, true); /* capture:true → se ejecuta antes que el handler de la infografía */
+  });
 })();
 </script>
 
