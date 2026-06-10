@@ -1017,10 +1017,11 @@
     return r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.25;
   }
 
-  /* ── Sidebar: visible cuando la sección entra al viewport ── */
+  /* ── Sidebar: visible solo cuando el hero domina la pantalla ── */
   function updateNav(){
     var r = rect(); if(!r || !nav) return;
-    var visible = r.top < window.innerHeight && r.bottom > 0;
+    /* El top de la sección debe haber cruzado el 55% del viewport hacia arriba */
+    var visible = r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.2;
     nav.style.opacity       = visible ? '1' : '0';
     nav.style.pointerEvents = visible ? 'auto' : 'none';
   }
