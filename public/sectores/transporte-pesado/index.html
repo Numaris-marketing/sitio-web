@@ -343,7 +343,7 @@
   display:flex;flex-direction:column;
   padding:0 16px 0 0;
   opacity:0;pointer-events:none;
-  transition:opacity .35s ease;
+  transition:opacity .35s ease, top .4s cubic-bezier(.22,1,.36,1);
 ">
   <!-- Línea vertical continua -->
   <div style="position:absolute;left:3px;top:14px;bottom:14px;width:1.5px;
@@ -1017,25 +1017,36 @@
     return r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.25;
   }
 
-  /* ── Sidebar: visible solo cuando el hero domina la pantalla ── */
+  /* ── Sidebar: visible y centrado al contenido de la sección ── */
   function updateNav(){
     var r = rect(); if(!r || !nav) return;
-    /* El top de la sección debe haber cruzado el 55% del viewport hacia arriba */
     var visible = r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.2;
     nav.style.opacity       = visible ? '1' : '0';
     nav.style.pointerEvents = visible ? 'auto' : 'none';
+    if(visible){
+      /* Calcular el centro de la sección DENTRO del viewport y anclar el sidebar ahí */
+      var secTop    = Math.max(r.top, 0);
+      var secBottom = Math.min(r.bottom, window.innerHeight);
+      var secMidVP  = secTop + (secBottom - secTop) / 2;    /* centro visible en px */
+      var pct       = (secMidVP / window.innerHeight) * 100; /* como % del viewport */
+      nav.style.top       = pct + '%';
+      nav.style.transform = 'translateY(-50%)';
+    }
   }
 
-  /* ── Resetear carrusel a solución 1 en cuanto la sección entra ── */
+  /* ── Resetear a solución 1 cuando el centro del hero cruza el centro del viewport ── */
   function checkReset(){
     var r = rect(); if(!r) return;
-    var entering = r.top <= window.innerHeight && r.top >= -60;
-    if(entering && !hasReset){
+    var sectionMid  = r.top + (r.bottom - r.top) / 2;
+    var viewportMid = window.innerHeight / 2;
+    /* Resetear cuando el centro de la sección está a menos de 45% del viewport del centro */
+    var nearCenter = Math.abs(sectionMid - viewportMid) < window.innerHeight * 0.45;
+    if(nearCenter && !hasReset){
       hasReset = true;
       idx = 0;
       window._snavSet && window._snavSet(0);
     }
-    if(r.bottom < 0) hasReset = false; /* sale por arriba → permitir nuevo reset */
+    if(r.bottom < 0) hasReset = false;
   }
 
   window.addEventListener('scroll', function(){ updateNav(); checkReset(); }, {passive:true});
