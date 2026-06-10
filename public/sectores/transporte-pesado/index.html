@@ -998,31 +998,50 @@
 
 <script>
 /* ══════════════════════════════════════════════
-   CARRUSEL — sección #hero avanza 1 solución por scroll
+   CARRUSEL + SIDEBAR — sección #hero
 ══════════════════════════════════════════════ */
 (function(){
   var secEl   = document.getElementById('hero');
+  var nav     = document.getElementById('side-nav');
   var SOL_MAX = 6;
   var idx     = 0;
   var locked  = false;
   var LOCK    = 700;
+  var hasReset = false;  /* para resetear solo una vez por entrada */
 
+  function rect(){ return secEl ? secEl.getBoundingClientRect() : null; }
+
+  /* ── La sección está "activa" cuando su centro está en el viewport ── */
   function isActive(){
-    if(!secEl) return false;
-    var r = secEl.getBoundingClientRect();
-    return r.top <= window.innerHeight * 0.5 && r.bottom >= window.innerHeight * 0.25;
+    var r = rect(); if(!r) return false;
+    return r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.25;
   }
 
-  /* Al entrar a la sección por primera vez (desde arriba) → resetear a 0 */
-  var entered = false;
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ idx = 0; entered = true; window._snavSet && window._snavSet(0); }
-      else { entered = false; }
-    });
-  }, {threshold: 0.4}).observe(secEl);
+  /* ── Sidebar: visible cuando la sección entra al viewport ── */
+  function updateNav(){
+    var r = rect(); if(!r || !nav) return;
+    var visible = r.top < window.innerHeight && r.bottom > 0;
+    nav.style.opacity       = visible ? '1' : '0';
+    nav.style.pointerEvents = visible ? 'auto' : 'none';
+  }
 
-  /* Wheel */
+  /* ── Resetear carrusel a solución 1 en cuanto la sección entra ── */
+  function checkReset(){
+    var r = rect(); if(!r) return;
+    var entering = r.top <= window.innerHeight && r.top >= -60;
+    if(entering && !hasReset){
+      hasReset = true;
+      idx = 0;
+      window._snavSet && window._snavSet(0);
+    }
+    if(r.bottom < 0) hasReset = false; /* sale por arriba → permitir nuevo reset */
+  }
+
+  window.addEventListener('scroll', function(){ updateNav(); checkReset(); }, {passive:true});
+  /* Ejecutar al cargar por si ya está en pantalla */
+  updateNav(); checkReset();
+
+  /* ── Wheel: un scroll = una solución ── */
   window.addEventListener('wheel', function(e){
     if(!isActive()) return;
     if(e.deltaY <= 0) return;
@@ -1035,7 +1054,7 @@
     setTimeout(function(){ locked = false; }, LOCK);
   }, {passive: false});
 
-  /* Touch */
+  /* ── Touch ── */
   var t0 = 0;
   window.addEventListener('touchstart', function(e){ t0 = e.touches[0].clientY; }, {passive:true});
   window.addEventListener('touchmove', function(e){
@@ -1046,21 +1065,6 @@
     t0 = e.touches[0].clientY;
     if(!locked){ locked = true; idx++; window._snavSet && window._snavSet(idx); setTimeout(function(){ locked = false; }, LOCK); }
   }, {passive: false});
-})();
-</script>
-
-<script>
-/* Sidebar visible SOLO cuando la sección #hero está en pantalla */
-(function(){
-  var nav = document.getElementById('side-nav');
-  var sec = document.getElementById('hero');
-  if(!nav || !sec) return;
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      nav.style.opacity        = e.isIntersecting ? '1'    : '0';
-      nav.style.pointerEvents  = e.isIntersecting ? 'auto' : 'none';
-    });
-  }, { threshold: 0.15 }).observe(sec);
 })();
 </script>
 
