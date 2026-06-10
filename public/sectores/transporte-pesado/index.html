@@ -1001,49 +1001,45 @@
    CARRUSEL + SIDEBAR — sección #hero
 ══════════════════════════════════════════════ */
 (function(){
-  var secEl   = document.getElementById('hero');
-  var nav     = document.getElementById('side-nav');
-  var SOL_MAX = 6;
-  var idx     = 0;
-  var locked  = false;
-  var LOCK    = 700;
-  var hasReset = false;  /* para resetear solo una vez por entrada */
+  var secEl    = document.getElementById('hero');
+  var nav      = document.getElementById('side-nav');
+  var SOL_MAX  = 6;
+  var idx      = 0;
+  var locked   = false;
+  var LOCK     = 700;
+  var hasReset = false;
+  var NAV_H    = 88; /* altura del nav fijo */
 
   function rect(){ return secEl ? secEl.getBoundingClientRect() : null; }
 
-  /* ── La sección está "activa" cuando su centro está en el viewport ── */
-  function isActive(){
+  /* ── Sección completamente visible: top bajo el nav, bottom sobre la mitad del viewport ── */
+  function fullyVisible(){
     var r = rect(); if(!r) return false;
-    return r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.25;
+    return r.top <= NAV_H + 10 && r.bottom >= window.innerHeight * 0.5;
   }
 
-  /* ── Sidebar: visible y centrado al contenido de la sección ── */
+  function isActive(){ return fullyVisible(); }
+
+  /* ── Sidebar: solo cuando la sección está completa en pantalla ── */
   function updateNav(){
     var r = rect(); if(!r || !nav) return;
-    var visible = r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.2;
-    nav.style.opacity       = visible ? '1' : '0';
-    nav.style.pointerEvents = visible ? 'auto' : 'none';
-    if(visible){
-      /* Calcular el centro de la sección DENTRO del viewport y anclar el sidebar ahí */
-      var secTop    = Math.max(r.top, 0);
-      var secBottom = Math.min(r.bottom, window.innerHeight);
-      var secMidVP  = secTop + (secBottom - secTop) / 2;    /* centro visible en px */
-      var pct       = (secMidVP / window.innerHeight) * 100; /* como % del viewport */
+    var show = fullyVisible();
+    nav.style.opacity       = show ? '1' : '0';
+    nav.style.pointerEvents = show ? 'auto' : 'none';
+    if(show){
+      var secTop = Math.max(r.top, NAV_H);
+      var secBot = Math.min(r.bottom, window.innerHeight);
+      var pct    = ((secTop + (secBot - secTop) / 2) / window.innerHeight) * 100;
       nav.style.top       = pct + '%';
       nav.style.transform = 'translateY(-50%)';
     }
   }
 
-  /* ── Resetear a solución 1 cuando el centro del hero cruza el centro del viewport ── */
+  /* ── Reset a solución 1 cuando la sección está completamente en pantalla ── */
   function checkReset(){
     var r = rect(); if(!r) return;
-    var sectionMid  = r.top + (r.bottom - r.top) / 2;
-    var viewportMid = window.innerHeight / 2;
-    /* Resetear cuando el centro de la sección está a menos de 45% del viewport del centro */
-    var nearCenter = Math.abs(sectionMid - viewportMid) < window.innerHeight * 0.45;
-    if(nearCenter && !hasReset){
-      hasReset = true;
-      idx = 0;
+    if(fullyVisible() && !hasReset){
+      hasReset = true; idx = 0;
       window._snavSet && window._snavSet(0);
     }
     if(r.bottom < 0) hasReset = false;
