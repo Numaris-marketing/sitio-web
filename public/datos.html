@@ -833,58 +833,16 @@
           <p>Valor de pipeline generado por cada canal de Marketing — últimos 12 meses</p>
         </div>
 
-        <div class="funnel-card" style="margin-bottom:1rem;">
+        <div id="origin-card" class="funnel-card" style="margin-bottom:1rem;">
           <div style="display:flex;flex-direction:column;gap:1.125rem;">
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
-                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">Expos (Expositor + Visitante)</div>
-                <div style="font-size:0.9375rem;font-weight:800;color:var(--orange);">MX$ 38.3M</div>
-              </div>
-              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:100%;background:var(--orange);border-radius:999px;"></div>
-              </div>
-              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">57.7% del pipeline de Marketing · canal líder &nbsp;·&nbsp; Expositor MX$37.2M + Visitante MX$1.1M</div>
-            </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
-                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">Google Ads — Pauta</div>
-                <div style="font-size:0.9375rem;font-weight:800;color:var(--blue);">MX$ 25.3M</div>
-              </div>
-              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:66%;background:var(--blue);border-radius:999px;"></div>
-              </div>
-              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">38.1% del pipeline de Marketing</div>
-            </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
-                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">WhatsApp — Numaris</div>
-                <div style="font-size:0.9375rem;font-weight:800;color:var(--green);">MX$ 2.5M</div>
-              </div>
-              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:6.5%;background:var(--green);border-radius:999px;"></div>
-              </div>
-              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">3.8% del pipeline de Marketing · 2 oportunidades</div>
-            </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
-                <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">LinkedIn Sales Navigator</div>
-                <div style="font-size:0.9375rem;font-weight:800;color:var(--fg-muted);">MX$ 277,500</div>
-              </div>
-              <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:0.7%;background:#94a3b8;border-radius:999px;min-width:6px;"></div>
-              </div>
-              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">0.4% del pipeline de Marketing · 1 oportunidad</div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:1rem;">
-              <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">Canales sin valor registrado</div>
-              <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">Campaña de mailing (1 opp) · Meta — Pauta (2 opps)</div>
-            </div>
+            <!-- populated by renderOriginPanel() -->
+            <div style="color:var(--fg-muted);font-size:0.8125rem;">Cargando datos de Zoho…</div>
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-          <div class="insight orange-tint"><strong>Eventos como canal #1.</strong> Las exposiciones generan <strong>MX$ 38.3M</strong> — el 57.7% del pipeline de Marketing. La estrategia de presencia en eventos es el motor principal de generación de demanda.</div>
-          <div class="insight"><strong>Google Ads como canal digital líder.</strong> Con <strong>MX$ 25.3M</strong>, Google Ads genera el 38.1% del pipeline. Representa la mayor palanca de inversión escalable.</div>
+        <div id="origin-insights" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="insight orange-tint"><strong>Eventos como canal #1.</strong> Las exposiciones generan <strong>MX$ 38.3M</strong> — el 57.7% del pipeline de Marketing.</div>
+          <div class="insight"><strong>Google Ads como canal digital líder.</strong> Con <strong>MX$ 25.3M</strong>, Google Ads genera el 38.1% del pipeline.</div>
         </div>
 
         <hr class="sec-divider" />
@@ -1636,6 +1594,9 @@
           '<strong>' + stgName + '</strong> — ' + stgData.count + ' opps · ' + fmt(stgData.value));
       }
 
+      // ── Origin / source panel ──
+      renderOriginPanel(d.bySource || {}, s.marketingPipelineValue);
+
       // ── Industry section ──
       renderIndustry(d.byIndustry);
 
@@ -1998,6 +1959,113 @@
       color: 'var(--green)',
     },
   };
+
+  // ── ORIGIN PANEL (Importe por Origen de Oportunidades) ────────────────────
+  function renderOriginPanel(bySource, totalMktValue) {
+    const card = document.getElementById('origin-card');
+    const insightsEl = document.getElementById('origin-insights');
+    if (!card) return;
+
+    function fmtVal(n) {
+      if (!n) return 'MX$0';
+      if (n >= 1e6) return 'MX$ ' + (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return 'MX$ ' + Math.round(n / 1e3).toLocaleString('es-MX') + 'K';
+      return 'MX$ ' + Math.round(n).toLocaleString('es-MX');
+    }
+
+    // Source display config
+    const SRC = {
+      "Google Ads - Pauta":                                 { label: "Google Ads — Pauta",          color: "var(--blue)" },
+      "LinkedIn Sales Navigator":                           { label: "LinkedIn Sales Navigator",           color: "#94a3b8" },
+      "Prospección LinkedIn":                          { label: "Prospección LinkedIn",          color: "#a78bfa" },
+      "WhatsApp - Numaris":                                 { label: "WhatsApp — Numaris",            color: "var(--green)" },
+      "Meta - Pauta":                                       { label: "Meta — Pauta",                  color: "#4f8ef7" },
+      "Campaña de mailing":                            { label: "Campaña de mailing",            color: "#94a3b8" },
+      "Formulario website":                                 { label: "Formulario website",                 color: "#94a3b8" },
+      "Prospección Facebook":                          { label: "Prospección Facebook",          color: "#4f8ef7" },
+      "Linkedin - Pauta":                                   { label: "LinkedIn — Pauta",              color: "#a78bfa" },
+      "Newsletter LinkedIn":                                { label: "Newsletter LinkedIn",                color: "#a78bfa" },
+    };
+
+    // Group Expo Expositor + Visitante
+    const EXPO_EXP = "Expo como expositor (agregar etiqueta de Expo)";
+    const EXPO_VIS = "Expo como visitante (agregar etiqueta de Expo)";
+    const expoExp = bySource[EXPO_EXP] || { count: 0, value: 0 };
+    const expoVis = bySource[EXPO_VIS] || { count: 0, value: 0 };
+    const expoTotal = { value: expoExp.value + expoVis.value, count: expoExp.count + expoVis.count };
+
+    // Build rows (all non-expo sources + grouped expo)
+    const rows = [];
+    if (expoTotal.value > 0 || expoTotal.count > 0) {
+      rows.push({
+        label: "Expos (Expositor + Visitante)",
+        color: "var(--orange)",
+        value: expoTotal.value,
+        count: expoTotal.count,
+        subNote: expoExp.value > 0 && expoVis.value > 0
+          ? "Expositor " + fmtVal(expoExp.value) + " + Visitante " + fmtVal(expoVis.value)
+          : null,
+      });
+    }
+
+    for (const [src, data] of Object.entries(bySource)) {
+      if (src === EXPO_EXP || src === EXPO_VIS) continue;
+      const cfg = SRC[src] || { label: src, color: "#94a3b8" };
+      rows.push({ label: cfg.label, color: cfg.color, value: data.value, count: data.count });
+    }
+
+    rows.sort((a, b) => b.value - a.value);
+
+    const withValue  = rows.filter(r => r.value > 0);
+    const zeroValue  = rows.filter(r => r.value === 0 && r.count > 0);
+    const maxVal     = withValue[0]?.value || 1;
+
+    let html = '<div style="display:flex;flex-direction:column;gap:1.125rem;">';
+
+    for (const r of withValue) {
+      const pct   = totalMktValue > 0 ? (r.value / totalMktValue * 100) : 0;
+      const barW  = Math.max((r.value / maxVal) * 100, 1);
+      const isTop = r === withValue[0];
+      const note  = r.subNote
+        ? pct.toFixed(1) + '% del pipeline de Marketing · canal líder · ' + r.subNote
+        : pct.toFixed(1) + '% del pipeline de Marketing' + (r.count > 0 ? ' · ' + r.count + ' oportunidad' + (r.count !== 1 ? 'es' : '') : '');
+
+      html += `
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+            <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">${r.label}</div>
+            <div style="font-size:0.9375rem;font-weight:800;color:${r.color};">${fmtVal(r.value)}</div>
+          </div>
+          <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
+            <div style="height:100%;width:${barW.toFixed(1)}%;background:${r.color};border-radius:999px;min-width:${barW < 3 ? '6px' : '0'};"></div>
+          </div>
+          <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.3rem;">${note}</div>
+        </div>`;
+    }
+
+    if (zeroValue.length > 0) {
+      const zeroList = zeroValue.map(r => r.label + ' (' + r.count + ' opp)').join(' · ');
+      html += `
+        <div style="border-top:1px solid var(--border);padding-top:1rem;">
+          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">Canales sin valor registrado</div>
+          <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">${zeroList}</div>
+        </div>`;
+    }
+
+    html += '</div>';
+    card.innerHTML = html;
+
+    // Update insights dynamically
+    if (insightsEl && withValue.length >= 2) {
+      const top1 = withValue[0];
+      const top2 = withValue[1];
+      const top1Pct = totalMktValue > 0 ? (top1.value / totalMktValue * 100).toFixed(1) : '—';
+      const top2Pct = totalMktValue > 0 ? (top2.value / totalMktValue * 100).toFixed(1) : '—';
+      insightsEl.innerHTML = `
+        <div class="insight orange-tint"><strong>${top1.label} como canal #1.</strong> Genera <strong>${fmtVal(top1.value)}</strong> — el ${top1Pct}% del pipeline de Marketing.</div>
+        <div class="insight"><strong>${top2.label} como canal #2.</strong> Con <strong>${fmtVal(top2.value)}</strong>, genera el ${top2Pct}% del pipeline.</div>`;
+    }
+  }
 
   function renderCampaigns(byCampaign, campaignDetails) {
     const tbody    = document.getElementById('campaign-table-body');
