@@ -1298,15 +1298,12 @@
     </div>
 
     <div class="grid lg:grid-cols-3 gap-8 relative" id="proceso-grid">
-      <!-- Carretera entre pasos -->
-      <div class="hidden lg:block absolute left-[calc(33.33%-20px)] right-[calc(33.33%-20px)]" style="top:38px;height:3px;overflow:visible;z-index:2">
-        <!-- línea punteada = carretera -->
-        <div style="width:100%;height:2px;background:repeating-linear-gradient(90deg,rgba(36,95,165,.25) 0px,rgba(36,95,165,.25) 12px,transparent 12px,transparent 22px);border-radius:2px"></div>
-        <!-- tracto animado -->
+      <!-- Tracto animado entre pasos -->
+      <div class="hidden lg:block absolute left-[calc(33.33%-20px)] right-[calc(33.33%-20px)]" style="top:38px;height:0;overflow:visible;z-index:2">
         <img id="proceso-tracto"
-             src="/tracto-blanco.jpg"
+             src="/tracto-blanco.png"
              alt=""
-             style="position:absolute;top:50%;height:36px;width:auto;transform:translateY(-85%) translateX(-100%);mix-blend-mode:multiply;opacity:0;filter:drop-shadow(0 2px 4px rgba(1,39,80,.18));pointer-events:none;transition:none"
+             style="position:absolute;top:0;height:44px;width:auto;transform:translateY(-80%);opacity:0;filter:drop-shadow(0 2px 6px rgba(1,39,80,.2));pointer-events:none"
         />
       </div>
 
