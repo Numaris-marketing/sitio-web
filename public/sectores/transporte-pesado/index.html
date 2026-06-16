@@ -1457,10 +1457,8 @@
     font-size: 14px; font-weight: 500;
     color: rgba(1,39,80,.32);
     background: none; border: none; cursor: pointer;
-    border-bottom: 1px solid rgba(1,39,80,.07);
     transition: color .2s;
   }
-  .reto-btn:last-child { border-bottom: none; }
   .reto-btn::before {
     content: '•';
     font-size: 20px;
@@ -1498,7 +1496,7 @@
     <div id="retos-layout" class="hidden lg:grid" style="grid-template-columns:230px 1fr 310px;">
 
       <!-- COL 1: NAV -->
-      <div style="padding:36px 40px 36px 0;border-right:1px solid rgba(1,39,80,.1)">
+      <div style="padding:36px 40px 36px 0;">
         <nav id="retos-nav">
           <button class="reto-btn active" data-i="0">Robo de combustible</button>
           <button class="reto-btn" data-i="1">Conducción riesgosa</button>
@@ -1510,7 +1508,7 @@
       </div>
 
       <!-- COL 2: IMAGEN (estática) -->
-      <div style="position:relative;border-right:1px solid rgba(1,39,80,.1);display:flex;align-items:center;justify-content:center;padding:32px 40px;min-height:440px">
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;padding:32px 40px;min-height:440px">
         <img src="/riesgo-camion.jpg" alt="Riesgo en operación de flota" style="width:82%;aspect-ratio:3/4;object-fit:cover;object-position:center;border-radius:16px;display:block">
       </div>
 
