@@ -892,17 +892,8 @@
     display: flex;
     flex-direction: column;
     padding: 0 8vw;
-    border-top: 1px solid rgba(255,255,255,.1);
+    border-top: 1px solid rgba(1,39,80,.1);
     overflow: hidden;
-  }
-  .sn-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(36,95,165,.07) 1px, transparent 1px);
-    background-size: 56px 56px;
-    pointer-events: none;
-    opacity: .5;
   }
   .sn-label {
     display: flex;
@@ -916,13 +907,13 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: rgba(255,255,255,.08);
+    background: rgba(1,39,80,.1);
   }
   .sn-idx {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .15em;
-    color: rgba(255,255,255,.28);
+    color: rgba(1,39,80,.35);
     font-family: 'Montserrat', sans-serif;
     white-space: nowrap;
   }
@@ -930,7 +921,7 @@
     font-size: 11px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(255,255,255,.28);
+    color: rgba(1,39,80,.35);
     font-family: 'Montserrat', sans-serif;
     white-space: nowrap;
   }
@@ -939,6 +930,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
     padding-bottom: 10vh;
     position: relative;
     z-index: 1;
@@ -948,13 +941,13 @@
     font-weight: 800;
     line-height: .85;
     letter-spacing: -.04em;
-    color: white;
+    color: #012750;
     margin: 0;
     font-family: 'Inter', sans-serif;
   }
   .sn-desc {
     font-size: clamp(15px, 1.4vw, 19px);
-    color: rgba(255,255,255,.38);
+    color: rgba(1,39,80,.45);
     margin-top: 22px;
     font-weight: 300;
     letter-spacing: .01em;
@@ -964,7 +957,7 @@
   .sn-panel.sn-on .sn-body { opacity: 1; transform: translateY(0); }
 </style>
 
-<section style="background:#040D1A">
+<section style="background:#EDF2F8">
 
   <!-- 1.1 -->
   <div class="sn-panel">
