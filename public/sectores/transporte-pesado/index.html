@@ -887,22 +887,20 @@
 ══════════════════════════════════════════════ -->
 <style>
   .sn-panel {
-    height: 60vh;
-    min-height: 380px;
+    height: 72vh;
+    min-height: 420px;
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0 8vw;
-    border-top: 1px solid rgba(1,39,80,.1);
+    border-top: 1px solid rgba(1,39,80,.12);
     overflow: hidden;
   }
   .sn-label {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding-top: 40px;
-    position: relative;
-    z-index: 1;
+    gap: 16px;
+    padding: 28px 8vw;
+    flex-shrink: 0;
   }
   .sn-label::after {
     content: '';
@@ -926,35 +924,34 @@
     font-family: 'Montserrat', sans-serif;
     white-space: nowrap;
   }
+  /* número arranca desde ~45% del ancho, alineado a la izquierda del bloque */
   .sn-body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    text-align: right;
-    padding-bottom: 6vh;
-    position: relative;
-    z-index: 1;
+    justify-content: center;
+    padding-left: 45vw;
+    padding-right: 8vw;
+    padding-bottom: 4vh;
   }
   .sn-num {
-    font-size: clamp(44px, 8.5vw, 120px);
+    font-size: clamp(72px, 16vw, 220px);
     font-weight: 800;
-    line-height: .85;
+    line-height: .88;
     letter-spacing: -.04em;
     color: #012750;
     margin: 0;
     font-family: 'Inter', sans-serif;
   }
   .sn-desc {
-    font-size: clamp(15px, 1.4vw, 19px);
+    font-size: clamp(14px, 1.2vw, 18px);
     color: rgba(1,39,80,.45);
-    margin-top: 22px;
+    margin-top: 18px;
     font-weight: 300;
     letter-spacing: .01em;
   }
   /* fade-in on scroll */
-  .sn-body { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s ease; }
+  .sn-body { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
   .sn-panel.sn-on .sn-body { opacity: 1; transform: translateY(0); }
 </style>
 
