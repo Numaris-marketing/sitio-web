@@ -1651,11 +1651,9 @@
     var insetV  = lerp(22, 0, e);
     var insetH  = lerp(14, 0, e);
     var radius  = lerp(28, 16, e);
-    var opacity = lerp(0.1, 1, e);
     var scale   = lerp(1.12, 1, e);
 
     imgOuter.style.clipPath = 'inset('+insetV.toFixed(2)+'% '+insetH.toFixed(2)+'% round '+radius.toFixed(1)+'px)';
-    imgOuter.style.opacity  = opacity.toFixed(3);
     imgInner.style.transform = 'scale('+scale.toFixed(4)+')';
   }
 
