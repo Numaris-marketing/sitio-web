@@ -883,49 +883,151 @@
 </script>
 
 <!-- ══════════════════════════════════════════════
-     STATS
+     STATS NARRATIVE
 ══════════════════════════════════════════════ -->
-<section class="relative py-20 overflow-hidden" style="background:#EDF2F8">
-  <div class="orb" style="width:800px;height:400px;background:radial-gradient(ellipse,rgba(36,95,165,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+<style>
+  .sn-panel {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 8vw;
+    border-top: 1px solid rgba(255,255,255,.1);
+    overflow: hidden;
+  }
+  .sn-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(36,95,165,.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    opacity: .5;
+  }
+  .sn-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .sn-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,.08);
+  }
+  .sn-idx {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: rgba(255,255,255,.28);
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+  }
+  .sn-name {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.28);
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+  }
+  .sn-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 10vh;
+    position: relative;
+    z-index: 1;
+  }
+  .sn-num {
+    font-size: clamp(88px, 17vw, 240px);
+    font-weight: 800;
+    line-height: .85;
+    letter-spacing: -.04em;
+    color: white;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .sn-desc {
+    font-size: clamp(15px, 1.4vw, 19px);
+    color: rgba(255,255,255,.38);
+    margin-top: 22px;
+    font-weight: 300;
+    letter-spacing: .01em;
+  }
+  /* fade-in on scroll */
+  .sn-body { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s ease; }
+  .sn-panel.sn-on .sn-body { opacity: 1; transform: translateY(0); }
+</style>
 
-  <div class="relative z-10 max-w-5xl mx-auto px-6">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 fi">
+<section style="background:#040D1A">
 
-      <div class="text-center">
-        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
-          <span class="stat-n" data-p="-" data-t="25" data-s="%">-25%</span>
-        </div>
-        <p class="text-[13px] font-medium mb-1" style="color:rgba(1,39,80,.7)">Reducción de combustible</p>
-        <p class="text-[11px] font-light" style="color:rgba(1,39,80,.4)">promedio en flotas activas</p>
-      </div>
-
-      <div class="text-center">
-        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
-          <span class="stat-n" data-p="+" data-t="5000" data-s="">+5K</span>
-        </div>
-        <p class="text-[13px] font-medium mb-1" style="color:rgba(1,39,80,.7)">Empresas activas</p>
-        <p class="text-[11px] font-light" style="color:rgba(1,39,80,.4)">en toda la República</p>
-      </div>
-
-      <div class="text-center">
-        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
-          <span class="stat-n" data-t="48" data-s=" hrs">48 hrs</span>
-        </div>
-        <p class="text-[13px] font-medium mb-1" style="color:rgba(1,39,80,.7)">Tiempo de instalación</p>
-        <p class="text-[11px] font-light" style="color:rgba(1,39,80,.4)">sin paro operativo</p>
-      </div>
-
-      <div class="text-center">
-        <div class="text-[52px] sm:text-[64px] font-bold leading-none tracking-tight mb-2" style="background:linear-gradient(135deg,#6EB0FF 0%,#3B82F6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
-          24/7
-        </div>
-        <p class="text-[13px] font-medium mb-1" style="color:rgba(1,39,80,.7)">Monitoreo continuo</p>
-        <p class="text-[11px] font-light" style="color:rgba(1,39,80,.4)">con centro de control</p>
-      </div>
-
+  <!-- 1.1 -->
+  <div class="sn-panel">
+    <div class="sn-label">
+      <span class="sn-idx">1.1</span>
+      <span class="sn-name">Reducción de combustible</span>
+    </div>
+    <div class="sn-body">
+      <p class="sn-num">-25%</p>
+      <p class="sn-desc">promedio en flotas activas</p>
     </div>
   </div>
+
+  <!-- 1.2 -->
+  <div class="sn-panel">
+    <div class="sn-label">
+      <span class="sn-idx">1.2</span>
+      <span class="sn-name">Empresas activas</span>
+    </div>
+    <div class="sn-body">
+      <p class="sn-num">+5,000</p>
+      <p class="sn-desc">en toda la República</p>
+    </div>
+  </div>
+
+  <!-- 1.3 -->
+  <div class="sn-panel">
+    <div class="sn-label">
+      <span class="sn-idx">1.3</span>
+      <span class="sn-name">Tiempo de instalación</span>
+    </div>
+    <div class="sn-body">
+      <p class="sn-num">48 hrs</p>
+      <p class="sn-desc">sin paro operativo</p>
+    </div>
+  </div>
+
+  <!-- 1.4 -->
+  <div class="sn-panel">
+    <div class="sn-label">
+      <span class="sn-idx">1.4</span>
+      <span class="sn-name">Monitoreo continuo</span>
+    </div>
+    <div class="sn-body">
+      <p class="sn-num">24/7</p>
+      <p class="sn-desc">con centro de control</p>
+    </div>
+  </div>
+
 </section>
+
+<script>
+(function(){
+  var panels = document.querySelectorAll('.sn-panel');
+  if(!panels.length) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) e.target.classList.add('sn-on');
+    });
+  }, { threshold: 0.25 });
+  panels.forEach(function(p){ obs.observe(p); });
+})();
+</script>
 <!-- ══════════════════════════════════════════════
      HERO
 ══════════════════════════════════════════════ -->
