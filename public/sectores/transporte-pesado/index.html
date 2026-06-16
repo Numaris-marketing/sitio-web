@@ -1365,9 +1365,8 @@
   /* Solo desktop */
   if(window.innerWidth < 1024) return;
 
-  var TRAVEL_MS = 1400; /* duración de recorrido por línea */
-  var PAUSE_MS  = 350;  /* pausa entre líneas */
-  var CYCLE_MS  = 2200; /* pausa antes de repetir */
+  var TRAVEL_MS = 1300; /* duración de recorrido por línea */
+  var CYCLE_MS  = 2000; /* pausa antes de repetir */
 
   /* Esperar a que el grid sea visible */
   var obs = new IntersectionObserver(function(entries){
@@ -1379,7 +1378,10 @@
   }, { threshold: 0.5 });
   obs.observe(grid);
 
-  function easeInOut(t){ return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
+  /* Fade in: primeros 16% del recorrido
+     Fade out: empieza en 70% — se mete al degradado sin frenar */
+  var FADE_IN  = 0.16;
+  var FADE_OUT = 0.70;
 
   function animateLine(line, done){
     var gridRect  = grid.getBoundingClientRect();
@@ -1388,34 +1390,42 @@
     var truckW    = tracto.offsetWidth  || 110;
 
     /* Posición vertical: centrado sobre la línea */
-    var top = lineRect.top - gridRect.top - truckH * 0.75;
+    var top    = lineRect.top - gridRect.top - truckH * 0.75;
     /* Inicio: justo antes del borde izquierdo de la línea */
     var startX = lineRect.left - gridRect.left - truckW * 0.3;
     /* Fin: borde derecho de la línea */
     var endX   = lineRect.right - gridRect.left - truckW * 0.7;
 
+    /* Colocar sin transición — la opacidad la manejamos frame a frame */
+    tracto.style.transition = 'none';
     tracto.style.top  = top + 'px';
     tracto.style.left = startX + 'px';
-    tracto.style.transition = 'opacity .2s ease';
-    tracto.style.opacity = '1';
+    tracto.style.opacity = '0';
 
     var start = null;
     function step(ts){
       if(!start) start = ts;
       var prog = Math.min((ts - start) / TRAVEL_MS, 1);
-      var ease = easeInOut(prog);
-      tracto.style.left = (startX + ease * (endX - startX)) + 'px';
 
-      /* Fade out en el último 20% del recorrido */
-      if(prog > 0.8){
-        tracto.style.opacity = (1 - (prog - 0.8) / 0.2).toFixed(3);
+      /* Movimiento lineal — velocidad constante, sin freno */
+      tracto.style.left = (startX + prog * (endX - startX)) + 'px';
+
+      /* Opacidad: fade-in rápido → visible → fade-out hacia el degradado */
+      var op;
+      if(prog <= FADE_IN){
+        op = prog / FADE_IN;
+      } else if(prog >= FADE_OUT){
+        op = 1 - (prog - FADE_OUT) / (1 - FADE_OUT);
+      } else {
+        op = 1;
       }
+      tracto.style.opacity = Math.max(0, op).toFixed(3);
 
       if(prog < 1){
         requestAnimationFrame(step);
       } else {
         tracto.style.opacity = '0';
-        setTimeout(done, PAUSE_MS);
+        done(); /* sin pausa — pasa directo a la siguiente línea */
       }
     }
     requestAnimationFrame(step);
