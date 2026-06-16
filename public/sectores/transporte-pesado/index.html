@@ -1438,8 +1438,7 @@
       if(i < lines.length){
         animateLine(lines[i], function(){ i++; next(); });
       } else {
-        /* Repetir ciclo */
-        setTimeout(runCycle, CYCLE_MS);
+        /* Un solo recorrido — no repetir */
       }
     }
     next();
