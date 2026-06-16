@@ -1457,9 +1457,9 @@
     width: 100%; text-align: left;
     padding: 13px 0;
     font-size: 14px; font-weight: 500;
-    color: rgba(208,223,240,.28);
+    color: rgba(1,39,80,.32);
     background: none; border: none; cursor: pointer;
-    border-bottom: 1px solid rgba(255,255,255,.04);
+    border-bottom: 1px solid rgba(1,39,80,.07);
     transition: color .2s;
   }
   .reto-btn:last-child { border-bottom: none; }
@@ -1472,9 +1472,9 @@
     line-height: 1;
     transition: opacity .25s;
   }
-  .reto-btn.active { color: rgba(255,255,255,.88); font-weight: 600; }
+  .reto-btn.active { color: rgba(1,39,80,.9); font-weight: 600; }
   .reto-btn.active::before { opacity: 1; }
-  .reto-btn:hover:not(.active) { color: rgba(208,223,240,.55); }
+  .reto-btn:hover:not(.active) { color: rgba(1,39,80,.55); }
 
   .reto-vis, .reto-det { display: none; }
   .reto-vis.active { display: flex; flex-direction: column; align-items: center; justify-content: center; animation: reto-in .35s ease both; }
@@ -1482,7 +1482,7 @@
   @keyframes reto-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 </style>
 
-<section id="retos" class="relative overflow-hidden fi" style="background:var(--bg);padding:80px 0 100px">
+<section id="retos" class="relative overflow-hidden fi" style="background:#EDF2F8;padding:80px 0 100px">
   <div class="relative z-10 max-w-7xl mx-auto px-6">
 
     <!-- Header -->
@@ -1491,16 +1491,16 @@
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         Los retos de tu operación
       </div>
-      <h2 class="text-[36px] sm:text-[48px] font-bold leading-tight tracking-tight" style="color:rgba(255,255,255,.9);max-width:620px">
+      <h2 class="text-[36px] sm:text-[48px] font-bold leading-tight tracking-tight" style="color:#012750;max-width:620px">
         ¿Qué le cuesta dinero a tu flota?
       </h2>
     </div>
 
     <!-- DESKTOP: 3-col Joby layout -->
-    <div id="retos-layout" class="hidden lg:grid" style="grid-template-columns:230px 1fr 310px;border-top:1px solid rgba(255,255,255,.07)">
+    <div id="retos-layout" class="hidden lg:grid" style="grid-template-columns:230px 1fr 310px;border-top:1px solid rgba(1,39,80,.1)">
 
       <!-- COL 1: NAV -->
-      <div style="padding:36px 40px 36px 0;border-right:1px solid rgba(255,255,255,.07)">
+      <div style="padding:36px 40px 36px 0;border-right:1px solid rgba(1,39,80,.1)">
         <nav id="retos-nav">
           <button class="reto-btn active" data-i="0">Robo de combustible</button>
           <button class="reto-btn" data-i="1">Conducción riesgosa</button>
@@ -1512,43 +1512,43 @@
       </div>
 
       <!-- COL 2: VISUAL -->
-      <div style="position:relative;border-right:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;padding:56px 48px;overflow:hidden;min-height:420px">
+      <div style="position:relative;border-right:1px solid rgba(1,39,80,.1);display:flex;align-items:center;justify-content:center;padding:56px 48px;overflow:hidden;min-height:420px">
         <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(239,68,68,.06) 0%,transparent 68%);pointer-events:none"></div>
 
         <div class="reto-vis active" data-i="0" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">15%</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">del gasto operativo perdido</p>
+          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">15%</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">del gasto operativo perdido</p>
         </div>
 
         <div class="reto-vis" data-i="1" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">1/3</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">accidentes por conducción riesgosa</p>
+          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">1/3</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">accidentes por conducción riesgosa</p>
         </div>
 
         <div class="reto-vis" data-i="2" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">30%</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">de robos ocurren en tránsito</p>
+          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">30%</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">de robos ocurren en tránsito</p>
         </div>
 
         <div class="reto-vis" data-i="3" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          <p style="font-size:72px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">$500K</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">en multas anuales por incumplimiento</p>
+          <p style="font-size:72px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">$500K</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">en multas anuales por incumplimiento</p>
         </div>
 
         <div class="reto-vis" data-i="4" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">3×</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">más caro que el mantenimiento preventivo</p>
+          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">3×</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">más caro que el mantenimiento preventivo</p>
         </div>
 
         <div class="reto-vis" data-i="5" style="position:relative;z-index:1;text-align:center">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,.65)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.9);margin-top:18px">7</p>
-          <p style="font-size:13px;color:rgba(208,223,240,.38);margin-top:10px;letter-spacing:.02em">sistemas desconectados en promedio</p>
+          <p style="font-size:88px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#012750;margin-top:18px">7</p>
+          <p style="font-size:13px;color:rgba(1,39,80,.42);margin-top:10px;letter-spacing:.02em">sistemas desconectados en promedio</p>
         </div>
       </div>
 
@@ -1557,61 +1557,61 @@
 
         <div class="reto-det active" data-i="0">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">01 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Robo de combustible</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">Sin control preciso, el huachicol y los desvíos de combustible representan pérdidas de hasta el 15% del gasto operativo de tu flota.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Robo de combustible</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">Sin control preciso, el huachicol y los desvíos de combustible representan pérdidas de hasta el 15% del gasto operativo de tu flota.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Control de combustible + alertas de desvío en tiempo real</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Control de combustible + alertas de desvío en tiempo real</p>
           </div>
         </div>
 
         <div class="reto-det" data-i="1">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">02 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Conducción riesgosa</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">Exceso de velocidad, frenados bruscos y fatiga al volante que aumentan accidentes y desgastan las unidades de tu flota.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Conducción riesgosa</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">Exceso de velocidad, frenados bruscos y fatiga al volante que aumentan accidentes y desgastan las unidades de tu flota.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Videotelemetría IA + scoring de conducción por operador</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Videotelemetría IA + scoring de conducción por operador</p>
           </div>
         </div>
 
         <div class="reto-det" data-i="2">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">03 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Sin visibilidad de carga</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">No sabes si el remolque llegó, si fue abierto sin autorización o si la carga fue manipulada en ruta.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Sin visibilidad de carga</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">No sabes si el remolque llegó, si fue abierto sin autorización o si la carga fue manipulada en ruta.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Remolques inteligentes + sensores de apertura y rastreo GPS</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Remolques inteligentes + sensores de apertura y rastreo GPS</p>
           </div>
         </div>
 
         <div class="reto-det" data-i="3">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">04 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Incumplimiento normativo</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">Multas por exceso de horas de conducción, falta de registros de mantenimiento y ausencia de evidencia ante auditorías de la SCT.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Incumplimiento normativo</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">Multas por exceso de horas de conducción, falta de registros de mantenimiento y ausencia de evidencia ante auditorías de la SCT.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Monitoreo de licencia + registros automáticos para auditoría</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Monitoreo de licencia + registros automáticos para auditoría</p>
           </div>
         </div>
 
         <div class="reto-det" data-i="4">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">05 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Mantenimiento reactivo</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">Unidades que se detienen en carretera por fallas no detectadas a tiempo, generando costos de grúa y demoras en entregas.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Mantenimiento reactivo</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">Unidades que se detienen en carretera por fallas no detectadas a tiempo, generando costos de grúa y demoras en entregas.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Telemetría avanzada + alertas de mantenimiento preventivo</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Telemetría avanzada + alertas de mantenimiento preventivo</p>
           </div>
         </div>
 
         <div class="reto-det" data-i="5">
           <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.5);margin-bottom:16px;font-weight:600">06 / 06</p>
-          <h3 style="font-size:20px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;line-height:1.3">Información fragmentada</h3>
-          <p style="font-size:14px;line-height:1.8;color:rgba(208,223,240,.52)">Múltiples sistemas desconectados que no te dan una visión unificada de tu flota, operadores y costos.</p>
+          <h3 style="font-size:20px;font-weight:700;color:#012750;margin-bottom:12px;line-height:1.3">Información fragmentada</h3>
+          <p style="font-size:14px;line-height:1.8;color:rgba(1,39,80,.55)">Múltiples sistemas desconectados que no te dan una visión unificada de tu flota, operadores y costos.</p>
           <div style="margin-top:24px;padding:14px 16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px">
             <p style="font-size:11px;font-weight:700;color:rgba(239,68,68,.55);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Numaris lo resuelve con</p>
-            <p style="font-size:13px;color:rgba(208,223,240,.62);line-height:1.5">Gestión de flotas + plataforma unificada de monitoreo</p>
+            <p style="font-size:13px;color:rgba(1,39,80,.62);line-height:1.5">Gestión de flotas + plataforma unificada de monitoreo</p>
           </div>
         </div>
 
@@ -1620,29 +1620,29 @@
 
     <!-- MOBILE: cards -->
     <div class="lg:hidden grid sm:grid-cols-2 gap-4">
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Robo de combustible</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">Sin control preciso, el huachicol y los desvíos de combustible representan pérdidas de hasta el 15% del gasto operativo.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Robo de combustible</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">Sin control preciso, el huachicol y los desvíos de combustible representan pérdidas de hasta el 15% del gasto operativo.</p>
       </div>
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Conducción riesgosa</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">Exceso de velocidad, frenados bruscos y fatiga al volante que aumentan accidentes y desgastan las unidades.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Conducción riesgosa</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">Exceso de velocidad, frenados bruscos y fatiga al volante que aumentan accidentes y desgastan las unidades.</p>
       </div>
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Sin visibilidad de carga</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">No sabes si el remolque llegó, si fue abierto sin autorización o si la carga fue manipulada en ruta.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Sin visibilidad de carga</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">No sabes si el remolque llegó, si fue abierto sin autorización o si la carga fue manipulada en ruta.</p>
       </div>
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Incumplimiento normativo</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">Multas por exceso de horas de conducción, falta de registros y ausencia de evidencia ante auditorías de la SCT.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Incumplimiento normativo</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">Multas por exceso de horas de conducción, falta de registros y ausencia de evidencia ante auditorías de la SCT.</p>
       </div>
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Mantenimiento reactivo</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">Unidades que se detienen en carretera por fallas no detectadas, generando costos de grúa y demoras en entregas.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Mantenimiento reactivo</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">Unidades que se detienen en carretera por fallas no detectadas, generando costos de grúa y demoras en entregas.</p>
       </div>
-      <div class="pain-card rounded-2xl p-6" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
-        <h3 class="text-[15px] font-semibold mb-2" style="color:rgba(255,255,255,.88)">Información fragmentada</h3>
-        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(208,223,240,.5)">Múltiples sistemas desconectados que no te dan una visión unificada de tu flota, operadores y costos.</p>
+      <div class="pain-card rounded-2xl p-6" style="background:white;border:1px solid rgba(1,39,80,.1)">
+        <h3 class="text-[15px] font-semibold mb-2" style="color:#012750">Información fragmentada</h3>
+        <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.52)">Múltiples sistemas desconectados que no te dan una visión unificada de tu flota, operadores y costos.</p>
       </div>
     </div>
 
