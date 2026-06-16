@@ -1649,10 +1649,10 @@
     var end      = vh * 0.2;    /* cuando ya está bien visible */
     var progress = clamp((start - rect.top) / (start - end), 0, 1);
 
-    var insetV = lerp(28, 0, progress);
-    var insetH = lerp(16, 0, progress);
-    var radius = lerp(32, 16, progress);
-    var scale  = lerp(1.10, 1, progress);
+    var insetV = lerp(42, 0, progress);
+    var insetH = lerp(28, 0, progress);
+    var radius = lerp(48, 16, progress);
+    var scale  = lerp(1.22, 1, progress);
 
     imgOuter.style.clipPath      = 'inset('+insetV.toFixed(2)+'% '+insetH.toFixed(2)+'% round '+radius.toFixed(1)+'px)';
     imgInner.style.transform     = 'scale('+scale.toFixed(4)+')';
