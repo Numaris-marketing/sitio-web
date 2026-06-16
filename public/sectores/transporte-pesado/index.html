@@ -1297,8 +1297,18 @@
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-8 relative">
-      <div class="hidden lg:block absolute top-10 left-[calc(33.33%-20px)] right-[calc(33.33%-20px)] h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.2),rgba(36,95,165,.1),rgba(36,95,165,.2))"></div>
+    <div class="grid lg:grid-cols-3 gap-8 relative" id="proceso-grid">
+      <!-- Carretera entre pasos -->
+      <div class="hidden lg:block absolute left-[calc(33.33%-20px)] right-[calc(33.33%-20px)]" style="top:38px;height:3px;overflow:visible;z-index:2">
+        <!-- línea punteada = carretera -->
+        <div style="width:100%;height:2px;background:repeating-linear-gradient(90deg,rgba(36,95,165,.25) 0px,rgba(36,95,165,.25) 12px,transparent 12px,transparent 22px);border-radius:2px"></div>
+        <!-- tracto animado -->
+        <img id="proceso-tracto"
+             src="/tracto-blanco.jpg"
+             alt=""
+             style="position:absolute;top:50%;height:36px;width:auto;transform:translateY(-85%) translateX(-100%);mix-blend-mode:multiply;opacity:0;filter:drop-shadow(0 2px 4px rgba(1,39,80,.18));pointer-events:none;transition:none"
+        />
+      </div>
 
       <div class="fi card rounded-2xl p-7" style="background:white;border:1px solid rgba(1,39,80,.1);box-shadow:0 2px 16px rgba(1,39,80,.06);transition-delay:.05s">
         <div class="flex items-center gap-4 mb-5">
@@ -1348,6 +1358,51 @@
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  var grid   = document.getElementById('proceso-grid');
+  var tracto = document.getElementById('proceso-tracto');
+  if(!grid || !tracto) return;
+
+  var ran = false;
+  var obs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting && !ran){
+      ran = true;
+      obs.disconnect();
+      runTruck();
+    }
+  }, { threshold: 0.4 });
+  obs.observe(grid);
+
+  function runTruck(){
+    /* road container width */
+    var road = grid.querySelector('[id="proceso-tracto"]').parentElement;
+    var roadW = road.offsetWidth;
+    var truckW = tracto.offsetWidth || 80;
+
+    /* start: just off the left edge */
+    tracto.style.transition = 'none';
+    tracto.style.left = '0px';
+    tracto.style.opacity = '1';
+
+    /* animate via JS for smoothness */
+    var start = null;
+    var duration = 2800; /* ms */
+
+    function step(ts){
+      if(!start) start = ts;
+      var prog = Math.min((ts - start) / duration, 1);
+      /* ease-in-out */
+      var ease = prog < 0.5 ? 2*prog*prog : -1+(4-2*prog)*prog;
+      var x = ease * (roadW + truckW * 0.5) - truckW;
+      tracto.style.left = x + 'px';
+      if(prog < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+})();
+</script>
 
 <div class="divider"></div>
 
