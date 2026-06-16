@@ -1638,7 +1638,8 @@
 
   function clamp(v,a,b){ return Math.min(Math.max(v,a),b); }
   function lerp(a,b,t){ return a+(b-a)*t; }
-  function ease(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+  /* ease-out: arranca rápido y decelera al llegar al tamaño final */
+  function ease(t){ return 1-(1-t)*(1-t); }
 
   function update(){
     var rect     = pinWrap.getBoundingClientRect();
