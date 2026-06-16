@@ -1493,8 +1493,7 @@
   }
 </style>
 
-<div id="reto-pin-wrap" style="position:relative;height:240vh;">
-<section id="retos" class="relative" style="background:#EDF2F8;padding:80px 0 100px;position:sticky;top:0;min-height:100vh;">
+<section id="retos" class="relative" style="background:#EDF2F8;padding:80px 0 100px">
   <div class="relative z-10 max-w-7xl mx-auto px-6">
 
     <!-- Header -->
@@ -1626,39 +1625,44 @@
 
   </div>
 </section>
-</div>
 
 <script>
 (function(){
-  /* Animación imagen scroll-driven estilo Joby */
-  var pinWrap  = document.getElementById('reto-pin-wrap');
+  /* Animación imagen ligada al scroll — sin sticky, sin pausa */
+  var section  = document.getElementById('retos');
   var imgOuter = document.querySelector('.reto-img-outer');
   var imgInner = document.querySelector('.reto-img-inner');
-  if(!pinWrap || !imgOuter || !imgInner) return;
+  if(!section || !imgOuter || !imgInner) return;
 
   function clamp(v,a,b){ return Math.min(Math.max(v,a),b); }
   function lerp(a,b,t){ return a+(b-a)*t; }
-  /* ease-out: arranca rápido y decelera al llegar al tamaño final */
-  function ease(t){ return 1-(1-t)*(1-t); }
+
+  var raf = false;
 
   function update(){
-    var rect     = pinWrap.getBoundingClientRect();
-    var scrollable = pinWrap.offsetHeight - window.innerHeight;
-    if(scrollable <= 0) return;
-    var scrolled  = clamp(-rect.top, 0, scrollable);
-    var progress  = scrolled / scrollable;
-    var e         = ease(progress);
+    var rect = section.getBoundingClientRect();
+    var vh   = window.innerHeight;
 
-    var insetV  = lerp(22, 0, e);
-    var insetH  = lerp(14, 0, e);
-    var radius  = lerp(28, 16, e);
-    var scale   = lerp(1.12, 1, e);
+    /* progress 0 = sección entrando por abajo del viewport
+       progress 1 = parte superior de la sección en 20% del viewport */
+    var start    = vh * 1.05;   /* cuando la sección empieza a entrar */
+    var end      = vh * 0.2;    /* cuando ya está bien visible */
+    var progress = clamp((start - rect.top) / (start - end), 0, 1);
 
-    imgOuter.style.clipPath = 'inset('+insetV.toFixed(2)+'% '+insetH.toFixed(2)+'% round '+radius.toFixed(1)+'px)';
-    imgInner.style.transform = 'scale('+scale.toFixed(4)+')';
+    var insetV = lerp(28, 0, progress);
+    var insetH = lerp(16, 0, progress);
+    var radius = lerp(32, 16, progress);
+    var scale  = lerp(1.10, 1, progress);
+
+    imgOuter.style.clipPath      = 'inset('+insetV.toFixed(2)+'% '+insetH.toFixed(2)+'% round '+radius.toFixed(1)+'px)';
+    imgInner.style.transform     = 'scale('+scale.toFixed(4)+')';
+    raf = false;
   }
 
-  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('scroll', function(){
+    if(!raf){ raf = true; requestAnimationFrame(update); }
+  }, { passive: true });
+
   update();
 })();
 
