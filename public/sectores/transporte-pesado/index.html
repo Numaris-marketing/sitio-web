@@ -892,22 +892,39 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    border-top: 1px solid rgba(1,39,80,.12);
     overflow: hidden;
   }
-  .sn-label {
+
+  /* ── Header: línea que se dibuja + label que aparece ── */
+  .sn-header {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 20px 8vw;
+    padding: 20px 8vw 20px;
     flex-shrink: 0;
   }
-  .sn-label::after {
-    content: '';
+  .sn-header-text {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+    /* label: aparece con fade después de que empieza la línea */
+    opacity: 0;
+    transition: opacity 0.5s ease 0.25s;
+  }
+  .sn-panel.sn-on .sn-header-text { opacity: 1; }
+
+  /* Línea animada: crece de izquierda a derecha */
+  .sn-line {
     flex: 1;
     height: 1px;
-    background: rgba(1,39,80,.1);
+    background: rgba(1,39,80,.15);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
   }
+  .sn-panel.sn-on .sn-line { transform: scaleX(1); }
+
   .sn-idx {
     font-size: 11px;
     font-weight: 700;
@@ -924,7 +941,8 @@
     font-family: 'Montserrat', sans-serif;
     white-space: nowrap;
   }
-  /* número arranca desde ~45% del ancho, alineado a la izquierda del bloque */
+
+  /* ── Body: número y descripción ── */
   .sn-body {
     flex: 1;
     display: flex;
@@ -934,6 +952,8 @@
     padding-right: 8vw;
     padding-bottom: 4vh;
   }
+
+  /* Número: sube desde abajo */
   .sn-num {
     font-size: clamp(48px, 10.7vw, 147px);
     font-weight: 800;
@@ -942,26 +962,35 @@
     color: #012750;
     margin: 0;
     font-family: 'Inter', sans-serif;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease 0.5s, transform 0.8s cubic-bezier(0.22,1,.36,1) 0.5s;
   }
+  .sn-panel.sn-on .sn-num { opacity: 1; transform: translateY(0); }
+
+  /* Descripción: fade in último */
   .sn-desc {
     font-size: clamp(14px, 1.2vw, 18px);
     color: rgba(1,39,80,.45);
     margin-top: 18px;
     font-weight: 300;
     letter-spacing: .01em;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.85s;
   }
-  /* fade-in on scroll */
-  .sn-body { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
-  .sn-panel.sn-on .sn-body { opacity: 1; transform: translateY(0); }
+  .sn-panel.sn-on .sn-desc { opacity: 1; }
 </style>
 
 <section style="background:#EDF2F8">
 
   <!-- 1.1 -->
   <div class="sn-panel">
-    <div class="sn-label">
-      <span class="sn-idx">1.1</span>
-      <span class="sn-name">Reducción de combustible</span>
+    <div class="sn-header">
+      <div class="sn-header-text">
+        <span class="sn-idx">1.1</span>
+        <span class="sn-name">Reducción de combustible</span>
+      </div>
+      <div class="sn-line"></div>
     </div>
     <div class="sn-body">
       <p class="sn-num">-25%</p>
@@ -971,9 +1000,12 @@
 
   <!-- 1.2 -->
   <div class="sn-panel">
-    <div class="sn-label">
-      <span class="sn-idx">1.2</span>
-      <span class="sn-name">Empresas activas</span>
+    <div class="sn-header">
+      <div class="sn-header-text">
+        <span class="sn-idx">1.2</span>
+        <span class="sn-name">Empresas activas</span>
+      </div>
+      <div class="sn-line"></div>
     </div>
     <div class="sn-body">
       <p class="sn-num">+5,000</p>
@@ -983,9 +1015,12 @@
 
   <!-- 1.3 -->
   <div class="sn-panel">
-    <div class="sn-label">
-      <span class="sn-idx">1.3</span>
-      <span class="sn-name">Tiempo de instalación</span>
+    <div class="sn-header">
+      <div class="sn-header-text">
+        <span class="sn-idx">1.3</span>
+        <span class="sn-name">Tiempo de instalación</span>
+      </div>
+      <div class="sn-line"></div>
     </div>
     <div class="sn-body">
       <p class="sn-num">48 hrs</p>
@@ -995,9 +1030,12 @@
 
   <!-- 1.4 -->
   <div class="sn-panel">
-    <div class="sn-label">
-      <span class="sn-idx">1.4</span>
-      <span class="sn-name">Monitoreo continuo</span>
+    <div class="sn-header">
+      <div class="sn-header-text">
+        <span class="sn-idx">1.4</span>
+        <span class="sn-name">Monitoreo continuo</span>
+      </div>
+      <div class="sn-line"></div>
     </div>
     <div class="sn-body">
       <p class="sn-num">24/7</p>
