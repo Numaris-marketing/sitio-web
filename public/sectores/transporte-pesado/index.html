@@ -1477,18 +1477,11 @@
   .reto-det.active { display: block; animation: reto-in .35s ease both; }
   @keyframes reto-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-  /* Animación imagen estilo Joby */
+  /* Animación imagen scroll-driven estilo Joby */
   .reto-img-outer {
     width: 82%;
     overflow: hidden;
-    border-radius: 16px;
-    clip-path: inset(7% 5% round 20px);
-    opacity: 0;
-    transition: clip-path 1.2s cubic-bezier(.22,1,.36,1), opacity .7s ease;
-  }
-  .reto-img-outer.img-on {
-    clip-path: inset(0% 0% round 16px);
-    opacity: 1;
+    will-change: clip-path, opacity;
   }
   .reto-img-inner {
     width: 100%;
@@ -1496,15 +1489,12 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transform: scale(1.07);
-    transition: transform 1.6s cubic-bezier(.22,1,.36,1);
-  }
-  .reto-img-outer.img-on .reto-img-inner {
-    transform: scale(1);
+    will-change: transform;
   }
 </style>
 
-<section id="retos" class="relative overflow-hidden fi" style="background:#EDF2F8;padding:80px 0 100px">
+<div id="reto-pin-wrap" style="position:relative;height:240vh;">
+<section id="retos" class="relative" style="background:#EDF2F8;padding:80px 0 100px;position:sticky;top:0;min-height:100vh;">
   <div class="relative z-10 max-w-7xl mx-auto px-6">
 
     <!-- Header -->
@@ -1636,20 +1626,41 @@
 
   </div>
 </section>
+</div>
 
 <script>
 (function(){
-  /* Animación imagen Joby */
+  /* Animación imagen scroll-driven estilo Joby */
+  var pinWrap  = document.getElementById('reto-pin-wrap');
   var imgOuter = document.querySelector('.reto-img-outer');
-  if(imgOuter){
-    var imgObs = new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){
-        setTimeout(function(){ imgOuter.classList.add('img-on'); }, 100);
-        imgObs.disconnect();
-      }
-    }, { threshold: 0.15 });
-    imgObs.observe(imgOuter);
+  var imgInner = document.querySelector('.reto-img-inner');
+  if(!pinWrap || !imgOuter || !imgInner) return;
+
+  function clamp(v,a,b){ return Math.min(Math.max(v,a),b); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function ease(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function update(){
+    var rect     = pinWrap.getBoundingClientRect();
+    var scrollable = pinWrap.offsetHeight - window.innerHeight;
+    if(scrollable <= 0) return;
+    var scrolled  = clamp(-rect.top, 0, scrollable);
+    var progress  = scrolled / scrollable;
+    var e         = ease(progress);
+
+    var insetV  = lerp(22, 0, e);
+    var insetH  = lerp(14, 0, e);
+    var radius  = lerp(28, 16, e);
+    var opacity = lerp(0.1, 1, e);
+    var scale   = lerp(1.12, 1, e);
+
+    imgOuter.style.clipPath = 'inset('+insetV.toFixed(2)+'% '+insetH.toFixed(2)+'% round '+radius.toFixed(1)+'px)';
+    imgOuter.style.opacity  = opacity.toFixed(3);
+    imgInner.style.transform = 'scale('+scale.toFixed(4)+')';
   }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 
 (function(){
