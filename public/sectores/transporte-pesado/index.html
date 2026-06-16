@@ -1298,19 +1298,19 @@
     </div>
 
     <div class="grid lg:grid-cols-3 gap-8 relative" id="proceso-grid">
-      <!-- Tracto animado entre pasos -->
-      <div class="hidden lg:block absolute left-[calc(33.33%-20px)] right-[calc(33.33%-20px)]" style="top:38px;height:0;overflow:visible;z-index:2">
-        <img id="proceso-tracto"
-             src="/tracto-blanco.png"
-             alt=""
-             style="position:absolute;top:0;height:44px;width:auto;transform:translateY(-80%);opacity:0;filter:drop-shadow(0 2px 6px rgba(1,39,80,.2));pointer-events:none"
-        />
-      </div>
+
+      <!-- Tracto — posicionado absolutamente dentro del grid -->
+      <img id="proceso-tracto"
+           src="/tracto-blanco.png"
+           alt=""
+           class="hidden lg:block"
+           style="position:absolute;height:44px;width:auto;opacity:0;filter:drop-shadow(0 2px 6px rgba(1,39,80,.25));pointer-events:none;z-index:10;transition:opacity .25s ease"
+      />
 
       <div class="fi card rounded-2xl p-7" style="background:white;border:1px solid rgba(1,39,80,.1);box-shadow:0 2px 16px rgba(1,39,80,.06);transition-delay:.05s">
         <div class="flex items-center gap-4 mb-5">
           <div class="step-c">1</div>
-          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.2),transparent)"></div>
+          <div class="paso-line flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.2),transparent)"></div>
         </div>
         <h3 class="text-[17px] font-bold mb-3" style="color:#012750">Diagnóstico y propuesta</h3>
         <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.55)">
@@ -1325,7 +1325,7 @@
       <div class="fi card rounded-2xl p-7" style="background:white;border:1px solid rgba(1,39,80,.1);box-shadow:0 2px 16px rgba(1,39,80,.06);transition-delay:.15s">
         <div class="flex items-center gap-4 mb-5">
           <div class="step-c">2</div>
-          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.2),transparent)"></div>
+          <div class="paso-line flex-1 h-px" style="background:linear-gradient(90deg,rgba(36,95,165,.2),transparent)"></div>
         </div>
         <h3 class="text-[17px] font-bold mb-3" style="color:#012750">Instalación sin paro</h3>
         <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.55)">
@@ -1340,7 +1340,7 @@
       <div class="fi card rounded-2xl p-7" style="background:white;border:1px solid rgba(1,39,80,.1);box-shadow:0 2px 16px rgba(1,39,80,.06);transition-delay:.25s">
         <div class="flex items-center gap-4 mb-5">
           <div class="step-c" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:rgba(5,150,90,.9)">3</div>
-          <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(16,185,129,.25),transparent)"></div>
+          <div class="paso-line flex-1 h-px" style="background:linear-gradient(90deg,rgba(16,185,129,.25),transparent)"></div>
         </div>
         <h3 class="text-[17px] font-bold mb-3" style="color:#012750">Control total en tiempo real</h3>
         <p class="text-[13px] font-light leading-relaxed" style="color:rgba(1,39,80,.55)">
@@ -1362,41 +1362,77 @@
   var tracto = document.getElementById('proceso-tracto');
   if(!grid || !tracto) return;
 
-  var ran = false;
+  /* Solo desktop */
+  if(window.innerWidth < 1024) return;
+
+  var TRAVEL_MS = 1400; /* duración de recorrido por línea */
+  var PAUSE_MS  = 350;  /* pausa entre líneas */
+  var CYCLE_MS  = 2200; /* pausa antes de repetir */
+
+  /* Esperar a que el grid sea visible */
   var obs = new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting && !ran){
-      ran = true;
+    if(entries[0].isIntersecting){
       obs.disconnect();
-      runTruck();
+      /* Esperar a que las cards terminen su animación fi */
+      setTimeout(runCycle, 600);
     }
-  }, { threshold: 0.4 });
+  }, { threshold: 0.5 });
   obs.observe(grid);
 
-  function runTruck(){
-    /* road container width */
-    var road = grid.querySelector('[id="proceso-tracto"]').parentElement;
-    var roadW = road.offsetWidth;
-    var truckW = tracto.offsetWidth || 80;
+  function easeInOut(t){ return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
 
-    /* start: just off the left edge */
-    tracto.style.transition = 'none';
-    tracto.style.left = '0px';
+  function animateLine(line, done){
+    var gridRect  = grid.getBoundingClientRect();
+    var lineRect  = line.getBoundingClientRect();
+    var truckH    = tracto.offsetHeight || 44;
+    var truckW    = tracto.offsetWidth  || 110;
+
+    /* Posición vertical: centrado sobre la línea */
+    var top = lineRect.top - gridRect.top - truckH * 0.75;
+    /* Inicio: justo antes del borde izquierdo de la línea */
+    var startX = lineRect.left - gridRect.left - truckW * 0.3;
+    /* Fin: borde derecho de la línea */
+    var endX   = lineRect.right - gridRect.left - truckW * 0.7;
+
+    tracto.style.top  = top + 'px';
+    tracto.style.left = startX + 'px';
+    tracto.style.transition = 'opacity .2s ease';
     tracto.style.opacity = '1';
 
-    /* animate via JS for smoothness */
     var start = null;
-    var duration = 2800; /* ms */
-
     function step(ts){
       if(!start) start = ts;
-      var prog = Math.min((ts - start) / duration, 1);
-      /* ease-in-out */
-      var ease = prog < 0.5 ? 2*prog*prog : -1+(4-2*prog)*prog;
-      var x = ease * (roadW + truckW * 0.5) - truckW;
-      tracto.style.left = x + 'px';
-      if(prog < 1) requestAnimationFrame(step);
+      var prog = Math.min((ts - start) / TRAVEL_MS, 1);
+      var ease = easeInOut(prog);
+      tracto.style.left = (startX + ease * (endX - startX)) + 'px';
+
+      /* Fade out en el último 20% del recorrido */
+      if(prog > 0.8){
+        tracto.style.opacity = (1 - (prog - 0.8) / 0.2).toFixed(3);
+      }
+
+      if(prog < 1){
+        requestAnimationFrame(step);
+      } else {
+        tracto.style.opacity = '0';
+        setTimeout(done, PAUSE_MS);
+      }
     }
     requestAnimationFrame(step);
+  }
+
+  function runCycle(){
+    var lines = grid.querySelectorAll('.paso-line');
+    var i = 0;
+    function next(){
+      if(i < lines.length){
+        animateLine(lines[i], function(){ i++; next(); });
+      } else {
+        /* Repetir ciclo */
+        setTimeout(runCycle, CYCLE_MS);
+      }
+    }
+    next();
   }
 })();
 </script>
