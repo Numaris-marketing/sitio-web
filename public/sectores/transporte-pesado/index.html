@@ -352,27 +352,27 @@
 
   <a class="snav-item" href="#igg-section" data-idx="0">
     <div class="snav-dot"></div>
-    <span class="snav-label">Video Telemetría</span>
+    <span class="snav-label">Control Combustible</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="1">
     <div class="snav-dot"></div>
-    <span class="snav-label">Telemetría Avanzada</span>
+    <span class="snav-label">Rastreo Satelital</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="2">
     <div class="snav-dot"></div>
-    <span class="snav-label">Control Combustible</span>
+    <span class="snav-label">Videotelemetría IA</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="3">
     <div class="snav-dot"></div>
-    <span class="snav-label">Monitoreo</span>
+    <span class="snav-label">Remolques</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="4">
     <div class="snav-dot"></div>
-    <span class="snav-label">Rastreo</span>
+    <span class="snav-label">Mantenimiento</span>
   </a>
   <a class="snav-item" href="#igg-section" data-idx="5">
     <div class="snav-dot"></div>
-    <span class="snav-label">Remolques</span>
+    <span class="snav-label">Reportes SCT</span>
   </a>
 </aside>
 
@@ -684,51 +684,15 @@
 (function(){
   /* ─── Contenido por solución ─── */
   var sol = [
-    /* 0 — Video Telemetría */
-    {
-      badge: 'Video Telemetría',
-      h1: 'Detecta riesgos.<br/><span class="glow-text">Previene accidentes.</span><br/>Protege tu flota.',
-      desc: 'Cámaras con IA que monitorean en tiempo real el comportamiento del conductor y alertan ante fatiga, distracción o maniobras de riesgo.',
-      trust: ['94% menos siniestros','Alertas en tiempo real','Video en la nube'],
-      cardTitle: 'Video Telemetría', cardSub: 'Eventos — Hoy',
-      metrics: [
-        { val:'94%',  label:'Menos siniestros', green:true },
-        { val:'12',   label:'Alertas activas',  green:false },
-        { val:'24/7', label:'Monitoreo',        green:false }
-      ],
-      rows: [
-        { dot:'#EF4444', title:'Unidad 0812 — Fatiga detectada',    sub:'Hace 4 min · Libramiento Monterrey', tag:'Alerta',  tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',    tagBorder:'rgba(239,68,68,.22)' },
-        { dot:'#F59E0B', title:'Unidad 0547 — Exceso de velocidad', sub:'Hace 11 min · Autopista GDL',        tag:'Aviso',   tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)',   tagBorder:'rgba(245,158,11,.22)' },
-        { dot:'#10B981', title:'Unidad 0331 — Sin eventos',         sub:'Ruta CDMX → Puebla · 112 km/h',     tag:'Normal',  tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)',   tagBorder:'rgba(16,185,129,.2)' }
-      ]
-    },
-    /* 1 — Telemetría Avanzada */
-    {
-      badge: 'Telemetría Avanzada',
-      h1: 'Conoce tu flota.<br/><span class="glow-text">Optimiza rutas.</span><br/>Decide con datos.',
-      desc: 'Análisis en tiempo real de velocidad, frenados, temperatura y estado de motor para maximizar la eficiencia y vida útil de cada unidad.',
-      trust: ['Datos en tiempo real','Reportes automáticos','Alertas por excepción'],
-      cardTitle: 'Telemetría Avanzada', cardSub: 'Rendimiento — Hoy',
-      metrics: [
-        { val:'142', label:'Unidades activas', green:false },
-        { val:'+18%',label:'Eficiencia',       green:true  },
-        { val:'98%', label:'Datos en vivo',    green:false }
-      ],
-      rows: [
-        { dot:'#10B981', title:'Tracto 0812 — Rendimiento óptimo',  sub:'94 km/h · Temp. motor 82°C',         tag:'En ruta', tagColor:'rgba(52,211,153,.7)', tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
-        { dot:'#3B82F6', title:'Tracto 0547 — GDL → Culiacán',      sub:'87 km/h · Frenados normales',        tag:'En ruta', tagColor:'rgba(110,176,255,.7)',tagBg:'rgba(36,95,165,.1)',   tagBorder:'rgba(36,95,165,.25)' },
-        { dot:'#F59E0B', title:'Tracto 0331 — Motor en alerta',      sub:'Caseta Querétaro · 18 min parado',   tag:'Revisar', tagColor:'rgba(251,191,36,.7)', tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
-      ]
-    },
-    /* 2 — Control Combustible */
+    /* 0 — Control Combustible */
     {
       badge: 'Control Combustible',
       h1: 'Elimina pérdidas.<br/><span class="glow-text">Ahorra hasta 25%.</span><br/>Cada litro cuenta.',
-      desc: 'Sensores de nivel que detectan extracciones no autorizadas, reportan consumo real y controlan el rendimiento de cada tanque en tiempo real.',
+      desc: 'Tarjeta de combustible inteligente con límites por unidad, monitoreo de litros cargados vs. consumidos y alertas de desvíos en tiempo real.',
       trust: ['Hasta 25% de ahorro','Alertas de extracción','Consumo por ruta'],
       cardTitle: 'Control Combustible', cardSub: 'Consumo — Hoy',
       metrics: [
-        { val:'-23%', label:'Menos consumo',  green:true  },
+        { val:'-25%', label:'Menos consumo',  green:true  },
         { val:'3',    label:'Alertas robo',   green:false },
         { val:'98%',  label:'Eficiencia',     green:false }
       ],
@@ -738,29 +702,11 @@
         { dot:'#10B981', title:'Unidad 0331 — Tanque lleno',         sub:'680 L · Cargó en Querétaro',          tag:'Normal',  tagColor:'rgba(52,211,153,.7)', tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' }
       ]
     },
-    /* 3 — Monitoreo */
+    /* 1 — Rastreo Satelital */
     {
-      badge: 'Monitoreo',
-      h1: 'Responde al instante.<br/><span class="glow-text">Previene siniestros.</span><br/>Opera sin sorpresas.',
-      desc: 'Protocolos de respuesta inmediata ante incidentes: alertas automáticas, notificaciones y escalamiento para mantener tu operación segura.',
-      trust: ['Respuesta < 3 min','Monitoreo 24/7','Cobertura nacional'],
-      cardTitle: 'Monitoreo', cardSub: 'Incidentes — Hoy',
-      metrics: [
-        { val:'< 3min', label:'Tiempo respuesta', green:true  },
-        { val:'5',      label:'Incidentes hoy',   green:false },
-        { val:'24/7',   label:'Cobertura',        green:false }
-      ],
-      rows: [
-        { dot:'#EF4444', title:'Unidad 0812 — Parada no autorizada', sub:'Hace 8 min · Autopista 57',           tag:'Alerta',   tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',  tagBorder:'rgba(239,68,68,.22)' },
-        { dot:'#10B981', title:'Unidad 0547 — Geocerca activa',      sub:'Dentro de zona autorizada',           tag:'Segura',   tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
-        { dot:'#3B82F6', title:'Unidad 0331 — Protocolo activo',     sub:'Respuesta enviada · Agente en camino',tag:'Atención', tagColor:'rgba(110,176,255,.7)', tagBg:'rgba(36,95,165,.1)',   tagBorder:'rgba(36,95,165,.25)' }
-      ]
-    },
-    /* 4 — Rastreo */
-    {
-      badge: 'Rastreo',
+      badge: 'Rastreo Satelital',
       h1: 'Ubica tu flota.<br/><span class="glow-text">Sin puntos ciegos.</span><br/>En tiempo real.',
-      desc: 'Rastreo satelital de tractos y mercancía con actualizaciones cada 30 segundos. Visibilidad total desde el origen hasta el destino.',
+      desc: 'Localización precisa de tractos y remolques cada 30 segundos. Geocercas, historial de rutas y alertas de desvíos desde web y app móvil.',
       trust: ['Actualización 30 seg','Historial de rutas','Geocercas personalizadas'],
       cardTitle: 'Rastreo Satelital', cardSub: 'Ubicaciones — Ahora',
       metrics: [
@@ -774,13 +720,31 @@
         { dot:'#F59E0B', title:'Tracto 0331 — Parada programada',    sub:'Caseta Querétaro · 18 min detenido',  tag:'Detenido', tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
       ]
     },
-    /* 5 — Remolques */
+    /* 2 — Videotelemetría con IA */
     {
-      badge: 'Remolques',
+      badge: 'Videotelemetría con IA',
+      h1: 'Detecta riesgos.<br/><span class="glow-text">Previene accidentes.</span><br/>Protege tu flota.',
+      desc: 'Cámara DMS + ADAS que detecta somnolencia, distracción, seguimiento de carril y colisiones. Evidencia en video ante incidentes y aseguradoras.',
+      trust: ['94% menos siniestros','Alertas en tiempo real','Video en la nube'],
+      cardTitle: 'Videotelemetría con IA', cardSub: 'Eventos — Hoy',
+      metrics: [
+        { val:'94%',  label:'Menos siniestros', green:true },
+        { val:'12',   label:'Alertas activas',  green:false },
+        { val:'24/7', label:'Monitoreo',        green:false }
+      ],
+      rows: [
+        { dot:'#EF4444', title:'Unidad 0812 — Fatiga detectada',    sub:'Hace 4 min · Libramiento Monterrey', tag:'Alerta',  tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',    tagBorder:'rgba(239,68,68,.22)' },
+        { dot:'#F59E0B', title:'Unidad 0547 — Exceso de velocidad', sub:'Hace 11 min · Autopista GDL',        tag:'Aviso',   tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)',   tagBorder:'rgba(245,158,11,.22)' },
+        { dot:'#10B981', title:'Unidad 0331 — Sin eventos',         sub:'Ruta CDMX → Puebla · 112 km/h',     tag:'Normal',  tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)',   tagBorder:'rgba(16,185,129,.2)' }
+      ]
+    },
+    /* 3 — Remolques Inteligentes */
+    {
+      badge: 'Remolques Inteligentes',
       h1: 'Controla la carga.<br/><span class="glow-text">Accesos seguros.</span><br/>Sin interrupciones.',
-      desc: 'Monitoreo de cajas y remolques: temperatura, humedad, apertura de puertas y ubicación en tiempo real para proteger tu mercancía.',
+      desc: 'Sensores de apertura de puertas, temperatura de carga, presión de llantas y estado del candado electrónico. Alertas inmediatas ante accesos no autorizados.',
       trust: ['Control de temperatura','Alertas de apertura','Gestión de remolques'],
-      cardTitle: 'Remolques', cardSub: 'Estado — Ahora',
+      cardTitle: 'Remolques Inteligentes', cardSub: 'Estado — Ahora',
       metrics: [
         { val:'38',  label:'Remolques activos', green:false },
         { val:'2°C', label:'Temp. promedio',    green:true  },
@@ -790,6 +754,42 @@
         { dot:'#10B981', title:'Remolque R-04 — Refrigerado OK',     sub:'2°C · Puertas cerradas · En ruta',    tag:'Normal', tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
         { dot:'#10B981', title:'Remolque R-07 — Temperatura estable',sub:'4°C · CDMX → Veracruz',              tag:'Normal', tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
         { dot:'#F59E0B', title:'Remolque R-12 — Revisar sello',      sub:'Alerta de puerta · Bodega Puebla',    tag:'Revisar',tagColor:'rgba(251,191,36,.7)', tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
+      ]
+    },
+    /* 4 — Mantenimiento Predictivo */
+    {
+      badge: 'Mantenimiento Predictivo',
+      h1: 'Anticipa fallas.<br/><span class="glow-text">Reduce tiempos muertos.</span><br/>Opera sin parar.',
+      desc: 'Alertas por odómetro, horas motor y lecturas OBD. Programa servicios antes de que ocurran fallas y reduce costos de reparación.',
+      trust: ['Alertas por odómetro','Lecturas OBD en vivo','Menos tiempo muerto'],
+      cardTitle: 'Mantenimiento Predictivo', cardSub: 'Servicios — Esta semana',
+      metrics: [
+        { val:'↓40%', label:'Tiempos muertos',  green:true  },
+        { val:'287',  label:'Alertas activas',   green:false },
+        { val:'98%',  label:'Uptime de flota',   green:false }
+      ],
+      rows: [
+        { dot:'#F59E0B', title:'Unidad 0812 — Servicio próximo',     sub:'Odómetro 92,400 km · Faltan 600 km',  tag:'Programar', tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' },
+        { dot:'#EF4444', title:'Unidad 0547 — Código OBD activo',    sub:'P0401 · EGR insuficiente · Revisión',  tag:'Urgente',   tagColor:'rgba(252,165,165,.8)', tagBg:'rgba(239,68,68,.08)',  tagBorder:'rgba(239,68,68,.22)' },
+        { dot:'#10B981', title:'Unidad 0331 — Al corriente',         sub:'Último servicio hace 3,200 km',        tag:'OK',        tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' }
+      ]
+    },
+    /* 5 — Reportes y Cumplimiento SCT */
+    {
+      badge: 'Reportes SCT',
+      h1: 'Cumple la norma.<br/><span class="glow-text">Sin papeleo manual.</span><br/>Auditorías listas.',
+      desc: 'Registros automáticos de horas de conducción, bitácoras digitales y reportes listos para auditorías. Cumple la NOM-087 sin esfuerzo manual.',
+      trust: ['NOM-087 cubierta','Bitácoras digitales','Reportes automáticos'],
+      cardTitle: 'Reportes y cumplimiento SCT', cardSub: 'Cumplimiento — Hoy',
+      metrics: [
+        { val:'100%', label:'Cumplimiento',      green:true  },
+        { val:'0',    label:'Multas pendientes', green:false },
+        { val:'24/7', label:'Disponible',        green:false }
+      ],
+      rows: [
+        { dot:'#10B981', title:'Unidad 0812 — Bitácora al día',      sub:'8.4 h conducción · NOM-087 OK',        tag:'Cumple',  tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#10B981', title:'Unidad 0547 — Reporte generado',     sub:'Ruta GDL → MTY · Documentado',         tag:'Listo',   tagColor:'rgba(52,211,153,.7)',  tagBg:'rgba(16,185,129,.08)', tagBorder:'rgba(16,185,129,.2)' },
+        { dot:'#F59E0B', title:'Unidad 0331 — Horas límite',         sub:'10.2 h conducción · Descanso requerido',tag:'Revisar', tagColor:'rgba(251,191,36,.7)',  tagBg:'rgba(245,158,11,.08)', tagBorder:'rgba(245,158,11,.22)' }
       ]
     }
   ];
