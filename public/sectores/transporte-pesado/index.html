@@ -397,9 +397,9 @@
     padding:9px 18px;border-radius:999px;
     position:relative;z-index:1;
     font-size:12px;font-weight:600;letter-spacing:.02em;
-    border:1px solid rgba(36,95,165,.40);
-    background:rgba(36,95,165,.13);
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(36,95,165,.55);
+    background:#ffffff !important;
+    backdrop-filter:none;-webkit-backdrop-filter:none;
     color:#245FA5;white-space:nowrap;font-family:'Montserrat',sans-serif;
     animation:itag-float 3.6s ease-in-out infinite;
     transition:background .2s,border-color .2s;
@@ -420,7 +420,7 @@
   .icallout.igg-left  { transform:translateX(-16px); }
   .icallout.igg-right { transform:translateX(16px); }
   .icallout.igg-visible { opacity:1 !important; transform:translateX(0) !important; }
-  .icallout:hover .itag { background:rgba(36,95,165,.25);border-color:rgba(36,95,165,.65); }
+  .icallout:hover .itag { background:#f0f5fb;border-color:rgba(36,95,165,.80); }
 
   /* ── SVG elements — scroll reveal ── */
   .isvg-line { transition:opacity .65s ease; }
@@ -502,7 +502,7 @@
           <div class="icallout igg-left"
                style="position:absolute;left:1%;top:4%;display:flex;flex-direction:column;align-items:flex-start;z-index:3">
             <div style="display:flex;flex-direction:row;align-items:center;gap:0">
-              <span class="itag" style="padding-right:40px">Video Telemetría</span>
+              <span class="itag" style="padding-right:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Video Telemetría</span>
               <div class="ibubble" style="margin-left:-22px">
                 <img src="/equipo-jc400.png" alt="JC400" style="width:74%;height:74%;object-fit:contain">
               </div>
@@ -514,7 +514,7 @@
           <div class="icallout igg-left"
                style="position:absolute;left:1%;top:40%;display:flex;flex-direction:column;align-items:flex-start;z-index:3">
             <div style="display:flex;flex-direction:row;align-items:center;gap:0">
-              <span class="itag itag-d1" style="padding-right:40px">Telemetría Avanzada</span>
+              <span class="itag itag-d1" style="padding-right:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Telemetría Avanzada</span>
               <div class="ibubble itag-d1" style="margin-left:-22px">
                 <img src="/equipo-fijo.png" alt="Fijo" style="width:74%;height:74%;object-fit:contain">
               </div>
@@ -526,7 +526,7 @@
           <div class="icallout igg-left"
                style="position:absolute;left:7%;top:70%;display:flex;flex-direction:column;align-items:flex-start;z-index:3">
             <div style="display:flex;flex-direction:row;align-items:center;gap:0">
-              <span class="itag itag-d2" style="padding-right:40px">Control de combustible</span>
+              <span class="itag itag-d2" style="padding-right:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Control de combustible</span>
               <div class="ibubble itag-d2" style="margin-left:-22px">
                 <img src="/equipo-sensor-lls5.png" alt="Sensor LLS5" style="width:74%;height:74%;object-fit:contain">
               </div>
@@ -544,7 +544,7 @@
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
               </div>
-              <span class="itag itag-d3" style="padding-left:40px">Monitoreo</span>
+              <span class="itag itag-d3" style="padding-left:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Monitoreo</span>
             </div>
             <p class="itip-sub">Prevención de siniestros con <strong>protocolos y respuestas inmediatas</strong> por excepción.</p>
           </div>
@@ -556,7 +556,7 @@
               <div class="ibubble itag-d4" style="margin-right:-22px">
                 <img src="/equipo-mtt.png" alt="MTT" style="width:74%;height:74%;object-fit:contain">
               </div>
-              <span class="itag itag-d4" style="padding-left:40px">Rastreo</span>
+              <span class="itag itag-d4" style="padding-left:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Rastreo</span>
             </div>
             <p class="itip-sub"><strong>Tractos:</strong> visibilidad en tiempo real para mayor seguridad y eficiencia.<br><strong>Mercancía:</strong> protege y visualiza tu <strong>mercancía</strong> en todo momento.</p>
           </div>
@@ -568,7 +568,7 @@
               <div class="ibubble itag-d5" style="margin-right:-22px">
                 <img src="/equipo-cerradura.png" alt="Cerradura" style="width:74%;height:74%;object-fit:contain">
               </div>
-              <span class="itag itag-d5" style="padding-left:40px">Remolques</span>
+              <span class="itag itag-d5" style="padding-left:40px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none">Remolques</span>
             </div>
             <p class="itip-sub">Aumenta la <strong>productividad</strong>, controla la temperatura y accesos de tus cajas y remolques.</p>
           </div>
@@ -1689,7 +1689,7 @@
 <!-- ══════════════════════════════════════════════
      CTA BANNER
 ══════════════════════════════════════════════ -->
-<section id="cta-demo" class="relative py-24 overflow-hidden fi" style="background:linear-gradient(to bottom,#EDF2F8 0%,#d6e6f2 10%,#aacce4 22%,#6aaad0 36%,#2e7ab0 50%,#154f7a 63%,#072a4a 78%,#011628 90%,#010F24 100%)">
+<section id="cta-demo" class="relative py-24 overflow-hidden fi" style="background:linear-gradient(to bottom,#EDF2F8 0%,#c8dff0 25%,#6aaad0 50%,#0d3a60 75%,#010F24 100%)">
   <!-- Rayo de luz conservado -->
   <div class="orb" style="width:900px;height:600px;background:radial-gradient(ellipse,rgba(75,143,212,.28) 0%,transparent 65%);top:55%;left:50%;transform:translate(-50%,-50%)"></div>
   <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(36,95,165,.12) 1px,transparent 1px);background-size:48px 48px;opacity:.12"></div>
