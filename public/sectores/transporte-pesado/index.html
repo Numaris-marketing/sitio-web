@@ -62,6 +62,14 @@
 
     #nav { padding-top:12px; background:transparent; transition:background .2s,border-color .2s,padding-top .38s cubic-bezier(.22,1,.36,1) }
 #nav.scrolled { background:linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 60%, transparent 100%) }
+/* Nav links: azul en fondo claro, blanco al hacer scroll */
+.nav-link-adaptive { color:rgba(1,39,80,.75); transition:color .2s; }
+.nav-link-adaptive:hover { color:#012750; }
+#nav.scrolled .nav-link-adaptive { color:rgba(255,255,255,.75); }
+#nav.scrolled .nav-link-adaptive:hover { color:#ffffff; }
+/* Logo: color en fondo claro, blanco al hacer scroll */
+#nav-logo img { transition:filter .2s; }
+#nav.scrolled #nav-logo img { filter:brightness(0) invert(1); }
 #nav.nav-compact { padding-top:0 }
 #nav-inner { height:84px; transition:height .38s cubic-bezier(.22,1,.36,1), padding .38s ease }
 #nav.nav-compact #nav-inner { height:66px }
@@ -182,8 +190,8 @@
 
       <!-- SOLUCIONES dropdown -->
       <div class="nav-group-wrap dd-aligned">
-        <button class="px-3.5 py-2 text-[13px] font-medium transition-colors flex items-center gap-1" style="color:#012750;opacity:.75" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.75'">
-          <span style="text-decoration:underline;text-decoration-color:rgba(1,39,80,0.4);text-underline-offset:4px;text-decoration-thickness:1px">Soluciones</span>
+        <button class="nav-link-adaptive px-3.5 py-2 text-[13px] font-medium flex items-center gap-1">
+          <span>Soluciones</span>
         </button>
         <div class="dd-panel" style="width:580px">
           <div class="dd-surface">
@@ -210,8 +218,8 @@
 
       <!-- SECTORES dropdown -->
       <div class="nav-group-wrap dd-aligned">
-        <button class="px-3.5 py-2 text-[13px] font-medium transition-colors flex items-center gap-1" style="color:#012750;opacity:.75" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.75'">
-          <span style="text-decoration:underline;text-decoration-color:rgba(1,39,80,0.4);text-underline-offset:4px;text-decoration-thickness:1px">Sectores</span>
+        <button class="nav-link-adaptive px-3.5 py-2 text-[13px] font-medium flex items-center gap-1">
+          <span>Sectores</span>
         </button>
         <div class="dd-panel">
           <div class="dd-surface" style="width:210px">
@@ -225,7 +233,7 @@
         </div>
       </div>
 
-      <a href="/#exito" class="px-3.5 py-2 text-[13px] font-medium transition-colors" style="color:rgba(1,39,80,.75);text-decoration:none" onmouseover="this.style.color='#012750'" onmouseout="this.style.color='rgba(1,39,80,.75)'">Historias de Éxito</a>
+      <a href="/#exito" class="nav-link-adaptive px-3.5 py-2 text-[13px] font-medium" style="text-decoration:none">Historias de Éxito</a>
     </div>
 
     <div class="flex items-center justify-end gap-3 self-center">
