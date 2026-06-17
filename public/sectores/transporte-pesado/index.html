@@ -481,7 +481,7 @@
 </aside>
 
 <script>
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
   var panel = document.getElementById('float-cta-panel');
   var ctaSection = document.getElementById('cta-demo');
   if(!panel || !ctaSection) return;
@@ -499,7 +499,7 @@
 
   window.addEventListener('scroll', update, {passive:true});
   update();
-})();
+});
 </script>
 
 <!-- ══════════════════════════════════════════════
