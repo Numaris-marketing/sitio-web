@@ -1717,35 +1717,56 @@
     <!-- Degradado inferior → funde al color del footer #010F24 -->
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(1,15,36,.55) 65%,#010F24 100%)"></div>
 
-    <!-- Contenido: texto izquierda, botón derecha (igual que Voldog) -->
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 5% 56px;
-                display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+    <!-- Contenido centrado original -->
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+      <div style="text-align:center;padding:0 24px;max-width:720px;width:100%">
 
-      <!-- Texto izquierda -->
-      <div>
-        <h2 style="color:#ffffff;font-size:clamp(28px,3.4vw,48px);font-weight:700;
-                   line-height:1.12;margin:0 0 12px;max-width:600px;
-                   text-shadow:0 2px 24px rgba(1,15,36,.6)">
-          ¿Listo para tener<br/>tu flota bajo control?
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;
+                    border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);
+                    font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+                    color:rgba(255,255,255,.8);margin-bottom:20px">
+          <span style="width:6px;height:6px;border-radius:50%;background:#7dc4f0;box-shadow:0 0 6px #7dc4f0;flex-shrink:0"></span>
+          Demo gratuita
+        </div>
+
+        <h2 style="color:#ffffff;font-size:clamp(32px,4vw,56px);font-weight:700;
+                   line-height:1.1;margin:0 0 16px;
+                   text-shadow:0 2px 24px rgba(1,15,36,.5)">
+          ¿Listo para tener tu flota<br/>bajo control?
         </h2>
-        <p style="color:rgba(210,228,248,.7);font-size:16px;margin:0;max-width:460px;font-weight:300">
-          Más de 5,000 empresas ya reducen costos con Numaris.
+
+        <p style="color:rgba(210,228,248,.65);font-size:17px;font-weight:300;
+                  line-height:1.6;margin:0 0 36px;max-width:520px;margin-left:auto;margin-right:auto">
+          Más de 5,000 empresas ya reducen costos con Numaris. Agenda una demo y ve cómo funciona con tu operación real.
         </p>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin-bottom:28px">
+          <button onclick="openDemoModal()"
+                  style="display:flex;align-items:center;gap:8px;padding:15px 32px;border-radius:999px;
+                         background:#245FA5;color:white;border:none;cursor:pointer;
+                         font-size:15px;font-weight:600;
+                         box-shadow:0 0 28px rgba(36,95,165,.5)">
+            Solicitar demo gratis
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <a href="https://wa.link/0nc3sf" target="_blank"
+             style="display:flex;align-items:center;gap:8px;padding:14px 30px;border-radius:999px;
+                    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+                    color:rgba(255,255,255,.8);font-size:15px;font-weight:500;text-decoration:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Hablar con un experto
+          </a>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 20px;font-size:12px;color:rgba(255,255,255,.38)">
+          <span>+5,000 empresas activas</span>
+          <span style="color:rgba(150,200,240,.35)">·</span>
+          <span>Instalación en 48 hrs</span>
+          <span style="color:rgba(150,200,240,.35)">·</span>
+          <span>Sin tarjeta de crédito</span>
+        </div>
+
       </div>
-
-      <!-- Botón CTA derecha (estilo Voldog: pill con flecha) -->
-      <button onclick="openDemoModal()"
-              style="display:flex;align-items:center;gap:12px;padding:18px 28px;border-radius:999px;
-                     background:#ffffff;color:#012750;border:none;cursor:pointer;
-                     font-size:15px;font-weight:700;white-space:nowrap;
-                     box-shadow:0 4px 24px rgba(0,0,0,.25)">
-        Solicitar demo gratis
-        <span style="width:36px;height:36px;border-radius:50%;background:#012750;
-                     display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </button>
-
     </div>
   </div>
 </section>
