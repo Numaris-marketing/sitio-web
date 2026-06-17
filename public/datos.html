@@ -968,41 +968,53 @@
         <hr class="sec-divider">
         <div class="sec-head">
           <h2>Resumen del Área de Eventos</h2>
-          <p>Inversión acumulada en expos · pipeline y ventas generados · Datos en vivo desde Zoho CRM</p>
+          <p>Inversión acumulada en expos · ventas cerradas y ROI realizado vs. potencial · Datos en vivo desde Zoho CRM</p>
         </div>
 
-        <!-- KPI cards row -->
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-bottom:1rem;" id="evt-kpi-grid">
+        <!-- Fila 1: los 3 fundamentos — inversión, ventas, ROI realizado -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
           <div class="kpi-card c-purple">
-            <div class="kpi-label">Inversión total</div>
-            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-invest">—</div>
-            <div class="kpi-sub" id="evt-sum-events">— eventos</div>
+            <div class="kpi-label">Inversión total en eventos</div>
+            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-invest">—</div>
+            <div class="kpi-sub" id="evt-sum-events">— eventos registrados</div>
           </div>
+          <div class="kpi-card c-green">
+            <div class="kpi-label">Ventas cerradas (ACV)</div>
+            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-won">—</div>
+            <div class="kpi-sub" id="evt-sum-won-count">— contratos ganados</div>
+          </div>
+          <!-- ROI REALIZADO — el número que importa -->
+          <div class="kpi-card" style="border:2px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.06);position:relative;">
+            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(16,185,129,0.12);color:#10B981;border:1px solid rgba(16,185,129,0.25);">REALIZADO</div>
+            <div class="kpi-label" style="color:#10B981;">ROI realizado (×)</div>
+            <div class="kpi-val" style="font-size:2rem;color:#10B981;" id="evt-roi-closed">—</div>
+            <div class="kpi-sub" id="evt-roi-closed-sub">Ventas cerradas ÷ inversión</div>
+          </div>
+        </div>
+
+        <!-- Fila 2: pipeline activo y ROI potencial — contexto adicional -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;">
           <div class="kpi-card c-blue">
             <div class="kpi-label">Pipeline activo</div>
             <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-active">—</div>
-            <div class="kpi-sub" id="evt-sum-opps">— oportunidades</div>
-          </div>
-          <div class="kpi-card c-green">
-            <div class="kpi-label">Ventas cerradas</div>
-            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-won">—</div>
-            <div class="kpi-sub" id="evt-sum-won-count">— contratos ganados</div>
+            <div class="kpi-sub" id="evt-sum-opps">— oportunidades abiertas</div>
           </div>
           <div class="kpi-card c-blue">
-            <div class="kpi-label">Pipeline total</div>
+            <div class="kpi-label">Pipeline total generado</div>
             <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-total">—</div>
             <div class="kpi-sub">Activo + cerrado</div>
           </div>
-          <div class="kpi-card" style="border:1.5px solid rgba(245,158,11,0.35);background:rgba(245,158,11,0.05);">
-            <div class="kpi-label" style="color:var(--orange);">ROI total (×)</div>
-            <div class="kpi-val" style="font-size:1.75rem;color:var(--orange);" id="evt-sum-roi">—</div>
-            <div class="kpi-sub" id="evt-sum-roi-sub">Pipeline ÷ inversión</div>
+          <div class="kpi-card" style="border:1.5px solid rgba(148,163,184,0.3);background:rgba(148,163,184,0.04);position:relative;">
+            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.2);">POTENCIAL</div>
+            <div class="kpi-label" style="color:#94a3b8;">ROI si cierra todo (×)</div>
+            <div class="kpi-val" style="font-size:1.5rem;color:#94a3b8;" id="evt-sum-roi">—</div>
+            <div class="kpi-sub" id="evt-sum-roi-sub">Pipeline total ÷ inversión</div>
           </div>
         </div>
 
-        <!-- Funnel / ROI waterfall card -->
+        <!-- Desglose visual: inversión → ventas → pipeline -->
         <div class="funnel-card" style="margin-bottom:1rem;">
-          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">ROI del canal de eventos · desglose por resultado</div>
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Retorno por tipo de resultado · ventas cerradas vs. pipeline activo</div>
           <div id="evt-roi-rows" style="display:flex;flex-direction:column;gap:0;">
             <!-- populated by JS -->
           </div>
@@ -2203,55 +2215,95 @@
 
     // ── Resumen del Área de Eventos ───────────────────────────────────────────
     const q = id => document.getElementById(id);
-    if (q('evt-sum-invest')) q('evt-sum-invest').textContent = grandInvest > 0 ? fmtM(grandInvest) : '—';
-    if (q('evt-sum-events')) q('evt-sum-events').textContent = entries.length + ' evento' + (entries.length !== 1 ? 's' : '');
-    if (q('evt-sum-active')) q('evt-sum-active').textContent = grandActive > 0 ? fmtM(grandActive) : '—';
-    if (q('evt-sum-opps'))   q('evt-sum-opps').textContent   = grandOppCount + ' oportunidad' + (grandOppCount !== 1 ? 'es' : '');
-    if (q('evt-sum-won'))    q('evt-sum-won').textContent    = grandWon > 0 ? fmtM(grandWon) : '—';
-    if (q('evt-sum-won-count')) q('evt-sum-won-count').textContent = grandWonCount + ' contrato' + (grandWonCount !== 1 ? 's' : '') + ' ganado' + (grandWonCount !== 1 ? 's' : '');
-    if (q('evt-sum-total'))  q('evt-sum-total').textContent  = grandTotal > 0 ? fmtM(grandTotal) : '—';
-    if (q('evt-sum-roi'))    q('evt-sum-roi').textContent    = grandInvest > 0 ? grandRoi.toFixed(1) + '×' : '—';
-    if (q('evt-sum-roi-sub')) q('evt-sum-roi-sub').textContent = grandInvest > 0
-      ? fmtM(grandTotal) + ' ÷ ' + fmtM(grandInvest)
-      : 'Pipeline ÷ inversión';
+    if (q('evt-sum-invest'))   q('evt-sum-invest').textContent   = grandInvest > 0 ? fmtM(grandInvest) : '—';
+    if (q('evt-sum-events'))   q('evt-sum-events').textContent   = entries.length + ' evento' + (entries.length !== 1 ? 's' : '') + ' registrados';
+    if (q('evt-sum-won'))      q('evt-sum-won').textContent      = grandWon > 0 ? fmtM(grandWon) : '—';
+    if (q('evt-sum-won-count'))q('evt-sum-won-count').textContent= grandWonCount + ' contrato' + (grandWonCount !== 1 ? 's' : '') + ' ganado' + (grandWonCount !== 1 ? 's' : '');
+    if (q('evt-sum-active'))   q('evt-sum-active').textContent   = grandActive > 0 ? fmtM(grandActive) : '—';
+    if (q('evt-sum-opps'))     q('evt-sum-opps').textContent     = grandOppCount + ' oportunidad' + (grandOppCount !== 1 ? 'es' : '') + ' abiertas';
+    if (q('evt-sum-total'))    q('evt-sum-total').textContent    = grandTotal > 0 ? fmtM(grandTotal) : '—';
 
-    // ROI waterfall rows
+    // ROI realizado (el número que importa) — ventas cerradas ÷ inversión
+    if (q('evt-roi-closed'))   q('evt-roi-closed').textContent   = grandInvest > 0 && grandWon > 0 ? roiClosed.toFixed(1) + '×' : '—';
+    if (q('evt-roi-closed-sub')) q('evt-roi-closed-sub').textContent = grandInvest > 0 && grandWon > 0
+      ? fmtM(grandWon) + ' cerrado ÷ ' + fmtM(grandInvest) + ' invertido'
+      : 'Ventas cerradas ÷ inversión';
+
+    // ROI potencial — pipeline total ÷ inversión
+    if (q('evt-sum-roi'))      q('evt-sum-roi').textContent      = grandInvest > 0 ? grandRoi.toFixed(1) + '×' : '—';
+    if (q('evt-sum-roi-sub'))  q('evt-sum-roi-sub').textContent  = grandInvest > 0
+      ? fmtM(grandTotal) + ' total ÷ ' + fmtM(grandInvest)
+      : 'Pipeline total ÷ inversión';
+
+    // Waterfall: inversión → ventas cerradas → pipeline activo
     const roiRowsEl = q('evt-roi-rows');
     if (roiRowsEl && grandInvest > 0) {
-      const maxBar = grandTotal;
-      const rows3 = [
-        { label: 'Pipeline total generado',  value: grandTotal,  roi: grandRoi,   color: 'var(--blue)',   pct: 100 },
-        { label: 'Ventas cerradas',           value: grandWon,    roi: roiClosed,  color: 'var(--green)',  pct: maxBar > 0 ? Math.round(grandWon / maxBar * 100) : 0 },
-        { label: 'Pipeline aún activo',       value: grandActive, roi: null,       color: 'var(--purple)', pct: maxBar > 0 ? Math.round(grandActive / maxBar * 100) : 0 },
+      const maxBar = grandTotal || grandInvest;
+      const wfRows = [
+        {
+          label:    'Ventas cerradas · ROI realizado',
+          sublabel: 'Ingresos ACV ya facturados o contratados',
+          value:    grandWon,
+          badge:    roiClosed > 0 ? roiClosed.toFixed(1) + '×' : null,
+          badgeColor: '#10B981',
+          color:    'var(--green)',
+          pct:      maxBar > 0 ? Math.round(grandWon / maxBar * 100) : 0,
+          highlight: true,
+        },
+        {
+          label:    'Pipeline activo · por cerrar',
+          sublabel: grandOppCount + ' oportunidades en curso · aún no facturadas',
+          value:    grandActive,
+          badge:    null,
+          color:    'var(--blue)',
+          pct:      maxBar > 0 ? Math.round(grandActive / maxBar * 100) : 0,
+          highlight: false,
+        },
+        {
+          label:    'Inversión total del canal',
+          sublabel: entries.length + ' eventos · costo registrado en Zoho',
+          value:    grandInvest,
+          badge:    null,
+          color:    'var(--purple)',
+          pct:      maxBar > 0 ? Math.round(grandInvest / maxBar * 100) : 0,
+          highlight: false,
+        },
       ];
-      roiRowsEl.innerHTML = rows3.map((r, i) => `
-        <div class="deal-row" style="${i > 0 ? 'border-top:1px solid var(--border);' : ''}">
+      roiRowsEl.innerHTML = wfRows.map((r, i) => `
+        <div class="deal-row" style="${i > 0 ? 'border-top:1px solid var(--border);' : ''}${r.highlight ? 'background:rgba(16,185,129,0.03);' : ''}">
           <div class="deal-row-top">
-            <div class="deal-row-label">${r.label}</div>
-            <div class="deal-row-val" style="color:${r.color};">${fmtM(r.value)}${r.roi !== null ? `<span style="margin-left:.5rem;font-size:.75rem;color:${r.color};opacity:.8;">${r.roi.toFixed(1)}×</span>` : ''}</div>
+            <div style="display:flex;flex-direction:column;gap:.2rem;">
+              <div class="deal-row-label" style="${r.highlight ? 'color:var(--fg);font-weight:700;' : ''}">${r.label}</div>
+              <div style="font-size:.72rem;color:var(--fg-muted);">${r.sublabel}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              ${r.badge ? `<span style="font-size:.75rem;font-weight:800;padding:.2rem .55rem;border-radius:999px;background:rgba(16,185,129,0.12);color:${r.badgeColor};border:1px solid rgba(16,185,129,0.25);">${r.badge}</span>` : ''}
+              <div class="deal-row-val" style="color:${r.color};">${fmtM(r.value)}</div>
+            </div>
           </div>
           <div class="deal-row-bar">
-            <div style="height:100%;width:${r.pct}%;background:${r.color};border-radius:999px;opacity:.85;"></div>
+            <div style="height:100%;width:${r.pct}%;background:${r.color};border-radius:999px;opacity:.8;"></div>
           </div>
         </div>`).join('');
     }
 
-    // Insight pills
+    // Insight pills — énfasis en ROI realizado
     const insEl = q('evt-insights');
     if (insEl && grandInvest > 0) {
-      const topEvt = entries[0];
-      const topPct = grandTotal > 0 ? Math.round((topEvt?.totalValue || 0) / grandTotal * 100) : 0;
+      const topEvt    = entries[0];
+      const topWonEvt = [...entries].sort((a,b) => (b.wonValue||0) - (a.wonValue||0))[0];
+      const wonPct    = grandTotal > 0 ? Math.round(grandWon / grandTotal * 100) : 0;
       insEl.innerHTML = [
-        grandRoi >= 3
-          ? `<div class="insight"><strong>ROI ${grandRoi.toFixed(1)}×</strong> — por cada MX$1 invertido en eventos, se generaron <strong>MX$${grandRoi.toFixed(1)}</strong> de pipeline.</div>`
-          : `<div class="insight orange-tint">ROI <strong>${grandRoi.toFixed(1)}×</strong> sobre inversión en eventos · pipeline total <strong>${fmtM(grandTotal)}</strong>.</div>`,
-        topEvt
-          ? `<div class="insight"><strong>${topEvt.name}</strong> · evento líder con <strong>${fmtM(topEvt.totalValue)}</strong> — el <strong>${topPct}%</strong> del pipeline total de expos.</div>`
-          : '',
         roiClosed > 0
-          ? `<div class="insight orange-tint">Venta cerrada: <strong>${fmtM(grandWon)}</strong> · ROI realizado <strong>${roiClosed.toFixed(1)}×</strong> sobre inversión.</div>`
+          ? `<div class="insight"><strong>ROI realizado ${roiClosed.toFixed(1)}×</strong> — por cada MX$1 invertido en eventos, ya se cerraron <strong>MX$${roiClosed.toFixed(1)}</strong> en ventas.</div>`
+          : `<div class="insight orange-tint">Sin ventas cerradas registradas aún. Pipeline activo: <strong>${fmtM(grandActive)}</strong>.</div>`,
+        grandActive > 0
+          ? `<div class="insight"><strong>${fmtM(grandActive)}</strong> en pipeline activo — <strong>${100 - wonPct}%</strong> del total generado aún por convertir. ROI potencial si cierra: <strong>${grandRoi.toFixed(1)}×</strong>.</div>`
           : '',
-      ].join('');
+        topWonEvt?.wonValue > 0
+          ? `<div class="insight orange-tint"><strong>${topWonEvt.name}</strong> · mayor venta cerrada del canal con <strong>${fmtM(topWonEvt.wonValue)}</strong>.</div>`
+          : '',
+      ].filter(Boolean).join('');
     }
 
     // Table — 6 columns
