@@ -391,93 +391,109 @@
   @media(max-width:1100px){ #float-cta-panel{display:none!important} }
 
   #float-cta-panel {
-    position:fixed;right:24px;top:50%;
+    position:fixed;right:20px;top:50%;
     transform:translateY(-50%);
-    z-index:100;width:280px;
-    background:#1d5496;border-radius:20px;
-    padding:24px 22px;
-    box-shadow:0 12px 40px rgba(29,84,150,.45);
-    display:flex;flex-direction:column;gap:14px;
+    z-index:100;width:240px;
+    background:#012750;border-radius:16px;
+    padding:18px 16px;
+    box-shadow:0 8px 32px rgba(1,15,36,.5),0 0 0 1px rgba(36,95,165,.2);
+    display:flex;flex-direction:column;gap:10px;
     opacity:0;pointer-events:none;
     transition:opacity .4s ease;
   }
-  #float-cta-panel.visible {
-    opacity:1;pointer-events:auto;
-  }
+  #float-cta-panel.visible { opacity:1;pointer-events:auto; }
 
-  /* Tag */
   .fcp-tag {
-    display:inline-flex;align-items:center;gap:5px;
-    font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    color:rgba(255,255,255,.55);
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.45);
   }
   .fcp-tag-dot {
-    width:5px;height:5px;border-radius:50%;
-    background:#4B8FD4;box-shadow:0 0 5px #4B8FD4;flex-shrink:0;
+    width:5px;height:5px;border-radius:50%;flex-shrink:0;
+    background:#4B8FD4;box-shadow:0 0 5px #4B8FD4;
   }
-
-  /* Título */
   .fcp-title {
-    font-size:13px;font-weight:700;color:#ffffff;line-height:1.3;margin:0;
+    font-size:12px;font-weight:700;color:#ffffff;line-height:1.35;margin:0;
   }
+  .fcp-sep { height:1px;background:rgba(255,255,255,.1); }
 
-  /* Separador */
-  .fcp-sep {
-    height:1px;background:rgba(255,255,255,.2);
+  /* Inputs */
+  .fcp-input {
+    width:100%;box-sizing:border-box;
+    padding:8px 10px;border-radius:8px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;font-size:11px;font-family:inherit;
+    outline:none;transition:border-color .2s;
+  }
+  .fcp-input::placeholder { color:rgba(255,255,255,.35); }
+  .fcp-input:focus { border-color:rgba(75,143,212,.7); }
+  .fcp-input-label {
+    font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(255,255,255,.4);margin-bottom:3px;display:block;
   }
 
   /* Botón principal */
   .fcp-btn-primary {
-    display:flex;align-items:center;justify-content:center;gap:6px;
-    padding:12px 14px;border-radius:999px;
-    background:#ffffff;color:#012750;border:none;cursor:pointer;
-    font-size:13px;font-weight:700;width:100%;
-    transition:background .2s,color .2s;
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    padding:9px 12px;border-radius:999px;
+    background:#4B8FD4;color:#fff;border:none;cursor:pointer;
+    font-size:11px;font-weight:700;width:100%;
+    transition:background .2s;
   }
-  .fcp-btn-primary:hover { background:#EDF2F8; }
+  .fcp-btn-primary:hover { background:#5fa0e0; }
 
   /* Botón WhatsApp */
   .fcp-btn-wa {
-    display:flex;align-items:center;justify-content:center;gap:6px;
-    padding:11px 14px;border-radius:999px;
-    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-    color:#ffffff;font-size:13px;font-weight:500;
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    padding:8px 12px;border-radius:999px;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+    color:rgba(255,255,255,.75);font-size:11px;font-weight:500;
     text-decoration:none;width:100%;box-sizing:border-box;
     transition:background .2s;
   }
-  .fcp-btn-wa:hover { background:rgba(255,255,255,.2); }
+  .fcp-btn-wa:hover { background:rgba(255,255,255,.12); }
 
-  /* Trust */
   .fcp-trust {
-    font-size:9.5px;color:rgba(255,255,255,.3);text-align:center;line-height:1.5;
+    font-size:8.5px;color:rgba(255,255,255,.25);text-align:center;line-height:1.5;
   }
 </style>
 
 <aside id="float-cta-panel" aria-label="Contacto rápido">
-  <!-- Tag -->
+
   <div class="fcp-tag">
     <span class="fcp-tag-dot"></span>
     Demo gratuita
   </div>
 
-  <!-- Título resumen -->
-  <p class="fcp-title">¿Listo para tener tu flota bajo control?</p>
+  <p class="fcp-title">Agenda tu demo y ve cómo funciona con tu flota</p>
+
+  <div class="fcp-sep"></div>
+
+  <!-- Campos -->
+  <div>
+    <span class="fcp-input-label">Empresa</span>
+    <input class="fcp-input" type="text" placeholder="Nombre de tu empresa">
+  </div>
+  <div>
+    <span class="fcp-input-label">Unidades</span>
+    <input class="fcp-input" type="number" placeholder="Número de unidades" min="1">
+  </div>
 
   <div class="fcp-sep"></div>
 
   <!-- Botones -->
   <button class="fcp-btn-primary" onclick="openDemoModal()">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    Solicitar demo
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    Solicitar demo gratis
   </button>
 
   <a href="https://wa.link/0nc3sf" target="_blank" class="fcp-btn-wa">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    Hablar con experto
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Hablar con un experto
   </a>
 
-  <!-- Trust -->
-  <p class="fcp-trust">Sin tarjeta · Instalación en 48 hrs</p>
+  <p class="fcp-trust">Sin tarjeta de crédito · 48 hrs instalación</p>
 </aside>
 
 <script>
