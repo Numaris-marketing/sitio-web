@@ -385,6 +385,124 @@
 </aside>
 
 <!-- ══════════════════════════════════════════════
+     FLOATING RIGHT CTA MENU
+══════════════════════════════════════════════ -->
+<style>
+  #float-cta {
+    position:fixed;right:20px;top:50%;transform:translateY(-50%);
+    z-index:100;
+    display:flex;flex-direction:column;align-items:center;gap:0;
+    background:#0d0d0d;border-radius:999px;
+    padding:16px 0;
+    box-shadow:0 8px 32px rgba(0,0,0,.35);
+    transition:opacity .3s;
+  }
+  @media(max-width:1024px){ #float-cta{display:none} }
+
+  /* Puntos de sección */
+  .fcta-dot-wrap {
+    display:flex;flex-direction:column;align-items:center;
+    padding:6px 16px;cursor:pointer;position:relative;gap:2px;
+  }
+  .fcta-dot {
+    width:7px;height:7px;border-radius:50%;
+    background:rgba(255,255,255,.25);
+    transition:background .25s,transform .25s;
+    flex-shrink:0;
+  }
+  .fcta-dot-wrap.active .fcta-dot {
+    background:#ffffff;transform:scale(1.35);
+  }
+  /* Tooltip al hover */
+  .fcta-label {
+    position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);
+    background:#0d0d0d;color:#fff;font-size:11px;font-weight:600;
+    letter-spacing:.06em;white-space:nowrap;
+    padding:5px 10px;border-radius:6px;
+    opacity:0;pointer-events:none;transition:opacity .2s;
+  }
+  .fcta-dot-wrap:hover .fcta-label { opacity:1; }
+  .fcta-dot-wrap:hover .fcta-dot { background:rgba(255,255,255,.7); }
+
+  /* Divisor */
+  .fcta-divider {
+    width:1px;height:14px;background:rgba(255,255,255,.12);margin:2px 0;
+  }
+
+  /* Botón CTA */
+  .fcta-btn {
+    writing-mode:vertical-rl;text-orientation:mixed;
+    transform:rotate(180deg);
+    padding:18px 14px;
+    font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:#0d0d0d;background:#ffffff;
+    border:none;cursor:pointer;border-radius:999px;
+    margin-top:6px;
+    transition:background .2s,color .2s;
+    line-height:1;
+  }
+  .fcta-btn:hover { background:#4B8FD4;color:#fff; }
+</style>
+
+<aside id="float-cta" aria-label="Menú flotante">
+  <!-- Puntos de navegación -->
+  <div class="fcta-dot-wrap active" data-target="igg-section">
+    <div class="fcta-dot"></div>
+    <span class="fcta-label">Tecnología</span>
+  </div>
+  <div class="fcta-dot-wrap" data-target="hero">
+    <div class="fcta-dot"></div>
+    <span class="fcta-label">Soluciones</span>
+  </div>
+  <div class="fcta-dot-wrap" data-target="proceso">
+    <div class="fcta-dot"></div>
+    <span class="fcta-label">Proceso</span>
+  </div>
+  <div class="fcta-dot-wrap" data-target="retos">
+    <div class="fcta-dot"></div>
+    <span class="fcta-label">Retos</span>
+  </div>
+
+  <div class="fcta-divider"></div>
+
+  <!-- Botón CTA vertical -->
+  <button class="fcta-btn" onclick="openDemoModal()">Solicitar demo</button>
+</aside>
+
+<script>
+(function(){
+  var items = document.querySelectorAll('.fcta-dot-wrap[data-target]');
+  var sections = Array.from(items).map(function(el){
+    return document.getElementById(el.dataset.target);
+  });
+
+  function update(){
+    var mid = window.innerHeight / 2;
+    var active = 0;
+    sections.forEach(function(sec, i){
+      if(!sec) return;
+      var rect = sec.getBoundingClientRect();
+      if(rect.top <= mid) active = i;
+    });
+    items.forEach(function(el, i){
+      el.classList.toggle('active', i === active);
+    });
+  }
+
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+
+  // Click → scroll a sección
+  items.forEach(function(el){
+    el.addEventListener('click', function(){
+      var sec = document.getElementById(el.dataset.target);
+      if(sec) sec.scrollIntoView({behavior:'smooth'});
+    });
+  });
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════
      TRUCK INFOGRAPHIC
 ══════════════════════════════════════════════ -->
 <style>
