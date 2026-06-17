@@ -910,33 +910,67 @@
         <!-- PIPELINE POR EVENTO -->
         <div class="sec-head">
           <h2>Pipeline por Evento — Expos</h2>
-          <p>Inversión, pipeline generado y ROI por evento · Datos de oportunidades en vivo desde Zoho CRM</p>
+          <p>Inversión, ventas cerradas y ROI por evento · Datos en vivo desde Zoho CRM</p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.25rem;">
-          <div class="card" style="padding:1.125rem 1.375rem;">
-            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.4rem;">Inversión total</div>
-            <div style="font-size:1.5rem;font-weight:900;color:var(--fg);" id="camp-total-invest">—</div>
+        <!-- Fila 1: inversión · ventas cerradas · ROI REALIZADO -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
+          <div class="kpi-card c-purple">
+            <div class="kpi-label">Inversión total en eventos</div>
+            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-invest">—</div>
+            <div class="kpi-sub" id="evt-sum-events">— eventos registrados</div>
           </div>
-          <div class="card" style="padding:1.125rem 1.375rem;">
-            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);margin-bottom:0.4rem;">Pipeline total generado</div>
-            <div style="font-size:1.5rem;font-weight:900;color:var(--green);" id="camp-total-value">—</div>
+          <div class="kpi-card c-green">
+            <div class="kpi-label">Ventas cerradas (ACV)</div>
+            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-won">—</div>
+            <div class="kpi-sub" id="evt-sum-won-count">— contratos ganados</div>
           </div>
-          <div class="card" style="padding:1.125rem 1.375rem;">
-            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem;">Venta cerrada</div>
-            <div style="font-size:1.5rem;font-weight:900;color:var(--purple);" id="camp-total-won">—</div>
-          </div>
-          <div class="card" style="padding:1.125rem 1.375rem;">
-            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:0.4rem;">ROI pipeline (×)</div>
-            <div style="font-size:1.5rem;font-weight:900;color:var(--orange);" id="camp-total-roi">—</div>
+          <div class="kpi-card" style="border:2px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.06);position:relative;">
+            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(16,185,129,0.12);color:#10B981;border:1px solid rgba(16,185,129,0.25);">REALIZADO</div>
+            <div class="kpi-label" style="color:#10B981;">ROI realizado (×)</div>
+            <div class="kpi-val" style="font-size:2rem;color:#10B981;" id="evt-roi-closed">—</div>
+            <div class="kpi-sub" id="evt-roi-closed-sub">Ventas cerradas ÷ inversión</div>
           </div>
         </div>
 
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.25rem;">
-          <span id="camp-status-dot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0;"></span>
-          <span id="camp-status-text" style="font-size:0.8125rem;color:var(--fg-muted);">Cargando campañas desde Zoho…</span>
-          <span style="font-size:0.8125rem;color:var(--fg-muted);">·</span>
-          <span style="font-size:0.8125rem;color:var(--fg-muted);" id="camp-total-count">—</span>
+        <!-- Fila 2: pipeline activo · pipeline total · ROI potencial -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+          <div class="kpi-card c-blue">
+            <div class="kpi-label">Pipeline activo</div>
+            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-active">—</div>
+            <div class="kpi-sub" id="evt-sum-opps">— oportunidades abiertas</div>
+          </div>
+          <div class="kpi-card c-blue">
+            <div class="kpi-label">Pipeline total generado</div>
+            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-total">—</div>
+            <div class="kpi-sub">Activo + cerrado</div>
+          </div>
+          <div class="kpi-card" style="border:1.5px solid rgba(148,163,184,0.3);background:rgba(148,163,184,0.04);position:relative;">
+            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.2);">POTENCIAL</div>
+            <div class="kpi-label" style="color:#94a3b8;">ROI si cierra todo (×)</div>
+            <div class="kpi-val" style="font-size:1.5rem;color:#94a3b8;" id="evt-sum-roi">—</div>
+            <div class="kpi-sub" id="evt-sum-roi-sub">Pipeline total ÷ inversión</div>
+          </div>
+        </div>
+
+        <!-- Waterfall: ventas cerradas vs pipeline activo vs inversión -->
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Retorno por tipo de resultado · ventas cerradas vs. pipeline activo</div>
+          <div id="evt-roi-rows" style="display:flex;flex-direction:column;gap:0;"></div>
+        </div>
+
+        <!-- Insights -->
+        <div id="evt-insights" style="display:flex;gap:.625rem;flex-wrap:wrap;margin-bottom:1.25rem;"></div>
+
+        <!-- Status dot (oculto — mantenemos IDs para el JS) -->
+        <div style="display:none;">
+          <span id="camp-status-dot"></span>
+          <span id="camp-status-text"></span>
+          <span id="camp-total-count"></span>
+          <span id="camp-total-invest"></span>
+          <span id="camp-total-value"></span>
+          <span id="camp-total-won"></span>
+          <span id="camp-total-roi"></span>
         </div>
 
         <div id="campaign-table-wrap" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;">
@@ -963,65 +997,6 @@
             <div style="color:var(--fg-muted);font-size:0.875rem;">Cargando…</div>
           </div>
         </div>
-
-        <!-- ── RESUMEN DEL ÁREA DE EVENTOS ─────────────────────────────────── -->
-        <hr class="sec-divider">
-        <div class="sec-head">
-          <h2>Resumen del Área de Eventos</h2>
-          <p>Inversión acumulada en expos · ventas cerradas y ROI realizado vs. potencial · Datos en vivo desde Zoho CRM</p>
-        </div>
-
-        <!-- Fila 1: los 3 fundamentos — inversión, ventas, ROI realizado -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
-          <div class="kpi-card c-purple">
-            <div class="kpi-label">Inversión total en eventos</div>
-            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-invest">—</div>
-            <div class="kpi-sub" id="evt-sum-events">— eventos registrados</div>
-          </div>
-          <div class="kpi-card c-green">
-            <div class="kpi-label">Ventas cerradas (ACV)</div>
-            <div class="kpi-val" style="font-size:1.6rem;" id="evt-sum-won">—</div>
-            <div class="kpi-sub" id="evt-sum-won-count">— contratos ganados</div>
-          </div>
-          <!-- ROI REALIZADO — el número que importa -->
-          <div class="kpi-card" style="border:2px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.06);position:relative;">
-            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(16,185,129,0.12);color:#10B981;border:1px solid rgba(16,185,129,0.25);">REALIZADO</div>
-            <div class="kpi-label" style="color:#10B981;">ROI realizado (×)</div>
-            <div class="kpi-val" style="font-size:2rem;color:#10B981;" id="evt-roi-closed">—</div>
-            <div class="kpi-sub" id="evt-roi-closed-sub">Ventas cerradas ÷ inversión</div>
-          </div>
-        </div>
-
-        <!-- Fila 2: pipeline activo y ROI potencial — contexto adicional -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;">
-          <div class="kpi-card c-blue">
-            <div class="kpi-label">Pipeline activo</div>
-            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-active">—</div>
-            <div class="kpi-sub" id="evt-sum-opps">— oportunidades abiertas</div>
-          </div>
-          <div class="kpi-card c-blue">
-            <div class="kpi-label">Pipeline total generado</div>
-            <div class="kpi-val" style="font-size:1.5rem;" id="evt-sum-total">—</div>
-            <div class="kpi-sub">Activo + cerrado</div>
-          </div>
-          <div class="kpi-card" style="border:1.5px solid rgba(148,163,184,0.3);background:rgba(148,163,184,0.04);position:relative;">
-            <div style="position:absolute;top:.6rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:999px;background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.2);">POTENCIAL</div>
-            <div class="kpi-label" style="color:#94a3b8;">ROI si cierra todo (×)</div>
-            <div class="kpi-val" style="font-size:1.5rem;color:#94a3b8;" id="evt-sum-roi">—</div>
-            <div class="kpi-sub" id="evt-sum-roi-sub">Pipeline total ÷ inversión</div>
-          </div>
-        </div>
-
-        <!-- Desglose visual: inversión → ventas → pipeline -->
-        <div class="funnel-card" style="margin-bottom:1rem;">
-          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Retorno por tipo de resultado · ventas cerradas vs. pipeline activo</div>
-          <div id="evt-roi-rows" style="display:flex;flex-direction:column;gap:0;">
-            <!-- populated by JS -->
-          </div>
-        </div>
-
-        <!-- Insight pills -->
-        <div id="evt-insights" style="display:flex;gap:.625rem;flex-wrap:wrap;margin-bottom:1.75rem;"></div>
 
         <!-- Event cards label -->
         <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.875rem;">Ficha de cada evento · contexto y posicionamiento de marca</div>
