@@ -394,11 +394,11 @@
     position:fixed;right:75px;top:50%;
     transform:translateY(-50%);
     z-index:100;width:190px;
-    background:rgba(255,255,255,.15);
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     border-radius:14px;
     padding:14px 13px;
-    box-shadow:0 8px 32px rgba(1,15,36,.4),0 0 0 1px rgba(255,255,255,.18);
+    box-shadow:0 4px 16px rgba(1,15,36,.15),0 0 0 1px rgba(255,255,255,.12);
     display:flex;flex-direction:column;gap:6px;
     opacity:0;pointer-events:none;
     transition:opacity .4s ease;
@@ -408,31 +408,31 @@
   .fcp-tag {
     display:inline-flex;align-items:center;gap:4px;
     font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-    color:rgba(255,255,255,.7);
+    color:#245FA5;
   }
   .fcp-tag-dot {
     width:5px;height:5px;border-radius:50%;flex-shrink:0;
-    background:#4B8FD4;box-shadow:0 0 5px #4B8FD4;
+    background:#245FA5;box-shadow:0 0 5px rgba(36,95,165,.5);
   }
   .fcp-title {
-    font-size:11px;font-weight:700;color:#ffffff;line-height:1.3;margin:0;
+    font-size:11px;font-weight:700;color:#012750;line-height:1.3;margin:0;
   }
-  .fcp-sep { height:1px;background:rgba(255,255,255,.25);margin:1px 0; }
+  .fcp-sep { height:1px;background:rgba(1,39,80,.12);margin:1px 0; }
 
   /* Inputs */
   .fcp-input {
     width:100%;box-sizing:border-box;
     padding:6px 9px;border-radius:7px;
-    background:rgba(255,255,255,.2);
-    border:1px solid rgba(255,255,255,.35);
-    color:#fff;font-size:11px;font-family:inherit;
+    background:rgba(255,255,255,.45);
+    border:1px solid rgba(36,95,165,.25);
+    color:#012750;font-size:11px;font-family:inherit;
     outline:none;transition:border-color .2s;
   }
-  .fcp-input::placeholder { color:rgba(255,255,255,.6); }
-  .fcp-input:focus { border-color:rgba(255,255,255,.7); }
+  .fcp-input::placeholder { color:rgba(1,39,80,.4); }
+  .fcp-input:focus { border-color:rgba(36,95,165,.6); }
   .fcp-input-label {
     font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-    color:rgba(255,255,255,.4);margin-bottom:2px;display:block;
+    color:rgba(1,39,80,.45);margin-bottom:2px;display:block;
   }
 
   /* Botón principal */
@@ -449,15 +449,15 @@
   .fcp-btn-wa {
     display:flex;align-items:center;justify-content:center;gap:4px;
     padding:6px 10px;border-radius:999px;
-    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
-    color:rgba(255,255,255,.85);font-size:10px;font-weight:500;
+    background:rgba(36,95,165,.1);border:1px solid rgba(36,95,165,.25);
+    color:#245FA5;font-size:10px;font-weight:600;
     text-decoration:none;width:100%;box-sizing:border-box;
     transition:background .2s;margin-top:3px;
   }
-  .fcp-btn-wa:hover { background:rgba(255,255,255,.22); }
+  .fcp-btn-wa:hover { background:rgba(36,95,165,.18); }
 
   .fcp-trust {
-    font-size:8.5px;color:rgba(255,255,255,.25);text-align:center;line-height:1.5;
+    font-size:8.5px;color:rgba(1,39,80,.35);text-align:center;line-height:1.5;
   }
 </style>
 
