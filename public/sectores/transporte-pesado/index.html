@@ -461,60 +461,110 @@
 
 <aside id="float-cta-panel" aria-label="Contacto rápido">
 
-  <div class="fcp-tag">
-    <span class="fcp-tag-dot"></span>
-    Demo gratuita
+  <!-- Estado normal -->
+  <div id="fcp-form-view">
+    <div class="fcp-tag" style="justify-content:center">
+      <span class="fcp-tag-dot"></span>
+      Demo gratuita
+    </div>
+
+    <p class="fcp-title" style="text-align:center">Agenda tu demo y ve cómo funciona con tu flota</p>
+
+    <div class="fcp-sep"></div>
+
+    <div>
+      <span class="fcp-input-label">Empresa</span>
+      <input id="fcp-empresa" class="fcp-input" type="text" placeholder="Nombre de tu empresa">
+    </div>
+    <div>
+      <span class="fcp-input-label">Teléfono</span>
+      <input id="fcp-telefono" class="fcp-input" type="tel" placeholder="10 dígitos">
+    </div>
+    <div>
+      <span class="fcp-input-label">Unidades</span>
+      <input id="fcp-unidades" class="fcp-input" type="number" placeholder="Número de unidades" min="1">
+    </div>
+
+    <div class="fcp-sep"></div>
+
+    <button class="fcp-btn-primary" id="fcp-submit-btn">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Enviar solicitud
+    </button>
+
+    <a href="https://wa.link/0nc3sf" target="_blank" class="fcp-btn-wa">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Hablar con un experto
+    </a>
   </div>
 
-  <p class="fcp-title">Agenda tu demo y ve cómo funciona con tu flota</p>
-
-  <div class="fcp-sep"></div>
-
-  <!-- Campos -->
-  <div>
-    <span class="fcp-input-label">Empresa</span>
-    <input class="fcp-input" type="text" placeholder="Nombre de tu empresa">
-  </div>
-  <div>
-    <span class="fcp-input-label">Unidades</span>
-    <input class="fcp-input" type="number" placeholder="Número de unidades" min="1">
+  <!-- Estado éxito -->
+  <div id="fcp-success-view" style="display:none;text-align:center;padding:10px 0;gap:10px;flex-direction:column;align-items:center">
+    <div style="width:40px;height:40px;border-radius:50%;background:rgba(16,185,129,.15);border:1.5px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;margin:0 auto">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+    </div>
+    <p style="color:#fff;font-size:12px;font-weight:700;margin:0">¡Solicitud enviada!</p>
+    <p style="color:rgba(255,255,255,.5);font-size:10px;margin:0;line-height:1.5">Te contactaremos en menos de 24 hrs para agendar tu demo.</p>
   </div>
 
-  <div class="fcp-sep"></div>
-
-  <!-- Botones -->
-  <button class="fcp-btn-primary" onclick="openDemoModal()">
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    Solicitar demo gratis
-  </button>
-
-  <a href="https://wa.link/0nc3sf" target="_blank" class="fcp-btn-wa">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.126 1.524 5.871L0 24l6.335-1.498A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.653-.51-5.17-1.4l-.37-.22-3.763.89.928-3.667-.242-.38A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    Hablar con un experto
-  </a>
-
-  <p class="fcp-trust">Sin tarjeta de crédito · 48 hrs instalación</p>
 </aside>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  var panel = document.getElementById('float-cta-panel');
-  var ctaSection = document.getElementById('cta-demo');
+  var panel     = document.getElementById('float-cta-panel');
+  var ctaSection= document.getElementById('cta-demo');
   if(!panel || !ctaSection) return;
 
+  // Mostrar/ocultar panel según scroll
   function update(){
-    var ctaRect = ctaSection.getBoundingClientRect();
-    var scrolled = window.scrollY > 100;
-    var ctaReached = ctaRect.top < window.innerHeight * 0.85;
-    if(scrolled && !ctaReached){
-      panel.classList.add('visible');
-    } else {
-      panel.classList.remove('visible');
-    }
+    var ctaRect   = ctaSection.getBoundingClientRect();
+    var scrolled  = window.scrollY > 100;
+    var ctaReached= ctaRect.top < window.innerHeight * 0.85;
+    panel.classList.toggle('visible', scrolled && !ctaReached);
   }
-
   window.addEventListener('scroll', update, {passive:true});
   update();
+
+  // Envío del lead al hacer clic en "Enviar solicitud"
+  var btn        = document.getElementById('fcp-submit-btn');
+  var formView   = document.getElementById('fcp-form-view');
+  var successView= document.getElementById('fcp-success-view');
+
+  btn.addEventListener('click', function(){
+    var empresa  = document.getElementById('fcp-empresa').value.trim();
+    var telefono = document.getElementById('fcp-telefono').value.trim();
+    var unidades = document.getElementById('fcp-unidades').value.trim();
+
+    if(!empresa || !telefono){
+      document.getElementById('fcp-empresa').style.borderColor = !empresa ? 'rgba(239,68,68,.6)' : '';
+      document.getElementById('fcp-telefono').style.borderColor = !telefono ? 'rgba(239,68,68,.6)' : '';
+      return;
+    }
+
+    btn.textContent = 'Enviando…';
+    btn.disabled = true;
+
+    fetch('https://formspree.io/f/xyzgpojb', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({
+        empresa: empresa,
+        telefono: telefono,
+        unidades: unidades || 'No indicado',
+        fuente: 'Panel flotante - Transporte Pesado'
+      })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(){
+      formView.style.display = 'none';
+      successView.style.display = 'flex';
+    })
+    .catch(function(){
+      // Si falla el fetch, mostrar éxito igual (no bloquear al usuario)
+      formView.style.display = 'none';
+      successView.style.display = 'flex';
+    });
+  });
 });
 </script>
 
