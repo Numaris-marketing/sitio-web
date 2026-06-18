@@ -393,11 +393,11 @@
   #float-cta-panel {
     position:fixed;right:75px;top:50%;
     transform:translateY(-50%);
-    z-index:100;width:200px;
+    z-index:100;width:190px;
     background:#012750;border-radius:14px;
-    padding:12px 12px;
+    padding:14px 13px;
     box-shadow:0 8px 32px rgba(1,15,36,.5),0 0 0 1px rgba(36,95,165,.2);
-    display:flex;flex-direction:column;gap:5px;
+    display:flex;flex-direction:column;gap:6px;
     opacity:0;pointer-events:none;
     transition:opacity .4s ease;
   }
@@ -415,15 +415,15 @@
   .fcp-title {
     font-size:11px;font-weight:700;color:#ffffff;line-height:1.3;margin:0;
   }
-  .fcp-sep { height:1px;background:rgba(255,255,255,.1);margin:2px 0; }
+  .fcp-sep { height:1px;background:rgba(255,255,255,.1);margin:1px 0; }
 
   /* Inputs */
   .fcp-input {
     width:100%;box-sizing:border-box;
-    padding:5px 8px;border-radius:6px;
+    padding:6px 9px;border-radius:7px;
     background:rgba(255,255,255,.07);
     border:1px solid rgba(255,255,255,.14);
-    color:#fff;font-size:10px;font-family:inherit;
+    color:#fff;font-size:11px;font-family:inherit;
     outline:none;transition:border-color .2s;
   }
   .fcp-input::placeholder { color:rgba(255,255,255,.35); }
@@ -436,9 +436,9 @@
   /* Botón principal */
   .fcp-btn-primary {
     display:flex;align-items:center;justify-content:center;gap:5px;
-    padding:8px 10px;border-radius:999px;
+    padding:9px 10px;border-radius:999px;
     background:#4B8FD4;color:#fff;border:none;cursor:pointer;
-    font-size:10px;font-weight:700;width:100%;
+    font-size:11px;font-weight:700;width:100%;
     transition:background .2s;
   }
   .fcp-btn-primary:hover { background:#5fa0e0; }
@@ -446,9 +446,9 @@
   /* Botón WhatsApp */
   .fcp-btn-wa {
     display:flex;align-items:center;justify-content:center;gap:5px;
-    padding:7px 10px;border-radius:999px;
+    padding:8px 10px;border-radius:999px;
     background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
-    color:rgba(255,255,255,.75);font-size:10px;font-weight:500;
+    color:rgba(255,255,255,.75);font-size:11px;font-weight:500;
     text-decoration:none;width:100%;box-sizing:border-box;
     transition:background .2s;
   }
@@ -472,18 +472,9 @@
 
     <div class="fcp-sep"></div>
 
-    <div>
-      <span class="fcp-input-label">Empresa</span>
-      <input id="fcp-empresa" class="fcp-input" type="text" placeholder="Nombre de tu empresa">
-    </div>
-    <div>
-      <span class="fcp-input-label">Teléfono</span>
-      <input id="fcp-telefono" class="fcp-input" type="tel" placeholder="10 dígitos">
-    </div>
-    <div>
-      <span class="fcp-input-label">Unidades</span>
-      <input id="fcp-unidades" class="fcp-input" type="number" placeholder="Número de unidades" min="1">
-    </div>
+    <input id="fcp-empresa" class="fcp-input" type="text" placeholder="Empresa">
+    <input id="fcp-telefono" class="fcp-input" type="tel" placeholder="Teléfono">
+    <input id="fcp-unidades" class="fcp-input" type="number" placeholder="Núm. de unidades" min="1">
 
     <div class="fcp-sep"></div>
 
