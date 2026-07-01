@@ -48,19 +48,18 @@ const OWNER_TO_INDUSTRY = {
 };
 
 const MARKETING_SOURCES = new Set([
-  "Google Ads - Pauta",
-  "LinkedIn Sales Navigator",
-  "Prospección LinkedIn",
-  "Expo como expositor (agregar etiqueta de Expo)",
-  "Expo como visitante (agregar etiqueta de Expo)",
-  "WhatsApp - Numaris",
-  "Campaña de mailing",
   "Meta - Pauta",
   "Formulario website",
-  "Prospección Facebook",
-  "Prospección Instagram",
-  "Newsletter LinkedIn",
+  "LinkedIn Sales Navigator",
   "Linkedin - Pauta",
+  "Expo como visitante",
+  "Expo como visitante (agregar etiqueta de Expo)",
+  "Expo como expositor",
+  "Expo como expositor (agregar etiqueta de Expo)",
+  "Newsletter LinkedIn",
+  "Google Ads - Pauta",
+  "Campaña de mailing",
+  "Prospección Facebook",
 ]);
 
 // ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
