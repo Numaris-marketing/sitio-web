@@ -155,8 +155,12 @@ export default async function handler(req, res) {
       "(Stage:equals:Formalización)or" +
       "(Stage:equals:Contrato firmado))"
     );
-    // Accounts with marketing source — for Se_obtuvo_por classification
-    const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
+    // Accounts with any marketing source — ANY account type (Prospecto or converted Cliente)
+    // Mirrors Zoho's "Clasificación de origen" filter without Account_Type restriction
+    const mktSourceCriteria = [...MARKETING_SOURCES]
+      .map(s => `(Se_obtuvo_por:equals:${s})`)
+      .join("or");
+    const accCriteria = encodeURIComponent(mktSourceCriteria);
 
     // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
     const campDealCriteria = encodeURIComponent(
@@ -199,13 +203,13 @@ export default async function handler(req, res) {
       };
     }
 
-    // Build account index (Prospecto only)
+    // Build account index — all marketing-sourced accounts regardless of Account_Type
     const accountById = {};
     const marketingAccIds = new Set();
     for (const acc of prospAccounts) {
       accountById[acc.id] = acc;
-      if (MARKETING_SOURCES.has(acc.Se_obtuvo_por) && !EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
-        marketingAccIds.add(acc.id);
+      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
+        marketingAccIds.add(acc.id); // Se_obtuvo_por already filtered at API level
       }
     }
 
