@@ -66,8 +66,7 @@ const OWNER_TO_INDUSTRY = {
   "Abigail Juarez":                "Administración de Flota",
   "Gabriela Abigail Juarez Perez": "Administración de Flota",
 
-  // Administración de Activos
-  "Esmeralda Salgado": "Administración de Activos",
+  "Esmeralda Salgado": "Administración de Flota",
 };
 
 const MARKETING_SOURCES = new Set([
