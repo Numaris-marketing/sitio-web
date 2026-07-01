@@ -146,21 +146,19 @@ export default async function handler(req, res) {
   try {
     const token = await refreshToken();
 
-    // Pre-filter at Zoho API level — only fetch what we need
-    // Deals: active stages + Tipo de oportunidad = Cliente nuevo
+    // Pre-filter at Zoho API level — stage criteria only (safe, known to work)
     const dealCriteria = encodeURIComponent(
       "((Stage:equals:Levantamiento de necesidades)or" +
       "(Stage:equals:Presentación con enfoque a solicitud)or" +
       "(Stage:equals:Prueba Demo)or" +
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
-      "(Stage:equals:Contrato firmado))and" +
-      "(Opportunity_Type:equals:Cliente nuevo)"
+      "(Stage:equals:Contrato firmado))"
     );
     // Accounts with marketing source — for Se_obtuvo_por classification
     const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
 
-    // Campaign deals: all stages + Cliente nuevo (captures expos at any stage)
+    // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
     const campDealCriteria = encodeURIComponent(
       "((Stage:equals:Levantamiento de necesidades)or" +
       "(Stage:equals:Presentación con enfoque a solicitud)or" +
@@ -168,8 +166,7 @@ export default async function handler(req, res) {
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
       "(Stage:equals:Contrato firmado)or" +
-      "(Stage:equals:Venta realizada))and" +
-      "(Opportunity_Type:equals:Cliente nuevo)"
+      "(Stage:equals:Venta realizada))"
     );
 
     const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
@@ -224,11 +221,18 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
-    // Filter deals: Opportunity_Type = Cliente nuevo already applied at Zoho API level.
-    // Only exclude the two known non-relevant accounts.
+    // Filter deals: Opportunity_Type = Cliente nuevo (JS-level, field name verified via debug)
+    // Also exclude the two known non-relevant accounts.
     const activeDeals = activeDealsRaw.filter((d) => {
       const accId = getAccId(d);
-      return !EXCLUDED_ACCOUNT_IDS.has(accId);
+      if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
+      return d.Opportunity_Type === "Cliente nuevo";
+    });
+
+    const campDealsFiltered = campDealsRaw.filter((d) => {
+      const accId = getAccId(d);
+      if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
+      return d.Opportunity_Type === "Cliente nuevo";
     });
 
     // Marketing deals
@@ -318,7 +322,7 @@ export default async function handler(req, res) {
     ]);
 
     const byCampaign = {};
-    for (const d of campDealsRaw) {
+    for (const d of campDealsFiltered) {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) continue;
 
@@ -360,11 +364,12 @@ export default async function handler(req, res) {
       }
     }
 
-    // Debug — check both campaign fields
-    const dealsWithCamp = campDealsRaw.filter(d => (d.Campa_a || d.Campaign_Source) && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
-    const wonDealsWithCamp = campDealsRaw.filter(d => (d.Campa_a || d.Campaign_Source) && d.Stage === "Venta realizada" && !EXCLUDED_ACCOUNT_IDS.has(getAccId(d))).length;
-    const sampleCampSrc = campDealsRaw.find(d => d.Campaign_Source) || null;
-    const sampleCampa   = campDealsRaw.find(d => d.Campa_a) || null;
+    // Debug — opportunity type values actually returned by Zoho
+    const oppTypeValues = [...new Set(activeDealsRaw.map(d => d.Opportunity_Type).filter(Boolean))];
+    const dealsWithCamp = campDealsFiltered.filter(d => d.Campa_a || d.Campaign_Source).length;
+    const wonDealsWithCamp = campDealsFiltered.filter(d => (d.Campa_a || d.Campaign_Source) && d.Stage === "Venta realizada").length;
+    const sampleCampSrc = campDealsFiltered.find(d => d.Campaign_Source) || null;
+    const sampleCampa   = campDealsFiltered.find(d => d.Campa_a) || null;
 
     res.status(200).json({
       generatedAt: new Date().toISOString(),
@@ -385,13 +390,16 @@ export default async function handler(req, res) {
       byCampaign,
       campaignDetails,
       debug: {
-        dealsWithCampaign:    dealsWithCamp,
-        wonDealsWithCampaign: wonDealsWithCamp,
-        campDealsRawTotal:    campDealsRaw.length,
-        activeDealsRawTotal:  activeDealsRaw.length,
-        sampleCampa_aDeal:    sampleCampa,
-        sampleCampaignSrcDeal: sampleCampSrc,
-        sampleCampa_aDealAllKeys: sampleCampa ? Object.keys(sampleCampa) : [],
+        opportunityTypeValues:  oppTypeValues,
+        activeDealsRawTotal:    activeDealsRaw.length,
+        activeDealsFiltered:    activeDeals.length,
+        campDealsRawTotal:      campDealsRaw.length,
+        campDealsFiltered:      campDealsFiltered.length,
+        dealsWithCampaign:      dealsWithCamp,
+        wonDealsWithCampaign:   wonDealsWithCamp,
+        sampleCampa_aDeal:      sampleCampa,
+        sampleCampaignSrcDeal:  sampleCampSrc,
+        sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
       },
     });
 
