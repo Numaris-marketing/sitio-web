@@ -147,20 +147,20 @@ export default async function handler(req, res) {
     const token = await refreshToken();
 
     // Pre-filter at Zoho API level — only fetch what we need
-    // Deals: active stages only
+    // Deals: active stages + Tipo de oportunidad = Cliente nuevo
     const dealCriteria = encodeURIComponent(
       "((Stage:equals:Levantamiento de necesidades)or" +
       "(Stage:equals:Presentación con enfoque a solicitud)or" +
       "(Stage:equals:Prueba Demo)or" +
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
-      "(Stage:equals:Contrato firmado))"
+      "(Stage:equals:Contrato firmado))and" +
+      "(Opportunity_Type:equals:Cliente nuevo)"
     );
-    // Accounts: Prospecto type only
+    // Accounts with marketing source — for Se_obtuvo_por classification
     const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
 
-    // Separate criteria for campaign deals — includes ALL stages (active + won + lost)
-    // so we capture expo deals regardless of their current stage
+    // Campaign deals: all stages + Cliente nuevo (captures expos at any stage)
     const campDealCriteria = encodeURIComponent(
       "((Stage:equals:Levantamiento de necesidades)or" +
       "(Stage:equals:Presentación con enfoque a solicitud)or" +
@@ -168,18 +168,19 @@ export default async function handler(req, res) {
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
       "(Stage:equals:Contrato firmado)or" +
-      "(Stage:equals:Venta realizada))"
+      "(Stage:equals:Venta realizada))and" +
+      "(Opportunity_Type:equals:Cliente nuevo)"
     );
 
     const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Opportunity_Type",
         dealCriteria, token),
       fetchFiltered("Accounts",
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Opportunity_Type",
         campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
@@ -223,15 +224,11 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
-    // Further filter deals: must be Prospecto account and not excluded
+    // Filter deals: Opportunity_Type = Cliente nuevo already applied at Zoho API level.
+    // Only exclude the two known non-relevant accounts.
     const activeDeals = activeDealsRaw.filter((d) => {
       const accId = getAccId(d);
-      if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
-      const acc = accountById[accId];
-      // If account found and not Prospecto → exclude
-      // If account not in our Prospecto list → it's a different type → exclude
-      if (!acc) return false; // unknown account not in Prospecto list
-      return true;
+      return !EXCLUDED_ACCOUNT_IDS.has(accId);
     });
 
     // Marketing deals
