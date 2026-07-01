@@ -246,10 +246,14 @@ export default async function handler(req, res) {
       return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
-    // Marketing deals
-    const marketingDeals = activeDeals.filter(
-      (d) => marketingAccIds.has(getAccId(d)) || d.Campa_a
-    );
+    // Marketing deals — from ALL active deals (no Tipo filter), Prospecto + marketing source
+    // Matches Zoho's "Pipeline Nuevos Negocios - Marketing" filter:
+    // Fase active AND Clasificación in marketing sources AND Tipo de Cuenta = Prospecto
+    const marketingDeals = activeDealsRaw.filter((d) => {
+      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
+      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
+      return marketingAccIds.has(getAccId(d));
+    });
 
     // Metrics
     const totalPipeline = activeDeals.reduce((s, d) => s + dealValue(d), 0);
