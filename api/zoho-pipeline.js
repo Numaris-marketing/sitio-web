@@ -207,13 +207,17 @@ export default async function handler(req, res) {
       };
     }
 
-    // Build account index (Prospecto accounts only)
+    // Build account indexes from Prospecto accounts
     const accountById = {};
-    const marketingAccIds = new Set();
+    const prospAccIds = new Set();    // all Prospecto accounts
+    const marketingAccIds = new Set(); // Prospecto with marketing source
     for (const acc of prospAccounts) {
       accountById[acc.id] = acc;
-      if (MARKETING_SOURCES.has(acc.Se_obtuvo_por) && !EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
-        marketingAccIds.add(acc.id);
+      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
+        prospAccIds.add(acc.id);
+        if (MARKETING_SOURCES.has(acc.Se_obtuvo_por)) {
+          marketingAccIds.add(acc.id);
+        }
       }
     }
 
@@ -233,11 +237,12 @@ export default async function handler(req, res) {
       return typeof d.Owner === "object" ? (d.Owner?.email || "") : "";
     }
 
-    // Filter deals: exclude known accounts, excluded owners, only keep "Cliente nuevo"
+    // Total pipeline: Prospecto accounts, active stages, excluded owners — no Tipo filter
+    // Matches Zoho's "Pipeline Nuevos Negocios": Fase active AND Tipo de Cuenta = Prospecto
     const activeDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
       if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
-      return d.Tipo_de_oportunidad === "Cliente nuevo";
+      return prospAccIds.has(getAccId(d));
     });
 
     const campDealsFiltered = campDealsRaw.filter((d) => {
