@@ -13,6 +13,15 @@ const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000065276241", // MSTAR INNOVATION
 ]);
 
+// Excluded deal owners (inside sales / non-marketing reps)
+const EXCLUDED_OWNER_EMAILS = new Set([
+  "fernando.rodriguez@numaris.com",
+  "jaime.moreno@numaris.com",
+  "josymar.abarca@numaris.com",
+  "nahomi.bedolla@numaris.com",
+  "yulma.malerva@numaris.com",
+]);
+
 // Industry classification by Account Owner (Propietario de la cuenta)
 // Exact names as they appear in Zoho CRM
 const OWNER_TO_INDUSTRY = {
@@ -227,16 +236,20 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
-    // Filter deals: exclude known accounts; only keep "Cliente nuevo" deals
+    function ownerEmail(d) {
+      return typeof d.Owner === "object" ? (d.Owner?.email || "") : "";
+    }
+
+    // Filter deals: exclude known accounts, excluded owners, only keep "Cliente nuevo"
     const activeDeals = activeDealsRaw.filter((d) => {
-      const accId = getAccId(d);
-      if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
+      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
+      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
       return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
     const campDealsFiltered = campDealsRaw.filter((d) => {
-      const accId = getAccId(d);
-      if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
+      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
+      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
       return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
