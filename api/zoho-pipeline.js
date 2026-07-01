@@ -410,6 +410,7 @@ export default async function handler(req, res) {
       byCampaign,
       campaignDetails,
       debug: {
+        unmappedOwners: [...new Set(activeDeals.filter(d => dealIndustry(d) === "Sin asignar").map(d => typeof d.Owner === "object" ? d.Owner?.name : d.Owner))].sort(),
         activeDealsRawTotal:    activeDealsRaw.length,
         activeDealsFiltered:    activeDeals.length,
         marketingDealsActive:   marketingDeals.length,
