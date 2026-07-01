@@ -404,10 +404,16 @@ export default async function handler(req, res) {
         wonDealsWithCampaign:   wonDealsWithCamp,
         marketingAccountsFound: prospAccounts.length,
         marketingAccIdsSize:    marketingAccIds.size,
-        sampleAccountKeys:      prospAccounts[0] ? Object.keys(prospAccounts[0]) : [],
+        // Breakdown of how marketingDeals are found
+        mktByAccount:           activeDeals.filter(d => marketingAccIds.has(getAccId(d))).length,
+        mktByCampaignOnly:      activeDeals.filter(d => !marketingAccIds.has(getAccId(d)) && d.Campa_a).length,
+        activeDealsNullAccId:   activeDeals.filter(d => !getAccId(d)).length,
+        // Camp deals by stage
+        wonCampDeals:           campDealsFiltered.filter(d => d.Stage === "Venta realizada" && (d.Campa_a || d.Campaign_Source)).length,
         sampleAccountSrc:       prospAccounts[0]?.Se_obtuvo_por ?? "NO_ACCOUNTS",
+        sampleAccIdType:        activeDeals[0] ? typeof activeDeals[0].Account_Name : "no_deals",
+        sampleAccId:            activeDeals[0] ? getAccId(activeDeals[0]) : null,
         sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
-        sampleOppType:          activeDealsRaw[0]?.Tipo_de_oportunidad ?? "FIELD_NOT_RETURNED",
       },
     });
 
