@@ -169,20 +169,9 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    // Fetch deal field metadata to discover the correct API name for "Tipo de oportunidad"
-    const dealFieldsMeta = await zohoRequest(ZOHO_BASE, "/crm/v2/settings/fields?module=Deals", "GET", null, token);
-    const allFields = dealFieldsMeta.fields || [];
-    // More specific search: label must start with "Tipo de" (not just contain "oportunidad")
-    const tipoOppField = allFields.find(f => {
-      const lbl = (f.field_label || "").toLowerCase();
-      const api = (f.api_name   || "").toLowerCase();
-      return lbl.startsWith("tipo de") ||
-             api === "opportunity_type" ||
-             api === "tipo_de_oportunidad";
-    });
-
-    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Opportunity_Type";
-    const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Opportunity_Type";
+    // Confirmed API name for "Tipo de oportunidad": Tipo_de_oportunidad
+    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad";
+    const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
     const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals", dealFields, dealCriteria, token),
@@ -232,23 +221,17 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
-    // Determine correct field name for "Tipo de oportunidad" from metadata
-    const tipoOppApiName = tipoOppField?.api_name || null;
-
-    // Filter deals: exclude known accounts; apply Tipo de oportunidad = Cliente nuevo
-    // when the field name is known, otherwise pass all (fallback while discovering)
+    // Filter deals: exclude known accounts; only keep "Cliente nuevo" deals
     const activeDeals = activeDealsRaw.filter((d) => {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
-      if (tipoOppApiName) return d[tipoOppApiName] === "Cliente nuevo";
-      return true; // fallback: no filter until field name confirmed
+      return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
     const campDealsFiltered = campDealsRaw.filter((d) => {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
-      if (tipoOppApiName) return d[tipoOppApiName] === "Cliente nuevo";
-      return true;
+      return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
     // Marketing deals
@@ -381,9 +364,7 @@ export default async function handler(req, res) {
     }
 
     // Debug
-    const oppTypeValues = tipoOppApiName
-      ? [...new Set(activeDealsRaw.map(d => d[tipoOppApiName]).filter(Boolean))]
-      : [];
+    const oppTypeValues = [...new Set(activeDealsRaw.map(d => d.Tipo_de_oportunidad).filter(Boolean))];
     const dealsWithCamp = campDealsFiltered.filter(d => d.Campa_a || d.Campaign_Source).length;
     const wonDealsWithCamp = campDealsFiltered.filter(d => (d.Campa_a || d.Campaign_Source) && d.Stage === "Venta realizada").length;
     const sampleCampSrc = campDealsFiltered.find(d => d.Campaign_Source) || null;
@@ -408,7 +389,6 @@ export default async function handler(req, res) {
       byCampaign,
       campaignDetails,
       debug: {
-        tipoOppField:           tipoOppField ? { api_name: tipoOppField.api_name, label: tipoOppField.field_label } : null,
         opportunityTypeValues:  oppTypeValues,
         activeDealsRawTotal:    activeDealsRaw.length,
         activeDealsFiltered:    activeDeals.length,
@@ -417,8 +397,7 @@ export default async function handler(req, res) {
         dealsWithCampaign:      dealsWithCamp,
         wonDealsWithCampaign:   wonDealsWithCamp,
         sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
-        sampleOppType:          activeDealsRaw[0]?.Opportunity_Type ?? "FIELD_NOT_RETURNED",
-        allFieldLabels:         allFields.map(f => ({ api: f.api_name, label: f.field_label })),
+        sampleOppType:          activeDealsRaw[0]?.Tipo_de_oportunidad ?? "FIELD_NOT_RETURNED",
       },
     });
 
