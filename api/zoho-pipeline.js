@@ -157,12 +157,12 @@ export default async function handler(req, res) {
     );
     // Accounts with any marketing source — ANY account type (Prospecto or converted Cliente)
     // Mirrors Zoho's "Clasificación de origen" filter without Account_Type restriction.
-    // Exclude sources with parentheses in the name (they break Zoho criteria syntax);
-    // those accounts are caught by the d.Campa_a check on deals anyway.
+    // Sources with parentheses (Expo...) use starts_with to avoid Zoho criteria syntax conflict.
     const safeMarketingSources = [...MARKETING_SOURCES].filter(s => !s.includes("("));
-    const mktSourceCriteria = safeMarketingSources
-      .map(s => `(Se_obtuvo_por:equals:${s})`)
-      .join("or");
+    const mktSourceCriteria = [
+      ...safeMarketingSources.map(s => `(Se_obtuvo_por:equals:${s})`),
+      "(Se_obtuvo_por:starts_with:Expo)",
+    ].join("or");
     const accCriteria = encodeURIComponent(mktSourceCriteria);
 
     // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
