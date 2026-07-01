@@ -395,25 +395,12 @@ export default async function handler(req, res) {
       byCampaign,
       campaignDetails,
       debug: {
-        opportunityTypeValues:  oppTypeValues,
         activeDealsRawTotal:    activeDealsRaw.length,
         activeDealsFiltered:    activeDeals.length,
-        campDealsRawTotal:      campDealsRaw.length,
-        campDealsFiltered:      campDealsFiltered.length,
-        dealsWithCampaign:      dealsWithCamp,
+        marketingDealsActive:   marketingDeals.length,
         wonDealsWithCampaign:   wonDealsWithCamp,
+        dealsWithCampaign:      dealsWithCamp,
         marketingAccountsFound: prospAccounts.length,
-        marketingAccIdsSize:    marketingAccIds.size,
-        // Breakdown of how marketingDeals are found
-        mktByAccount:           activeDeals.filter(d => marketingAccIds.has(getAccId(d))).length,
-        mktByCampaignOnly:      activeDeals.filter(d => !marketingAccIds.has(getAccId(d)) && d.Campa_a).length,
-        activeDealsNullAccId:   activeDeals.filter(d => !getAccId(d)).length,
-        // Camp deals by stage
-        wonCampDeals:           campDealsFiltered.filter(d => d.Stage === "Venta realizada" && (d.Campa_a || d.Campaign_Source)).length,
-        sampleAccountSrc:       prospAccounts[0]?.Se_obtuvo_por ?? "NO_ACCOUNTS",
-        sampleAccIdType:        activeDeals[0] ? typeof activeDeals[0].Account_Name : "no_deals",
-        sampleAccId:            activeDeals[0] ? getAccId(activeDeals[0]) : null,
-        sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
       },
     });
 
