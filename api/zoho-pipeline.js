@@ -32,6 +32,9 @@ const OWNER_TO_INDUSTRY = {
   "Daniel Ocampo":                  "Transporte Pesado",
   "Uriel San Pedro Lopez":          "Transporte Pesado",
   "Elizabeth Cortes Aguirre":       "Transporte Pesado",
+  "Angel Ontiveros":                "Transporte Pesado",
+  "Gerardo Valls Abarca":           "Transporte Pesado",
+  "Huver Arroyo Francisco":         "Transporte Pesado",
 
   // Logística y Distribución
   "Karen Andrea Gonzalez Ramirez":      "Logística y Distribución",
@@ -40,20 +43,31 @@ const OWNER_TO_INDUSTRY = {
   "Elizabeth Alejandra Pineda Gonzalez":"Logística y Distribución",
   "Joel Araiza":                        "Logística y Distribución",
   "Juan Alejandro Duarte Delgadillo":   "Logística y Distribución",
+  "Israel Hernandez Ricalde":           "Logística y Distribución",
+  "Mayra Alejandra Mendoza Gomez":      "Logística y Distribución",
+  "Mina Gabriela Rodriguez Fajardo":    "Logística y Distribución",
 
   // Servicios Financieros y Movilidad
-  "Orlak Efrain Castañeda Diaz":  "Servicios Financieros y Movilidad",
-  "Marleem Hernandez Martinez":   "Servicios Financieros y Movilidad",
-  "Hanna Vazquez":                "Servicios Financieros y Movilidad",
-  "Alan Badillo":                 "Servicios Financieros y Movilidad",
-  "Guillermo Quijano":            "Servicios Financieros y Movilidad",
+  "Orlak Efrain Castañeda Diaz":        "Servicios Financieros y Movilidad",
+  "Marleem Hernandez Martinez":         "Servicios Financieros y Movilidad",
+  "Hanna Vazquez":                      "Servicios Financieros y Movilidad",
+  "Alan Badillo":                       "Servicios Financieros y Movilidad",
+  "Guillermo Quijano":                  "Servicios Financieros y Movilidad",
+  "Diana Georgina Vaca Estrada":        "Servicios Financieros y Movilidad",
+  "Maria De Monserrat Samano Lomeli":   "Servicios Financieros y Movilidad",
+  "Nayibe Tanus Rodriguez":             "Servicios Financieros y Movilidad",
+  "Viridiana Cantu Lugo":               "Servicios Financieros y Movilidad",
 
   // Administración de Flota
   "David Urieta":                  "Administración de Flota",
   "Lorena Ruiz":                   "Administración de Flota",
+  "lorena.ruiz":                   "Administración de Flota",
   "Iris Morales":                  "Administración de Flota",
   "Abigail Juarez":                "Administración de Flota",
-  "Gabriela Abigail Juarez Perez": "Administración de Flota", // nombre exacto en CRM
+  "Gabriela Abigail Juarez Perez": "Administración de Flota",
+
+  // Administración de Activos
+  "Esmeralda Salgado": "Administración de Activos",
 };
 
 const MARKETING_SOURCES = new Set([
