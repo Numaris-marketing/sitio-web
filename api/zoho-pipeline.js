@@ -156,8 +156,11 @@ export default async function handler(req, res) {
       "(Stage:equals:Contrato firmado))"
     );
     // Accounts with any marketing source — ANY account type (Prospecto or converted Cliente)
-    // Mirrors Zoho's "Clasificación de origen" filter without Account_Type restriction
-    const mktSourceCriteria = [...MARKETING_SOURCES]
+    // Mirrors Zoho's "Clasificación de origen" filter without Account_Type restriction.
+    // Exclude sources with parentheses in the name (they break Zoho criteria syntax);
+    // those accounts are caught by the d.Campa_a check on deals anyway.
+    const safeMarketingSources = [...MARKETING_SOURCES].filter(s => !s.includes("("));
+    const mktSourceCriteria = safeMarketingSources
       .map(s => `(Se_obtuvo_por:equals:${s})`)
       .join("or");
     const accCriteria = encodeURIComponent(mktSourceCriteria);
@@ -400,6 +403,10 @@ export default async function handler(req, res) {
         campDealsFiltered:      campDealsFiltered.length,
         dealsWithCampaign:      dealsWithCamp,
         wonDealsWithCampaign:   wonDealsWithCamp,
+        marketingAccountsFound: prospAccounts.length,
+        marketingAccIdsSize:    marketingAccIds.size,
+        sampleAccountKeys:      prospAccounts[0] ? Object.keys(prospAccounts[0]) : [],
+        sampleAccountSrc:       prospAccounts[0]?.Se_obtuvo_por ?? "NO_ACCOUNTS",
         sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
         sampleOppType:          activeDealsRaw[0]?.Tipo_de_oportunidad ?? "FIELD_NOT_RETURNED",
       },
