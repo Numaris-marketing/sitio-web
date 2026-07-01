@@ -169,15 +169,23 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
+    // Fetch deal field metadata to discover the correct API name for "Tipo de oportunidad"
+    const dealFieldsMeta = await zohoRequest(ZOHO_BASE, "/crm/v2/settings/fields?module=Deals", "GET", null, token);
+    const tipoOppField = (dealFieldsMeta.fields || []).find(f =>
+      (f.field_label || "").toLowerCase().includes("oportunidad") ||
+      (f.api_name   || "").toLowerCase().includes("opportunity")  ||
+      (f.api_name   || "").toLowerCase().includes("tipo")
+    );
+
     const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Opportunity_Type",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner",
         dealCriteria, token),
       fetchFiltered("Accounts",
         "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
         accCriteria, token),
       fetchFiltered("Deals",
-        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Opportunity_Type",
+        "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner",
         campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
@@ -221,18 +229,23 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
     }
 
-    // Filter deals: Opportunity_Type = Cliente nuevo (JS-level, field name verified via debug)
-    // Also exclude the two known non-relevant accounts.
+    // Determine correct field name for "Tipo de oportunidad" from metadata
+    const tipoOppApiName = tipoOppField?.api_name || null;
+
+    // Filter deals: exclude known accounts; apply Tipo de oportunidad = Cliente nuevo
+    // when the field name is known, otherwise pass all (fallback while discovering)
     const activeDeals = activeDealsRaw.filter((d) => {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
-      return d.Opportunity_Type === "Cliente nuevo";
+      if (tipoOppApiName) return d[tipoOppApiName] === "Cliente nuevo";
+      return true; // fallback: no filter until field name confirmed
     });
 
     const campDealsFiltered = campDealsRaw.filter((d) => {
       const accId = getAccId(d);
       if (EXCLUDED_ACCOUNT_IDS.has(accId)) return false;
-      return d.Opportunity_Type === "Cliente nuevo";
+      if (tipoOppApiName) return d[tipoOppApiName] === "Cliente nuevo";
+      return true;
     });
 
     // Marketing deals
@@ -364,8 +377,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // Debug — opportunity type values actually returned by Zoho
-    const oppTypeValues = [...new Set(activeDealsRaw.map(d => d.Opportunity_Type).filter(Boolean))];
+    // Debug
+    const oppTypeValues = tipoOppApiName
+      ? [...new Set(activeDealsRaw.map(d => d[tipoOppApiName]).filter(Boolean))]
+      : [];
     const dealsWithCamp = campDealsFiltered.filter(d => d.Campa_a || d.Campaign_Source).length;
     const wonDealsWithCamp = campDealsFiltered.filter(d => (d.Campa_a || d.Campaign_Source) && d.Stage === "Venta realizada").length;
     const sampleCampSrc = campDealsFiltered.find(d => d.Campaign_Source) || null;
@@ -390,6 +405,7 @@ export default async function handler(req, res) {
       byCampaign,
       campaignDetails,
       debug: {
+        tipoOppField:           tipoOppField ? { api_name: tipoOppField.api_name, label: tipoOppField.field_label } : null,
         opportunityTypeValues:  oppTypeValues,
         activeDealsRawTotal:    activeDealsRaw.length,
         activeDealsFiltered:    activeDeals.length,
@@ -397,8 +413,6 @@ export default async function handler(req, res) {
         campDealsFiltered:      campDealsFiltered.length,
         dealsWithCampaign:      dealsWithCamp,
         wonDealsWithCampaign:   wonDealsWithCamp,
-        sampleCampa_aDeal:      sampleCampa,
-        sampleCampaignSrcDeal:  sampleCampSrc,
         sampleDealKeys:         activeDealsRaw[0] ? Object.keys(activeDealsRaw[0]) : [],
       },
     });
