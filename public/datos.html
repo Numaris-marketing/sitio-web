@@ -702,7 +702,7 @@
           <div style="display:flex;justify-content:space-between;font-size:0.8125rem;flex-wrap:wrap;gap:0.5rem;">
             <div style="display:flex;align-items:center;gap:1.25rem;">
               <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:0.375rem;vertical-align:middle;"></span>Real <strong style="color:var(--green);" id="pl-bar-pct">23.3%</strong> — <span id="pl-bar-count">53 de 227</span> oportunidades</span>
-              <span style="color:var(--fg-muted);"><span style="display:inline-block;width:10px;height:2px;background:#94a3b8;margin-right:0.375rem;vertical-align:middle;border-radius:2px;"></span>Meta <strong style="color:var(--fg);">15%</strong></span>
+              <span style="color:var(--fg-muted);"><span style="display:inline-block;width:10px;height:2px;background:#94a3b8;margin-right:0.375rem;vertical-align:middle;border-radius:2px;"></span>Meta <strong style="color:var(--fg);">30%</strong></span>
             </div>
           </div>
         </div>
@@ -829,8 +829,8 @@
 
         <!-- IMPORTE POR ORIGEN -->
         <div class="sec-head" id="section-campanas">
-          <h2>Importe por Origen de Oportunidades</h2>
-          <p>Valor de pipeline generado por cada canal de Marketing — últimos 12 meses</p>
+          <h2>Oportunidades por Origen</h2>
+          <p># de oportunidades generadas por cada canal de Marketing · El valor (MX$) se muestra como referencia</p>
         </div>
 
         <div id="origin-card" class="funnel-card" style="margin-bottom:1rem;">
@@ -850,7 +850,7 @@
         <!-- DESGLOSE POR INDUSTRIA -->
         <div class="sec-head" id="section-industria">
           <h2>Desglose por Industria</h2>
-          <p>Participación de Marketing en pipeline activo — por industria en Zoho CRM · Meta mínima: 15% en # oportunidades · Datos en vivo</p>
+          <p>Participación de Marketing en pipeline activo — por industria en Zoho CRM · Meta mínima: 30% en # oportunidades · Datos en vivo</p>
         </div>
 
         <div id="industry-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
@@ -1579,42 +1579,62 @@
       if (d.error) throw new Error(d.error);
 
       const s = d.summary;
-      const META = 15;
+      const META = 30;  // K1: meta ≥30% de oportunidades
 
       // ── KPI Cards ──
-      const oppPct = s.marketingPct;           // % by count (from API)
-      const valPct = s.marketingValPct;        // % by value (from API)
+      const oppPct = s.marketingPct;           // % by count (K1 primary)
+      const valPct = s.marketingValPct;        // % by value (secondary reference)
 
       setTxt('pl-opp-pct',    oppPct.toFixed(1) + '%');
       setTxt('pl-mkt-count',  s.marketingDeals);
       setTxt('pl-total-count', s.totalActiveDeals);
-      setTxt('pl-opp-badge',  '+' + (oppPct - META).toFixed(1) + ' pp vs. meta');
+
+      // K1 badge: show opps faltantes when below meta, pp surplus when above
+      const gapOpps = Math.round(s.totalActiveDeals * 0.30) - s.marketingDeals;
+      const oppBadgeEl = document.getElementById('pl-opp-badge');
+      if (oppBadgeEl) {
+        oppBadgeEl.className = 'badge ' + (gapOpps > 0 ? 'badge-orange' : 'badge-green');
+        oppBadgeEl.textContent = gapOpps > 0
+          ? gapOpps + ' opps para la meta'
+          : '+' + (oppPct - META).toFixed(1) + ' pp vs. meta';
+      }
 
       setTxt('pl-val-pct',    valPct.toFixed(1) + '%');
       setHtml('pl-mkt-val',   fmt(s.marketingPipelineValue));
       setTxt('pl-total-val',  fmt(s.totalPipelineValue));
-      setTxt('pl-val-badge',  '+' + (valPct - META).toFixed(1) + ' pp vs. meta');
+      const valBadgeEl = document.getElementById('pl-val-badge');
+      if (valBadgeEl) {
+        valBadgeEl.className = 'badge badge-blue';
+        valBadgeEl.textContent = valPct.toFixed(1) + '% del valor total';
+      }
 
       // ── Progress bar ──
-      const barW = Math.min(oppPct / 40 * 100, 100); // 40% = full bar
+      const barW = Math.min(oppPct / 60 * 100, 100); // 60% = full bar (2× meta)
       const bar = document.getElementById('pl-bar');
       if (bar) bar.style.width = barW + '%';
       setTxt('pl-bar-pct',   oppPct.toFixed(1) + '%');
       setTxt('pl-bar-count', s.marketingDeals + ' de ' + s.totalActiveDeals);
 
       // ── Banner badges ──
-      setTxt('pl-mult-badge', '✓ ' + (oppPct / META).toFixed(2) + '× la meta');
-      setTxt('pl-pp-diff',    '+' + (oppPct - META).toFixed(1) + ' pp');
+      const multVal = (oppPct / META).toFixed(2);
+      setTxt('pl-mult-badge', (gapOpps <= 0 ? '✓ ' : '') + multVal + '× la meta');
+      const ppDiffEl = document.getElementById('pl-pp-diff');
+      if (ppDiffEl) {
+        const ppDiff = (oppPct - META).toFixed(1);
+        ppDiffEl.textContent = (gapOpps <= 0 ? '+' : '') + ppDiff + ' pp';
+        ppDiffEl.style.color = gapOpps <= 0 ? 'var(--green)' : 'var(--orange)';
+      }
 
       // ── Live detail cards ──
+      const liveColor = gapOpps <= 0 ? 'var(--green)' : 'var(--orange)';
       setHtml('zoho-live-opp-detail',
-        '<strong style="color:var(--green);">' + s.marketingDeals + ' de ' + s.totalActiveDeals + '</strong> opps activas son de Marketing — <strong style="color:var(--green);">' + oppPct.toFixed(1) + '%</strong> participación');
+        '<strong style="color:' + liveColor + ';">' + s.marketingDeals + ' de ' + s.totalActiveDeals + '</strong> opps activas son de Marketing — <strong style="color:' + liveColor + ';">' + oppPct.toFixed(1) + '%</strong> participación');
 
       setHtml('zoho-live-val-detail',
-        '<strong style="color:var(--green);">' + fmt(s.marketingPipelineValue) + '</strong> de <strong>' + fmt(s.totalPipelineValue) + '</strong> total — <strong style="color:var(--green);">' + valPct.toFixed(1) + '%</strong> participación');
+        '<strong style="color:var(--blue);">' + fmt(s.marketingPipelineValue) + '</strong> de <strong>' + fmt(s.totalPipelineValue) + '</strong> total — <strong style="color:var(--blue);">' + valPct.toFixed(1) + '%</strong> en valor');
 
-      // Top source
-      const srcEntries = Object.entries(d.bySource || {}).sort((a, b) => b[1].value - a[1].value);
+      // Top source (by count)
+      const srcEntries = Object.entries(d.bySource || {}).sort((a, b) => b[1].count - a[1].count);
       if (srcEntries.length) {
         const [srcName, srcData] = srcEntries[0];
         setHtml('zoho-live-top-source',
@@ -1630,7 +1650,7 @@
       }
 
       // ── Origin / source panel ──
-      renderOriginPanel(d.bySource || {}, s.marketingPipelineValue);
+      renderOriginPanel(d.bySource || {}, s.marketingDeals);
 
       // ── Industry section ──
       renderIndustry(d.byIndustry);
@@ -1995,8 +2015,8 @@
     },
   };
 
-  // ── ORIGIN PANEL (Importe por Origen de Oportunidades) ────────────────────
-  function renderOriginPanel(bySource, totalMktValue) {
+  // ── ORIGIN PANEL (Oportunidades por Origen) ──────────────────────────────
+  function renderOriginPanel(bySource, totalMktCount) {
     const card = document.getElementById('origin-card');
     const insightsEl = document.getElementById('origin-insights');
     if (!card) return;
@@ -2031,14 +2051,14 @@
 
     // Build rows (all non-expo sources + grouped expo)
     const rows = [];
-    if (expoTotal.value > 0 || expoTotal.count > 0) {
+    if (expoTotal.count > 0) {
       rows.push({
         label: "Expos (Expositor + Visitante)",
         color: "var(--orange)",
         value: expoTotal.value,
         count: expoTotal.count,
-        subNote: expoExp.value > 0 && expoVis.value > 0
-          ? "Expositor " + fmtVal(expoExp.value) + " + Visitante " + fmtVal(expoVis.value)
+        subNote: expoExp.count > 0 && expoVis.count > 0
+          ? "Expositor " + expoExp.count + " opps + Visitante " + expoVis.count + " opps"
           : null,
       });
     }
@@ -2049,27 +2069,26 @@
       rows.push({ label: cfg.label, color: cfg.color, value: data.value, count: data.count });
     }
 
-    rows.sort((a, b) => b.value - a.value);
+    // Sort by # de oportunidades
+    rows.sort((a, b) => b.count - a.count);
 
-    const withValue  = rows.filter(r => r.value > 0);
-    const zeroValue  = rows.filter(r => r.value === 0 && r.count > 0);
-    const maxVal     = withValue[0]?.value || 1;
+    const withCount = rows.filter(r => r.count > 0);
+    const maxCount  = withCount[0]?.count || 1;
 
     let html = '<div style="display:flex;flex-direction:column;gap:1.125rem;">';
 
-    for (const r of withValue) {
-      const pct   = totalMktValue > 0 ? (r.value / totalMktValue * 100) : 0;
-      const barW  = Math.max((r.value / maxVal) * 100, 1);
-      const isTop = r === withValue[0];
-      const note  = r.subNote
-        ? pct.toFixed(1) + '% del pipeline de Marketing · canal líder · ' + r.subNote
-        : pct.toFixed(1) + '% del pipeline de Marketing' + (r.count > 0 ? ' · ' + r.count + ' oportunidad' + (r.count !== 1 ? 'es' : '') : '');
+    for (const r of withCount) {
+      const pct  = totalMktCount > 0 ? (r.count / totalMktCount * 100) : 0;
+      const barW = Math.max((r.count / maxCount) * 100, 1);
+      const note = r.subNote
+        ? pct.toFixed(1) + '% de oportunidades de Marketing · canal líder · ' + r.subNote
+        : pct.toFixed(1) + '% de oportunidades de Marketing · ' + fmtVal(r.value);
 
       html += `
         <div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
             <div style="font-size:0.875rem;font-weight:700;color:var(--fg);">${r.label}</div>
-            <div style="font-size:0.9375rem;font-weight:800;color:${r.color};">${fmtVal(r.value)}</div>
+            <div style="font-size:0.9375rem;font-weight:800;color:${r.color};">${r.count} <span style="font-size:0.75rem;font-weight:400;color:var(--fg-muted);">opps</span></div>
           </div>
           <div style="height:10px;background:var(--border);border-radius:999px;overflow:hidden;">
             <div style="height:100%;width:${barW.toFixed(1)}%;background:${r.color};border-radius:999px;min-width:${barW < 3 ? '6px' : '0'};"></div>
@@ -2078,27 +2097,39 @@
         </div>`;
     }
 
-    if (zeroValue.length > 0) {
-      const zeroList = zeroValue.map(r => r.label + ' (' + r.count + ' opp)').join(' · ');
-      html += `
-        <div style="border-top:1px solid var(--border);padding-top:1rem;">
-          <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;">Canales sin valor registrado</div>
-          <div style="font-size:0.8125rem;color:var(--fg-muted);margin-top:0.3rem;">${zeroList}</div>
-        </div>`;
-    }
-
     html += '</div>';
     card.innerHTML = html;
 
+    // K2: concentración digital (meta ≥45%)
+    const DIGITAL_SRCS = ['Google Ads - Pauta', 'Meta - Pauta', 'LinkedIn Sales Navigator', 'Linkedin - Pauta', 'Newsletter LinkedIn'];
+    const digitalCount = DIGITAL_SRCS.reduce((sum, src) => sum + (bySource[src]?.count || 0), 0);
+    const k2Pct = totalMktCount > 0 ? (digitalCount / totalMktCount * 100) : 0;
+    const K2_META = 45;
+
+    // Expo dependency alert (>60% de opps de Marketing)
+    const expoPct = totalMktCount > 0 ? (expoTotal.count / totalMktCount * 100) : 0;
+
     // Update insights dynamically
-    if (insightsEl && withValue.length >= 2) {
-      const top1 = withValue[0];
-      const top2 = withValue[1];
-      const top1Pct = totalMktValue > 0 ? (top1.value / totalMktValue * 100).toFixed(1) : '—';
-      const top2Pct = totalMktValue > 0 ? (top2.value / totalMktValue * 100).toFixed(1) : '—';
+    if (insightsEl && withCount.length >= 2) {
+      const top1 = withCount[0];
+      const top2 = withCount[1];
+      const top1Pct = totalMktCount > 0 ? (top1.count / totalMktCount * 100).toFixed(1) : '—';
+      const top2Pct = totalMktCount > 0 ? (top2.count / totalMktCount * 100).toFixed(1) : '—';
+
+      const k2Class = k2Pct >= K2_META ? 'badge-green' : 'badge-orange';
+      const k2Text  = k2Pct >= K2_META
+        ? '✓ ' + k2Pct.toFixed(1) + '% — supera la meta'
+        : k2Pct.toFixed(1) + '% — faltan ' + (K2_META - k2Pct).toFixed(1) + ' pp para la meta';
+
+      const expoInsight = expoPct > 60
+        ? `<div class="insight orange-tint" style="grid-column:1/-1;"><strong>Alerta: dependencia de Expo.</strong> Las exposiciones concentran el <strong>${expoPct.toFixed(1)}%</strong> de las oportunidades de Marketing (${expoTotal.count} de ${totalMktCount}) — supera el umbral del 60%.</div>`
+        : '';
+
       insightsEl.innerHTML = `
-        <div class="insight orange-tint"><strong>${top1.label} como canal #1.</strong> Genera <strong>${fmtVal(top1.value)}</strong> — el ${top1Pct}% del pipeline de Marketing.</div>
-        <div class="insight"><strong>${top2.label} como canal #2.</strong> Con <strong>${fmtVal(top2.value)}</strong>, genera el ${top2Pct}% del pipeline.</div>`;
+        <div class="insight orange-tint"><strong>${top1.label} como canal #1.</strong> Con <strong>${top1.count} oportunidades</strong> — el ${top1Pct}% del pipeline de Marketing.</div>
+        <div class="insight"><strong>${top2.label} como canal #2.</strong> Con <strong>${top2.count} oportunidades</strong> — el ${top2Pct}% del pipeline.</div>
+        <div class="insight" style="grid-column:1/-1;"><strong>K2 — Concentración digital.</strong> Google Ads + Meta + LinkedIn: <strong>${digitalCount} opps</strong> — <span class="badge ${k2Class}">${k2Text}</span> &nbsp;·&nbsp; Meta: ≥${K2_META}% de oportunidades de Marketing.</div>
+        ${expoInsight}`;
     }
   }
 
@@ -2457,15 +2488,15 @@
 
   // ── INDUSTRY SECTION (fully dynamic) ──────────────────────────────────────
   function renderIndustry(byIndustry) {
-    const META = 15;
+    const META = 30;
     const grid = document.getElementById('industry-grid');
     const table = document.getElementById('industry-table');
     const insights = document.getElementById('industry-insights');
     if (!grid || !byIndustry) return;
 
-    // Sort by total value desc; "Sin asignar" = accounts owned by sellers not in the mapping
+    // Sort by total count desc; "Sin asignar" = accounts owned by sellers not in the mapping
     const SKIP = new Set(['Sin asignar']);
-    const entries = Object.entries(byIndustry).sort((a, b) => b[1].totalValue - a[1].totalValue);
+    const entries = Object.entries(byIndustry).sort((a, b) => b[1].totalCount - a[1].totalCount);
     const mainEntries = entries.filter(([k]) => !SKIP.has(k));
     const untagged = Object.entries(byIndustry).filter(([k]) => SKIP.has(k))
       .reduce((acc, [, v]) => ({
@@ -2476,14 +2507,14 @@
       }), { totalCount: 0, totalValue: 0, mktCount: 0, mktValue: 0 });
 
     function color(pct) {
-      if (pct >= 25.9) return 'var(--green)';
-      if (pct >= META) return 'var(--blue)';
+      if (pct >= META) return 'var(--green)';
+      if (pct >= META * 0.7) return 'var(--blue)';
       return 'var(--orange)';
     }
     function badge(pct) {
       const diff = (pct - META).toFixed(1);
-      if (pct >= 25.9) return `<span class="badge badge-green">+${diff} pp vs. meta</span>`;
-      if (pct >= META) return `<span class="badge badge-blue">+${diff} pp vs. meta</span>`;
+      if (pct >= META) return `<span class="badge badge-green">+${diff} pp vs. meta</span>`;
+      if (pct >= META * 0.7) return `<span class="badge badge-blue">${diff} pp vs. meta</span>`;
       return `<span class="badge badge-orange">${diff} pp vs. meta</span>`;
     }
     function fmtV(n) {
@@ -2495,7 +2526,7 @@
     // Build cards
     grid.innerHTML = mainEntries.map(([ind, v]) => {
       const c = color(v.oppPct);
-      const borderC = v.oppPct >= 25.9 ? 'var(--green)' : v.oppPct >= META ? 'var(--blue)' : 'var(--orange)';
+      const borderC = v.oppPct >= META ? 'var(--green)' : v.oppPct >= META * 0.7 ? 'var(--blue)' : 'var(--orange)';
       const borderStyle = v.oppPct < META ? 'rgba(255,159,63,0.35)' : 'var(--border)';
       return `
       <div style="background:var(--bg-card);border:1px solid ${borderStyle};border-top:3px solid ${borderC};border-radius:var(--radius);padding:1.625rem;">
@@ -2520,7 +2551,7 @@
         <div style="height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:.4rem;">
           <div style="height:100%;width:${Math.min(v.oppPct, 100)}%;background:${c};border-radius:999px;transition:width .6s;"></div>
         </div>
-        <div style="font-size:.75rem;color:var(--fg-muted);">${v.oppPct >= 15 ? '✓ Por encima de la meta · ' : 'Por debajo de la meta · '}${v.mktCount} de ${v.totalCount} opps son de Marketing</div>
+        <div style="font-size:.75rem;color:var(--fg-muted);">${v.oppPct >= META ? '✓ Por encima de la meta · ' : 'Por debajo de la meta · '}${v.mktCount} de ${v.totalCount} opps son de Marketing</div>
       </div>`;
     }).join('');
 
@@ -2552,7 +2583,7 @@
     <div style="position:relative;padding-top:.5rem;border-top:1px solid var(--border);">
       <div style="position:relative;height:2px;">
         <div style="position:absolute;left:15%;top:-8px;bottom:-8px;width:1px;background:rgba(255,255,255,.5);"></div>
-        <div style="position:absolute;left:15%;top:-20px;font-size:.65rem;font-weight:700;color:var(--fg-muted);transform:translateX(-50%);white-space:nowrap;">Meta mínima 15%</div>
+        <div style="position:absolute;left:30%;top:-20px;font-size:.65rem;font-weight:700;color:var(--fg-muted);transform:translateX(-50%);white-space:nowrap;">Meta mínima 30%</div>
       </div>
     </div>`;
 
@@ -2565,7 +2596,7 @@
         <strong>${best[0]}: mejor participación.</strong> Marketing genera <strong>${best[1].mktCount} de ${best[1].totalCount} oportunidades (${best[1].oppPct}%)</strong> — ${fmtV(best[1].mktValue)} de ${fmtV(best[1].totalValue)} (${best[1].valPct}% del valor). El canal está resonando bien en este segmento.
       </div>
       <div class="insight" style="background:rgba(255,159,63,0.07);border-color:rgba(255,159,63,0.25);">
-        <strong>${worst[1].oppPct < META ? '' : ''} ${worst[0]}.</strong> Marketing genera <strong>${worst[1].mktCount} de ${worst[1].totalCount} oportunidades (${worst[1].oppPct}%)</strong> — ${fmtV(worst[1].mktValue)} de valor. ${worst[1].oppPct < META ? 'Por debajo de la meta de 15% — oportunidad de activar más demanda en este segmento.' : 'Participación sólida — mantener el ritmo.'}
+        <strong>${worst[1].oppPct < META ? '' : ''} ${worst[0]}.</strong> Marketing genera <strong>${worst[1].mktCount} de ${worst[1].totalCount} oportunidades (${worst[1].oppPct}%)</strong> — ${fmtV(worst[1].mktValue)} de valor. ${worst[1].oppPct < META ? 'Por debajo de la meta de 30% — oportunidad de activar más demanda en este segmento.' : 'Participación sólida — mantener el ritmo.'}
       </div>`;
     }
 
@@ -2590,47 +2621,42 @@
     const brechaHeader = document.getElementById('brecha-header');
     const insightEl = document.getElementById('industry-insight-static');
     if (brechaEl) {
-      const totalAll = entries.reduce((s, [, v]) => s + v.totalValue, 0);
-      const totalMktV = entries.reduce((s, [, v]) => s + v.mktValue, 0);
-      const avgPct = totalMktV / totalAll;
+      const totalAll  = entries.reduce((s, [, v]) => s + v.totalCount, 0);
+      const totalMktC = entries.reduce((s, [, v]) => s + v.mktCount, 0);
+      const avgPct    = totalAll > 0 ? totalMktC / totalAll : 0;
       const avgPctFmt = Math.round(avgPct * 1000) / 10;
       if (brechaHeader) brechaHeader.textContent = `Brecha de Marketing — si alcanzara su promedio (${avgPctFmt}%) en cada vertical`;
 
       const under = mainEntries
-        .filter(([, v]) => v.mktValue < v.totalValue * avgPct)
-        .sort((a, b) => (b[1].totalValue * avgPct - b[1].mktValue) - (a[1].totalValue * avgPct - a[1].mktValue));
-      const over = mainEntries.filter(([, v]) => v.mktValue >= v.totalValue * avgPct);
+        .filter(([, v]) => v.mktCount < v.totalCount * avgPct)
+        .sort((a, b) => (b[1].totalCount * avgPct - b[1].mktCount) - (a[1].totalCount * avgPct - a[1].mktCount));
+      const over = mainEntries.filter(([, v]) => v.mktCount >= v.totalCount * avgPct);
       const bColors = ['var(--blue)', 'var(--blue-mid)', 'var(--blue-dark)'];
       let totalGap = 0;
 
       const underHtml = under.map(([ind, v], i) => {
-        const target = v.totalValue * avgPct;
-        const gap = target - v.mktValue;
+        const targetCount = Math.round(v.totalCount * avgPct);
+        const gap = targetCount - v.mktCount;
         totalGap += gap;
-        const prog = Math.min(Math.round(v.mktValue / target * 1000) / 10, 100);
+        const prog = Math.min(Math.round(v.mktCount / targetCount * 1000) / 10, 100);
         const n = ind.replace(' y Distribución','').replace(' y Movilidad','');
-        return `<div style="background:var(--blue-light);border:1px solid #c5daf0;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:${bColors[i]||bColors[0]};">+${fmtV(gap)}</span></div><div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual ${fmtV(v.mktValue)} (${v.valPct}%) → Objetivo ${fmtV(target)} (${avgPctFmt}%)</div><div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:${prog}%;background:${bColors[i]||bColors[0]};border-radius:999px;"></div></div></div>`;
+        return `<div style="background:var(--blue-light);border:1px solid #c5daf0;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:${bColors[i]||bColors[0]};">+${gap} opps</span></div><div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:0.5rem;">Actual ${v.mktCount} opps (${v.oppPct}%) → Objetivo ${targetCount} opps (${avgPctFmt}%)</div><div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;"><div style="height:100%;width:${prog}%;background:${bColors[i]||bColors[0]};border-radius:999px;"></div></div></div>`;
       }).join('');
 
       const overHtml = over.map(([ind, v]) => {
-        const mult = Math.round(v.mktValue / (v.totalValue * avgPct) * 10) / 10;
+        const mult = Math.round(v.mktCount / (v.totalCount * avgPct) * 10) / 10;
         const n = ind.replace(' y Distribución','').replace(' y Movilidad','');
-        return `<div style="background:#e8f0f8;border:1px solid #bdd0e6;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue-dark);">Ya supera ✓</span></div><div style="font-size:0.75rem;color:var(--fg-muted);">Actual ${fmtV(v.mktValue)} (${v.valPct}%) — ${mult}× por encima del promedio</div></div>`;
+        return `<div style="background:#e8f0f8;border:1px solid #bdd0e6;border-radius:0.625rem;padding:0.875rem;"><div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;"><span style="font-size:0.8125rem;font-weight:600;">${n}</span><span style="font-size:0.9rem;font-weight:600;color:var(--blue-dark);">Ya supera ✓</span></div><div style="font-size:0.75rem;color:var(--fg-muted);">Actual ${v.mktCount} opps (${v.oppPct}%) — ${mult}× por encima del promedio</div></div>`;
       }).join('');
 
-      brechaEl.innerHTML = underHtml + overHtml + `<div style="padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.8125rem;color:var(--fg-muted);">Brecha total recuperable</span><span style="font-size:1.25rem;font-weight:600;color:var(--blue);">+${fmtV(totalGap)}</span></div>`;
+      brechaEl.innerHTML = underHtml + overHtml + `<div style="padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.8125rem;color:var(--fg-muted);">Brecha total recuperable</span><span style="font-size:1.25rem;font-weight:600;color:var(--blue);">+${totalGap} opps</span></div>`;
 
       if (insightEl && under.length > 0) {
         const top = under[0];
-        const topGap = top[1].totalValue * avgPct - top[1].mktValue;
-        const pct = Math.round(topGap / totalGap * 100);
-        const totalDeals = entries.reduce((s, [, v]) => s + v.totalCount, 0);
-        const totalVal = entries.reduce((s, [, v]) => s + v.totalValue, 0);
-        const ticketAvg = totalVal / totalDeals;
-        const topTicket = top[1].totalValue / top[1].totalCount;
-        const mult = Math.round(topTicket / ticketAvg * 10) / 10;
+        const topGap = Math.round(top[1].totalCount * avgPct) - top[1].mktCount;
+        const pct = totalGap > 0 ? Math.round(topGap / totalGap * 100) : 0;
         const topName = top[0].replace(' y Distribución','').replace(' y Movilidad','');
-        insightEl.innerHTML = `<strong>La prioridad estratégica está clara:</strong> El ${pct}% de la brecha de Marketing (${fmtV(topGap)} de ${fmtV(totalGap)}) está en ${topName} — el vertical con el mayor ticket promedio (${fmtV(topTicket)} por deal, ${mult}× el promedio del pipeline).`;
+        insightEl.innerHTML = `<strong>La prioridad estratégica está clara:</strong> El ${pct}% de la brecha de Marketing (${topGap} de ${totalGap} oportunidades) está en ${topName} — la vertical donde más opps de Marketing hacen falta para alcanzar el promedio.`;
       }
     }
   }
