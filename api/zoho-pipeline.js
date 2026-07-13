@@ -13,13 +13,21 @@ const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000065276241", // MSTAR INNOVATION
 ]);
 
-// Excluded deal owners (inside sales / non-marketing reps)
-const EXCLUDED_OWNER_EMAILS = new Set([
-  "fernando.rodriguez@numaris.com",
-  "jaime.moreno@numaris.com",
-  "josymar.abarca@numaris.com",
-  "nahomi.bedolla@numaris.com",
-  "yulma.malerva@numaris.com",
+// Pipeline includes only these 13 commercial sellers
+const INCLUDED_OWNER_NAMES = new Set([
+  "Uriel San Pedro Lopez",
+  "Orlak Efrain Castañeda Diaz",
+  "Mario Rincón",
+  "Lorena Bolaños Cacho",
+  "Karen Andrea Gonzalez Ramirez",
+  "Juan Alejandro Duarte Delgadillo",
+  "Joel Araiza",
+  "Elizabeth Cortes Aguirre",
+  "Elizabeth Alejandra Pineda Gonzalez",
+  "David Urieta",
+  "Daniel Ocampo",
+  "Andrea Quinones",
+  "Alan Badillo",
 ]);
 
 // Industry classification by Account Owner (Propietario de la cuenta)
@@ -82,6 +90,7 @@ const MARKETING_SOURCES = new Set([
   "Google Ads - Pauta",
   "Campaña de mailing",
   "Prospección Facebook",
+  "Calendly",
 ]);
 
 // ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
@@ -158,6 +167,9 @@ function dealValue(d) {
 function getAccId(d) {
   return typeof d.Account_Name === "object" ? d.Account_Name?.id : null;
 }
+function ownerName(d) {
+  return typeof d.Owner === "object" ? (d.Owner?.name || "") : (d.Owner || "");
+}
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default async function handler(req, res) {
@@ -176,8 +188,19 @@ export default async function handler(req, res) {
       "(Stage:equals:Formalización)or" +
       "(Stage:equals:Contrato firmado))"
     );
-    // Accounts with Tipo de cuenta = Prospecto
-    const accCriteria = encodeURIComponent("(Account_Type:equals:Prospecto)");
+    // Accounts with marketing source (Se_obtuvo_por)
+    const accCriteria = encodeURIComponent(
+      "((Se_obtuvo_por:equals:Meta - Pauta)or" +
+      "(Se_obtuvo_por:equals:Formulario website)or" +
+      "(Se_obtuvo_por:equals:LinkedIn Sales Navigator)or" +
+      "(Se_obtuvo_por:equals:Linkedin - Pauta)or" +
+      "(Se_obtuvo_por:starts_with:Expo como)or" +
+      "(Se_obtuvo_por:equals:Newsletter LinkedIn)or" +
+      "(Se_obtuvo_por:equals:Google Ads - Pauta)or" +
+      "(Se_obtuvo_por:equals:Campaña de mailing)or" +
+      "(Se_obtuvo_por:equals:Prospección Facebook)or" +
+      "(Se_obtuvo_por:equals:Calendly))"
+    );
 
     // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
     const campDealCriteria = encodeURIComponent(
@@ -194,10 +217,10 @@ export default async function handler(req, res) {
     const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad";
     const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
-    const [activeDealsRaw, prospAccounts, campDealsRaw, campaignRecords] = await Promise.all([
+    const [activeDealsRaw, marketingAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals", dealFields, dealCriteria, token),
       fetchFiltered("Accounts",
-        "id,Account_Name,Account_Type,Se_obtuvo_por,Owner",
+        "id,Se_obtuvo_por",
         accCriteria, token),
       fetchFiltered("Deals", campDealFields, campDealCriteria, token),
       zohoGetAll("Campaigns",
@@ -220,17 +243,13 @@ export default async function handler(req, res) {
       };
     }
 
-    // Build account indexes from Prospecto accounts
+    // Build marketing account ID set (accounts with marketing source)
     const accountById = {};
-    const prospAccIds = new Set();    // all Prospecto accounts
-    const marketingAccIds = new Set(); // Prospecto with marketing source
-    for (const acc of prospAccounts) {
+    const marketingAccIds = new Set();
+    for (const acc of marketingAccounts) {
       accountById[acc.id] = acc;
       if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
-        prospAccIds.add(acc.id);
-        if (MARKETING_SOURCES.has(acc.Se_obtuvo_por)) {
-          marketingAccIds.add(acc.id);
-        }
+        marketingAccIds.add(acc.id);
       }
     }
 
@@ -242,34 +261,25 @@ export default async function handler(req, res) {
     }
 
     function dealIndustry(d) {
-      const ownerName = typeof d.Owner === "object" ? (d.Owner?.name || "") : (d.Owner || "");
-      return OWNER_TO_INDUSTRY[ownerName] || "Sin asignar";
+      return OWNER_TO_INDUSTRY[ownerName(d)] || "Sin asignar";
     }
 
-    function ownerEmail(d) {
-      return typeof d.Owner === "object" ? (d.Owner?.email || "") : "";
-    }
-
-    // Total pipeline: Prospecto accounts, active stages, excluded owners — no Tipo filter
-    // Matches Zoho's "Pipeline Nuevos Negocios": Fase active AND Tipo de Cuenta = Prospecto
+    // Total pipeline: active deals by the 13 included sellers
     const activeDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
-      return prospAccIds.has(getAccId(d));
+      return INCLUDED_OWNER_NAMES.has(ownerName(d));
     });
 
     const campDealsFiltered = campDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
+      if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
       return d.Tipo_de_oportunidad === "Cliente nuevo";
     });
 
-    // Marketing deals — from ALL active deals (no Tipo filter), Prospecto + marketing source
-    // Matches Zoho's "Pipeline Nuevos Negocios - Marketing" filter:
-    // Fase active AND Clasificación in marketing sources AND Tipo de Cuenta = Prospecto
+    // Marketing pipeline: deals by included sellers whose account has a marketing source
     const marketingDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      if (EXCLUDED_OWNER_EMAILS.has(ownerEmail(d))) return false;
+      if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
       return marketingAccIds.has(getAccId(d));
     });
 
@@ -429,7 +439,7 @@ export default async function handler(req, res) {
         marketingDealsActive:   marketingDeals.length,
         wonDealsWithCampaign:   wonDealsWithCamp,
         dealsWithCampaign:      dealsWithCamp,
-        marketingAccountsFound: prospAccounts.length,
+        marketingAccountsFound: marketingAccounts.length,
       },
     });
 
