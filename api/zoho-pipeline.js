@@ -270,10 +270,10 @@ export default async function handler(req, res) {
       return INCLUDED_OWNER_NAMES.has(ownerName(d));
     });
 
+    // Campaign tracking: all deals linked to a campaign, regardless of seller or deal type
+    // (ROI of an event = all results from it, not just the 13-seller pipeline subset)
     const campDealsFiltered = campDealsRaw.filter((d) => {
-      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
-      return d.Tipo_de_oportunidad === "Cliente nuevo";
+      return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
     // Marketing pipeline: deals by included sellers whose account has a marketing source
