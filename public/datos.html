@@ -650,6 +650,15 @@
         </button>
       </li>
     </ul>
+    <div class="sidebar-nav-label">Marketing</div>
+    <ul class="sidebar-nav">
+      <li>
+        <button class="sidebar-nav-item" onclick="switchPanel('inbound', this)">
+          <span class="sidebar-nav-icon">⚡</span>
+          <span>Atención Inbound</span>
+        </button>
+      </li>
+    </ul>
     <div class="sidebar-nav-label">Ingresos</div>
     <ul class="sidebar-nav">
       <li>
@@ -1525,6 +1534,92 @@
       </div><!-- /content-scroll -->
     </div><!-- /panel-embudo-wrapper -->
 
+    <!-- ══════════════ PANEL: INBOUND ══════════════ -->
+    <div id="panel-inbound" class="panel">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Atención a Prospectos Inbound</div>
+          <div class="topbar-sub">Google Ads · Calendly · Formulario Web · Responsable: Maximiliano Mireles Escobar</div>
+        </div>
+        <div class="topbar-right" style="gap:0.75rem;">
+          <span id="ib-updated-at" style="color:var(--fg-muted);font-size:0.75rem;"></span>
+          <button onclick="loadInbound()" style="background:none;border:1px solid var(--border);border-radius:0.5rem;padding:0.25rem 0.65rem;color:var(--fg-muted);font-size:0.75rem;cursor:pointer;font-family:inherit;">↻ Actualizar</button>
+        </div>
+      </div>
+
+      <div class="content-scroll">
+
+        <!-- Status bar -->
+        <div id="ib-status-bar" style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem;background:var(--card);border-bottom:1px solid var(--border);font-size:0.75rem;margin-bottom:1.25rem;border-radius:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span id="ib-status-dot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0;"></span>
+            <span id="ib-status-text" style="color:var(--fg-muted);">Conectando con Zoho CRM…</span>
+          </div>
+        </div>
+
+        <!-- Esta semana KPIs -->
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Esta Semana · <span id="ib-week-label">—</span></div>
+          <div class="kpi-row" style="gap:0;">
+            <div class="kpi-cell">
+              <div class="kpi-label">Recibidos</div>
+              <div class="kpi-val" id="ib-week-total" style="font-size:2rem;">—</div>
+              <div class="kpi-sub">leads inbound</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label" style="color:var(--green);">Atendidos</div>
+              <div class="kpi-val" id="ib-week-attended" style="font-size:2rem;color:var(--green);">—</div>
+              <div class="kpi-sub" id="ib-week-attended-pct">—</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label" style="color:var(--orange);">Pendientes</div>
+              <div class="kpi-val" id="ib-week-pending" style="font-size:2rem;color:var(--orange);">—</div>
+              <div class="kpi-sub">sin atender</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Tiempo Promedio</div>
+              <div class="kpi-val" id="ib-week-avg" style="font-size:2rem;">—</div>
+              <div class="kpi-sub">de respuesta</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Por fuente -->
+        <div id="ib-sources" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;"></div>
+
+        <!-- Tabla semana a semana -->
+        <div class="funnel-card" style="margin-bottom:1rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:1rem;">Seguimiento Semana a Semana · Últimas 12 semanas</div>
+          <div style="overflow-x:auto;">
+            <table id="ib-weekly-table" style="width:100%;border-collapse:collapse;font-size:0.8125rem;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left;padding:0.5rem 0.75rem;font-weight:600;color:var(--fg-muted);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">Semana</th>
+                  <th style="text-align:center;padding:0.5rem 0.75rem;font-weight:600;color:var(--fg-muted);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">Recibidos</th>
+                  <th style="text-align:center;padding:0.5rem 0.75rem;font-weight:600;color:var(--fg-muted);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">Atendidos</th>
+                  <th style="text-align:center;padding:0.5rem 0.75rem;font-weight:600;color:var(--fg-muted);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">% Atención</th>
+                  <th style="text-align:center;padding:0.5rem 0.75rem;font-weight:600;color:var(--fg-muted);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">Tiempo Prom.</th>
+                  <th style="text-align:center;padding:0.5rem 0.75rem;font-weight:600;color:var(--orange);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">Pendientes</th>
+                </tr>
+              </thead>
+              <tbody id="ib-weekly-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pendientes -->
+        <div class="funnel-card">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-muted);">Pendientes de Atender</span>
+            <span id="ib-pending-badge" class="badge badge-orange" style="display:none;"></span>
+            <span style="font-size:0.75rem;color:var(--fg-muted);">· últimos 60 días · ordenados del más antiguo al más reciente</span>
+          </div>
+          <div id="ib-pending-list"></div>
+        </div>
+
+      </div><!-- /content-scroll -->
+    </div><!-- /panel-inbound -->
+
   </div><!-- /main-area -->
 </div><!-- /app-shell -->
 <script>
@@ -1542,6 +1637,9 @@
     // Show correct panel
     if (tab === 'embudo') {
       const p = document.getElementById('panel-embudo-wrapper');
+      if (p) p.classList.add('active');
+    } else if (tab === 'inbound') {
+      const p = document.getElementById('panel-inbound');
       if (p) p.classList.add('active');
     } else {
       const p = document.getElementById('panel-pipeline');
@@ -2803,6 +2901,8 @@
     setInterval(loadZohoPipeline, 5 * 60 * 1000);
     loadZohoFunnel();
     setInterval(loadZohoFunnel, 5 * 60 * 1000);
+    loadInbound();
+    setInterval(loadInbound, 5 * 60 * 1000);
   });
 
   // ── EMBUDO DIGITAL ──────────────────────────────────────────────────────────
@@ -3017,6 +3117,176 @@
     if (n >= 1e6) return 'MX$' + (n/1e6).toFixed(1) + 'M';
     if (n >= 1e3) return 'MX$' + Math.round(n/1e3) + 'K';
     return 'MX$' + n.toLocaleString();
+  }
+
+  // ── ATENCIÓN INBOUND ────────────────────────────────────────────────────────
+  function fmtResponseTime(min) {
+    if (min === null || min === undefined) return '—';
+    if (min < 60) return min + ' min';
+    const h = Math.floor(min / 60);
+    const m = min % 60;
+    if (h >= 48) return Math.round(h / 24) + 'd';
+    if (h >= 24) { const d = Math.floor(h/24); const r = h%24; return r > 0 ? d+'d '+r+'h' : d+'d'; }
+    return m > 0 ? h + 'h ' + m + 'min' : h + 'h';
+  }
+
+  function attendancePctColor(pct) {
+    if (pct === null) return 'var(--fg-muted)';
+    if (pct >= 80) return 'var(--green)';
+    if (pct >= 50) return 'var(--orange)';
+    return '#f87171';
+  }
+
+  function ageColor(hr) {
+    if (hr < 4)  return 'var(--green)';
+    if (hr < 24) return 'var(--orange)';
+    return '#f87171';
+  }
+
+  const SRC_COLOR = {
+    'Google Ads - Pauta': '#4285f4',
+    'Calendly':            '#006BFF',
+    'Formulario website':  '#2cb896',
+    'Formulario Website':  '#2cb896',
+  };
+  const SRC_LABEL = {
+    'Google Ads - Pauta': 'Google Ads',
+    'Calendly':            'Calendly',
+    'Formulario website':  'Formulario Web',
+    'Formulario Website':  'Formulario Web',
+  };
+
+  function renderInbound(d) {
+    // Status
+    const dot = document.getElementById('ib-status-dot');
+    const txt = document.getElementById('ib-status-text');
+    if (dot) dot.style.background = '#3ecfaa';
+    if (txt) txt.textContent = 'Conectado · Zoho CRM · ' + d.summary.total + ' leads totales analizados';
+    const upEl = document.getElementById('ib-updated-at');
+    const mins = Math.round((Date.now() - new Date(d.generatedAt)) / 60000);
+    if (upEl) upEl.textContent = 'actualizado hace ' + (mins < 1 ? 'menos de 1 min' : mins + ' min');
+
+    // Esta semana
+    const tw = d.thisWeek;
+    setTxt('ib-week-label', tw.label || '');
+    setTxt('ib-week-total', tw.total ?? '—');
+    setTxt('ib-week-attended', tw.attended ?? '—');
+    const attPct = tw.total > 0 ? Math.round(tw.attended / tw.total * 100) : null;
+    const attEl = document.getElementById('ib-week-attended');
+    if (attEl && attPct !== null) attEl.style.color = attendancePctColor(attPct);
+    setTxt('ib-week-attended-pct', attPct !== null ? attPct + '% de atención' : '—');
+    const pendEl = document.getElementById('ib-week-pending');
+    if (pendEl) pendEl.style.color = tw.pending > 0 ? 'var(--orange)' : 'var(--green)';
+    setTxt('ib-week-pending', tw.pending ?? '—');
+    setTxt('ib-week-avg', fmtResponseTime(tw.avgResponseMin));
+
+    // Por fuente
+    const srcEl = document.getElementById('ib-sources');
+    if (srcEl) {
+      srcEl.innerHTML = (d.bySource || []).map(s => {
+        const color = SRC_COLOR[s.source] || '#94a3b8';
+        const label = SRC_LABEL[s.source] || s.source;
+        const pct   = s.attendedPct;
+        return `<div class="funnel-card" style="border-top:3px solid ${color};padding:1rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${color};margin-bottom:0.75rem;">${label}</div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0.5rem;">
+            <div>
+              <div style="font-size:1.75rem;font-weight:700;color:var(--fg);line-height:1;">${s.total}</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);margin-top:0.25rem;">leads recibidos</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.25rem;font-weight:700;color:${attendancePctColor(pct)};">${pct}%</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);">atendidos</div>
+            </div>
+          </div>
+          <div style="height:4px;background:var(--border);border-radius:999px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:${attendancePctColor(pct)};border-radius:999px;transition:width .5s;"></div>
+          </div>
+          <div style="margin-top:0.625rem;display:flex;justify-content:space-between;font-size:0.75rem;color:var(--fg-muted);">
+            <span>${s.pending} pendientes</span>
+            <span>⏱ ${fmtResponseTime(s.avgResponseMin)} prom.</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Tabla semanal (más reciente primero)
+    const tbody = document.getElementById('ib-weekly-body');
+    if (tbody) {
+      const weeks = [...(d.byWeek || [])].reverse();
+      tbody.innerHTML = weeks.map((w, i) => {
+        const isThisWeek = i === 0;
+        const pct = w.attendedPct;
+        const pctColor = attendancePctColor(pct);
+        const bg = isThisWeek ? 'background:rgba(255,255,255,0.03);' : '';
+        return `<tr style="${bg}border-bottom:1px solid var(--border);">
+          <td style="padding:0.625rem 0.75rem;font-weight:${isThisWeek ? '700' : '400'};color:var(--fg);">
+            ${isThisWeek ? '<span style="color:var(--green);margin-right:0.4rem;">●</span>' : ''}${w.label}
+          </td>
+          <td style="padding:0.625rem 0.75rem;text-align:center;font-weight:600;color:var(--fg);">${w.total || 0}</td>
+          <td style="padding:0.625rem 0.75rem;text-align:center;color:${pctColor};font-weight:600;">${w.attended || 0}</td>
+          <td style="padding:0.625rem 0.75rem;text-align:center;">
+            ${pct !== null
+              ? `<span style="background:${pctColor}22;color:${pctColor};padding:0.2rem 0.5rem;border-radius:999px;font-size:0.75rem;font-weight:700;">${pct}%</span>`
+              : '<span style="color:var(--fg-muted);">—</span>'}
+          </td>
+          <td style="padding:0.625rem 0.75rem;text-align:center;color:var(--fg-muted);">${fmtResponseTime(w.avgResponseMin)}</td>
+          <td style="padding:0.625rem 0.75rem;text-align:center;font-weight:600;color:${w.pending > 0 ? 'var(--orange)' : 'var(--fg-muted)'};">${w.pending || 0}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // Pendientes
+    const pending = d.pendingLeads || [];
+    const badge = document.getElementById('ib-pending-badge');
+    if (badge) {
+      badge.style.display = pending.length > 0 ? '' : 'none';
+      badge.textContent = pending.length + ' sin atender';
+    }
+    const pendList = document.getElementById('ib-pending-list');
+    if (pendList) {
+      if (pending.length === 0) {
+        pendList.innerHTML = '<div style="color:var(--green);font-size:0.875rem;padding:1rem 0;">✓ Sin pendientes en los últimos 60 días</div>';
+      } else {
+        pendList.innerHTML = pending.map(l => {
+          const color = SRC_COLOR[l.source] || '#94a3b8';
+          const label = SRC_LABEL[l.source] || l.source;
+          const age = l.ageHr;
+          const ageStr = age < 1 ? 'hace menos de 1h'
+            : age < 24 ? `hace ${Math.round(age)}h`
+            : `hace ${Math.floor(age/24)}d ${Math.round(age%24)}h`;
+          return `<div style="display:flex;align-items:center;gap:0.875rem;padding:0.625rem 0;border-bottom:1px solid var(--border);">
+            <div style="width:3px;height:2rem;background:${ageColor(age)};border-radius:2px;flex-shrink:0;"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:600;color:var(--fg);font-size:0.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${l.name}</div>
+              <div style="font-size:0.75rem;color:var(--fg-muted);">${l.status || 'Sin estado'}</div>
+            </div>
+            <span style="background:${color}22;color:${color};padding:0.2rem 0.5rem;border-radius:999px;font-size:0.7rem;font-weight:700;white-space:nowrap;">${label}</span>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:0.8125rem;font-weight:600;color:${ageColor(age)};">${ageStr}</div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+    }
+  }
+
+  async function loadInbound() {
+    const dot = document.getElementById('ib-status-dot');
+    const txt = document.getElementById('ib-status-text');
+    if (dot) dot.style.background = '#ff9f3f';
+    if (txt) txt.textContent = 'Cargando desde Zoho CRM…';
+    try {
+      const res = await fetch('/api/zoho-leads-inbound');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const d = await res.json();
+      if (d.error) throw new Error(d.error);
+      renderInbound(d);
+    } catch (err) {
+      if (dot) dot.style.background = '#f87171';
+      if (txt) txt.textContent = 'Error al cargar datos de Zoho';
+      console.warn('Inbound error:', err);
+    }
   }
 
   async function loadZohoFunnel() {
