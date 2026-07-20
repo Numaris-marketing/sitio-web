@@ -65,17 +65,29 @@ async function fetchFiltered(module, fields, criteria, token) {
   return results;
 }
 
+// ─── TIMEZONE HELPERS ─────────────────────────────────────────────────────────
+const MX_TZ = "America/Mexico_City";
+
+// Convert a Date to a "fake-UTC" Date whose getDay()/getHours()/getDate()
+// return Mexico City local values. Needed because Vercel runs in UTC.
+function toMxDate(date) {
+  const s = new Date(date).toLocaleString("sv-SE", { timeZone: MX_TZ });
+  return new Date(s.replace(" ", "T")); // "YYYY-MM-DDTHH:MM:SS" parsed as fake-UTC
+}
+
 // ─── WEEK HELPERS ─────────────────────────────────────────────────────────────
-function mondayOf(date) {
-  const d = new Date(date);
+// Operates on fake-UTC (Mexico local) dates from toMxDate().
+function mondayOf(mxDate) {
+  const d = new Date(mxDate);
   const day = d.getDay() || 7;
   d.setHours(0, 0, 0, 0);
   d.setDate(d.getDate() - day + 1);
   return d;
 }
 
+// Week key is always derived from Mexico local date to avoid UTC-boundary mismatches.
 function weekKey(date) {
-  return mondayOf(date).toISOString().slice(0, 10);
+  return mondayOf(toMxDate(date)).toISOString().slice(0, 10);
 }
 
 function weekLabel(mondayStr) {
@@ -90,12 +102,15 @@ function weekLabel(mondayStr) {
 }
 
 // ─── BUSINESS HOURS HELPER ────────────────────────────────────────────────────
-// Leads arriving Fri 18:00 → Mon 08:59 are measured from Monday 09:00
-// so weekend time doesn't inflate the response-time metric.
+// Leads arriving Fri 18:00 → Mon 08:59 (Mexico time) are measured from Mon 09:00.
+// Returns a real UTC Date so diffMs comparisons with Modified_Time are valid.
 function effectiveCreated(date) {
-  const d   = new Date(date);
-  const day = d.getDay(); // 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
-  const h   = d.getHours();
+  const real   = new Date(date);           // real UTC timestamp
+  const mxDate = toMxDate(real);           // fake-UTC representing Mexico local time
+  const offsetMs = real.getTime() - mxDate.getTime(); // Mexico UTC offset in ms
+
+  const day = mxDate.getDay();
+  const h   = mxDate.getHours();
 
   const isNonWork =
     day === 0 ||              // Sunday
@@ -103,14 +118,14 @@ function effectiveCreated(date) {
     (day === 5 && h >= 18) || // Friday from 18:00
     (day === 1 && h < 9);    // Monday before 09:00
 
-  if (!isNonWork) return d;
+  if (!isNonWork) return real;
 
-  // Advance to next Monday 09:00
-  const monday = new Date(d);
-  monday.setHours(9, 0, 0, 0);
-  const daysToMonday = [1, 0, 6, 5, 4, 3, 2][day]; // indexed by getDay()
-  monday.setDate(d.getDate() + daysToMonday);
-  return monday;
+  // Find next Monday 09:00 in Mexico local, then convert back to real UTC
+  const mxMonday = new Date(mxDate);
+  const daysToMonday = [1, 0, 6, 5, 4, 3, 2][day];
+  mxMonday.setDate(mxDate.getDate() + daysToMonday);
+  mxMonday.setHours(9, 0, 0, 0);
+  return new Date(mxMonday.getTime() + offsetMs); // real UTC for Mexico Mon 09:00
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
@@ -169,7 +184,7 @@ export default async function handler(req, res) {
     });
 
     // ── Week buckets (last WEEKS_BACK weeks) ──────────────────────────────
-    const todayMonday = mondayOf(new Date());
+    const todayMonday = mondayOf(toMxDate(new Date()));
     const weekKeys = [];
     for (let i = WEEKS_BACK - 1; i >= 0; i--) {
       const d = new Date(todayMonday);
