@@ -97,27 +97,25 @@ export default async function handler(req, res) {
   try {
     const token = await refreshToken();
 
-    const currentYear = new Date().getFullYear();
-    const yearStart   = `${currentYear}-01-01T00:00:00+00:00`;
-
-    // Fetch leads from inbound sources created this year
+    // Fetch leads from inbound sources
     const criteria = encodeURIComponent(
       "((Lead_Source:equals:Google Ads - Pauta)or" +
       "(Lead_Source:equals:Meta - Pauta)or" +
       "(Lead_Source:equals:Calendly)or" +
       "(Lead_Source:equals:Formulario website)or" +
-      "(Lead_Source:equals:Formulario Website))and" +
-      `(Created_Time:greater_equal:${yearStart})`
+      "(Lead_Source:equals:Formulario Website))"
     );
 
     const leads = await fetchFiltered("Leads",
       "id,First_Name,Last_Name,Lead_Source,Lead_Status,Owner,Created_Time,Modified_Time",
       criteria, token);
 
-    // Filter to Maximiliano only
+    // Filter: this year + assigned to Maximiliano
+    const currentYear = new Date().getFullYear();
     const myLeads = leads.filter(l => {
       const owner = typeof l.Owner === "object" ? (l.Owner?.name || "") : (l.Owner || "");
-      return owner === MAX_OWNER;
+      if (owner !== MAX_OWNER) return false;
+      return new Date(l.Created_Time).getFullYear() === currentYear;
     });
 
     // Compute per-lead metrics
