@@ -89,6 +89,30 @@ function weekLabel(mondayStr) {
   return `${months[mon.getMonth()]} ${mon.getDate()} – ${months[sun.getMonth()]} ${sun.getDate()}`;
 }
 
+// ─── BUSINESS HOURS HELPER ────────────────────────────────────────────────────
+// Leads arriving Fri 18:00 → Mon 08:59 are measured from Monday 09:00
+// so weekend time doesn't inflate the response-time metric.
+function effectiveCreated(date) {
+  const d   = new Date(date);
+  const day = d.getDay(); // 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
+  const h   = d.getHours();
+
+  const isNonWork =
+    day === 0 ||              // Sunday
+    day === 6 ||              // Saturday
+    (day === 5 && h >= 18) || // Friday from 18:00
+    (day === 1 && h < 9);    // Monday before 09:00
+
+  if (!isNonWork) return d;
+
+  // Advance to next Monday 09:00
+  const monday = new Date(d);
+  monday.setHours(9, 0, 0, 0);
+  const daysToMonday = [1, 0, 6, 5, 4, 3, 2][day]; // indexed by getDay()
+  monday.setDate(d.getDate() + daysToMonday);
+  return monday;
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -123,11 +147,12 @@ export default async function handler(req, res) {
     const pendingCutoff = now - PENDING_DAYS * 24 * 60 * 60 * 1000;
 
     const enriched = myLeads.map(l => {
-      const created  = new Date(l.Created_Time);
-      const modified = new Date(l.Modified_Time);
-      const diffMs   = modified.getTime() - created.getTime();
-      const diffMin  = Math.round(diffMs / 60000);
-      const attended = diffMs > 0; // any modification after creation = attended
+      const created    = new Date(l.Created_Time);
+      const modified   = new Date(l.Modified_Time);
+      const effCreated = effectiveCreated(created); // Mon 09:00 for weekend arrivals
+      const diffMs     = modified.getTime() - effCreated.getTime();
+      const diffMin    = Math.max(0, Math.round(diffMs / 60000));
+      const attended   = diffMs > 0; // modified after effective start = attended
       const name     = `${l.First_Name || ""} ${l.Last_Name || ""}`.trim() || "Sin nombre";
       const src      = l.Lead_Source === "Formulario Website" ? "Formulario website" : (l.Lead_Source || "Otro");
       return {
