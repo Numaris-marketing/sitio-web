@@ -4,7 +4,6 @@ const ZOHO_BASE          = "www.zohoapis.com";
 const ZOHO_ACCOUNTS_HOST = "accounts.zoho.com";
 
 const MAX_OWNER          = "Maximiliano Mireles Escobar";
-const ATTENDED_MIN       = 5; // minutes: diff > this = attended
 const WEEKS_BACK         = 12;
 const PENDING_DAYS       = 60; // show pending leads from last N days
 
@@ -122,8 +121,9 @@ export default async function handler(req, res) {
     const enriched = myLeads.map(l => {
       const created  = new Date(l.Created_Time);
       const modified = new Date(l.Modified_Time);
-      const diffMin  = Math.round((modified - created) / 60000);
-      const attended = diffMin > ATTENDED_MIN;
+      const diffMs   = modified.getTime() - created.getTime();
+      const diffMin  = Math.round(diffMs / 60000);
+      const attended = diffMs > 0; // any modification after creation = attended
       const name     = `${l.First_Name || ""} ${l.Last_Name || ""}`.trim() || "Sin nombre";
       const src      = l.Lead_Source === "Formulario Website" ? "Formulario website" : (l.Lead_Source || "Otro");
       return {
@@ -222,7 +222,7 @@ export default async function handler(req, res) {
     res.status(200).json({
       generatedAt:       new Date().toISOString(),
       owner:             MAX_OWNER,
-      attendedThreshold: ATTENDED_MIN,
+      attendedCriteria: "Modified_Time > Created_Time",
       summary: {
         total:          totalAll,
         attended:       attendedAll,
