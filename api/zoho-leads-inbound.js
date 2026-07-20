@@ -9,6 +9,7 @@ const PENDING_DAYS       = 60; // show pending leads from last N days
 
 const INBOUND_SOURCES = new Set([
   "Google Ads - Pauta",
+  "Meta - Pauta",
   "Calendly",
   "Formulario website",
   "Formulario Website",
@@ -96,12 +97,17 @@ export default async function handler(req, res) {
   try {
     const token = await refreshToken();
 
-    // Fetch leads from the 3 inbound sources
+    const currentYear = new Date().getFullYear();
+    const yearStart   = `${currentYear}-01-01T00:00:00+00:00`;
+
+    // Fetch leads from inbound sources created this year
     const criteria = encodeURIComponent(
       "((Lead_Source:equals:Google Ads - Pauta)or" +
+      "(Lead_Source:equals:Meta - Pauta)or" +
       "(Lead_Source:equals:Calendly)or" +
       "(Lead_Source:equals:Formulario website)or" +
-      "(Lead_Source:equals:Formulario Website))"
+      "(Lead_Source:equals:Formulario Website))and" +
+      `(Created_Time:greater_equal:${yearStart})`
     );
 
     const leads = await fetchFiltered("Leads",
