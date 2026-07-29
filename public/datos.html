@@ -1007,6 +1007,9 @@
           </div>
         </div>
 
+        <!-- Sector pie chart -->
+        <div id="evt-sector-pie" style="margin-bottom:1.5rem;"></div>
+
         <!-- Event cards label -->
         <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.875rem;">Ficha de cada evento · contexto y posicionamiento de marca</div>
         <div id="campaign-event-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(480px,1fr));gap:1.25rem;margin-bottom:1.25rem;"></div>
@@ -2409,6 +2412,104 @@
           ? `<div class="insight orange-tint"><strong>${topWonEvt.name}</strong> · mayor venta cerrada del canal con <strong>${fmtM(topWonEvt.wonValue)}</strong>.</div>`
           : '',
       ].filter(Boolean).join('');
+    }
+
+    // ── Sector donut chart ────────────────────────────────────────────────────
+    const pieEl = q('evt-sector-pie');
+    if (pieEl) {
+      // Aggregate byIndustry across all allowed campaign entries
+      const IND_COLOR = {
+        'Transporte Pesado':                 '#4B8FD4',
+        'Logística y Distribución':          '#10B981',
+        'Servicios Financieros y Movilidad': '#a78bfa',
+        'Administración de Flota':           '#f97316',
+        'Sin asignar':                       '#64748b',
+      };
+      const totals = {};
+      entries.forEach(e => {
+        Object.entries(e.byIndustry || {}).forEach(([ind, cnt]) => {
+          totals[ind] = (totals[ind] || 0) + cnt;
+        });
+      });
+      const sectors = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+      const pieTotal = sectors.reduce((s, [, n]) => s + n, 0);
+
+      if (pieTotal === 0) {
+        pieEl.innerHTML = '';
+      } else {
+        // SVG donut
+        const cx = 90, cy = 90, R = 76, r = 46, gap = 2.5;
+        let angle = 0;
+        const paths = sectors.map(([ind, cnt]) => {
+          const sweep = (cnt / pieTotal) * 360;
+          const a1 = angle + gap / 2, a2 = angle + sweep - gap / 2;
+          angle += sweep;
+          const toXY = (deg, rad) => {
+            const rd = (deg - 90) * Math.PI / 180;
+            return [cx + rad * Math.cos(rd), cy + rad * Math.sin(rd)];
+          };
+          const [x1, y1] = toXY(a1, R), [x2, y2] = toXY(a2, R);
+          const [x3, y3] = toXY(a2, r), [x4, y4] = toXY(a1, r);
+          const lg = (a2 - a1) > 180 ? 1 : 0;
+          const d = `M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${lg} 0 ${x4} ${y4} Z`;
+          const color = IND_COLOR[ind] || '#64748b';
+          const pct = Math.round(cnt / pieTotal * 100);
+          return { ind, cnt, pct, color, d };
+        });
+
+        const svgPaths = paths.map((p, i) =>
+          `<path d="${p.d}" fill="${p.color}" stroke="none" style="cursor:pointer;transition:opacity .15s;transform-origin:${cx}px ${cy}px;"
+            onmouseenter="(function(el){
+              document.querySelectorAll('#evt-sector-pie path').forEach(function(pp,j){if(j!==parseInt(el.dataset.i))pp.style.opacity='.4';});
+              var tip=document.getElementById('evt-pie-tip');
+              tip.innerHTML='<strong style=\\'color:${p.color}\\'>${p.ind}</strong><br>${p.cnt} oportunidades · <strong>${p.pct}%</strong>';
+              tip.style.display='block';
+              document.getElementById('evt-pie-cv').textContent='${p.cnt}';
+              document.getElementById('evt-pie-cv').style.color='${p.color}';
+              document.getElementById('evt-pie-cs').textContent='${p.ind.length > 20 ? p.ind.slice(0,20) + '…' : p.ind}';
+            })(this)"
+            onmouseleave="(function(){
+              document.querySelectorAll('#evt-sector-pie path').forEach(function(pp){pp.style.opacity='1';});
+              document.getElementById('evt-pie-tip').style.display='none';
+              document.getElementById('evt-pie-cv').textContent='${pieTotal}';
+              document.getElementById('evt-pie-cv').style.color='var(--fg)';
+              document.getElementById('evt-pie-cs').textContent='oportunidades';
+            })()"
+            data-i="${i}"/>`
+        ).join('');
+
+        const legendRows = paths.map(p => `
+          <div style="display:flex;align-items:center;gap:.625rem;padding:.4rem .6rem;border-radius:5px;cursor:default;"
+            onmouseenter="(function(el){
+              document.querySelectorAll('#evt-sector-pie path').forEach(function(pp,j){pp.style.opacity=j===${paths.indexOf(p)}?'1':'.4';});
+              document.getElementById('evt-pie-cv').textContent='${p.cnt}';document.getElementById('evt-pie-cv').style.color='${p.color}';
+              document.getElementById('evt-pie-cs').textContent='${p.ind.length > 20 ? p.ind.slice(0,20) + '…' : p.ind}';
+            })(this)"
+            onmouseleave="(function(){
+              document.querySelectorAll('#evt-sector-pie path').forEach(function(pp){pp.style.opacity='1';});
+              document.getElementById('evt-pie-cv').textContent='${pieTotal}';document.getElementById('evt-pie-cv').style.color='var(--fg)';
+              document.getElementById('evt-pie-cs').textContent='oportunidades';
+            })()">
+            <div style="width:10px;height:10px;border-radius:2px;background:${p.color};flex-shrink:0;"></div>
+            <div style="flex:1;font-size:.78rem;color:var(--fg-muted);">${p.ind}</div>
+            <div style="font-size:.85rem;font-weight:800;color:${p.color};min-width:2rem;text-align:right;">${p.pct}%</div>
+            <div style="font-size:.72rem;color:var(--fg-muted);min-width:1.5rem;text-align:right;">${p.cnt}</div>
+          </div>`).join('');
+
+        pieEl.innerHTML = `
+          <div style="font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.875rem;">Oportunidades de eventos por sector</div>
+          <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+            <div style="position:relative;flex-shrink:0;">
+              <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">${svgPaths}</svg>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+                <div id="evt-pie-cv" style="font-size:1.625rem;font-weight:800;color:var(--fg);line-height:1;">${pieTotal}</div>
+                <div id="evt-pie-cs" style="font-size:.65rem;color:var(--fg-muted);margin-top:.2rem;text-align:center;">oportunidades</div>
+              </div>
+            </div>
+            <div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:.25rem;">${legendRows}</div>
+          </div>
+          <div id="evt-pie-tip" style="display:none;margin-top:.75rem;padding:.5rem .875rem;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;font-size:.75rem;color:var(--fg);"></div>`;
+      }
     }
 
     // Table — 6 columns
