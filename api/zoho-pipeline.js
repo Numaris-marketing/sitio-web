@@ -100,6 +100,9 @@ const MARKETING_SOURCES = new Set([
   "Calendly",
 ]);
 
+// ─── TOKEN CACHE (module-level, survives warm lambda reuse) ───────────────────
+let _tokenCache = null; // { token, expiresAt }
+
 // ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
 function zohoRequest(hostname, path, method = "GET", body = null, token = null) {
   return new Promise((resolve, reject) => {
@@ -124,6 +127,8 @@ function zohoRequest(hostname, path, method = "GET", body = null, token = null) 
 }
 
 async function refreshToken() {
+  const now = Date.now();
+  if (_tokenCache && _tokenCache.expiresAt > now + 60_000) return _tokenCache.token;
   const body = new URLSearchParams({
     refresh_token: process.env.ZOHO_REFRESH_TOKEN,
     client_id: process.env.ZOHO_CLIENT_ID,
@@ -132,6 +137,7 @@ async function refreshToken() {
   }).toString();
   const d = await zohoRequest(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", "POST", body);
   if (!d.access_token) throw new Error(`OAuth: ${JSON.stringify(d)}`);
+  _tokenCache = { token: d.access_token, expiresAt: now + 55 * 60_000 }; // 55 min
   return d.access_token;
 }
 
