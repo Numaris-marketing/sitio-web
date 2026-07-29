@@ -2561,6 +2561,37 @@
                 <div style="font-size:.9375rem;font-weight:700;color:var(--fg);">${subs.toLocaleString('es-MX')}</div>
               </div>` : ''}
             </div>
+            <!-- Vertical breakdown -->
+            ${(() => {
+              const IND_COLOR = {
+                'Transporte Pesado':              'var(--blue)',
+                'Logística y Distribución':       'var(--green)',
+                'Servicios Financieros y Movilidad': '#a78bfa',
+                'Administración de Flota':        'var(--orange)',
+                'Sin asignar':                    'var(--fg-muted)',
+              };
+              const byInd = e.byIndustry || {};
+              const total = Object.values(byInd).reduce((s, n) => s + n, 0);
+              if (total === 0) return '';
+              const rows = Object.entries(byInd)
+                .sort((a, b) => b[1] - a[1])
+                .map(([ind, cnt]) => {
+                  const pct = Math.round(cnt / total * 100);
+                  const c = IND_COLOR[ind] || 'var(--fg-muted)';
+                  return `<div style="display:flex;align-items:center;gap:.625rem;">
+                    <div style="font-size:.75rem;color:var(--fg-muted);width:11rem;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ind}</div>
+                    <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+                      <div style="height:100%;width:${pct}%;background:${c};border-radius:3px;transition:width .4s;"></div>
+                    </div>
+                    <div style="font-size:.75rem;font-weight:700;color:${c};width:2rem;text-align:right;">${cnt}</div>
+                    <div style="font-size:.7rem;color:var(--fg-muted);width:2.5rem;">${pct}%</div>
+                  </div>`;
+                }).join('');
+              return `<div style="margin-bottom:1rem;">
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.5rem;">Oportunidades por vertical</div>
+                <div style="display:flex;flex-direction:column;gap:.375rem;">${rows}</div>
+              </div>`;
+            })()}
             ${meta?.descripcion ? `
             <!-- Description -->
             <p style="font-size:.8125rem;color:var(--fg-muted);line-height:1.6;margin-bottom:.875rem;">${meta.descripcion}</p>

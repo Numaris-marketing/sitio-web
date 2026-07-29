@@ -386,6 +386,7 @@ export default async function handler(req, res) {
           wonCount:     0, wonValue:   0,  // closed/won
           totalCount:   0, totalValue: 0,  // all combined
           subs:         0,                 // active + won (Cantidad_de_suscripciones + No_de_Veh_culos)
+          byIndustry:   {},               // deal count per vertical
         };
       }
 
@@ -397,6 +398,11 @@ export default async function handler(req, res) {
       byCampaign[campId].totalCount++;
       byCampaign[campId].totalValue += v;
       byCampaign[campId].subs += s;  // accumulate regardless of stage
+
+      // Track by vertical (industry of deal owner)
+      const ind = dealIndustry(d);
+      if (!byCampaign[campId].byIndustry[ind]) byCampaign[campId].byIndustry[ind] = 0;
+      byCampaign[campId].byIndustry[ind]++;
 
       if (isActive) {
         byCampaign[campId].count++;
