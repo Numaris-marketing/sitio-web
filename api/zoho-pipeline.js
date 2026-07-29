@@ -126,6 +126,8 @@ function zohoRequest(hostname, path, method = "GET", body = null, token = null) 
   });
 }
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
 async function refreshToken() {
   const now = Date.now();
   if (_tokenCache && _tokenCache.expiresAt > now + 60_000) return _tokenCache.token;
@@ -135,9 +137,15 @@ async function refreshToken() {
     client_secret: process.env.ZOHO_CLIENT_SECRET,
     grant_type: "refresh_token",
   }).toString();
-  const d = await zohoRequest(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", "POST", body);
-  if (!d.access_token) throw new Error(`OAuth: ${JSON.stringify(d)}`);
-  _tokenCache = { token: d.access_token, expiresAt: now + 55 * 60_000 }; // 55 min
+  let d;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt > 0) await sleep(attempt * 2000);
+    d = await zohoRequest(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", "POST", body);
+    if (d.access_token) break;
+    if (!d.error_description?.includes("too many")) throw new Error(`OAuth: ${JSON.stringify(d)}`);
+  }
+  if (!d?.access_token) throw new Error(`OAuth rate-limited: ${JSON.stringify(d)}`);
+  _tokenCache = { token: d.access_token, expiresAt: now + 55 * 60_000 };
   return d.access_token;
 }
 
