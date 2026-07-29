@@ -75,6 +75,13 @@ const OWNER_TO_INDUSTRY = {
   "Gabriela Abigail Juarez Perez": "Administración de Flota",
 
   "Esmeralda Salgado": "Administración de Flota",
+
+  // Adicionales asignados manualmente
+  "Carlos Humberto Toriz Flores":       "Transporte Pesado",
+  "Karla Mariana Rodriguez Contreras":  "Logística y Distribución",
+  "Laura Marcela Bocanegra Yepez":      "Logística y Distribución",
+  "Aurora Margarita Araujo Montes":     "Logística y Distribución",
+  "Alejandro Peña Navarro":             "Transporte Pesado",
 };
 
 const MARKETING_SOURCES = new Set([
