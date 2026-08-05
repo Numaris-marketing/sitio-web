@@ -119,7 +119,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     <h2 class="anim" style="font-size:clamp(46px,6vw,82px);font-weight:800;color:#fff;margin:22px 0;letter-spacing:-.02em">🎮 Trivia del Mes</h2>
     <div class="anim"><span class="premio-pill">🎁 Premio: <b data-bind="triviaPremio">Tarjeta Amazon $500</b> · Top 3 ganadores</span></div>
   </div>
-  <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.75);font-size:13.5px;font-weight:600;z-index:2">Conducen: <span data-bind="triviaConduce">Patricio + Javier</span> · JP juega con el equipo</div>
+  <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.85);font-size:13.5px;font-weight:600;z-index:2;background:rgba(59,28,110,.85);padding:9px 15px;border-radius:10px">Conducen: <span data-bind="triviaConduce">Patricio + Javier</span> · JP juega con el equipo</div>
   <div class="giant00">00</div>
 </section>
 
@@ -325,7 +325,7 @@ DATA.trivia.slice().reverse().forEach((t,ri)=>{
       <div class="anim"><span class="seg-pill">A jugar · Pregunta ${i} de ${DATA.trivia.length}</span></div>
       <h2 class="anim" style="font-size:clamp(28px,3.6vw,50px);font-weight:700;color:#fff;margin-top:26px;line-height:1.3;letter-spacing:-.01em">${t.q}</h2>
     </div>
-    <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.75);font-size:13.5px;font-weight:600;z-index:2">Responde en <b style="color:#fff">menti.com</b> · código <b style="color:#fff">${DATA.mentiCodigo}</b> · 📰 pista: viene en el NUMARNET de julio</div>
+    <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.85);font-size:13.5px;font-weight:600;z-index:2;background:rgba(59,28,110,.85);padding:9px 15px;border-radius:10px">Responde en <b style="color:#fff">menti.com</b> · código <b style="color:#fff">${DATA.mentiCodigo}</b> · 📰 pista: viene en el NUMARNET de julio</div>
     <div class="giant00" style="font-size:38vh;bottom:-12vh">0${i}</div>
   </section>`);
 });})();
