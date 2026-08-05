@@ -205,21 +205,16 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:28px">
   <div>
     <div class="anim"><span style="display:inline-block;background:var(--pill-lt);color:var(--blue);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:8px 15px;border-radius:999px">Segmento 02 · 10:00 — 22:00</span></div>
-    <h2 class="anim" style="font-size:clamp(44px,5.6vw,76px);font-weight:800;color:var(--blue);margin:18px 0 10px;letter-spacing:-.02em">Los 5 Proyectos del Mes</h2>
+    <h2 class="anim" style="font-size:clamp(44px,5.6vw,76px);font-weight:800;color:var(--blue);margin:18px 0 10px;letter-spacing:-.02em">Los 3 Proyectos del Mes</h2>
     <div class="anim" style="color:var(--gray-2);font-size:clamp(17px,1.8vw,22px);font-weight:600">Tablero comercial</div>
   </div>
 </section>
 
-<!-- 7 · TABLA PROYECTOS -->
+<!-- 7 · PROYECTOS TOP 3 -->
 <section class="slide" id="s7">
-  <div class="pgh"><h2>Los 5 Proyectos más Relevantes · <span data-bind="mesLabelTit2">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
-  <div class="anim" style="margin-top:40px;border-radius:12px;overflow:hidden;box-shadow:0 14px 34px -20px rgba(15,40,80,.35)">
-    <table>
-      <thead><tr><th style="width:56px">#</th><th>Cliente / Proyecto</th><th>Solución</th><th style="width:120px">Unidades</th><th style="width:170px">Responsable</th></tr></thead>
-      <tbody id="proyectos"></tbody>
-    </table>
-  </div>
-  <p class="anim" style="color:var(--gray);font-size:13px;font-weight:600;margin-top:14px">El responsable de cada proyecto tiene 1–2 min para platicar.</p>
+  <div class="pgh"><h2>Los 3 Proyectos más Relevantes · <span data-bind="mesLabelTit2">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px" class="grid-3" id="proyectos"></div>
+  <p class="anim" style="color:var(--gray);font-size:13px;font-weight:600;margin-top:18px;text-align:center">El responsable de cada proyecto tiene 1–2 min para platicar. 🎤</p>
 </section>
 
 <!-- 8 · HISTORIA DE ÉXITO -->
@@ -302,12 +297,10 @@ const DATA = {
   ],
   // pista para el equipo: todas las respuestas vienen en el NUMARNET de julio 📰
   triviaPremio:'Tarjeta Amazon $500', triviaConduce:'Patricio + Javier', mentiCodigo:'NUMARIS',
-  proyectos:[
-    {n:'01', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portatil', unidades:600, resp:'Maria Samano'},
-    {n:'02', cliente:'COI DE TAMPICO', lugar:'Tampico', sol:'Simpli Route', unidades:88, resp:'Ana P.'},
-    {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.'},
-    {n:'04', cliente:'TRANSPADEX LOGISTICS', lugar:'León', sol:'Remolques Inteligentes', unidades:32, resp:'Diana L.'},
-    {n:'05', cliente:'Frutas y Verduras Express', lugar:'Pue', sol:'GPS Básico + App Conductores', unidades:28, resp:'Miguel A.'}
+  proyectos:[   // logo:'' → muestra iniciales; pon la ruta cuando lleguen los logos (ej. '/logos/nexu.svg')
+    {n:'01', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
+    {n:'02', cliente:'COI de Tampico', lugar:'Tampico', sol:'Simpli Route', unidades:88, resp:'Ana P.', logo:'', detalle:''},
+    {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.', logo:'', detalle:''}
   ],
   hCliente:'Transportes Del Valle', hMeta:'Monterrey · 230 unidades',
   hStory:'En mayo, el cliente reportó pérdida de señal en el <b>40% de su flota</b> durante un fin de semana crítico. Numaris respondió en <b>2 horas</b>: diagnóstico remoto, reemplazo en campo y reactivación en <b>18 horas</b>. La cuenta renovó 2 años y amplió a 280 unidades.',
@@ -358,8 +351,30 @@ DATA.trivia.slice().reverse().forEach((t,ri)=>{
 });})();
 document.getElementById('highlights').innerHTML=DATA.highlights.map(h=>
   `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n"><span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
-document.getElementById('proyectos').innerHTML=DATA.proyectos.map(p=>
-  `<tr><td style="color:var(--blue);font-weight:800">${p.n}</td><td><b style="color:var(--navy)">${p.cliente}</b>${p.lugar?` <span style="color:var(--gray)">(${p.lugar})</span>`:''}</td><td style="color:var(--ink-body)">${p.sol}</td><td style="color:var(--navy);font-weight:800"><span data-cnt="${p.unidades}" data-sep="1">0</span></td><td style="color:var(--gray-2)">${p.resp}</td></tr>`).join('');
+document.getElementById('proyectos').innerHTML=DATA.proyectos.slice(0,3).map(p=>{
+  const ini=p.cliente.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+  const logo=p.logo? `<img src="${p.logo}" alt="${p.cliente}" style="max-height:44px;max-width:120px;object-fit:contain">`
+                   : `<span class="mont" style="font-weight:800;font-size:17px;color:var(--blue)">${ini}</span>`;
+  return `<div class="anim" style="background:#fff;border:1.5px solid #E5EBF3;border-radius:18px;padding:24px;box-shadow:0 16px 36px -22px rgba(15,40,80,.35);display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="mont" style="font-weight:800;font-size:26px;color:var(--blue)">${p.n}</span>
+      <div style="height:56px;min-width:88px;background:var(--bg-lt2);border-radius:12px;display:flex;align-items:center;justify-content:center;padding:6px 14px">${logo}</div>
+    </div>
+    <div>
+      <div class="mont" style="font-weight:800;font-size:19px;color:var(--navy)">${p.cliente}</div>
+      ${p.lugar?`<div style="color:var(--gray);font-size:12.5px;font-weight:600;margin-top:2px">📍 ${p.lugar}</div>`:''}
+    </div>
+    <span style="align-self:flex-start;background:var(--pill-lt);color:var(--blue);font-weight:800;font-size:12px;padding:6px 13px;border-radius:999px">${p.sol}</span>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-top:2px">
+      <span class="mont" style="font-weight:800;font-size:clamp(34px,3.4vw,46px);color:var(--navy)"><span data-cnt="${p.unidades}" data-sep="1">0</span></span>
+      <span style="color:var(--gray-2);font-weight:700;font-size:13px">unidades</span>
+    </div>
+    ${p.detalle?`<div style="color:var(--ink-body);font-size:13px;line-height:1.55">${p.detalle}</div>`:''}
+    <div style="border-top:1.5px solid #EDF2F8;padding-top:12px;margin-top:auto;display:flex;align-items:center;gap:10px">
+      <span class="avatar" style="width:34px;height:34px;font-size:12px;background:var(--blue)">${p.resp.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
+      <div><div style="color:var(--navy);font-weight:700;font-size:13.5px">${p.resp}</div><div style="color:var(--gray);font-size:11.5px;font-weight:600">Responsable del proyecto</div></div>
+    </div>
+  </div>`}).join('');
 document.getElementById('hVals').innerHTML=DATA.hVals.map(v=>
   `<span class="val-chip"><span>${v.e}</span><span style="color:${v.c}">${v.t}</span></span>`).join('');
 document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>
