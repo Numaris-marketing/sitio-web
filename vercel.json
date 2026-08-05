@@ -45,6 +45,10 @@
       "destination": "/marketing-h1.html"
     },
     {
+      "source": "/all-hands",
+      "destination": "/all-hands.html"
+    },
+    {
       "source": "/contacto",
       "destination": "/contacto/index.html"
     },
