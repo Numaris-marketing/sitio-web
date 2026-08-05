@@ -123,24 +123,6 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="giant00">00</div>
 </section>
 
-<!-- 3 · PREGUNTAS -->
-<section class="slide pp" id="s3">
-  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:5vw;align-items:center" class="grid-2">
-    <div>
-      <div class="anim" style="color:#fff;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">A jugar · 3 preguntas</div>
-      <div style="display:grid;gap:14px" id="triviaQs"></div>
-    </div>
-    <div class="anim" style="background:#fff;border-radius:18px;padding:26px;text-align:center;max-width:330px;justify-self:center">
-      <div class="mont" style="font-weight:800;font-size:17px;color:#111">mentimeter</div>
-      <div style="width:168px;height:168px;background:var(--navy);border-radius:16px;margin:18px auto" id="qrbox"></div>
-      <div style="color:var(--gray);font-size:12.5px;font-weight:600">Ingresa en</div>
-      <div style="color:var(--blue);font-weight:800;font-size:17px;margin:2px 0 14px">menti.com</div>
-      <span style="display:inline-block;background:var(--bg-lt2);color:var(--navy);font-weight:800;font-size:12.5px;letter-spacing:.12em;padding:9px 22px;border-radius:999px" data-bind="mentiCodigo">NUMARIS</span>
-    </div>
-  </div>
-</section>
-
 <!-- 4 · OBJETIVO ANUAL -->
 <section class="slide dk" id="s4">
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
@@ -287,10 +269,11 @@ const DATA = {
   respTitulo:'La respuesta · ¿Por qué llegamos al objetivo?',
   respuestaMes:'Porque mantuvimos <b>disciplina comercial</b>, cerramos <b>2 cuentas grandes</b> y operaciones garantizó <b>cero cancelaciones</b>.',
   trivia:[
-    '¿Cuántos clientes nuevos incorporó Numaris en Junio 2026?',
-    '¿Cuál es el valor de Numaris que dice "hacemos lo correcto aunque nadie nos vea"?',
-    '¿En cuántas ciudades de México tiene presencia activa Numaris?'
+    {q:'¿Cómo se llama el socio estratégico que se incorporó a Numaris este mes para impulsar la innovación y el crecimiento de la compañía?', r:'Linzor Capital Partners'},
+    {q:'¿Qué tecnología integraremos muy pronto para automatizar nuestras certificaciones de seguridad y cumplimiento de normas?', r:'Vanta'},
+    {q:'Según "Conociendo mi empresa": ¿qué transforma el sector de Transporte Pesado en información útil para reducir costos y aumentar la seguridad?', r:'Los datos que generan los vehículos'}
   ],
+  // pista para el equipo: todas las respuestas vienen en el NUMARNET de julio 📰
   triviaPremio:'Tarjeta Amazon $500', triviaConduce:'Patricio + Javier', mentiCodigo:'NUMARIS',
   proyectos:[
     {n:'01', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portatil', unidades:600, resp:'Maria Samano'},
@@ -332,7 +315,20 @@ const DATA = {
 document.querySelectorAll('[data-bind]').forEach(el=>{const v=DATA[el.dataset.bind]; if(v!==undefined) el.textContent=v});
 document.getElementById('hStory').innerHTML=DATA.hStory;
 document.getElementById('respuestaMes').innerHTML=DATA.respuestaMes;
-document.getElementById('triviaQs').innerHTML=DATA.trivia.map((q,i)=>`<div class="qrow anim"><span class="n">${i+1}</span><p>${q}</p></div>`).join('');
+(()=>{const s2=document.getElementById('s2');
+DATA.trivia.slice().reverse().forEach((t,ri)=>{
+  const i=DATA.trivia.length-ri;
+  s2.insertAdjacentHTML('afterend',`
+  <section class="slide pp" id="sq${i}">
+    <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+    <div style="max-width:860px;position:relative;z-index:2">
+      <div class="anim"><span class="seg-pill">A jugar · Pregunta ${i} de ${DATA.trivia.length}</span></div>
+      <h2 class="anim" style="font-size:clamp(28px,3.6vw,50px);font-weight:700;color:#fff;margin-top:26px;line-height:1.3;letter-spacing:-.01em">${t.q}</h2>
+    </div>
+    <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.75);font-size:13.5px;font-weight:600;z-index:2">Responde en <b style="color:#fff">menti.com</b> · código <b style="color:#fff">${DATA.mentiCodigo}</b> · 📰 pista: viene en el NUMARNET de julio</div>
+    <div class="giant00" style="font-size:38vh;bottom:-12vh">0${i}</div>
+  </section>`);
+});})();
 document.getElementById('highlights').innerHTML=DATA.highlights.map(h=>
   `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n"><span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
 document.getElementById('proyectos').innerHTML=DATA.proyectos.map(p=>
