@@ -375,7 +375,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="navy-card anim" style="display:flex;justify-content:space-between;align-items:center;gap:14px">
         <div class="lbl-b">Objetivo <span data-bind="mesSigCorto2">agosto</span> <span data-bind="anio3">2026</span></div>
-        <div class="mont" style="font-weight:800;font-size:clamp(30px,3.4vw,44px)">$<span data-cnt-bind="objetivoAgosto" data-dec="0">0</span>M</div>
+        <div class="mont" style="font-weight:800;font-size:clamp(30px,3.4vw,44px)">$<span data-cnt-bind="objetivoAgosto" data-dec="1">0</span>M</div>
       </div>
       <div class="anim ltcard" style="background:var(--bg-lt2);padding:20px 22px;flex:1">
         <div class="lbl-o" data-bind="respTitulo">La respuesta · ¿Por qué llegamos al objetivo?</div>
@@ -440,9 +440,9 @@ const DATA = {
     {ini:'SC', nombre:'Sofía Contreras', puesto:'Analista de Datos',  area:'Tecnología',  ciudad:'CDMX',        c:'#D97B29'}
   ],
   agosto:[
-    {n:'1', t:'Lanzamiento módulo de mantenimiento', d:'Demo interna · semana 2', area:'Tecnología', c:'#2E75B6'},
-    {n:'2', t:'Campaña de recuperación Q3', d:'Meta: 80 unidades reactivadas', area:'Comercial', c:'#2E8B4F'},
-    {n:'3', t:'Feria de Logística México 2026', d:'12–14 ago · CDMX · Stand Numaris', area:'Marketing', c:'#E8762D'}
+    {n:'1', t:'Migración de unidades hacia la plataforma Amber', d:'Transición de la base instalada', area:'Tecnología', c:'#2E75B6'},
+    {n:'2', t:'Apertura de las nuevas oficinas CDMX', d:'Regreso a la oficina: 10 ago (tentativo) · Fiesta de inauguración: 17 ago', area:'#OneNumaris', c:'#E8762D'},
+    {n:'3', t:'Top Flotillas · Arrancan eventos de Financieras', d:'ASOFOM: 26–28 ago · Top Flotillas & Logex: 1–3 sep', area:'Marketing', c:'#2E8B4F'}
   ],
   adnFrase:'Cambiamos todos los días, para que el cliente no tenga que hacerlo',
   adnPrincipios:[
@@ -471,7 +471,7 @@ const DATA = {
   oficFoto:'/all-hands-img/oficinas.jpg',
   quinielaTrofeo:'/all-hands-img/trofeo.jpg',
   marcadorImg:'/all-hands-img/marcador.jpg',
-  objetivoAgosto:82
+  objetivoAgosto:83.5
 };
 
 /* ---------- render desde DATA ---------- */
