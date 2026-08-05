@@ -349,7 +349,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
       <div class="anim" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px" id="hVals"></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="anim" style="background:var(--green-bg);border:1.5px solid #52B788;border-radius:10px;padding:11px 16px;color:#1F7A3D;font-weight:800;font-size:13.5px">✅ Renovación 2 años · +<span data-cnt-bind="hUnidades" data-dec="0">0</span> unidades · NPS <span data-bind="hNps">9.8</span>/10</div>
+      <div class="anim" style="background:var(--green-bg);border:1.5px solid #52B788;border-radius:10px;padding:11px 16px;color:#1F7A3D;font-weight:800;font-size:13.5px">✅ <span data-cnt="1200" data-sep="1">0</span> unidades en plataforma · integración con Trafilog · arranque en agosto</div>
       <div class="navy-card anim" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 30px">
         <div style="color:#3E6390;font-family:'Montserrat';font-weight:800;font-size:34px;line-height:.6">“</div>
         <div class="mont" style="font-weight:700;font-size:clamp(16px,1.7vw,21px);line-height:1.55;margin:12px 0" data-bind="hQuote">Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio.</div>
@@ -491,18 +491,16 @@ const DATA = {
     {n:'02', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
     {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.', logo:'', detalle:''}
   ],
-  hCliente:'Transportes Del Valle', hMeta:'Monterrey · 230 unidades',
-  hStory:'En mayo, el cliente reportó pérdida de señal en el <b>40% de su flota</b> durante un fin de semana crítico. Numaris respondió en <b>2 horas</b>: diagnóstico remoto, reemplazo en campo y reactivación en <b>18 horas</b>. La cuenta renovó 2 años y amplió a 280 unidades.',
+  hCliente:'Pemex · Triple IE + All Parts', hMeta:'Gestión de mantenimientos · 1,200 unidades',
+  hStory:'Triple IE, subsidiaria de Pemex, necesitaba <b>automatizar la gestión de mantenimientos</b> de su flota: no había trazabilidad de servicios, tiempos de entrega ni fallas con su proveedor anterior. Dos colaboradores de sectores distintos <b>tomaron la iniciativa</b>: en lugar del desarrollo básico que pedía el cliente, propusieron la plataforma de Numaris como la solución escalable, de la mano de All Parts, su nuevo proveedor de mantenimiento — integrando <b>odómetros y horas motor desde Trafilog</b> y dando de alta vehículos, talleres y toda la operación en la plataforma. <b>Cierre y arranque en agosto con 1,200 unidades</b>.',
   hVals:[
-    {e:'⚡', t:'Urgencia',     c:'#E8952F'},
-    {e:'🤝', t:'Colaboración', c:'#2E75B6'},
-    {e:'✅', t:'Integridad',   c:'#2E8B4F'},
-    {e:'💡', t:'Solución',     c:'#2E75B6'},
-    {e:'❤️', t:'Servicio',     c:'#D64545'}
+    {e:'⚡', t:'Tomamos la iniciativa',               c:'#E8952F'},
+    {e:'🤖', t:'TecnologIA como multiplicador',       c:'#2E75B6'},
+    {e:'🤝', t:'Trabajamos con gente extraordinaria', c:'#2E8B4F'}
   ],
   hNps:'9.8', hUnidades:50,
-  hQuote:'Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio.',
-  hQuoteBy:'Director de Operaciones, Transportes Del Valle',
+  hQuote:'Dos sectores, una sola solución: el cliente pedía un registro básico y recibió una plataforma que escala con toda su operación.',
+  hQuoteBy:'Caso presentado por David Urieta y Nahomi Bedolla',
   nuevos:[
     {foto:'/all-hands-img/ni-pablo.jpg',     nombre:'Pablo Pérez Mollo',              puesto:'Especialista de Desarrollo (Senior Technical Leader)', area:'Numaris · Tecnologías',              ciudad:'Argentina',     c:'#2E75B6'},
     {foto:'/all-hands-img/ni-anuar.jpg',     nombre:'Anuar Roberto Balderas Barrios', puesto:'Ejecutivo de Operaciones',                              area:'Admón. de Activos · Operaciones',    ciudad:'CDMX',          c:'#2E8B4F'},
