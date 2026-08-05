@@ -511,7 +511,7 @@ const DATA = {
   proyectos:[   // logo:'' → muestra iniciales; pon la ruta cuando lleguen los logos (ej. '/logos/nexu.svg')
     {n:'01', cliente:'All Parts', lugar:'', sol:'Gestión de flotas', unidades:1200, resp:'David Urieta y Nahomi Bedolla', logo:'', detalle:''},
     {n:'02', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
-    {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.', logo:'', detalle:''}
+    {n:'03', cliente:'Arrendadora Banorte', lugar:'', sol:'Cross Selling · GPS + Gestión de Flota', unidades:300, pre:'±', resp:'Alejandro Duarte y Jime Sotelo', logo:'', detalle:''}
   ],
   hCliente:'Pemex · Triple i + All Parts', hMeta:'Gestión de mantenimientos · 1,200 unidades',
   hStory:'Triple IE, subsidiaria de Pemex, necesitaba <b>automatizar la gestión de mantenimientos</b> de su flota: no había trazabilidad de servicios, tiempos de entrega ni fallas con su proveedor anterior. Dos colaboradores de sectores distintos <b>tomaron la iniciativa</b>: en lugar del desarrollo básico que pedía el cliente, propusieron la plataforma de Numaris como la solución escalable, de la mano de All Parts, su nuevo proveedor de mantenimiento — integrando <b>odómetros y horas motor desde Trafilog</b> y dando de alta vehículos, talleres y toda la operación en la plataforma. <b>Cierre y arranque en agosto con 1,200 unidades</b>.',
@@ -620,7 +620,7 @@ document.getElementById('proyectos').innerHTML=top3.map((p,i)=>{
     <span style="align-self:flex-start;background:${first?'rgba(255,255,255,.15)':'var(--pill-lt)'};color:${first?'#fff':'var(--blue)'};font-weight:800;font-size:12px;padding:6px 13px;border-radius:999px">${p.sol}</span>
     <div>
       <div style="display:flex;align-items:baseline;gap:8px">
-        <span class="mont" style="font-weight:800;font-size:${first?'clamp(40px,3.8vw,54px)':'clamp(32px,3vw,42px)'};color:${first?'#fff':'var(--navy)'}"><span data-cnt="${p.unidades}" data-sep="1">0</span></span>
+        <span class="mont" style="font-weight:800;font-size:${first?'clamp(40px,3.8vw,54px)':'clamp(32px,3vw,42px)'};color:${first?'#fff':'var(--navy)'}">${p.pre||''}<span data-cnt="${p.unidades}" data-sep="1">0</span></span>
         <span style="color:${first?'#8FA5C4':'var(--gray-2)'};font-weight:700;font-size:13px">unidades</span>
       </div>
       <div class="ptrack" style="margin-top:8px"><div class="fill" style="--w:${pct}%;background:${first?'linear-gradient(90deg,#5BC17F,#8FDCA8)':'linear-gradient(90deg,#2D6DB5,#4D9FE8)'}"></div></div>
