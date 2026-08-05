@@ -131,6 +131,29 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 @keyframes blinkDot{0%,100%{opacity:1}50%{opacity:.25}}
 .wait-line{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);color:var(--dk-mut);font-size:13px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:9px;z-index:2}
 .wait-line i{width:9px;height:9px;border-radius:50%;background:#5BC17F;animation:blinkDot 1.5s ease-in-out infinite;font-style:normal}
+/* slides de cultura */
+.slide.cream{background:#FDF6EC}
+.adn-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(77,159,232,.12);border:1px solid rgba(77,159,232,.35);color:var(--blue-lt);font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 13px;border-radius:999px}
+.slide.cream .adn-pill,.slide:not(.dk):not(.pp) .adn-pill{background:rgba(232,118,45,.1);border-color:rgba(232,118,45,.35);color:var(--orange)}
+.win-card{background:var(--dk-card);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;border:1.5px solid transparent}
+.win-card.first{background:linear-gradient(165deg,#1D3C68,#12263F);border-color:rgba(77,159,232,.5);box-shadow:0 20px 46px -20px rgba(45,109,181,.55)}
+.win-card .wl{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-mut2)}
+.win-card.first .wl{color:var(--blue-lt)}
+.win-photo{width:100%;aspect-ratio:1;background:#0C1729;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:52px;overflow:hidden}
+.win-photo img{width:100%;height:100%;object-fit:cover}
+.press-card{background:#fff;border:1.5px solid #F0E3CC;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 30px -20px rgba(90,60,20,.25)}
+.press-ph{height:120px;background:linear-gradient(135deg,#1E3A66,#2D6DB5);display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden}
+.press-ph img{width:100%;height:100%;object-fit:cover}
+.press-bd{padding:15px 17px;display:flex;flex-direction:column;gap:7px;flex:1}
+.press-tag{color:var(--orange);font-weight:800;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.press-tt{color:var(--navy);font-weight:800;font-size:14.5px;line-height:1.3;font-family:"Montserrat"}
+.press-dd{color:var(--ink-body);font-size:12px;line-height:1.5;flex:1}
+.press-lk{color:var(--orange);font-weight:800;font-size:12.5px;text-decoration:underline}
+.adn-card{background:var(--dk-card);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;border-top:3px solid var(--blue-br)}
+.adn-card .em{font-size:26px;display:inline-block;animation:bob 3.4s ease-in-out infinite}
+.adn-card:nth-child(2) .em{animation-delay:.4s}.adn-card:nth-child(3) .em{animation-delay:.8s}.adn-card:nth-child(4) .em{animation-delay:1.2s}
+.ofic-ph{border-radius:18px;background:var(--pill-lt);display:flex;align-items:center;justify-content:center;font-size:64px;min-height:52vh;overflow:hidden}
+.ofic-ph img{width:100%;height:100%;object-fit:cover}
 @media(max-width:900px){.dots{display:none}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important}.giant00{font-size:24vh}}
 @media print{main{height:auto;overflow:visible}.slide{min-height:100vh;page-break-after:always}.dots,#pbar{display:none}.anim{opacity:1;transform:none}}
 </style>
@@ -179,6 +202,16 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     </svg>
   </div>
   <div class="mes-tag mont" data-bind="mesTag">JULIO · 2026</div>
+</section>
+
+<!-- ADN NUMARIS -->
+<section class="slide dk" id="sadn">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="orb o1"></div>
+  <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">ADN Numaris</div>
+  <h2 class="anim" style="font-size:clamp(30px,4.2vw,58px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.02em;max-width:1000px">"<span data-bind="adnFrase">Cambiamos todos los días, para que el cliente no tenga que hacerlo</span>."</h2>
+  <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 14px">Nuestros principios</div>
+  <div class="anim" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px" class="grid-4" id="adnPrincipios"></div>
 </section>
 
 <!-- 2 · TRIVIA -->
@@ -278,11 +311,58 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   </div>
 </section>
 
+<!-- QUINIELA -->
+<section class="slide dk" id="squin">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+    <div>
+      <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px">Vida en Numaris</div>
+      <h2 class="anim" style="font-size:clamp(30px,3.8vw,52px);font-weight:800;color:#fff;letter-spacing:-.02em">Felicidades a nuestros ganadores 🏆</h2>
+      <p class="anim" style="color:var(--dk-mut);font-size:14.5px;font-weight:600;margin-top:8px;max-width:640px">Reconocemos a los colaboradores con los mejores resultados en la <b style="color:#fff">Quiniela Mundialista Numaris 2026</b>.</p>
+    </div>
+    <span class="adn-pill anim">🤝 ADN · Trabajamos con gente extraordinaria</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px" class="grid-3" id="quiniela"></div>
+  <p class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;margin-top:20px">Gracias a los más de <b style="color:var(--blue-lt)">300 colaboradores</b> que participaron y convirtieron esta dinámica en una experiencia llena de entusiasmo, convivencia y pasión por el fútbol. ⚽</p>
+</section>
+
 <!-- 9 · BIENVENIDOS -->
 <section class="slide" id="s9">
   <div class="pgh"><h2>Bienvenidos a Numaris · <span data-bind="mesLabelTit4">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px" class="grid-3" id="nuevos"></div>
-  <div style="display:grid;gap:12px;margin-top:22px" id="prensa"></div>
+</section>
+
+<!-- MEDIOS -->
+<section class="slide cream" id="smedios">
+  <div class="pgh" style="border-bottom-color:#F0E3CC"><h2 style="color:var(--navy)">Numaris en medios<span style="color:var(--orange)">.</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:40px">
+    <span class="adn-pill anim">⚡ ADN · Tomamos la iniciativa</span>
+    <span class="anim" style="color:var(--gray-2);font-size:13px;font-weight:600">Cuatro coberturas de este mes sobre seguridad, tecnología y competitividad del autotransporte.</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px" class="grid-4" id="mediosCards"></div>
+  <div class="anim navy-card" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding:20px 24px">
+    <div style="flex:1;min-width:260px">
+      <span style="background:var(--orange);color:#fff;font-weight:800;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:999px">Publicación propia</span>
+      <div class="mont" style="font-weight:800;font-size:19px;margin-top:10px" data-bind="marcadorTit">El Marcador del Transporte y la Movilidad</div>
+      <div style="color:#A9C4E4;font-size:13px;font-weight:600;margin-top:5px" data-bind="marcadorDesc">Nueva edición: robo de carga en el Circuito Exterior Mexiquense, el diésel en junio y el Plan México con 2,000 MDP.</div>
+    </div>
+    <a id="marcadorBtn" href="#" target="_blank" style="background:var(--orange);color:#fff;font-weight:800;font-size:14px;padding:13px 22px;border-radius:10px;text-decoration:none;white-space:nowrap">Leer la edición →</a>
+  </div>
+</section>
+
+<!-- OFICINAS -->
+<section class="slide cream" id="sofic">
+  <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:26px">
+  <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:4vw;align-items:center" class="grid-2">
+    <div>
+      <div class="anim" style="color:var(--orange);font-weight:800;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">#OneNumaris</div>
+      <h2 class="anim" style="font-size:clamp(36px,4.6vw,64px);font-weight:800;color:var(--navy);line-height:1.08;letter-spacing:-.02em">Nuevas oficinas en CDMX<span style="color:var(--orange)">.</span></h2>
+      <p class="anim" style="color:var(--ink-body);font-size:clamp(15px,1.5vw,19px);font-weight:600;line-height:1.6;margin-top:18px" data-bind="oficT1">Estamos en los últimos preparativos para darte la bienvenida a nuestra nueva casa.</p>
+      <p class="anim" style="color:var(--gray-2);font-size:14.5px;line-height:1.65;margin-top:14px" data-bind="oficT2">Más que un nuevo espacio, será el lugar donde seguiremos colaborando, compartiendo ideas y fortaleciendo nuestro ADN Numaris.</p>
+      <div class="anim mont" style="color:var(--orange);font-weight:800;font-size:clamp(19px,2vw,26px);margin-top:26px" data-bind="oficCta">Nos vemos muy pronto...</div>
+    </div>
+    <div class="anim ofic-ph" id="oficFoto">🏢</div>
+  </div>
 </section>
 
 <!-- 10 · CIERRE -->
@@ -358,15 +438,36 @@ const DATA = {
     {ini:'JL', nombre:'Javier Lozano',   puesto:'Técnico de Campo',   area:'Operaciones', ciudad:'Monterrey',   c:'#2E8B4F'},
     {ini:'SC', nombre:'Sofía Contreras', puesto:'Analista de Datos',  area:'Tecnología',  ciudad:'CDMX',        c:'#D97B29'}
   ],
-  prensa:[
-    {m:'T21', q:'"Transporte seguro y competitivo a bordo de la tecnología"'},
-    {m:'Revista TyT', q:'"Numaris expone su capacidad de predicción en siniestralidad y mantenimiento de flotas"'}
-  ],
   agosto:[
     {n:'1', t:'Lanzamiento módulo de mantenimiento', d:'Demo interna · semana 2', area:'Tecnología', c:'#2E75B6'},
     {n:'2', t:'Campaña de recuperación Q3', d:'Meta: 80 unidades reactivadas', area:'Comercial', c:'#2E8B4F'},
     {n:'3', t:'Feria de Logística México 2026', d:'12–14 ago · CDMX · Stand Numaris', area:'Marketing', c:'#E8762D'}
   ],
+  adnFrase:'Cambiamos todos los días, para que el cliente no tenga que hacerlo',
+  adnPrincipios:[
+    {e:'❤️', t:'Vivimos para el cliente'},
+    {e:'⚡', t:'Tomamos la iniciativa'},
+    {e:'🤝', t:'Trabajamos con gente extraordinaria'},
+    {e:'🤖', t:'Utilizamos la tecnologIA como multiplicador'}
+  ],
+  quiniela:[   // foto:'' → placeholder; pon la ruta cuando tengas las fotos
+    {lugar:'1er lugar', nombre:'Néstor Santiago', pts:240, foto:''},
+    {lugar:'2º lugar',  nombre:'Alan Badillo',    pts:237, foto:''},
+    {lugar:'3er lugar', nombre:'Daniel Jaimez',   pts:230, foto:''}
+  ],
+  medios:[   // foto:'' → placeholder 📰; url:'' → sin link
+    {tag:'Foro Nacional', t:'Numaris destaca en el Foro Nacional del Transporte', d:'José Antonio Alonso Granja, CEO de Transporte Pesado, compartió cómo la innovación de Numaris transforma la seguridad y la eficiencia de las flotas.', url:'', foto:''},
+    {tag:'Grupo T21', t:'Transporte seguro y competitivo a bordo de la tecnología', d:'Especialistas coincidieron en que la telemetría y la inteligencia artificial están transformando la competitividad del autotransporte.', url:'', foto:''},
+    {tag:'Magazzine del Transporte', t:'Numaris en el 26 Foro ANTP', d:'Cobertura del 26 Foro ANTP donde Numaris participó en la conversación sobre datos, telemetría y seguridad.', url:'', foto:''},
+    {tag:'Revista TyT', t:'Numaris en la conversación del transporte', d:'Publicación de Revista TyT con la participación de Numaris y su visión sobre la operación conectada.', url:'', foto:''}
+  ],
+  marcadorTit:'El Marcador del Transporte y la Movilidad',
+  marcadorDesc:'Nueva edición: robo de carga en el Circuito Exterior Mexiquense, el diésel en junio y el Plan México con 2,000 MDP.',
+  marcadorUrl:'',
+  oficT1:'Estamos en los últimos preparativos para darte la bienvenida a nuestra nueva casa.',
+  oficT2:'Más que un nuevo espacio, será el lugar donde seguiremos colaborando, compartiendo ideas y fortaleciendo nuestro ADN Numaris.',
+  oficCta:'Nos vemos muy pronto...',
+  oficFoto:'',
   objetivoAgosto:82
 };
 
@@ -435,8 +536,6 @@ document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>
     <div style="color:${n.c};font-weight:700;font-size:13px;margin-top:2px">${n.puesto}</div>
     <div style="color:var(--gray);font-size:12px;font-weight:600;margin-top:5px">${n.area} · 📍 ${n.ciudad}</div>
   </div>`).join('');
-document.getElementById('prensa').innerHTML=DATA.prensa.map(p=>
-  `<div class="press anim"><div class="m">${p.m}</div><div class="q">${p.q}</div></div>`).join('');
 document.getElementById('agosto').innerHTML=DATA.agosto.map(a=>
   `<div class="anim ltcard" style="display:flex;align-items:center;gap:18px;padding:18px 22px">
     <span class="mont" style="font-weight:800;font-size:42px;color:#fff;line-height:1;flex-shrink:0">${a.n}</span>
@@ -449,6 +548,26 @@ const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','
 document.getElementById('annualFill').style.setProperty('--w', DATA.progresoAnio+'%');
 document.getElementById('months').innerHTML=MESES.map((m,i)=>`<span class="${i+1<DATA.mesIndex?'on':i+1===DATA.mesIndex?'now':''}">${m}</span>`).join('');
 document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]));
+// cultura: ADN, quiniela, medios, oficinas
+document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map(a=>
+  `<div class="adn-card"><span class="em">${a.e}</span><div class="mont" style="font-weight:700;font-size:15.5px;color:#fff;line-height:1.35">${a.t}</div></div>`).join('');
+document.getElementById('quiniela').innerHTML=DATA.quiniela.map((g,i)=>{
+  const medal=['🥇','🥈','🥉'][i];
+  const ph=g.foto? `<img src="${g.foto}" alt="${g.nombre}">` : `<span>${medal}</span>`;
+  return `<div class="win-card anim ${i===0?'first':''}">
+    <span class="wl">${g.lugar}</span>
+    <div class="win-photo">${ph}</div>
+    <div class="mont" style="font-weight:800;font-size:17px;color:#fff">${g.nombre}</div>
+    <div><span class="mont" style="font-weight:800;font-size:26px;color:${i===0?'var(--blue-lt)':'#8FA5C4'}"><span data-cnt="${g.pts}">0</span></span> <span style="color:var(--dk-mut2);font-weight:700;font-size:13px">pts</span></div>
+  </div>`}).join('');
+document.getElementById('mediosCards').innerHTML=DATA.medios.map(mo=>{
+  const ph=mo.foto? `<img src="${mo.foto}" alt="">` : `<span>📰</span>`;
+  return `<div class="press-card anim">
+    <div class="press-ph">${ph}</div>
+    <div class="press-bd"><span class="press-tag">${mo.tag}</span><span class="press-tt">${mo.t}</span><span class="press-dd">${mo.d}</span>${mo.url?`<a class="press-lk" href="${mo.url}" target="_blank">Ver publicación →</a>`:''}</div>
+  </div>`}).join('');
+if(DATA.marcadorUrl){document.getElementById('marcadorBtn').href=DATA.marcadorUrl}else{document.getElementById('marcadorBtn').style.display='none'}
+if(DATA.oficFoto){document.getElementById('oficFoto').innerHTML=`<img src="${DATA.oficFoto}" alt="Nuevas oficinas CDMX">`}
 // resultados: anillo de cuota + promedio mensual + avance anual
 const C=1005.3;
 document.getElementById('cuotaRing').dataset.off=(C*(1-Math.min(DATA.vsCuota,100)/100)).toFixed(1);
