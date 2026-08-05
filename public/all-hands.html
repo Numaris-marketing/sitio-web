@@ -340,9 +340,12 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 <section class="slide" id="s8" style="background:linear-gradient(135deg,#FFFFFF 55%,#EEF3FB)">
   <div class="pgh"><h2>Historia de Éxito · <span data-bind="mesLabelTit3">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
   <div class="anim navy-card" style="margin-top:44px;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap">
-    <div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="background:#fff;border-radius:10px;padding:8px 14px;flex-shrink:0"><img src="/all-hands-img/pemex.svg" alt="Pemex" style="height:30px;display:block"></div>
+      <div>
       <div class="mont" style="font-weight:800;font-size:clamp(17px,1.9vw,24px)" data-bind="hCliente">Pemex · Triple i + All Parts</div>
       <div style="color:#A9C4E4;font-size:12.5px;font-weight:600;margin-top:3px" data-bind="hMeta">Gestión de mantenimientos · 1,200 unidades</div>
+      </div>
     </div>
     <div style="display:flex;gap:0;text-align:center">
       <div style="padding:0 22px"><div class="mont" style="font-weight:800;font-size:clamp(20px,2.2vw,28px);color:var(--blue-lt)"><span data-cnt="1200" data-sep="1">0</span></div><div style="color:#8FA5C4;font-size:11px;font-weight:600">unidades en plataforma</div></div>
@@ -509,9 +512,9 @@ const DATA = {
   // pista para el equipo: todas las respuestas vienen en el NUMARNET de julio 📰
   triviaPremio:'Tarjeta Amazon $500', triviaConduce:'Patricio + Javier', mentiCodigo:'NUMARIS',
   proyectos:[   // logo:'' → muestra iniciales; pon la ruta cuando lleguen los logos (ej. '/logos/nexu.svg')
-    {n:'01', cliente:'All Parts', lugar:'', sol:'Gestión de flotas', unidades:1200, resp:'David Urieta y Nahomi Bedolla', logo:'', detalle:''},
-    {n:'02', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
-    {n:'03', cliente:'Arrendadora Banorte', lugar:'', sol:'Cross Selling · GPS + Gestión de Flota', unidades:300, pre:'±', resp:'Alejandro Duarte y Jime Sotelo', logo:'', detalle:''}
+    {n:'01', cliente:'All Parts', lugar:'', sol:'Gestión de flotas', unidades:1200, resp:'David Urieta y Nahomi Bedolla', logo:'/all-hands-img/pemex.svg', detalle:''},
+    {n:'02', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'/all-hands-img/nexu.jpg', detalle:''},
+    {n:'03', cliente:'Arrendadora Banorte', lugar:'', sol:'Cross Selling · GPS + Gestión de Flota', unidades:300, pre:'±', resp:'Alejandro Duarte y Jime Sotelo', logo:'/all-hands-img/banorte.png', detalle:''}
   ],
   hCliente:'Pemex · Triple i + All Parts', hMeta:'Gestión de mantenimientos · 1,200 unidades',
   hStory:'Triple IE, subsidiaria de Pemex, necesitaba <b>automatizar la gestión de mantenimientos</b> de su flota: no había trazabilidad de servicios, tiempos de entrega ni fallas con su proveedor anterior. Dos colaboradores de sectores distintos <b>tomaron la iniciativa</b>: en lugar del desarrollo básico que pedía el cliente, propusieron la plataforma de Numaris como la solución escalable, de la mano de All Parts, su nuevo proveedor de mantenimiento — integrando <b>odómetros y horas motor desde Trafilog</b> y dando de alta vehículos, talleres y toda la operación en la plataforma. <b>Cierre y arranque en agosto con 1,200 unidades</b>.',
