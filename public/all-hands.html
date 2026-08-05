@@ -154,6 +154,22 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 .adn-card:nth-child(2) .em{animation-delay:.4s}.adn-card:nth-child(3) .em{animation-delay:.8s}.adn-card:nth-child(4) .em{animation-delay:1.2s}
 .ofic-ph{border-radius:18px;background:var(--pill-lt);display:flex;align-items:center;justify-content:center;font-size:64px;min-height:52vh;overflow:hidden}
 .ofic-ph img{width:100%;height:100%;object-fit:cover}
+/* podio quiniela */
+.podio{display:flex;align-items:flex-end;justify-content:center;gap:26px;margin-top:10px}
+.pod-col{display:flex;flex-direction:column;align-items:center;width:190px}
+.pod-block{width:100%;border-radius:14px 14px 0 0;background:linear-gradient(180deg,#2D6DB5,#173155);position:relative;transform:scaleY(0);transform-origin:bottom;transition:transform .8s cubic-bezier(.22,.8,.3,1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;overflow:hidden}
+.pod-block::before{content:'';position:absolute;top:0;left:0;right:0;height:9px;background:rgba(255,255,255,.28);border-radius:14px 14px 0 0}
+.pod-block .gnum{position:absolute;bottom:-14px;right:2px;font-family:"Montserrat";font-weight:800;font-size:82px;color:rgba(255,255,255,.1);line-height:1}
+.inview .pod-block{transform:scaleY(1)}
+.char{position:relative;opacity:0;margin-bottom:-4px;z-index:2}
+.inview .char{animation:charDrop .75s cubic-bezier(.34,1.4,.5,1) forwards}
+@keyframes charDrop{0%{opacity:0;transform:translateY(-70px)}70%{opacity:1;transform:translateY(5px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes celebrate{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.char-inner.cele{animation:celebrate 1.9s ease-in-out 2.6s infinite}
+.char .head{position:absolute;left:50%;transform:translateX(-50%);border-radius:50%;object-fit:cover;object-position:50% 15%;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.35);z-index:3}
+@keyframes confFall{0%{transform:translateY(-6vh) rotate(0)}100%{transform:translateY(106vh) rotate(720deg)}}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.confetti i{position:absolute;top:-6vh;border-radius:2px;animation:confFall linear infinite}
 @media(max-width:900px){.dots{display:none}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important}.giant00{font-size:24vh}}
 @media print{main{height:auto;overflow:visible}.slide{min-height:100vh;page-break-after:always}.dots,#pbar{display:none}.anim{opacity:1;transform:none}}
 </style>
@@ -238,7 +254,8 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     </div>
     <span class="adn-pill anim">🤝 ADN · Trabajamos con gente extraordinaria</span>
   </div>
-  <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1200px" id="quiniela"></div>
+  <div class="confetti" id="confetti"></div>
+  <div class="podio" id="quiniela"></div>
   <p class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;margin-top:20px">Gracias a los más de <b style="color:var(--blue-lt)">300 colaboradores</b> que participaron y convirtieron esta dinámica en una experiencia llena de entusiasmo, convivencia y pasión por el fútbol. ⚽</p>
 </section>
 
@@ -554,15 +571,64 @@ document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-c
 // cultura: ADN, quiniela, medios, oficinas
 document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((a,i)=>
   `<div class="adn-card"><span class="mont" style="font-weight:800;font-size:15px;color:var(--blue-lt)">0${i+1}</span><div class="mont" style="font-weight:700;font-size:15.5px;color:#fff;line-height:1.35">${a.t}</div></div>`).join('');
-document.getElementById('quiniela').innerHTML=DATA.quiniela.map((g,i)=>{
-  const medal=['🥇','🥈','🥉'][i];
-  const ph=g.foto? `<img src="${g.foto}" alt="${g.nombre}">` : `<span>${medal}</span>`;
-  return `<div class="win-card anim ${i===0?'first':''}">
-    <span class="wl">${g.lugar}</span>
-    <div class="win-photo">${ph}</div>
-    <div class="mont" style="font-weight:800;font-size:17px;color:#fff">${g.nombre}</div>
-    <div><span class="mont" style="font-weight:800;font-size:26px;color:${i===0?'var(--blue-lt)':'#8FA5C4'}"><span data-cnt="${g.pts}">0</span></span> <span style="color:var(--dk-mut2);font-weight:700;font-size:13px">pts</span></div>
-  </div>`}).join('') + (DATA.quinielaTrofeo? `<div class="anim" style="border-radius:16px;overflow:hidden;min-height:100%"><img src="${DATA.quinielaTrofeo}" alt="Trofeo" style="width:100%;height:100%;object-fit:cover"></div>`:'');
+(()=>{
+const q=DATA.quiniela;
+// personajes: caricatura de cuerpo + foto real de cabeza
+function body(winner){
+  if(winner) return `<svg width="150" height="150" viewBox="0 0 130 150" style="display:block">
+    <line x1="42" y1="86" x2="30" y2="26" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
+    <line x1="88" y1="86" x2="100" y2="26" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
+    <circle cx="30" cy="24" r="8" fill="#F1C7A3"/><circle cx="100" cy="24" r="8" fill="#F1C7A3"/>
+    <g>
+      <path d="M45,2 h40 q2,16 -20,21 q-22,-5 -20,-21 z" fill="#F6B93B"/>
+      <path d="M45,2 q-12,2 -8,12 q3,7 12,7" fill="none" stroke="#F6B93B" stroke-width="4"/>
+      <path d="M85,2 q12,2 8,12 q-3,7 -12,7" fill="none" stroke="#F6B93B" stroke-width="4"/>
+      <rect x="61" y="22" width="8" height="7" fill="#D89B2B"/>
+      <rect x="53" y="29" width="24" height="6" rx="2" fill="#D89B2B"/>
+    </g>
+    <path d="M45,84 Q45,78 53,78 L77,78 Q85,78 85,84 L83,126 L47,126 Z" fill="#fff" stroke="#D8E2EF" stroke-width="2"/>
+    <circle cx="65" cy="96" r="3.5" fill="#2D6DB5"/>
+    <rect x="49" y="122" width="12" height="22" rx="5" fill="#1E3A66"/>
+    <rect x="69" y="122" width="12" height="22" rx="5" fill="#1E3A66"/>
+    <ellipse cx="55" cy="146" rx="9" ry="4" fill="#0C1729"/><ellipse cx="75" cy="146" rx="9" ry="4" fill="#0C1729"/>
+  </svg>`;
+  return `<svg width="130" height="118" viewBox="0 0 130 118" style="display:block">
+    <line x1="46" y1="54" x2="34" y2="88" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    <line x1="84" y1="54" x2="96" y2="88" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="34" cy="90" r="7" fill="#F1C7A3"/><circle cx="96" cy="90" r="7" fill="#F1C7A3"/>
+    <path d="M45,52 Q45,46 53,46 L77,46 Q85,46 85,52 L83,94 L47,94 Z" fill="#fff" stroke="#D8E2EF" stroke-width="2"/>
+    <circle cx="65" cy="64" r="3.5" fill="#2D6DB5"/>
+    <rect x="49" y="90" width="12" height="22" rx="5" fill="#1E3A66"/>
+    <rect x="69" y="90" width="12" height="22" rx="5" fill="#1E3A66"/>
+    <ellipse cx="55" cy="114" rx="9" ry="4" fill="#0C1729"/><ellipse cx="75" cy="114" rx="9" ry="4" fill="#0C1729"/>
+  </svg>`;
+}
+// columnas en orden de podio: 2º, 1º, 3º
+const cols=[{g:q[1],h:120,rank:'2º LUGAR',n:'2',delayB:'.4s',delayC:'1.1s'},
+            {g:q[0],h:175,rank:'1ER LUGAR',n:'1',delayB:'.65s',delayC:'1.4s',winner:true},
+            {g:q[2],h:92,rank:'3ER LUGAR',n:'3',delayB:'.15s',delayC:'.8s'}];
+document.getElementById('quiniela').innerHTML=cols.map(c=>`
+  <div class="pod-col">
+    <div class="char" style="animation-delay:${c.delayC}">
+      <div class="char-inner ${c.winner?'cele':''}" style="position:relative">
+        <img class="head" src="${c.g.foto}" alt="${c.g.nombre}" style="width:${c.winner?62:56}px;height:${c.winner?62:56}px;top:${c.winner?36:-16}px">
+        ${body(!!c.winner)}
+      </div>
+    </div>
+    <div class="pod-block" style="height:${c.h}px;transition-delay:${c.delayB}">
+      <span class="gnum">${c.n}</span>
+      <span style="font-size:10px;font-weight:800;letter-spacing:.14em;color:${c.winner?'#F8CE6B':'#9FBCE0'}">${c.rank}</span>
+      <span class="mont" style="font-weight:800;font-size:14.5px;color:#fff;text-align:center;line-height:1.2;padding:0 8px">${c.g.nombre}</span>
+      <span><span class="mont" style="font-weight:800;font-size:19px;color:var(--blue-lt)"><span data-cnt="${c.g.pts}">0</span></span> <span style="color:#8FA5C4;font-weight:700;font-size:11px">pts</span></span>
+    </div>
+  </div>`).join('');
+// confeti
+const colors=['#4D9FE8','#5BC17F','#F6B93B','#F472B6','#ffffff'];
+document.getElementById('confetti').innerHTML=Array.from({length:20},(_,i)=>{
+  const l=(i*5+((i*37)%11)).toFixed(0), s=6+((i*13)%6), d=(4.2+((i*17)%30)/10).toFixed(1), dl=((i*23)%55/10).toFixed(1), col=colors[i%colors.length];
+  return `<i style="left:${l}%;width:${s}px;height:${s*1.5}px;background:${col};animation-duration:${d}s;animation-delay:${dl}s"></i>`;
+}).join('');
+})();
 document.getElementById('mediosCards').innerHTML=DATA.medios.map(mo=>{
   const ph=mo.foto? `<img src="${mo.foto}" alt="">` : `<span>📰</span>`;
   return `<div class="press-card anim">
