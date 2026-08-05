@@ -419,9 +419,9 @@ const DATA = {
   objetivoAnual:940, ventasAcum:546, progresoAnio:58,
   highlights:[
     {icon:'🏆', v:3692,  label:'Mes con más servicios', sub:'Julio 2026'},
-    {icon:'🔌', v:12450, label:'Unidades conectadas', sub:'en plataforma'},
-    {icon:'🆕', v:8,     label:'Clientes nuevos', sub:'incorporados en Junio'},
-    {icon:'💪', v:67,    label:'Unidades recuperadas', sub:'reactivadas'}
+    {icon:'🔌', v:240000, label:'Unidades conectadas', sub:'en plataforma'},
+    {icon:'🆕', v:8,      label:'Clientes nuevos', sub:'incorporados en Junio'},
+    {icon:'💪', v:40, pre:'+', label:'Unidades recuperadas', sub:'90% de recuperación'}
   ],
   ingresosMes:80.4, vsAnio:26, vsCuota:98, acumVs2025:33.4, acumVsCuota:3,
   preguntaMes:'¿Por qué no llegamos al objetivo este mes?',
@@ -510,7 +510,7 @@ DATA.trivia.slice().reverse().forEach((t,ri)=>{
   </section>`);
 });})();
 document.getElementById('highlights').innerHTML=DATA.highlights.map(h=>
-  `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n"><span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
+  `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n">${h.pre||''}<span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
 (()=>{
 const top3=DATA.proyectos.slice(0,3);
 const maxU=Math.max(...top3.map(p=>p.unidades));
