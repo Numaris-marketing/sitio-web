@@ -445,10 +445,10 @@ const DATA = {
   ],
   adnFrase:'Cambiamos todos los días, para que el cliente no tenga que hacerlo',
   adnPrincipios:[
-    {e:'❤️', t:'Vivimos para el cliente'},
-    {e:'⚡', t:'Tomamos la iniciativa'},
-    {e:'🤝', t:'Trabajamos con gente extraordinaria'},
-    {e:'🤖', t:'Utilizamos la tecnologIA como multiplicador'}
+    {t:'Vivimos para el cliente'},
+    {t:'Tomamos la iniciativa'},
+    {t:'Trabajamos con gente extraordinaria'},
+    {t:'Utilizamos la tecnologIA como multiplicador'}
   ],
   quiniela:[   // foto:'' → placeholder; pon la ruta cuando tengas las fotos
     {lugar:'1er lugar', nombre:'Néstor Santiago', pts:240, foto:''},
@@ -549,8 +549,8 @@ document.getElementById('annualFill').style.setProperty('--w', DATA.progresoAnio
 document.getElementById('months').innerHTML=MESES.map((m,i)=>`<span class="${i+1<DATA.mesIndex?'on':i+1===DATA.mesIndex?'now':''}">${m}</span>`).join('');
 document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]));
 // cultura: ADN, quiniela, medios, oficinas
-document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map(a=>
-  `<div class="adn-card"><span class="em">${a.e}</span><div class="mont" style="font-weight:700;font-size:15.5px;color:#fff;line-height:1.35">${a.t}</div></div>`).join('');
+document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((a,i)=>
+  `<div class="adn-card"><span class="mont" style="font-weight:800;font-size:15px;color:var(--blue-lt)">0${i+1}</span><div class="mont" style="font-weight:700;font-size:15.5px;color:#fff;line-height:1.35">${a.t}</div></div>`).join('');
 document.getElementById('quiniela').innerHTML=DATA.quiniela.map((g,i)=>{
   const medal=['🥇','🥈','🥉'][i];
   const ph=g.foto? `<img src="${g.foto}" alt="${g.nombre}">` : `<span>${medal}</span>`;
