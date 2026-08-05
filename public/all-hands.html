@@ -435,8 +435,8 @@ const DATA = {
   // pista para el equipo: todas las respuestas vienen en el NUMARNET de julio 📰
   triviaPremio:'Tarjeta Amazon $500', triviaConduce:'Patricio + Javier', mentiCodigo:'NUMARIS',
   proyectos:[   // logo:'' → muestra iniciales; pon la ruta cuando lleguen los logos (ej. '/logos/nexu.svg')
-    {n:'01', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
-    {n:'02', cliente:'COI de Tampico', lugar:'Tampico', sol:'Simpli Route', unidades:88, resp:'Ana P.', logo:'', detalle:''},
+    {n:'01', cliente:'All Parts', lugar:'', sol:'Gestión de flotas', unidades:1200, resp:'David Urieta y Nahomi Bedolla', logo:'', detalle:''},
+    {n:'02', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portátil', unidades:600, resp:'Maria Samano', logo:'', detalle:''},
     {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.', logo:'', detalle:''}
   ],
   hCliente:'Transportes Del Valle', hMeta:'Monterrey · 230 unidades',
@@ -543,7 +543,7 @@ document.getElementById('proyectos').innerHTML=top3.map((p,i)=>{
     ${p.detalle?`<div style="color:${first?'#BCCEE8':'var(--ink-body)'};font-size:13px;line-height:1.55">${p.detalle}</div>`:''}
     <div style="border-top:1.5px solid ${first?'rgba(255,255,255,.14)':'#EDF2F8'};padding-top:12px;margin-top:auto;display:flex;align-items:center;gap:10px">
       <span class="avatar" style="width:34px;height:34px;font-size:12px;background:${first?'#4D9FE8':'var(--blue)'}">${p.resp.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
-      <div><div style="color:${first?'#fff':'var(--navy)'};font-weight:700;font-size:13.5px">${p.resp}</div><div style="color:${first?'#8FA5C4':'var(--gray)'};font-size:11.5px;font-weight:600">Responsable del proyecto</div></div>
+      <div><div style="color:${first?'#fff':'var(--navy)'};font-weight:700;font-size:13.5px">${p.resp}</div><div style="color:${first?'#8FA5C4':'var(--gray)'};font-size:11.5px;font-weight:600">${p.resp.includes(' y ')?'Responsables':'Responsable'} del proyecto</div></div>
     </div>
   </div>`}).join('');
 })();
