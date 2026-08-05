@@ -722,10 +722,6 @@ document.getElementById('vantaStats').innerHTML=DATA.vantaStats.map((s,i)=>
   </div>`).join('');
 document.getElementById('trustItems').innerHTML=DATA.trustItems.map(t=>
   `<div style="display:flex;align-items:flex-start;gap:9px;color:#fff;font-size:13px;font-weight:600"><span style="color:#5BC17F;font-weight:800">✅</span>${t}</div>`).join('');
-document.getElementById('vantaPilares').innerHTML=DATA.vantaPilares.map((pl,i)=>
-  `<div class="adn-card" style="border-top-color:var(--blue-lt)"><span class="mont" style="font-weight:800;font-size:14px;color:var(--blue-lt)">0${i+1}</span><div class="mont" style="font-weight:700;font-size:15px;color:#fff">${pl.t}</div><div style="color:var(--dk-mut);font-size:12.5px;line-height:1.55;font-weight:600">${pl.d}</div></div>`).join('');
-document.getElementById('trustItems').innerHTML=DATA.trustItems.map(t=>
-  `<div style="display:flex;align-items:center;gap:9px;color:#fff;font-size:13px;font-weight:600"><span style="color:#5BC17F;font-weight:800">✓</span>${t}</div>`).join('');
 // resultados: anillo de cuota + promedio mensual + avance anual
 const C=1005.3;
 document.getElementById('cuotaRing').dataset.off=(C*(1-Math.min(DATA.vsCuota,100)/100)).toFixed(1);
