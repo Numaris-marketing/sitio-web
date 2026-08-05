@@ -6,90 +6,83 @@
 <title>All Hands Numaris · Julio 2026</title>
 <link rel="icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0A1027; --card:#0E1834; --card2:#122043;
-  --border:#2A4680; --border-soft:#1B2A52;
-  --blue:#2E62C9; --blue-l:#4C86E8; --blue-xl:#93BAF5;
-  --ink:#F4F7FE; --ink-2:#BCCAE8; --muted:#8092B8;
-  --green:#34D399; --orange:#FB923C; --purple:#A78BFA; --pink:#F472B6;
-  --track:#16234A; --radius:20px;
+  --navy:#1E3A66; --navy-deep:#10233C; --blue:#2E75B6; --blue-br:#2D6DB5; --blue-lt:#4D9FE8;
+  --ink-body:#45566F; --gray:#8A99B0; --gray-2:#6B7A93;
+  --bg-lt:#E9F2FB; --bg-lt2:#E3F0FA; --pill-lt:#DCEBF8;
+  --green:#2E8B4F; --green-bg:#E3F4E9; --orange:#E8762D; --cream:#FDF4E8; --cream-bd:#F3C08B;
+  --purple:#5B32A3; --purple-dk:#45227E;
+  --dk-bg:#0F1B2D; --dk-card:#16263C; --dk-mut:#8FA5C4; --dk-mut2:#5F7599;
+  --red:#D64545; --amber:#E8952F;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{font-family:"Mulish",system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:var(--navy)}
+h1,h2,h3,.mont{font-family:"Montserrat",system-ui,sans-serif}
 main{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory}
-.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:56px 7vw;position:relative;overflow:hidden}
-.slide::before{content:'';position:absolute;inset:0;background:radial-gradient(900px 500px at 85% -10%,rgba(46,98,201,.25),transparent 60%),radial-gradient(700px 420px at -10% 110%,rgba(20,32,80,.55),transparent 55%);pointer-events:none}
-.slide>*{position:relative;z-index:1}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-l);margin-bottom:14px}
-h1{font-size:clamp(36px,5vw,68px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
-h2{font-size:clamp(24px,2.9vw,40px);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:10px}
-.sub{color:var(--ink-2);font-size:clamp(14px,1.2vw,17px);max-width:860px;line-height:1.55}
-.slide-num{position:absolute;bottom:26px;right:7vw;font-size:11px;color:var(--muted);z-index:1}
-.slide-tag{position:absolute;bottom:26px;left:7vw;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);z-index:1}
-.shead{position:absolute;top:24px;left:7vw;right:7vw;display:flex;justify-content:space-between;align-items:center;z-index:2}
-.shead img{height:20px}
-.shead span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.card{background:var(--card);border:1px solid var(--border-soft);border-radius:var(--radius);padding:22px 24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-.lt{background:#FFFFFF;border-color:#E2E8F5;color:#0C1533;--ink:#0C1533;--ink-2:#41527A;--muted:#7A88A8;--track:#E9EEF8;--border:#C9D6EE;--border-soft:#E2E8F5;box-shadow:0 22px 44px -20px rgba(3,8,26,.55)}
-.grid{display:grid;gap:14px}
-.kpi .l{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.kpi .v{font-size:clamp(26px,2.6vw,40px);font-weight:800;letter-spacing:-.02em}
-.kpi .d{font-size:13px;color:var(--ink-2);margin-top:6px;line-height:1.5}
-.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:10px}
-.badge.up{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.35)}
-.badge.warn{background:rgba(251,146,60,.12);color:var(--orange);border:1px solid rgba(251,146,60,.35)}
-.badge.info{background:rgba(76,134,232,.12);color:var(--blue-xl);border:1px solid rgba(76,134,232,.35)}
-.pill{font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:999px;background:rgba(76,134,232,.14);color:var(--blue-xl);border:1px solid rgba(76,134,232,.3);white-space:nowrap}
-.accent{color:var(--blue-xl)} .good{color:var(--green)} .c-p{color:var(--purple)} .c-pk{color:var(--pink)} .c-o{color:var(--orange)} .c-b{color:var(--blue-l)}
-.big-stat{font-size:clamp(56px,7.5vw,120px);font-weight:800;letter-spacing:-.04em;line-height:1;background:linear-gradient(135deg,#CFE4FA 0%,var(--blue-l) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.track{position:relative;height:16px;background:var(--track);border-radius:6px}
-.fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-l));border-radius:5px;min-width:3px;width:0;transition:width 1.3s cubic-bezier(.22,.8,.3,1)}
-.inview .fill{width:var(--w)}
-.fill.g{background:linear-gradient(90deg,#0E9F6E,var(--green))}
-.meta-line{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink);opacity:.6;border-radius:2px}
-.meta-cap{position:absolute;top:-24px;transform:translateX(-50%);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-soft)}
-td{padding:11px 10px;border-bottom:1px solid rgba(27,42,82,.5);color:var(--ink-2);vertical-align:middle}
-td b{color:var(--ink);font-weight:700}
-.lt td{border-bottom-color:#E9EEF8}
-/* animación de entrada escalonada */
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:54px 6.5vw;position:relative;overflow:hidden;background:#fff}
+.slide.dk{background:var(--dk-bg);color:#fff}
+.slide.pp{background:var(--purple);color:#fff}
+/* encabezado de slide claro (título azul + logo derecha + línea) */
+.pgh{display:flex;justify-content:space-between;align-items:center;position:absolute;top:34px;left:6.5vw;right:6.5vw;padding-bottom:14px;border-bottom:2px solid #E5EBF3}
+.pgh h2{font-size:clamp(19px,2vw,27px);font-weight:700;color:var(--blue);letter-spacing:-.01em}
+.pgh img{height:26px}
+.logo-corner{position:absolute;top:34px;left:6.5vw;height:26px}
+/* animación de entrada */
 .anim{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.3,1)}
 .inview .anim{opacity:1;transform:none}
-.inview .anim:nth-child(1){transition-delay:.05s}.inview .anim:nth-child(2){transition-delay:.15s}.inview .anim:nth-child(3){transition-delay:.25s}.inview .anim:nth-child(4){transition-delay:.35s}.inview .anim:nth-child(5){transition-delay:.45s}.inview .anim:nth-child(6){transition-delay:.55s}
-.dots{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:50}
-.dots a{width:7px;height:7px;border-radius:50%;background:rgba(128,146,184,.35);transition:.2s}
-.dots a.on{background:var(--blue-l);transform:scale(1.5)}
-#pbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-l));width:0;z-index:60;transition:width .25s ease;border-radius:0 3px 3px 0}
-/* meses */
-.months{display:flex;gap:6px;margin-top:10px}
-.months span{flex:1;height:8px;border-radius:4px;background:var(--track);transition:background .5s ease}
-.months span.on{background:linear-gradient(90deg,var(--blue),var(--blue-l))}
-.months span.now{background:var(--green);box-shadow:0 0 12px rgba(52,211,153,.5)}
-.mlabels{display:flex;gap:6px;margin-top:5px}
-.mlabels span{flex:1;text-align:center;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-/* trivia */
-.tq{display:flex;gap:16px;align-items:flex-start;padding:20px 22px}
-.tq .n{font-size:16px;font-weight:800;color:var(--blue-l);background:rgba(76,134,232,.12);border:1px solid rgba(76,134,232,.3);width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tq p{font-size:clamp(15px,1.4vw,19px);font-weight:600;line-height:1.45}
-/* avatares */
-.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-l));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff;flex-shrink:0;box-shadow:0 0 0 4px rgba(76,134,232,.18)}
-/* timeline historia */
-.tl{display:flex;gap:0;margin:18px 0 6px}
-.tl .step{flex:1;position:relative;padding-top:26px;text-align:center}
-.tl .step::before{content:'';position:absolute;top:8px;left:0;right:0;height:3px;background:var(--track)}
-.tl .step::after{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:var(--blue-l);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--blue-l)}
-.tl .step:first-child::before{left:50%}.tl .step:last-child::before{right:50%}
-.tl .step.win::after{background:var(--green);box-shadow:0 0 0 2px var(--green)}
-.tl .t1{font-size:20px;font-weight:800}
-.tl .t2{font-size:11.5px;color:var(--muted);margin-top:2px}
-.quote{border-left:3px solid var(--blue-l);padding:6px 0 6px 18px;font-size:clamp(15px,1.5vw,20px);font-weight:600;font-style:italic;line-height:1.5;color:var(--ink)}
-.quote small{display:block;font-style:normal;font-weight:500;font-size:12.5px;color:var(--muted);margin-top:8px}
-.vals{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-@media(max-width:900px){.dots{display:none}.grid-3,.grid-4,.grid-2{grid-template-columns:1fr!important}.tl{flex-direction:column;gap:14px}.tl .step::before{display:none}}
+.inview .anim:nth-child(1){transition-delay:.05s}.inview .anim:nth-child(2){transition-delay:.15s}.inview .anim:nth-child(3){transition-delay:.25s}.inview .anim:nth-child(4){transition-delay:.35s}.inview .anim:nth-child(5){transition-delay:.45s}.inview .anim:nth-child(6){transition-delay:.55s}.inview .anim:nth-child(7){transition-delay:.65s}.inview .anim:nth-child(8){transition-delay:.75s}
+/* nav */
+.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:50}
+.dots a{width:7px;height:7px;border-radius:50%;background:rgba(110,130,160,.4);transition:.2s}
+.dots a.on{background:var(--blue);transform:scale(1.5)}
+#pbar{position:fixed;top:0;left:0;height:3px;background:var(--blue-br);width:0;z-index:60;transition:width .25s ease}
+/* portada montañas */
+.mountains{position:absolute;left:0;right:0;bottom:0;height:44vh;width:100%}
+.mountains svg{width:100%;height:100%;display:block}
+.mes-tag{position:absolute;right:6.5vw;bottom:7vh;color:#fff;font-family:"Montserrat";font-weight:700;font-size:clamp(20px,2.6vw,34px);letter-spacing:.04em;z-index:2}
+/* dark slide comps */
+.dk .months{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dk .months span{flex:1;min-width:44px;text-align:center;padding:7px 0;border-radius:9px;font-weight:800;font-size:12px;background:#16243A;color:#4E617F;transition:all .5s ease}
+.dk .months span.on{background:var(--blue-br);color:#fff}
+.dk .months span.now{background:var(--blue-lt);color:#fff;box-shadow:0 0 14px rgba(77,159,232,.55)}
+.track{position:relative;height:10px;background:#1B2A40;border-radius:6px;overflow:hidden}
+.fill{position:absolute;top:0;left:0;height:100%;background:var(--blue-br);border-radius:6px;width:0;transition:width 1.4s cubic-bezier(.22,.8,.3,1)}
+.inview .fill{width:var(--w)}
+.hcard{background:var(--dk-card);border-radius:14px;padding:20px 22px}
+.hcard .em{font-size:22px}
+.hcard .n{font-family:"Montserrat";font-weight:800;font-size:clamp(24px,2.4vw,34px);color:#fff;margin:6px 0 4px}
+.hcard .l{font-size:13.5px;color:var(--dk-mut);font-weight:600;line-height:1.45}
+.hcard .l small{color:var(--dk-mut2);font-weight:600}
+/* purple comps */
+.seg-pill{display:inline-block;background:var(--purple-dk);color:#fff;font-weight:800;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:8px}
+.premio-pill{display:inline-block;background:rgba(23,6,56,.42);color:#fff;font-weight:700;font-size:clamp(13px,1.3vw,16px);padding:11px 18px;border-radius:10px}
+.qrow{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.14);border-radius:12px;padding:15px 18px}
+.qrow .n{font-weight:800;font-size:17px;color:#fff;flex-shrink:0}
+.qrow p{font-weight:600;font-size:clamp(14px,1.35vw,17px);line-height:1.5;color:#fff}
+.giant00{position:absolute;right:-1vw;bottom:-16vh;font-family:"Montserrat";font-weight:800;font-size:46vh;line-height:1;color:#fff;z-index:1;pointer-events:none}
+/* light comps */
+.chip{display:inline-flex;flex-direction:column;align-items:center;gap:1px;border-radius:12px;padding:9px 16px}
+.chip .a{font-family:"Montserrat";font-weight:800;font-size:17px}
+.chip .b{font-size:11px;color:var(--gray-2);font-weight:600}
+.cream-card{background:var(--cream);border:1.5px solid var(--cream-bd);border-radius:14px;padding:18px 22px}
+.lbl-o{color:var(--orange);font-weight:800;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
+.navy-card{background:var(--navy-deep);border-radius:14px;padding:18px 22px;color:#fff}
+.lbl-b{color:#9FBCE0;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.ltcard{background:var(--bg-lt);border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead th{background:var(--navy);color:#fff;font-weight:700;font-size:12.5px;text-align:left;padding:13px 16px}
+tbody td{padding:16px;vertical-align:middle}
+tbody tr:nth-child(even){background:var(--bg-lt2)}
+.val-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-lt2);border-radius:10px;padding:8px 13px;font-weight:700;font-size:13px}
+.avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;font-family:"Montserrat";flex-shrink:0}
+.press{background:var(--bg-lt2);border-radius:12px;padding:13px 18px}
+.press .m{color:var(--blue);font-weight:800;font-size:13px;margin-bottom:3px}
+.press .q{color:var(--navy);font-weight:700;font-size:14px;line-height:1.45}
+.area-pill{background:#fff;border-radius:999px;padding:5px 13px;font-weight:800;font-size:12px;white-space:nowrap}
+@media(max-width:900px){.dots{display:none}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important}.giant00{font-size:24vh}}
 @media print{main{height:auto;overflow:visible}.slide{min-height:100vh;page-break-after:always}.dots,#pbar{display:none}.anim{opacity:1;transform:none}}
 </style>
 </head>
@@ -100,240 +93,281 @@ td b{color:var(--ink);font-weight:700}
 
 <!-- 1 · PORTADA -->
 <section class="slide" id="s1">
-  <img src="/numaris-blanco.png" alt="Numaris" style="height:52px;align-self:flex-start;margin-bottom:44px" class="anim">
-  <div class="eyebrow anim">Reunión mensual de equipo</div>
-  <h1 class="anim">All Hands<br><span style="background:linear-gradient(135deg,#CFE4FA,#4C86E8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Numaris.</span></h1>
-  <p class="sub anim" style="margin-top:20px"><span data-bind="mesLabel">Julio · 2026</span></p>
-  <div class="slide-num">01</div>
-</section>
-
-<!-- 2 · TRIVIA INTRO -->
-<section class="slide" id="s2">
-  <div class="eyebrow">Segmento 00 · 0:00 — 5:00</div>
-  <h2>🎮 Trivia del mes</h2>
-  <div class="grid grid-3" style="grid-template-columns:repeat(3,1fr);margin-top:24px;max-width:1100px">
-    <div class="card kpi anim"><div class="l">El premio</div><div class="v" style="font-size:30px">🎁 <span data-bind="triviaPremio">Tarjeta Amazon $500</span></div><div class="d">Para el <b style="color:var(--ink)">Top 3</b> de ganadores.</div></div>
-    <div class="card kpi anim"><div class="l">Conducen</div><div class="v" style="font-size:30px" data-bind="triviaConduce">Patricio + Javier</div><div class="d">JP juega con el equipo. 😎</div></div>
-    <div class="card kpi lt anim"><div class="l">Cómo jugar</div><div class="v" style="font-size:30px">menti.com</div><div class="d">Entra desde tu celular con el código en pantalla.</div></div>
+  <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:30px">
+  <div style="margin-bottom:16vh">
+    <div class="anim" style="color:var(--blue);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">Reunión mensual de equipo</div>
+    <h1 class="anim" style="font-size:clamp(52px,7vw,96px);font-weight:800;color:var(--navy);line-height:1.02;letter-spacing:-.02em">All<br>Hands<br>Numaris</h1>
   </div>
-  <div class="slide-tag">Trivia</div><div class="slide-num">02</div>
+  <div class="mountains">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="mBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#94A7BD"/><stop offset="1" stop-color="#7C90A8"/></linearGradient>
+        <linearGradient id="mFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2D6DB5"/><stop offset="1" stop-color="#143C6E"/></linearGradient>
+      </defs>
+      <path fill="url(#mBack)" d="M0,300 L0,195 L145,105 L265,195 L405,115 L525,205 L650,105 L830,215 L1000,130 L1000,300 Z"/>
+      <path fill="url(#mFront)" d="M0,300 L0,240 L150,148 L320,238 L465,165 L615,245 L775,150 L1000,245 L1000,300 Z"/>
+    </svg>
+  </div>
+  <div class="mes-tag mont" data-bind="mesTag">JULIO · 2026</div>
 </section>
 
-<!-- 3 · TRIVIA PREGUNTAS -->
-<section class="slide" id="s3">
-  <div class="eyebrow">Segmento 00 · A jugar</div>
-  <h2>3 preguntas · <span class="accent">todos entran</span></h2>
-  <div class="grid" style="margin-top:22px;max-width:950px" id="triviaQs"></div>
-  <p class="sub" style="margin-top:16px;font-size:13px;color:var(--muted)">Ingresa en <b style="color:var(--ink)">menti.com</b> · código <b style="color:var(--ink)">NUMARIS</b></p>
-  <div class="slide-tag">Trivia</div><div class="slide-num">03</div>
+<!-- 2 · TRIVIA -->
+<section class="slide pp" id="s2">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div style="max-width:760px;position:relative;z-index:2">
+    <div class="anim"><span class="seg-pill">Segmento 00 · 0:00 — 5:00</span></div>
+    <h2 class="anim" style="font-size:clamp(46px,6vw,82px);font-weight:800;color:#fff;margin:22px 0;letter-spacing:-.02em">🎮 Trivia del Mes</h2>
+    <div class="anim"><span class="premio-pill">🎁 Premio: <b data-bind="triviaPremio">Tarjeta Amazon $500</b> · Top 3 ganadores</span></div>
+  </div>
+  <div style="position:absolute;bottom:6vh;left:6.5vw;color:rgba(255,255,255,.75);font-size:13.5px;font-weight:600;z-index:2">Conducen: <span data-bind="triviaConduce">Patricio + Javier</span> · JP juega con el equipo</div>
+  <div class="giant00">00</div>
+</section>
+
+<!-- 3 · PREGUNTAS -->
+<section class="slide pp" id="s3">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:5vw;align-items:center" class="grid-2">
+    <div>
+      <div class="anim" style="color:#fff;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">A jugar · 3 preguntas</div>
+      <div style="display:grid;gap:14px" id="triviaQs"></div>
+    </div>
+    <div class="anim" style="background:#fff;border-radius:18px;padding:26px;text-align:center;max-width:330px;justify-self:center">
+      <div class="mont" style="font-weight:800;font-size:17px;color:#111">mentimeter</div>
+      <div style="width:168px;height:168px;background:var(--navy);border-radius:16px;margin:18px auto" id="qrbox"></div>
+      <div style="color:var(--gray);font-size:12.5px;font-weight:600">Ingresa en</div>
+      <div style="color:var(--blue);font-weight:800;font-size:17px;margin:2px 0 14px">menti.com</div>
+      <span style="display:inline-block;background:var(--bg-lt2);color:var(--navy);font-weight:800;font-size:12.5px;letter-spacing:.12em;padding:9px 22px;border-radius:999px" data-bind="mentiCodigo">NUMARIS</span>
+    </div>
+  </div>
 </section>
 
 <!-- 4 · OBJETIVO ANUAL -->
-<section class="slide" id="s4">
-  <div class="eyebrow">El norte del año</div>
-  <h2>Objetivo anual de ventas 2026</h2>
-  <div class="card anim" style="margin-top:20px;max-width:1100px;padding:28px 30px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px">
-      <div class="big-stat" style="font-size:clamp(44px,5.5vw,84px)">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</div>
-      <div style="font-size:clamp(18px,2vw,28px);font-weight:700;color:var(--muted)">de $<span data-bind="objetivoAnual">940</span>M</div>
-    </div>
-    <div class="track" style="height:20px;margin-top:16px">
-      <div class="fill g" id="annualFill" style="--w:58.1%"></div>
-      <div class="meta-line" id="yearLine" style="left:58%"></div>
-      <div class="meta-cap" id="yearCap" style="left:58%">Avance del año · 58%</div>
-    </div>
-    <div class="months" id="months"></div>
-    <div class="mlabels"><span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dic</span></div>
+<section class="slide dk" id="s4">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="anim" style="color:var(--blue-lt);font-weight:700;font-size:clamp(17px,1.8vw,22px);font-family:'Montserrat'">Objetivo Anual de Ventas <span data-bind="anio">2026</span></div>
+  <div class="anim" style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin:10px 0 26px">
+    <span class="mont" style="font-weight:800;font-size:clamp(56px,7vw,98px);color:#fff;letter-spacing:-.02em">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</span>
+    <span class="mont" style="font-weight:700;font-size:clamp(26px,3vw,44px);color:#6B84A8">/ $<span data-bind="objetivoAnual">940</span>M</span>
   </div>
-  <div class="grid grid-4" style="grid-template-columns:repeat(4,1fr);margin-top:14px;max-width:1100px" id="highlights"></div>
-  <div class="slide-tag">Objetivo anual</div><div class="slide-num">04</div>
+  <div class="anim">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+      <span style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Progreso del año</span>
+      <span style="color:var(--blue-lt);font-weight:800;font-size:14.5px"><span data-bind="progresoAnio">58</span>% completado</span>
+    </div>
+    <div class="track"><div class="fill" id="annualFill" style="--w:58%"></div></div>
+    <div class="months" id="months"></div>
+  </div>
+  <div class="anim" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px" class="grid-4" id="highlights"></div>
 </section>
 
 <!-- 5 · RESULTADOS DEL MES -->
 <section class="slide" id="s5">
-  <div class="eyebrow">Segmento 01 · Resultados mensuales</div>
-  <h2>Resultados de <span data-bind="mes">julio</span></h2>
-  <div class="grid grid-2" style="grid-template-columns:1.2fr 1fr;margin-top:22px;align-items:stretch">
-    <div class="card anim">
-      <div class="kpi"><div class="l">Ingresos del mes</div></div>
-      <div class="big-stat" style="font-size:clamp(52px,6.5vw,100px)">$<span data-cnt-bind="ingresosMes" data-dec="1">0</span>M</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-        <span class="badge up">▲ +<span data-bind="vsAnio">26</span>% vs. año anterior</span>
-        <span class="badge warn"><span data-bind="vsCuota">98</span>% vs. cuota</span>
+  <div class="pgh"><h2>Resultados Mensuales · <span data-bind="mesLabelTit">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:5vw;align-items:center;margin-top:40px" class="grid-2">
+    <div style="text-align:center" class="anim">
+      <div style="width:min(300px,32vw);aspect-ratio:1;background:#21497E;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 24px 50px -22px rgba(15,40,80,.55)">
+        <span class="mont" style="font-weight:800;font-size:clamp(38px,4.4vw,54px);color:#fff">$<span data-cnt-bind="ingresosMes" data-dec="1">0</span>M</span>
+        <span style="color:#A9C4E4;font-size:13.5px;font-weight:600;margin-top:4px">Ingresos del Mes</span>
       </div>
-      <div class="kpi" style="margin-top:22px"><div class="l">Acumulado 2026</div><div class="v" style="font-size:30px">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</div></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-        <span class="badge up">▲ +<span data-bind="acumVs2025">33.4</span>% vs. 2025</span>
-        <span class="badge up">✓ +<span data-bind="acumVsCuota">3</span>% vs. cuota</span>
+      <div style="color:var(--gray);font-size:18px;margin:10px 0">↓</div>
+      <div style="display:flex;gap:12px;justify-content:center">
+        <span class="chip" style="background:var(--green-bg)"><span class="a" style="color:var(--green)">+<span data-bind="vsAnio">26</span>% ✓</span><span class="b">vs Año Ant.</span></span>
+        <span class="chip" style="background:#EDF1F5"><span class="a" style="color:var(--navy)"><span data-bind="vsCuota">98</span>%</span><span class="b">vs Cuota</span></span>
       </div>
     </div>
-    <div class="card lt anim" style="display:flex;flex-direction:column;justify-content:center">
-      <div class="kpi"><div class="l">🧠 Pregunta del mes</div></div>
-      <div style="font-size:clamp(20px,2.2vw,30px);font-weight:800;letter-spacing:-.01em;line-height:1.25;margin-top:8px" data-bind="preguntaMes">¿Por qué no llegamos al objetivo este mes?</div>
-      <p style="font-size:13px;color:#7A88A8;margin-top:14px">Piénsala durante la sesión — la respuesta, al cierre.</p>
+    <div style="display:grid;gap:16px">
+      <div class="cream-card anim">
+        <div class="lbl-o">Pregunta del mes</div>
+        <div class="mont" style="font-weight:700;font-size:clamp(17px,1.8vw,22px);color:var(--navy);margin-top:8px" data-bind="preguntaMes">¿Por qué no llegamos al objetivo este mes?</div>
+      </div>
+      <div class="navy-card anim" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <div><div class="lbl-b">Acumulado <span data-bind="anio2">2026</span></div><div class="mont" style="font-weight:800;font-size:clamp(26px,2.8vw,36px);margin-top:4px">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</div></div>
+        <div style="display:flex;gap:20px;text-align:center">
+          <div><div style="color:#5BC17F;font-weight:800;font-size:17px">+<span data-bind="acumVs2025">33.4</span>%</div><div style="color:#8FA5C4;font-size:11px;font-weight:600">vs 2025</div></div>
+          <div><div style="color:#5BC17F;font-weight:800;font-size:17px">+<span data-bind="acumVsCuota">3</span>% ✓</div><div style="color:#8FA5C4;font-size:11px;font-weight:600">vs Cuota</div></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="slide-tag">Resultados</div><div class="slide-num">05</div>
 </section>
 
-<!-- 6 · 5 PROYECTOS -->
+<!-- 6 · SEGMENTO 02 INTRO -->
 <section class="slide" id="s6">
-  <div class="eyebrow">Segmento 02 · 10:00 — 22:00 · Tablero comercial</div>
-  <h2>Los 5 proyectos del mes</h2>
-  <div class="card lt anim" style="margin-top:20px;overflow-x:auto">
+  <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:28px">
+  <div>
+    <div class="anim"><span style="display:inline-block;background:var(--pill-lt);color:var(--blue);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:8px 15px;border-radius:999px">Segmento 02 · 10:00 — 22:00</span></div>
+    <h2 class="anim" style="font-size:clamp(44px,5.6vw,76px);font-weight:800;color:var(--blue);margin:18px 0 10px;letter-spacing:-.02em">Los 5 Proyectos del Mes</h2>
+    <div class="anim" style="color:var(--gray-2);font-size:clamp(17px,1.8vw,22px);font-weight:600">Tablero comercial</div>
+  </div>
+</section>
+
+<!-- 7 · TABLA PROYECTOS -->
+<section class="slide" id="s7">
+  <div class="pgh"><h2>Los 5 Proyectos más Relevantes · <span data-bind="mesLabelTit2">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div class="anim" style="margin-top:40px;border-radius:12px;overflow:hidden;box-shadow:0 14px 34px -20px rgba(15,40,80,.35)">
     <table>
-      <thead><tr><th>#</th><th>Cliente / Proyecto</th><th>Solución</th><th style="text-align:right">Unidades</th><th>Responsable</th></tr></thead>
+      <thead><tr><th style="width:56px">#</th><th>Cliente / Proyecto</th><th>Solución</th><th style="width:120px">Unidades</th><th style="width:170px">Responsable</th></tr></thead>
       <tbody id="proyectos"></tbody>
     </table>
   </div>
-  <p class="sub" style="margin-top:14px;font-size:13px;color:var(--muted)">El responsable de cada proyecto tiene 1–2 minutos para platicarlo. 🎤</p>
-  <div class="slide-tag">Proyectos</div><div class="slide-num">06</div>
+  <p class="anim" style="color:var(--gray);font-size:13px;font-weight:600;margin-top:14px">El responsable de cada proyecto tiene 1–2 min para platicar.</p>
 </section>
 
-<!-- 7 · HISTORIA DE ÉXITO -->
-<section class="slide" id="s7">
-  <div class="eyebrow">Segmento 03 · Historia de éxito</div>
-  <h2><span data-bind="hCliente">Transportes Del Valle</span> <span class="accent" style="font-size:.6em;font-weight:700" data-bind="hMeta">Monterrey · 230 unidades</span></h2>
-  <div class="grid grid-2" style="grid-template-columns:1.25fr 1fr;margin-top:20px;align-items:stretch">
-    <div class="card anim">
-      <p class="sub" style="font-size:15px" data-bind="hStory">En mayo, el cliente reportó pérdida de señal en el 40% de su flota durante un fin de semana crítico. Numaris respondió en 2 horas: diagnóstico remoto, reemplazo en campo y reactivación en 18 horas. La cuenta renovó 2 años y amplió a 280 unidades.</p>
-      <div class="tl">
-        <div class="step"><div class="t1">2 h</div><div class="t2">Respuesta y diagnóstico remoto</div></div>
-        <div class="step"><div class="t1">18 h</div><div class="t2">Reemplazo en campo y reactivación</div></div>
-        <div class="step win"><div class="t1 good">+2 años</div><div class="t2">Renovación · amplió a 280 unidades</div></div>
+<!-- 8 · HISTORIA DE ÉXITO -->
+<section class="slide" id="s8">
+  <div class="pgh"><h2>Historia de Éxito · <span data-bind="mesLabelTit3">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:3vw;margin-top:40px;align-items:stretch" class="grid-2">
+    <div>
+      <div class="navy-card anim" style="background:var(--navy);padding:14px 20px;margin-bottom:18px">
+        <div class="mont" style="font-weight:800;font-size:17px" data-bind="hCliente">Transportes Del Valle</div>
+        <div style="color:#A9C4E4;font-size:12.5px;font-weight:600;margin-top:2px" data-bind="hMeta">Monterrey · 230 unidades</div>
       </div>
-      <div class="vals"><span class="pill">⚡ Urgencia</span><span class="pill">🤝 Colaboración</span><span class="pill">✅ Integridad</span><span class="pill">💡 Solución</span><span class="pill">❤️ Servicio</span></div>
+      <p class="anim" style="color:var(--ink-body);font-size:15px;line-height:1.75" id="hStory"></p>
+      <div class="anim" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px" id="hVals"></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card lt anim" style="flex:1;display:flex;align-items:center"><div class="quote" style="border-color:#2E62C9">"Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio."<small>— Director de Operaciones, Transportes Del Valle</small></div></div>
-      <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:10px">
-        <div class="card kpi anim" style="padding:14px 16px"><div class="l">NPS</div><div class="v good" style="font-size:26px"><span data-cnt-bind="hNps" data-dec="1">0</span></div></div>
-        <div class="card kpi anim" style="padding:14px 16px"><div class="l">Unidades</div><div class="v c-b" style="font-size:26px">+<span data-cnt-bind="hUnidades" data-dec="0">0</span></div></div>
-        <div class="card kpi anim" style="padding:14px 16px"><div class="l">Renovación</div><div class="v c-p" style="font-size:26px">2 años</div></div>
+      <div class="anim" style="background:var(--green-bg);border:1.5px solid #52B788;border-radius:10px;padding:11px 16px;color:#1F7A3D;font-weight:800;font-size:13.5px">✅ Renovación 2 años · +<span data-cnt-bind="hUnidades" data-dec="0">0</span> unidades · NPS <span data-bind="hNps">9.8</span>/10</div>
+      <div class="navy-card anim" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 30px">
+        <div style="color:#3E6390;font-family:'Montserrat';font-weight:800;font-size:34px;line-height:.6">“</div>
+        <div class="mont" style="font-weight:700;font-size:clamp(16px,1.7vw,21px);line-height:1.55;margin:12px 0" data-bind="hQuote">Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio.</div>
+        <div style="color:#7FA3D0;font-size:13px;font-weight:600">— <span data-bind="hQuoteBy">Director de Operaciones, Transportes Del Valle</span></div>
       </div>
     </div>
   </div>
-  <div class="slide-tag">Historia de éxito</div><div class="slide-num">07</div>
 </section>
 
-<!-- 8 · BIENVENIDOS + PRENSA -->
-<section class="slide" id="s8">
-  <div class="eyebrow">Segmento 04 · La familia crece</div>
-  <h2>Bienvenidos a Numaris 👋</h2>
-  <div class="grid grid-3" style="grid-template-columns:repeat(3,1fr);margin-top:22px" id="nuevos"></div>
-  <div class="card anim" style="margin-top:16px;max-width:1100px"><div class="kpi"><div class="l">📰 Numaris en los medios este mes</div><div class="d" style="margin-top:6px;font-size:14.5px;line-height:1.7"><b style="color:var(--ink)">T21:</b> "Transporte seguro y competitivo a bordo de la tecnología" · <b style="color:var(--ink)">Revista TyT:</b> "Numaris expone su capacidad de predicción en siniestralidad y mantenimiento de flotas"</div></div></div>
-  <div class="slide-tag">Bienvenidas</div><div class="slide-num">08</div>
-</section>
-
-<!-- 9 · CIERRE -->
+<!-- 9 · BIENVENIDOS -->
 <section class="slide" id="s9">
-  <div class="eyebrow">Cierre · Lo que viene</div>
-  <h2>Agosto <span data-bind="anio">2026</span> · <span class="accent">3 cosas importantes</span></h2>
-  <div class="grid grid-3" style="grid-template-columns:repeat(3,1fr);margin-top:22px" id="agosto"></div>
-  <div class="grid grid-2" style="grid-template-columns:1fr 1.4fr;margin-top:16px;align-items:stretch">
-    <div class="card anim" style="display:flex;flex-direction:column;justify-content:center;text-align:center">
-      <div class="kpi"><div class="l">🎯 Objetivo agosto</div></div>
-      <div class="big-stat" style="font-size:clamp(44px,5vw,76px)">$<span data-cnt-bind="objetivoAgosto" data-dec="0">0</span>M</div>
-    </div>
-    <div class="card lt anim">
-      <div class="kpi"><div class="l">🧠 La respuesta · pregunta del mes</div></div>
-      <div style="font-size:clamp(15px,1.6vw,20px);font-weight:700;line-height:1.5;margin-top:8px" data-bind="respuestaMes">Porque mantuvimos disciplina comercial, cerramos 2 cuentas grandes y operaciones garantizó cero cancelaciones.</div>
+  <div class="pgh"><h2>Bienvenidos a Numaris · <span data-bind="mesLabelTit4">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px" class="grid-3" id="nuevos"></div>
+  <div style="display:grid;gap:12px;margin-top:22px" id="prensa"></div>
+</section>
+
+<!-- 10 · CIERRE -->
+<section class="slide" id="s10">
+  <div class="pgh"><h2>Cierre · Lo que viene en <span data-bind="mesSig">Agosto 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
+  <div style="color:var(--gray);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:40px 0 14px">3 cosas importantes para <span data-bind="mesSigCorto">agosto</span></div>
+  <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:2.5vw;align-items:stretch" class="grid-2">
+    <div style="display:grid;gap:14px" id="agosto"></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="navy-card anim" style="display:flex;justify-content:space-between;align-items:center;gap:14px">
+        <div class="lbl-b">Objetivo <span data-bind="mesSigCorto2">agosto</span> <span data-bind="anio3">2026</span></div>
+        <div class="mont" style="font-weight:800;font-size:clamp(30px,3.4vw,44px)">$<span data-cnt-bind="objetivoAgosto" data-dec="0">0</span>M</div>
+      </div>
+      <div class="anim ltcard" style="background:var(--bg-lt2);padding:20px 22px;flex:1">
+        <div class="lbl-o" data-bind="respTitulo">La respuesta · ¿Por qué llegamos al objetivo?</div>
+        <div style="color:var(--navy);font-size:15px;line-height:1.7;font-weight:600;margin-top:10px" id="respuestaMes"></div>
+      </div>
     </div>
   </div>
-  <div style="margin-top:36px;display:flex;align-items:center;gap:14px">
-    <img src="/numaris-blanco.png" alt="Numaris" style="height:32px">
-    <span style="font-size:12px;color:var(--muted)">Nos vemos en el All Hands de agosto. 🚀</span>
-  </div>
-  <div class="slide-num">09</div>
 </section>
 
 </main>
 <script>
 /* ============================================================
    DATA — todo lo editable/automatizable vive aquí.
-   Próxima iteración: reemplazar este objeto por un fetch a la
-   API (ej. /api/all-hands) y el deck se arma solo.
+   Próxima iteración: reemplazar por fetch a /api/all-hands y
+   el deck se arma solo sin tocar el diseño.
    ============================================================ */
 const DATA = {
-  mes: 'julio', anio: 2026, mesLabel: 'Julio · 2026',
-  mesIndex: 7,                       // 1-12, para la barra de meses
-  objetivoAnual: 940, ventasAcum: 546,
-  progresoAnio: 58,                  // % del año transcurrido
-  highlights: [
-    {icon:'🏆', v:3692,  dec:0, cls:'c-pk', label:'Servicios — mes récord', d:'Julio 2026'},
-    {icon:'🔌', v:12450, dec:0, cls:'c-b',  label:'Unidades conectadas',    d:'En plataforma'},
-    {icon:'🆕', v:8,     dec:0, cls:'good', label:'Clientes nuevos',        d:'Incorporados en junio'},
-    {icon:'💪', v:67,    dec:0, cls:'c-o',  label:'Unidades reactivadas',   d:'Recuperadas'}
+  anio:'2026', anio2:'2026', anio3:'2026',
+  mesTag:'JULIO · 2026',
+  mesLabelTit:'Julio 2026', mesLabelTit2:'Julio 2026', mesLabelTit3:'Julio 2026', mesLabelTit4:'Julio 2026',
+  mesSig:'Agosto 2026', mesSigCorto:'agosto', mesSigCorto2:'agosto',
+  mesIndex:7,
+  objetivoAnual:940, ventasAcum:546, progresoAnio:58,
+  highlights:[
+    {icon:'🏆', v:3692,  label:'Mes con más servicios', sub:'Julio 2026'},
+    {icon:'🔌', v:12450, label:'Unidades conectadas', sub:'en plataforma'},
+    {icon:'🆕', v:8,     label:'Clientes nuevos', sub:'incorporados en Junio'},
+    {icon:'💪', v:67,    label:'Unidades recuperadas', sub:'reactivadas'}
   ],
-  ingresosMes: 80.4, vsAnio: 26, vsCuota: 98,
-  acumVs2025: 33.4, acumVsCuota: 3,
-  preguntaMes: '¿Por qué no llegamos al objetivo este mes?',
-  respuestaMes: 'Porque mantuvimos disciplina comercial, cerramos 2 cuentas grandes y operaciones garantizó cero cancelaciones.',
-  trivia: [
-    '¿Cuántos clientes nuevos incorporó Numaris en junio 2026?',
+  ingresosMes:80.4, vsAnio:26, vsCuota:98, acumVs2025:33.4, acumVsCuota:3,
+  preguntaMes:'¿Por qué no llegamos al objetivo este mes?',
+  respTitulo:'La respuesta · ¿Por qué llegamos al objetivo?',
+  respuestaMes:'Porque mantuvimos <b>disciplina comercial</b>, cerramos <b>2 cuentas grandes</b> y operaciones garantizó <b>cero cancelaciones</b>.',
+  trivia:[
+    '¿Cuántos clientes nuevos incorporó Numaris en Junio 2026?',
     '¿Cuál es el valor de Numaris que dice "hacemos lo correcto aunque nadie nos vea"?',
     '¿En cuántas ciudades de México tiene presencia activa Numaris?'
   ],
-  triviaPremio: 'Tarjeta Amazon $500', triviaConduce: 'Patricio + Javier',
-  proyectos: [
-    {n:'01', cliente:'NEXU', lugar:'CDMX',    sol:'Rastreo Portátil',              unidades:600, resp:'María Samano'},
-    {n:'02', cliente:'COI de Tampico', lugar:'Tampico', sol:'SimpliRoute',         unidades:88,  resp:'Ana P.'},
-    {n:'03', cliente:'LALA', lugar:'',        sol:'Videotelemetría',               unidades:63,  resp:'Roberto S.'},
-    {n:'04', cliente:'Transpadex Logistics', lugar:'León', sol:'Remolques Inteligentes', unidades:32, resp:'Diana L.'},
-    {n:'05', cliente:'Frutas y Verduras Express', lugar:'Puebla', sol:'GPS Básico + App Conductores', unidades:28, resp:'Miguel A.'}
+  triviaPremio:'Tarjeta Amazon $500', triviaConduce:'Patricio + Javier', mentiCodigo:'NUMARIS',
+  proyectos:[
+    {n:'01', cliente:'NEXU', lugar:'CDMX', sol:'Rastreo Portatil', unidades:600, resp:'Maria Samano'},
+    {n:'02', cliente:'COI DE TAMPICO', lugar:'Tampico', sol:'Simpli Route', unidades:88, resp:'Ana P.'},
+    {n:'03', cliente:'LALA', lugar:'', sol:'Videotelemetría', unidades:63, resp:'Roberto S.'},
+    {n:'04', cliente:'TRANSPADEX LOGISTICS', lugar:'León', sol:'Remolques Inteligentes', unidades:32, resp:'Diana L.'},
+    {n:'05', cliente:'Frutas y Verduras Express', lugar:'Pue', sol:'GPS Básico + App Conductores', unidades:28, resp:'Miguel A.'}
   ],
   hCliente:'Transportes Del Valle', hMeta:'Monterrey · 230 unidades',
-  hStory:'En mayo, el cliente reportó pérdida de señal en el 40% de su flota durante un fin de semana crítico. Numaris respondió en 2 horas: diagnóstico remoto, reemplazo en campo y reactivación en 18 horas. La cuenta renovó 2 años y amplió a 280 unidades.',
-  hNps: 9.8, hUnidades: 50,
-  nuevos: [
-    {ini:'MR', nombre:'María Rodríguez', puesto:'Ejecutiva de Cuenta', area:'Comercial',   ciudad:'Guadalajara'},
-    {ini:'JL', nombre:'Javier Lozano',   puesto:'Técnico de Campo',   area:'Operaciones', ciudad:'Monterrey'},
-    {ini:'SC', nombre:'Sofía Contreras', puesto:'Analista de Datos',  area:'Tecnología',  ciudad:'CDMX'}
+  hStory:'En mayo, el cliente reportó pérdida de señal en el <b>40% de su flota</b> durante un fin de semana crítico. Numaris respondió en <b>2 horas</b>: diagnóstico remoto, reemplazo en campo y reactivación en <b>18 horas</b>. La cuenta renovó 2 años y amplió a 280 unidades.',
+  hVals:[
+    {e:'⚡', t:'Urgencia',     c:'#E8952F'},
+    {e:'🤝', t:'Colaboración', c:'#2E75B6'},
+    {e:'✅', t:'Integridad',   c:'#2E8B4F'},
+    {e:'💡', t:'Solución',     c:'#2E75B6'},
+    {e:'❤️', t:'Servicio',     c:'#D64545'}
   ],
-  agosto: [
-    {n:'1', t:'Lanzamiento módulo de mantenimiento', d:'Demo interna · semana 2', area:'Tecnología'},
-    {n:'2', t:'Campaña de recuperación Q3', d:'Meta: 80 unidades reactivadas', area:'Comercial'},
-    {n:'3', t:'Feria de Logística México 2026', d:'12–14 ago · CDMX · Stand Numaris', area:'Marketing'}
+  hNps:'9.8', hUnidades:50,
+  hQuote:'Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio.',
+  hQuoteBy:'Director de Operaciones, Transportes Del Valle',
+  nuevos:[
+    {ini:'MR', nombre:'María Rodríguez', puesto:'Ejecutiva de Cuenta', area:'Comercial',   ciudad:'Guadalajara', c:'#2E75B6'},
+    {ini:'JL', nombre:'Javier Lozano',   puesto:'Técnico de Campo',   area:'Operaciones', ciudad:'Monterrey',   c:'#2E8B4F'},
+    {ini:'SC', nombre:'Sofía Contreras', puesto:'Analista de Datos',  area:'Tecnología',  ciudad:'CDMX',        c:'#D97B29'}
   ],
-  objetivoAgosto: 82
+  prensa:[
+    {m:'T21', q:'"Transporte seguro y competitivo a bordo de la tecnología"'},
+    {m:'Revista TyT', q:'"Numaris expone su capacidad de predicción en siniestralidad y mantenimiento de flotas"'}
+  ],
+  agosto:[
+    {n:'1', t:'Lanzamiento módulo de mantenimiento', d:'Demo interna · semana 2', area:'Tecnología', c:'#2E75B6'},
+    {n:'2', t:'Campaña de recuperación Q3', d:'Meta: 80 unidades reactivadas', area:'Comercial', c:'#2E8B4F'},
+    {n:'3', t:'Feria de Logística México 2026', d:'12–14 ago · CDMX · Stand Numaris', area:'Marketing', c:'#E8762D'}
+  ],
+  objetivoAgosto:82
 };
 
 /* ---------- render desde DATA ---------- */
-function fmt(n,dec){return dec>0? n.toFixed(dec) : Math.round(n).toLocaleString('en-US')}
 document.querySelectorAll('[data-bind]').forEach(el=>{const v=DATA[el.dataset.bind]; if(v!==undefined) el.textContent=v});
-
-document.getElementById('triviaQs').innerHTML = DATA.trivia.map((q,i)=>
-  `<div class="card tq anim"><div class="n">${i+1}</div><p>${q}</p></div>`).join('');
-
-document.getElementById('highlights').innerHTML = DATA.highlights.map(h=>
-  `<div class="card kpi anim"><div class="l">${h.icon} ${h.label}</div><div class="v ${h.cls}"><span data-cnt="${h.v}" data-dec="${h.dec}" data-sep="1">0</span></div><div class="d">${h.d}</div></div>`).join('');
-
-document.getElementById('proyectos').innerHTML = DATA.proyectos.map(p=>
-  `<tr><td><b>${p.n}</b></td><td><b>${p.cliente}</b>${p.lugar?` <span style="color:var(--muted)">· ${p.lugar}</span>`:''}</td><td>${p.sol}</td><td style="text-align:right"><b><span data-cnt="${p.unidades}" data-dec="0" data-sep="1">0</span></b></td><td>${p.resp}</td></tr>`).join('');
-
-document.getElementById('nuevos').innerHTML = DATA.nuevos.map(n=>
-  `<div class="card anim" style="display:flex;gap:16px;align-items:center"><div class="avatar">${n.ini}</div><div><div style="font-weight:800;font-size:17px">${n.nombre}</div><div style="font-size:13px;color:var(--ink-2)">${n.puesto}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">${n.area} · 📍 ${n.ciudad}</div></div></div>`).join('');
-
-document.getElementById('agosto').innerHTML = DATA.agosto.map(a=>
-  `<div class="card anim"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:15px;font-weight:800;color:var(--blue-l);background:rgba(76,134,232,.12);border:1px solid rgba(76,134,232,.3);width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center">${a.n}</span><span class="pill">${a.area}</span></div><div style="font-weight:700;font-size:16px;line-height:1.3">${a.t}</div><div style="font-size:13px;color:var(--muted);margin-top:6px">${a.d}</div></div>`).join('');
+document.getElementById('hStory').innerHTML=DATA.hStory;
+document.getElementById('respuestaMes').innerHTML=DATA.respuestaMes;
+document.getElementById('triviaQs').innerHTML=DATA.trivia.map((q,i)=>`<div class="qrow anim"><span class="n">${i+1}</span><p>${q}</p></div>`).join('');
+document.getElementById('highlights').innerHTML=DATA.highlights.map(h=>
+  `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n"><span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
+document.getElementById('proyectos').innerHTML=DATA.proyectos.map(p=>
+  `<tr><td style="color:var(--blue);font-weight:800">${p.n}</td><td><b style="color:var(--navy)">${p.cliente}</b>${p.lugar?` <span style="color:var(--gray)">(${p.lugar})</span>`:''}</td><td style="color:var(--ink-body)">${p.sol}</td><td style="color:var(--navy);font-weight:800"><span data-cnt="${p.unidades}" data-sep="1">0</span></td><td style="color:var(--gray-2)">${p.resp}</td></tr>`).join('');
+document.getElementById('hVals').innerHTML=DATA.hVals.map(v=>
+  `<span class="val-chip"><span>${v.e}</span><span style="color:${v.c}">${v.t}</span></span>`).join('');
+document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>
+  `<div class="anim" style="background:#fff;border:1.5px solid #E5EBF3;border-radius:14px;padding:20px;box-shadow:0 12px 28px -18px rgba(15,40,80,.25)">
+    <div class="avatar" style="background:${n.c}">${n.ini}</div>
+    <div style="font-weight:800;font-size:16px;color:var(--navy);margin-top:12px">${n.nombre}</div>
+    <div style="color:${n.c};font-weight:700;font-size:13px;margin-top:2px">${n.puesto}</div>
+    <div style="color:var(--gray);font-size:12px;font-weight:600;margin-top:5px">${n.area} · 📍 ${n.ciudad}</div>
+  </div>`).join('');
+document.getElementById('prensa').innerHTML=DATA.prensa.map(p=>
+  `<div class="press anim"><div class="m">${p.m}</div><div class="q">${p.q}</div></div>`).join('');
+document.getElementById('agosto').innerHTML=DATA.agosto.map(a=>
+  `<div class="anim ltcard" style="display:flex;align-items:center;gap:18px;padding:18px 22px">
+    <span class="mont" style="font-weight:800;font-size:42px;color:#fff;line-height:1;flex-shrink:0">${a.n}</span>
+    <div style="flex:1"><div style="color:var(--navy);font-weight:800;font-size:15px">${a.t}</div><div style="color:var(--gray-2);font-size:13px;font-weight:600;margin-top:3px">${a.d}</div></div>
+    <span class="area-pill" style="color:${a.c}">${a.area}</span>
+  </div>`).join('');
 
 // barra anual + meses
-const pct=(DATA.ventasAcum/DATA.objetivoAnual*100);
-document.getElementById('annualFill').style.setProperty('--w', pct.toFixed(1)+'%');
-document.getElementById('yearLine').style.left=DATA.progresoAnio+'%';
-const cap=document.getElementById('yearCap'); cap.style.left=DATA.progresoAnio+'%'; cap.textContent=`Avance del año · ${DATA.progresoAnio}%`;
-document.getElementById('months').innerHTML=Array.from({length:12},(_,i)=>`<span class="${i+1<DATA.mesIndex?'on':i+1===DATA.mesIndex?'now':''}"></span>`).join('');
-document.querySelectorAll('[data-cnt-bind]').forEach(sp=>{sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]);});
+const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+document.getElementById('annualFill').style.setProperty('--w', DATA.progresoAnio+'%');
+document.getElementById('months').innerHTML=MESES.map((m,i)=>`<span class="${i+1<DATA.mesIndex?'on':i+1===DATA.mesIndex?'now':''}">${m}</span>`).join('');
+document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]));
 
-/* ---------- navegación, contadores y animaciones ---------- */
+/* ---------- navegación, contadores, animaciones ---------- */
 const deck=document.getElementById('deck');
 const slides=[...document.querySelectorAll('.slide')];
 const dots=document.getElementById('dots');
-slides.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;dots.appendChild(a);const n=s.querySelector('.slide-num');if(n)n.textContent=String(i+1).padStart(2,'0')});
+slides.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;dots.appendChild(a)});
 const links=[...dots.children];
 const pbar=document.getElementById('pbar');
-const logoSrc='/numaris-blanco.png';
-slides.forEach((s,i)=>{if(i===0)return;const h=document.createElement('div');h.className='shead';const im=document.createElement('img');im.src=logoSrc;im.alt='';const sp=document.createElement('span');sp.textContent='All Hands · Numaris · '+DATA.mesLabel;h.appendChild(im);h.appendChild(sp);s.appendChild(h);});
 
 function runCounters(el){
   el.querySelectorAll('[data-cnt]').forEach(sp=>{
