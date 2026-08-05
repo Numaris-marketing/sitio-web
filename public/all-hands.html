@@ -113,6 +113,24 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   #proyectos .pcard:nth-child(2){grid-column:1;grid-row:1}
   #proyectos .pcard:nth-child(3){grid-column:3;grid-row:1}
 }
+/* pantalla de espera: animación ambiental */
+@keyframes drift1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(9vw,-7vh) scale(1.18)}100%{transform:translate(-5vw,5vh) scale(.95)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-8vw,6vh) scale(1.12)}100%{transform:translate(6vw,-5vh) scale(.9)}}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0}
+.orb.o1{width:34vw;height:34vw;background:radial-gradient(circle,rgba(45,109,181,.32),transparent 70%);top:-8vh;right:-6vw;animation:drift1 16s ease-in-out infinite alternate}
+.orb.o2{width:28vw;height:28vw;background:radial-gradient(circle,rgba(77,159,232,.2),transparent 70%);bottom:-10vh;left:-6vw;animation:drift2 19s ease-in-out infinite alternate}
+.fill.shimmer::after{content:'';position:absolute;top:0;bottom:0;width:44%;left:-50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:sweep 2.6s ease-in-out 2s infinite}
+@keyframes sweep{0%{left:-50%}60%,100%{left:110%}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 14px rgba(77,159,232,.55)}50%{box-shadow:0 0 26px rgba(77,159,232,.95)}}
+.dk .months span.now{animation:glowPulse 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hcard .em{display:inline-block;animation:bob 3.4s ease-in-out infinite}
+.hcard:nth-child(2) .em{animation-delay:.5s}.hcard:nth-child(3) .em{animation-delay:1s}.hcard:nth-child(4) .em{animation-delay:1.5s}
+@keyframes numGlow{0%,100%{text-shadow:0 0 0 rgba(77,159,232,0)}50%{text-shadow:0 0 34px rgba(77,159,232,.5)}}
+.num-glow{animation:numGlow 4s ease-in-out 2s infinite}
+@keyframes blinkDot{0%,100%{opacity:1}50%{opacity:.25}}
+.wait-line{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);color:var(--dk-mut);font-size:13px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:9px;z-index:2}
+.wait-line i{width:9px;height:9px;border-radius:50%;background:#5BC17F;animation:blinkDot 1.5s ease-in-out infinite;font-style:normal}
 @media(max-width:900px){.dots{display:none}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important}.giant00{font-size:24vh}}
 @media print{main{height:auto;overflow:visible}.slide{min-height:100vh;page-break-after:always}.dots,#pbar{display:none}.anim{opacity:1;transform:none}}
 </style>
@@ -121,6 +139,27 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 <div id="pbar"></div>
 <nav class="dots" id="dots"></nav>
 <main id="deck">
+
+<!-- 4 · OBJETIVO ANUAL -->
+<section class="slide dk" id="s4">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="wait-line"><i></i><span data-bind="preShowMsg">La sesión comienza en unos minutos…</span></div>
+  <div class="anim" style="color:var(--blue-lt);font-weight:700;font-size:clamp(17px,1.8vw,22px);font-family:'Montserrat'">Objetivo Anual de Ventas <span data-bind="anio">2026</span></div>
+  <div class="anim" style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin:10px 0 26px">
+    <span class="mont num-glow" style="font-weight:800;font-size:clamp(56px,7vw,98px);color:#fff;letter-spacing:-.02em">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</span>
+    <span class="mont" style="font-weight:700;font-size:clamp(26px,3vw,44px);color:#6B84A8">/ $<span data-bind="objetivoAnual">940</span>M</span>
+  </div>
+  <div class="anim">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+      <span style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Progreso del año</span>
+      <span style="color:var(--blue-lt);font-weight:800;font-size:14.5px"><span data-bind="progresoAnio">58</span>% completado</span>
+    </div>
+    <div class="track"><div class="fill shimmer" id="annualFill" style="--w:58%"></div></div>
+    <div class="months" id="months"></div>
+  </div>
+  <div class="anim" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px" class="grid-4" id="highlights"></div>
+</section>
 
 <!-- 1 · PORTADA -->
 <section class="slide" id="s1">
@@ -154,24 +193,6 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="giant00">00</div>
 </section>
 
-<!-- 4 · OBJETIVO ANUAL -->
-<section class="slide dk" id="s4">
-  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="anim" style="color:var(--blue-lt);font-weight:700;font-size:clamp(17px,1.8vw,22px);font-family:'Montserrat'">Objetivo Anual de Ventas <span data-bind="anio">2026</span></div>
-  <div class="anim" style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin:10px 0 26px">
-    <span class="mont" style="font-weight:800;font-size:clamp(56px,7vw,98px);color:#fff;letter-spacing:-.02em">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</span>
-    <span class="mont" style="font-weight:700;font-size:clamp(26px,3vw,44px);color:#6B84A8">/ $<span data-bind="objetivoAnual">940</span>M</span>
-  </div>
-  <div class="anim">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
-      <span style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Progreso del año</span>
-      <span style="color:var(--blue-lt);font-weight:800;font-size:14.5px"><span data-bind="progresoAnio">58</span>% completado</span>
-    </div>
-    <div class="track"><div class="fill" id="annualFill" style="--w:58%"></div></div>
-    <div class="months" id="months"></div>
-  </div>
-  <div class="anim" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px" class="grid-4" id="highlights"></div>
-</section>
 
 <!-- 5 · RESULTADOS DEL MES -->
 <section class="slide" id="s5">
@@ -296,6 +317,7 @@ const DATA = {
   mesLabelTit:'Julio 2026', mesLabelTit2:'Julio 2026', mesLabelTit3:'Julio 2026', mesLabelTit4:'Julio 2026',
   mesSig:'Agosto 2026', mesSigCorto:'agosto', mesSigCorto2:'agosto',
   mesIndex:7,
+  preShowMsg:'La sesión comienza en unos minutos…',
   objetivoAnual:940, ventasAcum:546, progresoAnio:58,
   highlights:[
     {icon:'🏆', v:3692,  label:'Mes con más servicios', sub:'Julio 2026'},
