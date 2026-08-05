@@ -365,7 +365,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 <!-- 9 · BIENVENIDOS -->
 <section class="slide" id="s9">
   <div class="pgh"><h2>Bienvenidos a Numaris · <span data-bind="mesLabelTit4">Julio 2026</span></h2><img src="/numaris-color.png" alt="Numaris"></div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px" class="grid-3" id="nuevos"></div>
+  <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px" id="nuevos"></div>
 </section>
 
 <!-- OFICINAS -->
@@ -452,9 +452,12 @@ const DATA = {
   hQuote:'Nunca pensé que en menos de 24 horas íbamos a estar de vuelta al 100%. Numaris no es solo proveedor, es socio.',
   hQuoteBy:'Director de Operaciones, Transportes Del Valle',
   nuevos:[
-    {ini:'MR', nombre:'María Rodríguez', puesto:'Ejecutiva de Cuenta', area:'Comercial',   ciudad:'Guadalajara', c:'#2E75B6'},
-    {ini:'JL', nombre:'Javier Lozano',   puesto:'Técnico de Campo',   area:'Operaciones', ciudad:'Monterrey',   c:'#2E8B4F'},
-    {ini:'SC', nombre:'Sofía Contreras', puesto:'Analista de Datos',  area:'Tecnología',  ciudad:'CDMX',        c:'#D97B29'}
+    {foto:'/all-hands-img/ni-pablo.jpg',     nombre:'Pablo Pérez Mollo',              puesto:'Especialista de Desarrollo (Senior Technical Leader)', area:'Numaris · Tecnologías',              ciudad:'Argentina',     c:'#2E75B6'},
+    {foto:'/all-hands-img/ni-anuar.jpg',     nombre:'Anuar Roberto Balderas Barrios', puesto:'Ejecutivo de Operaciones',                              area:'Admón. de Activos · Operaciones',    ciudad:'CDMX',          c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni-israel.jpg',    nombre:'Israel Salazar Márquez',         puesto:'Servicios Generales',                                   area:'Transporte Pesado · Serv. Generales', ciudad:'CDMX',          c:'#D97B29'},
+    {foto:'/all-hands-img/ni-genaro.jpg',    nombre:'Genaro Valdez Alamilla',         puesto:'Técnico Instalador',                                    area:'Numaris · Operaciones',              ciudad:'CDMX',          c:'#2E75B6'},
+    {foto:'/all-hands-img/ni-christian.jpg', nombre:'Christian Alfredo López Castro', puesto:'Técnico Instalador',                                    area:'Numaris · Operaciones',              ciudad:'Córdoba, Ver.', c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni-hernan.jpg',    nombre:'Hernán Cabrera Valdez',          puesto:'Técnico Instalador',                                    area:'Numaris · Operaciones',              ciudad:'Guadalajara',   c:'#D97B29'}
   ],
   agosto:[
     {n:'1', t:'Migración de unidades hacia la plataforma Amber', d:'Transición de la base instalada', area:'Tecnología', c:'#2E75B6'},
@@ -551,7 +554,7 @@ document.getElementById('hVals').innerHTML=DATA.hVals.map(v=>
   `<span class="val-chip"><span>${v.e}</span><span style="color:${v.c}">${v.t}</span></span>`).join('');
 document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>
   `<div class="anim" style="background:#fff;border:1.5px solid #E5EBF3;border-radius:14px;padding:20px;box-shadow:0 12px 28px -18px rgba(15,40,80,.25)">
-    <div class="avatar" style="background:${n.c}">${n.ini}</div>
+    ${n.foto?`<img src="${n.foto}" alt="${n.nombre}" style="width:54px;height:54px;border-radius:50%;object-fit:cover;object-position:50% 12%;border:2.5px solid ${n.c}">`:`<div class="avatar" style="background:${n.c}">${n.ini}</div>`}
     <div style="font-weight:800;font-size:16px;color:var(--navy);margin-top:12px">${n.nombre}</div>
     <div style="color:${n.c};font-weight:700;font-size:13px;margin-top:2px">${n.puesto}</div>
     <div style="color:var(--gray);font-size:12px;font-weight:600;margin-top:5px">${n.area} · 📍 ${n.ciudad}</div>
