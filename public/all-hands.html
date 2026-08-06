@@ -656,7 +656,14 @@ document.getElementById('agosto').innerHTML=DATA.agosto.map(a=>
     <span class="mont" style="font-weight:800;font-size:42px;color:#fff;line-height:1;flex-shrink:0">${a.n}</span>
     <div style="flex:1"><div style="color:var(--navy);font-weight:800;font-size:15px">${a.t}</div><div style="color:var(--gray-2);font-size:13px;font-weight:600;margin-top:3px">${a.d}</div></div>
     <span class="area-pill" style="color:${a.c}">${a.area}</span>
-  </div>`).join('');
+  </div>`).join('') + `
+  <div class="anim" style="background:linear-gradient(135deg,#1E3A66,#2D6DB5);border-radius:14px;padding:18px 22px;display:flex;align-items:center;gap:16px">
+    <div style="flex:1">
+      <div class="mont" style="color:#fff;font-weight:800;font-size:16px">Reforzar nuestra cultura One Numaris</div>
+      <div style="color:#CFE0F5;font-size:13px;font-weight:600;margin-top:4px;line-height:1.55">Somos una sola empresa: un equipo, una cultura y un mismo objetivo — colaboramos entre sectores como si fuéramos uno, porque lo somos.</div>
+    </div>
+    <span class="area-pill" style="color:var(--orange)">#OneNumaris</span>
+  </div>`;
 
 // barra anual + meses
 const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
