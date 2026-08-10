@@ -223,6 +223,16 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="mes-tag mont" data-bind="mesTag">JULIO · 2026</div>
 </section>
 
+<!-- ADN NUMARIS -->
+<section class="slide dk" id="sadn">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="orb o1"></div>
+  <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">ADN Numaris</div>
+  <h2 class="anim" style="font-size:clamp(30px,4.2vw,58px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.02em;max-width:1000px">"<span data-bind="adnFrase">Cambiamos todos los días, para que el cliente no tenga que hacerlo</span>."</h2>
+  <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 14px">Nuestros principios</div>
+  <div class="anim grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px" id="adnPrincipios"></div>
+</section>
+
 <!-- 2 · TRIVIA -->
 <section class="slide pp" id="s2">
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
@@ -533,6 +543,8 @@ const DATA = {
     {icon:'💪', v:40, pre:'+', label:'Unidades recuperadas', sub:'90% de recuperación'}
   ],
   ingresosMes:80.4, vsAnio:26, vsCuota:98, acumVs2025:33.4, acumVsCuota:3,
+  adnFrase:'Cambiamos todos los días, para que el cliente no tenga que hacerlo',
+  adnPrincipios:['Vivimos para el cliente','Operamos con iniciativa','TecnologIA como multiplicador','En equipo llegamos más lejos'],
   preguntaMes:'Llevamos 3 meses quedándonos a muy poco del objetivo: ¿qué vamos a hacer para recuperarnos?',
   respTitulo:'La respuesta · ¿Qué vamos a hacer para recuperarnos?',
   respuestaMes:'Concentrarnos en <b>3 cosas</b>:<br><b>1.</b> Que nuestras actividades impacten, directa o indirectamente, este número.<br><b>2.</b> Enfocarnos en las cuentas que tenemos por cerrar en agosto.<br><b>3.</b> Proteger la base instalada: cero cancelaciones y reactivar unidades.',
@@ -749,6 +761,8 @@ document.getElementById('mediosCards').innerHTML=DATA.medios.map(mo=>{
 if(DATA.marcadorUrl){document.getElementById('marcadorBtn').href=DATA.marcadorUrl}else{document.getElementById('marcadorBtn').style.display='none'}
 if(DATA.marcadorImg){const mi=document.getElementById('marcadorImg');mi.src=DATA.marcadorImg;mi.style.display='block'}
 if(DATA.oficFoto){document.getElementById('oficFoto').innerHTML=`<img src="${DATA.oficFoto}" alt="Nuevas oficinas CDMX">`}
+document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((t,i)=>
+  `<div class="adn-card"><span class="mont" style="font-weight:800;font-size:15px;color:var(--blue-lt)">0${i+1}</span><div class="mont" style="font-weight:700;font-size:15.5px;color:#fff;line-height:1.35">${t}</div></div>`).join('');
 // vanta + trust center
 document.getElementById('vantaPilares').innerHTML=DATA.vantaPilares.map(pl=>
   `<div style="background:#fff;border:1.5px solid #E5EBF3;border-top:4px solid ${pl.c};border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:11px;box-shadow:0 14px 32px -22px rgba(15,40,80,.3)">
