@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Numaris · Índice de páginas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #040D1A;
+      color: rgba(255, 255, 255, .85);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 64px 24px 96px; }
+    header { margin-bottom: 48px; }
+    header h1 {
+      font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: #fff;
+    }
+    header p { margin-top: 8px; color: rgba(255,255,255,.55); font-size: 15px; }
+    .badge {
+      display: inline-block; font-size: 12px; font-weight: 600;
+      color: #4B8FD4; background: rgba(75,143,212,.12);
+      border: 1px solid rgba(75,143,212,.25);
+      padding: 4px 12px; border-radius: 999px; margin-bottom: 16px;
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    section { margin-bottom: 48px; }
+    section h2 {
+      font-size: 13px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.45);
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    a.card {
+      display: block; text-decoration: none;
+      background: #05101E;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; padding: 18px 20px;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    a.card:hover { border-color: #245FA5; transform: translateY(-2px); }
+    a.card .name { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    a.card .desc { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; }
+    a.card .url { font-size: 12px; color: #4B8FD4; margin-top: 10px; word-break: break-all; }
+    footer { margin-top: 24px; font-size: 12px; color: rgba(255,255,255,.3); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">Uso interno</div>
+      <h1>Índice de páginas Numaris</h1>
+      <p>Todo lo que tenemos publicado, concentrado en un solo lugar.</p>
+    </header>
+
+    <section>
+      <h2>Presentaciones y reportes internos</h2>
+      <div class="grid">
+        <a class="card" href="/marketing-h1">
+          <div class="name">Marketing H1 2026</div>
+          <div class="desc">Resultados del primer semestre y plan H2.</div>
+          <div class="url">/marketing-h1</div>
+        </a>
+        <a class="card" href="/all-hands">
+          <div class="name">All Hands · Julio 2026</div>
+          <div class="desc">Presentación del all hands de la compañía.</div>
+          <div class="url">/all-hands</div>
+        </a>
+        <a class="card" href="/datos">
+          <div class="name">Pipeline Tracker</div>
+          <div class="desc">Dashboard de BI con el pipeline comercial (datos de Zoho).</div>
+          <div class="url">/datos</div>
+        </a>
+        <a class="card" href="/top-of-mind.html">
+          <div class="name">Marketing Intelligence 2026</div>
+          <div class="desc">Análisis top of mind del mercado.</div>
+          <div class="url">/top-of-mind.html</div>
+        </a>
+        <a class="card" href="/gomotive.html">
+          <div class="name">Landing Gomotive</div>
+          <div class="desc">Control total de tu flota, en tiempo real.</div>
+          <div class="url">/gomotive.html</div>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sitio público Numaris</h2>
+      <div class="grid">
+        <a class="card" href="/">
+          <div class="name">Home</div>
+          <div class="desc">Página principal del sitio corporativo.</div>
+          <div class="url">/</div>
+        </a>
+        <a class="card" href="/contacto">
+          <div class="name">Contacto</div>
+          <div class="desc">Formulario de contacto y datos de la empresa.</div>
+          <div class="url">/contacto</div>
+        </a>
+        <a class="card" href="/soluciones/seguridad-patrimonial/rastreo-satelital">
+          <div class="name">Rastreo satelital</div>
+          <div class="desc">Solución de seguridad patrimonial.</div>
+          <div class="url">/soluciones/seguridad-patrimonial/rastreo-satelital</div>
+        </a>
+        <a class="card" href="/sectores/transporte-pesado">
+          <div class="name">Transporte pesado</div>
+          <div class="desc">Página de sector.</div>
+          <div class="url">/sectores/transporte-pesado</div>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Otros sitios en Vercel</h2>
+      <div class="grid">
+        <a class="card" href="https://registro-webinar.vercel.app" target="_blank" rel="noopener">
+          <div class="name">Registro Webinar</div>
+          <div class="desc">Página de registro para webinars de Numaris.</div>
+          <div class="url">registro-webinar.vercel.app</div>
+        </a>
+        <a class="card" href="https://reporte-sector-financiero-vehicular.vercel.app" target="_blank" rel="noopener">
+          <div class="name">Reporte Sector Financiero Vehicular</div>
+          <div class="desc">Reporte del sector financiero vehicular.</div>
+          <div class="url">reporte-sector-financiero-vehicular.vercel.app</div>
+        </a>
+        <a class="card" href="https://bodapavaypato.vercel.app" target="_blank" rel="noopener">
+          <div class="name">Boda Pava y Pato</div>
+          <div class="desc">Sitio personal · invitación de boda.</div>
+          <div class="url">bodapavaypato.vercel.app</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>Proyecto: numaris-site · vercel.com/patricionavarro-2243s-projects</footer>
+  </div>
+</body>
+</html>

@@ -49,6 +49,10 @@
       "destination": "/all-hands.html"
     },
     {
+      "source": "/links",
+      "destination": "/links.html"
+    },
+    {
       "source": "/contacto",
       "destination": "/contacto/index.html"
     },
