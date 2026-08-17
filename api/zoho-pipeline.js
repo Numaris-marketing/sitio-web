@@ -213,20 +213,8 @@ export default async function handler(req, res) {
       "(Stage:equals:Prueba Demo)or" +
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
-      "(Stage:equals:Contrato firmado))"
-    );
-    // Accounts with marketing source (Se_obtuvo_por)
-    const accCriteria = encodeURIComponent(
-      "((Se_obtuvo_por:equals:Meta - Pauta)or" +
-      "(Se_obtuvo_por:equals:Formulario website)or" +
-      "(Se_obtuvo_por:equals:LinkedIn Sales Navigator)or" +
-      "(Se_obtuvo_por:equals:Linkedin - Pauta)or" +
-      "(Se_obtuvo_por:starts_with:Expo como)or" +
-      "(Se_obtuvo_por:equals:Newsletter LinkedIn)or" +
-      "(Se_obtuvo_por:equals:Google Ads - Pauta)or" +
-      "(Se_obtuvo_por:equals:Campaña de mailing)or" +
-      "(Se_obtuvo_por:equals:Prospección Facebook)or" +
-      "(Se_obtuvo_por:equals:Calendly))"
+      "(Stage:equals:Contrato firmado)or" +
+      "(Stage:equals:En pausa))"
     );
 
     // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
@@ -240,15 +228,12 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    // Confirmed API name for "Tipo de oportunidad": Tipo_de_oportunidad
-    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad";
+    // Lead_Source = "Clasificación de origen" on the Deal record (matches Zoho analytics filter)
+    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad,Lead_Source";
     const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
-    const [activeDealsRaw, marketingAccounts, campDealsRaw, campaignRecords] = await Promise.all([
+    const [activeDealsRaw, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals", dealFields, dealCriteria, token),
-      fetchFiltered("Accounts",
-        "id,Se_obtuvo_por",
-        accCriteria, token),
       fetchFiltered("Deals", campDealFields, campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
@@ -268,16 +253,6 @@ export default async function handler(req, res) {
         budgetedCost: c.Budgeted_Cost || 0,
         actualCost:   c.Actual_Cost   || 0,
       };
-    }
-
-    // Build marketing account ID set (accounts with marketing source)
-    const accountById = {};
-    const marketingAccIds = new Set();
-    for (const acc of marketingAccounts) {
-      accountById[acc.id] = acc;
-      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
-        marketingAccIds.add(acc.id);
-      }
     }
 
     // Helper: industry from deal owner (propietario de oportunidad)
@@ -303,11 +278,11 @@ export default async function handler(req, res) {
       return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
-    // Marketing pipeline: deals by included sellers whose account has a marketing source
+    // Marketing pipeline: deals by included sellers with a marketing Lead_Source on the deal
     const marketingDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
       if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
-      return marketingAccIds.has(getAccId(d));
+      return MARKETING_SOURCES.has(d.Lead_Source || "");
     });
 
     // Metrics
