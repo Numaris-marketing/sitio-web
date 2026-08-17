@@ -13,21 +13,27 @@ const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000065276241", // MSTAR INNOVATION
 ]);
 
-// Pipeline includes only these 13 commercial sellers
+// Pipeline includes these 19 commercial sellers
 const INCLUDED_OWNER_NAMES = new Set([
-  "Uriel San Pedro Lopez",
-  "Orlak Efrain Castañeda Diaz",
-  "Mario Rincón",
   "Lorena Bolaños Cacho",
-  "Karen Andrea Gonzalez Ramirez",
-  "Juan Alejandro Duarte Delgadillo",
-  "Joel Araiza",
+  "Mario Rincón",
   "Elizabeth Cortes Aguirre",
+  "Uriel San Pedro Lopez",
+  "Karen Andrea Gonzalez Ramirez",
   "Elizabeth Alejandra Pineda Gonzalez",
-  "David Urieta",
-  "Daniel Ocampo",
   "Andrea Quinones",
+  "Orlak Efrain Castañeda Diaz",
   "Alan Badillo",
+  "Marleem Hernandez Martinez",
+  "Hanna Vazquez",
+  "David Urieta",
+  "Gabriela Abigail Juarez Perez",
+  "Joel Araiza",
+  "Juan Alejandro Duarte Delgadillo",
+  "Daniel Ocampo",
+  "Diana Aylin Rodriguez Ornelas",
+  "Guillermo Quijano Gómez",
+  "Jose Guadalupe Castillo Olvera",
 ]);
 
 // Industry classification by Account Owner (Propietario de la cuenta)
@@ -61,6 +67,7 @@ const OWNER_TO_INDUSTRY = {
   "Hanna Vazquez":                      "Servicios Financieros y Movilidad",
   "Alan Badillo":                       "Servicios Financieros y Movilidad",
   "Guillermo Quijano":                  "Servicios Financieros y Movilidad",
+  "Guillermo Quijano Gómez":            "Servicios Financieros y Movilidad",
   "Diana Georgina Vaca Estrada":        "Servicios Financieros y Movilidad",
   "Maria De Monserrat Samano Lomeli":   "Servicios Financieros y Movilidad",
   "Nayibe Tanus Rodriguez":             "Servicios Financieros y Movilidad",
@@ -85,19 +92,18 @@ const OWNER_TO_INDUSTRY = {
 };
 
 const MARKETING_SOURCES = new Set([
-  "Meta - Pauta",
-  "Formulario website",
-  "LinkedIn Sales Navigator",
-  "Linkedin - Pauta",
-  "Expo como visitante",
-  "Expo como visitante (agregar etiqueta de Expo)",
-  "Expo como expositor",
+  "Calendly",
+  "Prospección Facebook",
+  "Campaña de mailing",
+  "Google Ads - Pauta",
   "Expo como expositor (agregar etiqueta de Expo)",
   "Newsletter LinkedIn",
-  "Google Ads - Pauta",
-  "Campaña de mailing",
-  "Prospección Facebook",
-  "Calendly",
+  "Expo como visitante (agregar etiqueta de Expo)",
+  "Linkedin - Pauta",
+  "LinkedIn Sales Navigator",
+  "Formulario website",
+  "Meta - Pauta",
+  "mailing numaris",
 ]);
 
 // ─── TOKEN CACHE (module-level, survives warm lambda reuse) ───────────────────
