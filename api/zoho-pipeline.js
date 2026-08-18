@@ -228,17 +228,38 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    // Lead_Source = "Clasificación de origen" on the Deal record (matches Zoho analytics filter)
-    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad,Lead_Source";
+    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad";
     const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
-    const [activeDealsRaw, campDealsRaw, campaignRecords] = await Promise.all([
+    // Accounts with marketing source (Se_obtuvo_por) — all 12 classification values
+    const accCriteria = encodeURIComponent(
+      "((Se_obtuvo_por:equals:Calendly)or" +
+      "(Se_obtuvo_por:equals:Prospección Facebook)or" +
+      "(Se_obtuvo_por:equals:Campaña de mailing)or" +
+      "(Se_obtuvo_por:equals:Google Ads - Pauta)or" +
+      "(Se_obtuvo_por:starts_with:Expo como)or" +
+      "(Se_obtuvo_por:equals:Newsletter LinkedIn)or" +
+      "(Se_obtuvo_por:equals:Linkedin - Pauta)or" +
+      "(Se_obtuvo_por:equals:LinkedIn Sales Navigator)or" +
+      "(Se_obtuvo_por:equals:Formulario website)or" +
+      "(Se_obtuvo_por:equals:Meta - Pauta)or" +
+      "(Se_obtuvo_por:equals:mailing numaris))"
+    );
+
+    const [activeDealsRaw, marketingAccounts, campDealsRaw, campaignRecords] = await Promise.all([
       fetchFiltered("Deals", dealFields, dealCriteria, token),
+      fetchFiltered("Accounts", "id,Se_obtuvo_por", accCriteria, token),
       fetchFiltered("Deals", campDealFields, campDealCriteria, token),
       zohoGetAll("Campaigns",
         "id,Campaign_Name,Type,Status,Start_Date,End_Date,Budgeted_Cost,Actual_Cost",
         token),
     ]);
+
+    // Build marketing account ID set
+    const marketingAccIds = new Set();
+    for (const acc of marketingAccounts) {
+      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) marketingAccIds.add(acc.id);
+    }
 
     // Build campaign details lookup from Zoho Campaigns module
     const campaignDetails = {};
@@ -278,11 +299,11 @@ export default async function handler(req, res) {
       return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
-    // Marketing pipeline: deals by included sellers with a marketing Lead_Source on the deal
+    // Marketing pipeline: deals by included sellers whose account has a marketing source
     const marketingDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
       if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
-      return MARKETING_SOURCES.has(d.Lead_Source || "");
+      return marketingAccIds.has(getAccId(d));
     });
 
     // Metrics
@@ -305,7 +326,7 @@ export default async function handler(req, res) {
     // By source
     const bySource = {};
     for (const d of marketingDeals) {
-      const src = d.Lead_Source || "Campaña";
+      const src = d.Lead_Source || d.Campaign_Source || "Campaña";
       if (!bySource[src]) bySource[src] = { count: 0, value: 0 };
       bySource[src].count++;
       bySource[src].value += dealValue(d);
@@ -447,7 +468,7 @@ export default async function handler(req, res) {
         marketingDealsActive:   marketingDeals.length,
         wonDealsWithCampaign:   wonDealsWithCamp,
         dealsWithCampaign:      dealsWithCamp,
-        marketingSourceFilter:  "Lead_Source on deal",
+        marketingAccountsFound: marketingAccounts.length,
       },
     });
 
