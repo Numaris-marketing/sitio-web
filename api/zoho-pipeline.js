@@ -305,7 +305,7 @@ export default async function handler(req, res) {
     // By source
     const bySource = {};
     for (const d of marketingDeals) {
-      const src = accountById[getAccId(d)]?.Se_obtuvo_por || "Campaña";
+      const src = d.Lead_Source || "Campaña";
       if (!bySource[src]) bySource[src] = { count: 0, value: 0 };
       bySource[src].count++;
       bySource[src].value += dealValue(d);
@@ -447,7 +447,7 @@ export default async function handler(req, res) {
         marketingDealsActive:   marketingDeals.length,
         wonDealsWithCampaign:   wonDealsWithCamp,
         dealsWithCampaign:      dealsWithCamp,
-        marketingAccountsFound: marketingAccounts.length,
+        marketingSourceFilter:  "Lead_Source on deal",
       },
     });
 
