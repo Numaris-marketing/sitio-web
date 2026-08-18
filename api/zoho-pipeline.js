@@ -255,10 +255,14 @@ export default async function handler(req, res) {
         token),
     ]);
 
-    // Build marketing account ID set
+    // Build marketing account ID set + source lookup (Se_obtuvo_por → bySource)
     const marketingAccIds = new Set();
+    const accSourceMap = {}; // accId → Se_obtuvo_por
     for (const acc of marketingAccounts) {
-      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) marketingAccIds.add(acc.id);
+      if (!EXCLUDED_ACCOUNT_IDS.has(acc.id)) {
+        marketingAccIds.add(acc.id);
+        accSourceMap[acc.id] = acc.Se_obtuvo_por || "Sin clasificación";
+      }
     }
 
     // Build campaign details lookup from Zoho Campaigns module
@@ -326,7 +330,7 @@ export default async function handler(req, res) {
     // By source
     const bySource = {};
     for (const d of marketingDeals) {
-      const src = d.Lead_Source || d.Campaign_Source || "Campaña";
+      const src = accSourceMap[getAccId(d)] || "Sin clasificación";
       if (!bySource[src]) bySource[src] = { count: 0, value: 0 };
       bySource[src].count++;
       bySource[src].value += dealValue(d);
