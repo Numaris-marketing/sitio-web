@@ -1,7 +1,7 @@
 import https from "https";
+import { getZohoToken } from "./_zoho-token.js";
 
-const ZOHO_BASE          = "www.zohoapis.com";
-const ZOHO_ACCOUNTS_HOST = "accounts.zoho.com";
+const ZOHO_BASE = "www.zohoapis.com";
 
 const MAX_OWNER          = "Maximiliano Mireles Escobar";
 const WEEKS_BACK         = 12;
@@ -14,9 +14,6 @@ const INBOUND_SOURCES = new Set([
   "Formulario website",
   "Formulario Website",
 ]);
-
-// ─── TOKEN CACHE (module-level, survives warm lambda reuse) ───────────────────
-let _tokenCache = null;
 
 // ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
 function zohoRequest(hostname, path, method = "GET", body = null, token = null) {
@@ -39,29 +36,6 @@ function zohoRequest(hostname, path, method = "GET", body = null, token = null) 
     if (body) req.write(body);
     req.end();
   });
-}
-
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-async function refreshToken() {
-  const now = Date.now();
-  if (_tokenCache && _tokenCache.expiresAt > now + 60_000) return _tokenCache.token;
-  const body = new URLSearchParams({
-    refresh_token: process.env.ZOHO_REFRESH_TOKEN,
-    client_id:     process.env.ZOHO_CLIENT_ID,
-    client_secret: process.env.ZOHO_CLIENT_SECRET,
-    grant_type:    "refresh_token",
-  }).toString();
-  let d;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    if (attempt > 0) await sleep(attempt * 2000);
-    d = await zohoRequest(ZOHO_ACCOUNTS_HOST, "/oauth/v2/token", "POST", body);
-    if (d.access_token) break;
-    if (!d.error_description?.includes("too many")) throw new Error(`OAuth: ${JSON.stringify(d)}`);
-  }
-  if (!d?.access_token) throw new Error(`OAuth rate-limited: ${JSON.stringify(d)}`);
-  _tokenCache = { token: d.access_token, expiresAt: now + 55 * 60_000 };
-  return d.access_token;
 }
 
 async function fetchFiltered(module, fields, criteria, token) {
@@ -148,7 +122,7 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   try {
-    const token = await refreshToken();
+    const token = await getZohoToken();
 
     // Fetch leads from inbound sources
     const criteria = encodeURIComponent(
