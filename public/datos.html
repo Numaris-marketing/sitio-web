@@ -3029,12 +3029,13 @@
   }
 
   // Load on pipeline tab open + auto-refresh every 5 min
-  document.addEventListener('DOMContentLoaded', () => {
-    loadZohoPipeline();
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Sequential load so each lambda cold-starts one at a time (avoids Zoho OAuth rate limit)
+    await loadZohoPipeline();
+    await loadZohoFunnel();
+    await loadInbound();
     setInterval(loadZohoPipeline, 5 * 60 * 1000);
-    loadZohoFunnel();
     setInterval(loadZohoFunnel, 5 * 60 * 1000);
-    loadInbound();
     setInterval(loadInbound, 5 * 60 * 1000);
   });
 
