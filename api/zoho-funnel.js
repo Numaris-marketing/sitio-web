@@ -97,7 +97,7 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   try {
-    const token = await getZohoToken();
+    const token = req.query.t || await getZohoToken();
 
     // ── Fetch in parallel ───────────────────────────────────────────────────
     // 1. Digital leads — single OR query

@@ -178,7 +178,7 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   try {
-    const token = await getZohoToken();
+    const token = req.query.t || await getZohoToken();
 
     // Pre-filter at Zoho API level — stage criteria only (safe, known to work)
     const dealCriteria = encodeURIComponent(

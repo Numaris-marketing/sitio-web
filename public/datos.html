@@ -1667,14 +1667,14 @@
     if (el) el.innerHTML = val;
   }
 
-  async function loadZohoPipeline() {
+  async function loadZohoPipeline(t) {
     const dot = document.getElementById('zoho-status-dot');
     const txt = document.getElementById('zoho-status-text');
     if (dot) dot.style.background = '#ff9f3f';
     if (txt) txt.textContent = 'Actualizando datos…';
 
     try {
-      const res = await fetch('/api/zoho-pipeline');
+      const res = await fetch('/api/zoho-pipeline' + (t ? '?t=' + encodeURIComponent(t) : ''));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
       if (d.error) throw new Error(d.error);
@@ -3028,17 +3028,25 @@
     document.getElementById('toggle-cantidad')?.classList.toggle('active', mode === 'cantidad');
   }
 
-  // Load on pipeline tab open + auto-refresh every 5 min
+  // Fetch one shared Zoho token, then pass it to all loaders so only
+  // one OAuth call happens per page load (avoids Zoho rate limit).
+  async function getSharedToken() {
+    try {
+      const r = await fetch('/api/zoho-token');
+      if (!r.ok) return null;
+      const d = await r.json();
+      return d.token || null;
+    } catch { return null; }
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
-    // Sequential load with pauses so Zoho OAuth rate-limiter resets between calls
-    await loadZohoPipeline();
-    await new Promise(r => setTimeout(r, 4000));
-    await loadZohoFunnel();
-    await new Promise(r => setTimeout(r, 4000));
-    await loadInbound();
-    setInterval(loadZohoPipeline, 5 * 60 * 1000);
-    setInterval(loadZohoFunnel, 5 * 60 * 1000);
-    setInterval(loadInbound, 5 * 60 * 1000);
+    const t = await getSharedToken();
+    await loadZohoPipeline(t);
+    await loadZohoFunnel(t);
+    await loadInbound(t);
+    setInterval(async () => { const t2 = await getSharedToken(); loadZohoPipeline(t2); }, 5 * 60 * 1000);
+    setInterval(async () => { const t2 = await getSharedToken(); loadZohoFunnel(t2); }, 5 * 60 * 1000);
+    setInterval(async () => { const t2 = await getSharedToken(); loadInbound(t2); }, 5 * 60 * 1000);
   });
 
   // ── EMBUDO DIGITAL ──────────────────────────────────────────────────────────
@@ -3409,13 +3417,13 @@
     }
   }
 
-  async function loadInbound() {
+  async function loadInbound(t) {
     const dot = document.getElementById('ib-status-dot');
     const txt = document.getElementById('ib-status-text');
     if (dot) dot.style.background = '#ff9f3f';
     if (txt) txt.textContent = 'Cargando desde Zoho CRM…';
     try {
-      const res = await fetch('/api/zoho-leads-inbound');
+      const res = await fetch('/api/zoho-leads-inbound' + (t ? '?t=' + encodeURIComponent(t) : ''));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
       if (d.error) throw new Error(d.error);
@@ -3427,14 +3435,14 @@
     }
   }
 
-  async function loadZohoFunnel() {
+  async function loadZohoFunnel(t) {
     const dot = document.getElementById('funnel-status-dot');
     const txt = document.getElementById('funnel-status-text');
     if (dot) dot.style.background = '#ff9f3f';
     if (txt) txt.textContent = 'Cargando desde Zoho CRM…';
 
     try {
-      const res = await fetch('/api/zoho-funnel');
+      const res = await fetch('/api/zoho-funnel' + (t ? '?t=' + encodeURIComponent(t) : ''));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
       if (d.error) throw new Error(d.error);
