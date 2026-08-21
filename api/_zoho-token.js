@@ -95,7 +95,7 @@ export async function getZohoToken() {
 
   let d;
   for (let attempt = 0; attempt < 3; attempt++) {
-    if (attempt > 0) await new Promise(r => setTimeout(r, attempt * 2000));
+    if (attempt > 0) await new Promise(r => setTimeout(r, attempt * 8000));
     d = await zohoPost("/oauth/v2/token", body);
     if (d.access_token) break;
     if (!d.error_description?.includes("too many")) throw new Error(`OAuth: ${JSON.stringify(d)}`);

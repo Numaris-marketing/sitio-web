@@ -3030,9 +3030,11 @@
 
   // Load on pipeline tab open + auto-refresh every 5 min
   document.addEventListener('DOMContentLoaded', async () => {
-    // Sequential load so each lambda cold-starts one at a time (avoids Zoho OAuth rate limit)
+    // Sequential load with pauses so Zoho OAuth rate-limiter resets between calls
     await loadZohoPipeline();
+    await new Promise(r => setTimeout(r, 4000));
     await loadZohoFunnel();
+    await new Promise(r => setTimeout(r, 4000));
     await loadInbound();
     setInterval(loadZohoPipeline, 5 * 60 * 1000);
     setInterval(loadZohoFunnel, 5 * 60 * 1000);
