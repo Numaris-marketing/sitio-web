@@ -42,13 +42,16 @@ async function fetchFreshToken() {
 }
 
 export async function getZohoToken() {
+  // 0. Direct override — set ZOHO_ACCESS_TOKEN in Vercel env to bypass OAuth entirely
+  if (process.env.ZOHO_ACCESS_TOKEN) return process.env.ZOHO_ACCESS_TOKEN;
+
   // 1. In-memory cache
   if (_memCache && _memCache.expiresAt > Date.now() + 60_000) return _memCache.token;
 
   // 2. Deduplicate: if an OAuth call is already in flight, wait for it
   if (_inFlight) return _inFlight;
 
-  // 3. Single OAuth call — no retries (retries hammer Zoho and worsen the block)
+  // 3. Single OAuth call
   _inFlight = fetchFreshToken().finally(() => { _inFlight = null; });
   return _inFlight;
 }
