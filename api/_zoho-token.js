@@ -1,7 +1,7 @@
 import https from "https";
 
 const ZOHO_ACCOUNTS_HOST = "accounts.zoho.com";
-const TOKEN_TTL_MS = 55 * 60 * 1000;
+const TOKEN_TTL_MS = 54 * 60 * 1000; // 54 min
 
 let _memCache = null;   // { token, expiresAt }
 let _inFlight  = null;  // dedup: only one OAuth call at a time
