@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numaris · ABM Dashboard · Top Targets 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+:root {
+  /* ── Core palette (blue family, dessaturado) ── */
+  --navy:    #1B2B5E;
+  --navy2:   #243680;
+  --royal:   #3D60C4;
+  --blue:    #4B7CF7;
+  --mid:     #6E9BFF;
+  --sky:     #A3C0FF;
+  --lt:      #D0DEFF;
+  --pale:    #EBF1FF;
+  --ghost:   #F6F8FF;
+
+  /* Semantic */
+  --alta-c:  #1B2B5E; --alta-b:  #E2E9FF;
+  --media-c: #3D60C4; --media-b: #EBF0FF;
+  --baja-c:  #6E9BFF; --baja-b:  #F2F6FF;
+  --comp-c:  #1B2B5E; --comp-b:  #DDE5FF;
+  --act-c:   #2D5CC4; --act-b:   #EBF0FF;
+  --ok-c:    #1E80C2; --ok-b:    #E5F4FF;
+
+  /* Neutrals */
+  --slate:  #7A8BA8;
+  --text:   #1A2332;
+  --border: #E5EBF5;
+  --bg:     #F5F7FA;
+  --white:  #FFFFFF;
+  --shadow: 0 1px 4px rgba(27,43,94,.07);
+  --shadow-hover: 0 4px 16px rgba(27,43,94,.13);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;-webkit-font-smoothing:antialiased;}
+
+/* ── TOP BAR ── */
+#topbar{
+  background:var(--white);border-bottom:1px solid var(--border);
+  color:var(--text);padding:0 28px;display:flex;align-items:center;
+  justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;}
+#topbar h1{font-size:14px;font-weight:600;color:var(--navy);letter-spacing:-.1px;}
+#topbar .meta{font-size:11px;color:var(--slate);margin-left:10px;font-weight:400;}
+#topbar .right{display:flex;align-items:center;gap:10px;}
+#expo-badge{
+  background:var(--blue);color:#fff;padding:4px 12px;border-radius:6px;
+  font-size:10.5px;font-weight:600;animation:pulse 2.5s infinite;letter-spacing:.2px;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
+#view-toggle{display:flex;background:var(--ghost);border-radius:6px;overflow:hidden;border:1px solid var(--border);}
+#view-toggle button{background:none;border:none;color:var(--slate);padding:5px 14px;cursor:pointer;font-size:11.5px;font-weight:500;font-family:inherit;transition:all .12s;}
+#view-toggle button.active{background:var(--white);color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+
+/* ── ALERT BANNER ── */
+#alert-banner{
+  background:var(--navy);color:rgba(255,255,255,.85);
+  text-align:center;padding:7px 16px;font-size:11px;font-weight:400;letter-spacing:.1px;}
+#alert-banner strong{color:#fff;font-weight:600;}
+
+/* ── KPI ROW ── */
+#kpi-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:16px 28px 10px;max-width:1600px;margin:0 auto;}
+.kpi{
+  background:var(--white);border-radius:8px;padding:14px 16px;
+  border:1px solid var(--border);}
+.kpi .num{font-size:26px;font-weight:300;color:var(--navy);line-height:1;letter-spacing:-1px;}
+.kpi.k-alta .num{color:var(--alta-c);}
+.kpi.k-media .num{color:var(--royal);}
+.kpi.k-baja .num{color:var(--blue);}
+.kpi.k-comp .num{color:var(--navy);}
+.kpi.k-ok .num{color:var(--ok-c);}
+.kpi.k-gold .num{color:var(--blue);}
+.kpi .lbl{font-size:9.5px;color:var(--slate);margin-top:6px;font-weight:500;text-transform:uppercase;letter-spacing:.7px;}
+
+/* ── FILTER BAR ── */
+#filter-bar{
+  background:var(--white);border-bottom:1px solid var(--border);padding:9px 28px;
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  max-width:1600px;margin:0 auto 2px;}
+.filter-group{display:flex;align-items:center;gap:5px;}
+.filter-group label{font-size:10.5px;font-weight:500;color:var(--slate);white-space:nowrap;}
+select,input[type=search]{
+  border:1px solid var(--border);border-radius:5px;padding:4px 9px;
+  font-size:11.5px;background:var(--ghost);color:var(--text);outline:none;
+  font-family:inherit;transition:border-color .12s;font-weight:400;}
+select:focus,input:focus{border-color:var(--blue);background:var(--white);}
+#search-box{width:188px;}
+#btn-reset{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 10px;
+  cursor:pointer;font-size:11px;font-weight:500;color:var(--slate);font-family:inherit;}
+#btn-reset:hover{border-color:var(--sky);color:var(--royal);}
+.spacer{flex:1;}
+#count-badge{background:var(--navy);color:#fff;padding:3px 10px;border-radius:5px;font-size:10.5px;font-weight:500;letter-spacing:.2px;}
+
+/* ── MAIN AREA ── */
+#main{max-width:1600px;margin:0 auto;padding:14px 28px 48px;}
+
+/* ── CARDS VIEW ── */
+#cards-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:12px;}
+
+.account-card{
+  background:var(--white);border-radius:8px;border:1px solid var(--border);
+  overflow:hidden;transition:box-shadow .15s,transform .15s;cursor:pointer;}
+.account-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px);}
+.account-card.Alta{border-top:3px solid var(--alta-c);}
+.account-card.Media{border-top:3px solid var(--royal);}
+.account-card.Baja{border-top:3px solid var(--mid);}
+.account-card.status-contactado{border-color:var(--ok-c);}
+.account-card.status-en_proceso{border-color:var(--blue);}
+.account-card.status-cerrado{border-color:var(--navy);}
+
+.card-header{padding:12px 14px 6px;display:flex;justify-content:space-between;align-items:flex-start;}
+.card-empresa{font-size:13.5px;font-weight:600;color:var(--navy);line-height:1.3;}
+.card-flota{text-align:right;}
+.card-flota .num{font-size:18px;font-weight:300;color:var(--royal);letter-spacing:-.5px;}
+.card-flota .lbl{font-size:8.5px;color:var(--slate);text-transform:uppercase;letter-spacing:.6px;font-weight:500;}
+
+.card-meta{padding:0 14px 7px;display:flex;gap:5px;flex-wrap:wrap;}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500;}
+.tag.sector{background:var(--pale);color:var(--royal);}
+.tag.ciudad{background:var(--ghost);color:var(--slate);border:1px solid var(--border);}
+.tag.Alta{background:var(--alta-b);color:var(--alta-c);}
+.tag.Media{background:var(--media-b);color:var(--media-c);}
+.tag.Baja{background:var(--baja-b);color:var(--baja-c);}
+.tag.exec{background:var(--ghost);color:var(--navy2);border:1px solid var(--border);}
+.tag.competitor{background:var(--comp-b);color:var(--comp-c);font-weight:600;}
+.tag.no-ident{background:var(--ok-b);color:var(--ok-c);}
+
+.card-prov{padding:3px 14px 3px;font-size:11px;display:flex;align-items:center;gap:5px;}
+.prov-label{font-weight:500;color:var(--slate);}
+.prov-value{color:var(--text);}
+.prov-value.competitor{color:var(--alta-c);font-weight:600;}
+.prov-value.open{color:var(--ok-c);font-weight:500;}
+
+.card-contact{padding:3px 14px 7px;font-size:11px;color:var(--slate);}
+.card-contact a{color:var(--blue);text-decoration:none;font-weight:400;}
+.card-contact a:hover{text-decoration:underline;}
+
+.card-senales{background:var(--ghost);padding:8px 14px;font-size:11px;line-height:1.65;
+  border-top:1px solid var(--border);}
+.card-senales .senales-title{font-weight:600;font-size:9px;text-transform:uppercase;
+  color:var(--slate);margin-bottom:4px;letter-spacing:.7px;}
+.senal-item{display:flex;gap:6px;margin-bottom:2px;color:var(--text);}
+.senal-dot{color:var(--mid);flex-shrink:0;margin-top:2px;font-size:8px;}
+
+.card-angulo{padding:8px 14px;background:var(--white);font-size:11px;color:var(--navy2);
+  line-height:1.55;border-top:1px solid var(--border);}
+.angulo-title{font-weight:600;font-size:9px;text-transform:uppercase;color:var(--royal);
+  margin-bottom:3px;letter-spacing:.7px;}
+
+.card-footer{padding:7px 14px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--ghost);}
+.card-accion{font-size:11px;font-weight:500;color:var(--act-c);flex:1;}
+
+.status-select{border:1px solid var(--border);border-radius:5px;padding:3px 6px;
+  font-size:10px;font-weight:500;cursor:pointer;background:var(--white);font-family:inherit;color:var(--slate);}
+.status-select.s-contactado{border-color:var(--ok-c);color:var(--ok-c);background:var(--ok-b);}
+.status-select.s-en_proceso{border-color:var(--blue);color:var(--blue);background:var(--pale);}
+.status-select.s-cerrado{border-color:var(--navy);color:var(--navy);background:var(--ghost);}
+
+/* ── TABLE VIEW ── */
+#table-view{display:none;overflow-x:auto;border-radius:8px;}
+table{width:100%;border-collapse:collapse;background:var(--white);border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+thead tr{background:var(--navy);}
+thead th{color:rgba(255,255,255,.8);padding:10px 12px;text-align:left;font-size:9.5px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.7px;white-space:nowrap;}
+thead th.sortable{cursor:pointer;}
+thead th.sortable:hover{color:#fff;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
+tbody tr:hover{background:var(--ghost);}
+tbody td{padding:9px 12px;font-size:12px;vertical-align:top;color:var(--text);}
+tbody td.empresa-col{font-weight:600;color:var(--navy);min-width:160px;}
+tbody td.num-col{font-weight:300;font-size:14px;color:var(--royal);text-align:right;white-space:nowrap;}
+tbody td.prov-col.comp{color:var(--comp-c);font-weight:500;}
+tbody td.prov-col.open{color:var(--ok-c);}
+tbody td.accion-col{color:var(--act-c);font-weight:400;min-width:200px;}
+tbody td .contact-mini{font-size:10px;color:var(--slate);margin-top:2px;}
+tbody td .contact-mini a{color:var(--blue);}
+.pri-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px;}
+.pri-dot.Alta{background:var(--alta-c);}
+.pri-dot.Media{background:var(--royal);}
+.pri-dot.Baja{background:var(--mid);}
+
+/* ── MODAL ── */
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,18,48,.45);z-index:200;
+  justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px);}
+#modal-overlay.active{display:flex;}
+#modal{background:var(--white);border-radius:10px;max-width:680px;width:100%;max-height:90vh;
+  overflow-y:auto;box-shadow:0 20px 60px rgba(27,43,94,.25);border:1px solid var(--border);}
+#modal-header{background:var(--navy);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;
+  display:flex;justify-content:space-between;align-items:flex-start;}
+#modal-header h2{font-size:16px;font-weight:600;letter-spacing:-.2px;}
+#modal-header .close-btn{background:rgba(255,255,255,.12);border:none;color:#fff;
+  font-size:14px;cursor:pointer;padding:4px 8px;line-height:1;border-radius:4px;font-family:inherit;}
+#modal-header .close-btn:hover{background:rgba(255,255,255,.22);}
+#modal-body{padding:20px;}
+.modal-section{margin-bottom:16px;}
+.modal-section h3{font-size:9.5px;font-weight:600;text-transform:uppercase;color:var(--slate);
+  letter-spacing:.7px;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:5px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.modal-field{background:var(--ghost);border-radius:6px;padding:8px 12px;border:1px solid var(--border);}
+.modal-field .field-lbl{font-size:9px;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:.6px;}
+.modal-field .field-val{font-size:12.5px;font-weight:400;color:var(--text);margin-top:3px;}
+.modal-field.full{grid-column:1/-1;}
+.senales-list{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.senales-list li{background:var(--ghost);border-radius:5px;padding:6px 10px;font-size:11.5px;
+  display:flex;gap:8px;align-items:flex-start;border:1px solid var(--border);color:var(--text);}
+.senales-list li::before{content:'·';color:var(--blue);flex-shrink:0;font-size:18px;line-height:.9;margin-top:0px;}
+.angulo-box{background:var(--ghost);border-left:3px solid var(--royal);border-radius:0 6px 6px 0;
+  padding:11px 14px;font-size:12px;line-height:1.65;color:var(--navy2);}
+.accion-box{background:var(--pale);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;
+  padding:11px 14px;font-size:12px;font-weight:500;color:var(--act-c);}
+.notes-area{width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;
+  font-size:12px;resize:vertical;min-height:70px;font-family:inherit;background:var(--ghost);color:var(--text);}
+.notes-area:focus{outline:none;border-color:var(--blue);}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+.btn{padding:7px 16px;border-radius:6px;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--royal);}
+.btn-secondary{background:var(--ghost);color:var(--slate);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--pale);}
+
+/* ── CHARTS ── */
+#charts-row{display:grid;grid-template-columns:280px 280px 1fr;gap:10px;margin-bottom:12px;}
+.chart-card{background:var(--white);border-radius:8px;padding:14px 16px;border:1px solid var(--border);}
+.chart-card h3{font-size:9.5px;font-weight:600;color:var(--slate);text-transform:uppercase;
+  letter-spacing:.7px;margin-bottom:12px;}
+.bar-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.bar-item .bar-label{font-size:11px;color:var(--text);width:110px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400;}
+.bar-item .bar-track{flex:1;background:var(--pale);border-radius:3px;height:8px;}
+.bar-item .bar-fill{height:8px;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.bar-item .bar-val{font-size:11px;font-weight:500;color:var(--slate);min-width:28px;text-align:right;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text);}
+.legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* ── URGENCY ITEMS ── */
+.urgency-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto;}
+.urgency-item{background:var(--ghost);border-left:2px solid var(--blue);
+  border-radius:0 5px 5px 0;padding:6px 10px;font-size:11px;cursor:pointer;transition:background .1s;}
+.urgency-item:hover{background:var(--pale);}
+.urgency-item .urg-empresa{font-weight:600;color:var(--navy);}
+.urgency-item .urg-exec{color:var(--slate);font-size:10.5px;}
+
+/* ── EMPTY STATE ── */
+#empty-state{display:none;text-align:center;padding:60px 20px;color:var(--slate);}
+#empty-state .big{font-size:40px;margin-bottom:12px;opacity:.4;}
+#empty-state p{font-size:13px;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--lt);border-radius:4px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #kpi-row{grid-template-columns:repeat(4,1fr);}
+  #charts-row{grid-template-columns:1fr 1fr;}
+  #cards-view{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;letter-spacing:-.5px;">N</div>
+    <h1>Numaris &nbsp;<span style="color:var(--border);font-weight:300;">/</span>&nbsp; ABM Intelligence &nbsp;<span style="color:var(--border);font-weight:300;">/</span>&nbsp; <span style="color:var(--slate);font-weight:400;">Top Targets 2026</span></h1>
+  </div>
+  <div class="right">
+    <div id="expo-badge">⚡ EXPO MTY · 20-22 MAYO · 9 DÍAS</div>
+    <div id="view-toggle">
+      <button class="active" onclick="setView('cards')" id="btn-cards">▦ Tarjetas</button>
+      <button onclick="setView('table')" id="btn-table">☰ Tabla</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div id="alert-banner">
+  <strong>EXPO PROVEEDORES DEL TRANSPORTE</strong> &nbsp;·&nbsp; Cintermex Monterrey &nbsp;·&nbsp; 20–22 Mayo 2026 &nbsp;·&nbsp; ~693 expositores · ~14,000 visitantes &nbsp;·&nbsp; <strong>Holcim, FEMSA, Arca, Gruma, Grupo La Florida asistirán</strong>
+</div>
+
+<!-- KPIs -->
+<div id="kpi-row">
+  <div class="kpi"><div class="num" id="kpi-total">0</div><div class="lbl">Cuentas activas</div></div>
+  <div class="kpi k-alta"><div class="num" id="kpi-alta">0</div><div class="lbl">▲ Alta prioridad</div></div>
+  <div class="kpi k-media"><div class="num" id="kpi-media">0</div><div class="lbl">● Media prioridad</div></div>
+  <div class="kpi k-baja"><div class="num" id="kpi-flota">0</div><div class="lbl">◈ Unidades en juego</div></div>
+  <div class="kpi k-comp"><div class="num" id="kpi-comp">0</div><div class="lbl">⚑ Competidor detectado</div></div>
+  <div class="kpi k-ok"><div class="num" id="kpi-contact">0</div><div class="lbl">✉ Con contacto directo</div></div>
+  <div class="kpi k-gold"><div class="num" id="kpi-accionadas">0</div><div class="lbl">★ Accionadas hoy</div></div>
+</div>
+
+<!-- FILTER BAR -->
+<div id="filter-bar">
+  <div class="filter-group">
+    <label>🔍</label>
+    <input type="search" id="search-box" placeholder="Buscar empresa..." oninput="applyFilters()">
+  </div>
+  <div class="filter-group">
+    <label>Comercial</label>
+    <select id="f-exec" onchange="applyFilters()"><option value="">Todos</option></select>
+  </div>
+  <div class="filter-group">
+    <label>Prioridad</label>
+    <select id="f-pri" onchange="applyFilters()">
+      <option value="">Todas</option>
+      <option value="Alta">▲ Alta</option>
+      <option value="Media">● Media</option>
+      <option value="Baja">○ Baja</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Sector</label>
+    <select id="f-sector" onchange="applyFilters()"><option value="">Todos</option></select>
+  </div>
+  <div class="filter-group">
+    <label>Competidor</label>
+    <select id="f-comp" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="GEOTAB">Geotab</option>
+      <option value="SAMSARA">Samsara</option>
+      <option value="MOTIVE">Motive</option>
+      <option value="SOLISTICA">Solistica</option>
+      <option value="OPEN">Sin competidor identificado</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Estado</label>
+    <select id="f-status" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="contactado">Contactado</option>
+      <option value="en_proceso">En proceso</option>
+      <option value="cerrado">Cerrado</option>
+    </select>
+  </div>
+  <button id="btn-reset" onclick="resetFilters()">✕ Limpiar</button>
+  <div class="spacer"></div>
+  <span id="count-badge">— cuentas</span>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- CHARTS ROW -->
+  <div id="charts-row">
+    <div class="chart-card">
+      <h3>Prioridad por flota</h3>
+      <div id="chart-pri"></div>
+    </div>
+    <div class="chart-card">
+      <h3>Competidores detectados</h3>
+      <div id="chart-comp"></div>
+    </div>
+    <div class="chart-card">
+      <h3>⚡ Urgentes: acción esta semana</h3>
+      <div class="urgency-list" id="urgency-list"></div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div id="cards-view"></div>
+  <!-- TABLE -->
+  <div id="table-view">
+    <table>
+      <thead>
+        <tr>
+          <th class="sortable" onclick="sortTable('prioridad')">PRI</th>
+          <th class="sortable" onclick="sortTable('empresa')">EMPRESA</th>
+          <th class="sortable" onclick="sortTable('flota')">FLOTA ↕</th>
+          <th>SECTOR</th>
+          <th>EJECUTIVO</th>
+          <th>CONTACTO</th>
+          <th class="sortable" onclick="sortTable('proveedor')">PROVEEDOR ACTUAL</th>
+          <th>SEÑAL CLAVE</th>
+          <th>ACCIÓN</th>
+          <th>ESTADO</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+  <div id="empty-state"><div class="big">🔍</div><p>No se encontraron cuentas con esos filtros.</p></div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal">
+    <div id="modal-header">
+      <div>
+        <h2 id="modal-title"></h2>
+        <div id="modal-subtitle" style="font-size:12px;opacity:.8;margin-top:2px;"></div>
+      </div>
+      <button class="close-btn" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const ACCOUNTS = [
+  // ── JOSE GUADALUPE CASTILLO OLVERA ──
+  {id:1,exec:"Jose Guadalupe Castillo Olvera",empresa:"Grupo Bimbo",flota:50000,sector:"Distribución y Logística",ciudad:"CDMX",prioridad:"Alta",contacto:"Diogenes Francisco Vidal",email:"diogenes.vidal@grupobimbo.com",tel:"(993) 310-2048",proveedor:"GEOTAB (Premio Innovación 2025)",senales:["Invierte $2,000 MDD en flota 2025-2028 (Plan México)","4,200 unidades EV — mayor flota eléctrica de LatAm","Moderniza 30+ plantas; evaluando proveedores complementarios","Expo Proveedores MTY: 20-22 Mayo ← URGENTE"],angulo:"La expansión EV requiere gestión de flota mixta (EV+ICE). Numaris puede entrar por módulos que Geotab no cubre: RNDC compliance, mantenimiento predictivo, gestión de combustible en distribución secundaria.",accion:"Llamada a Diogenes antes del 20 Mayo + invitación Expo MTY"},
+
+  {id:2,exec:"Jose Guadalupe Castillo Olvera",empresa:"Grupo IAMSA",flota:5200,sector:"Transporte de Pasajeros",ciudad:"CDMX",prioridad:"Media",contacto:"Andrés Fastlicht (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["10,000 autobuses — 25% del mercado federal de pasajeros MX","Marcas: ETN, Turistar Lujo, Costa Line, Amealcenses","Alta regulación NOM-087 seguridad vial y fatiga de conductores","Expo Foro Movilidad 2026 — organizado por ANTP (asistieron)"],angulo:"Tamaño enorme. Necesidad crítica de gestión de conductores, control de velocidad, fatiga. Entrar por cumplimiento normativo NOM-087 pasajeros.",accion:"LinkedIn a Fastlicht + solicitar reunión técnica NOM-087"},
+
+  {id:3,exec:"Jose Guadalupe Castillo Olvera",empresa:"Danone México",flota:3000,sector:"Distribución FMCG",ciudad:"CDMX",prioridad:"Media",contacto:"Silvia Dávila (CEO)",email:"",tel:"",proveedor:"Sistema interno (Torre de Control propia ~2020)",senales:["Invirtió 300 MDP en renovación de flota","Sistema Torre de Control tiene ~5 años — probable renovación 2025-2026","Redujo accidentes 50%+ con sistema actual — busca mejorar KPIs","Reconfiguró estrategia logística recientemente (TyT 2025)"],angulo:"Su Torre de Control tiene ~5 años — ventana de renovación. Pitch: Numaris ofrece videotelemática IA + RNDC integrado que su sistema interno no tiene.",accion:"Buscar Director de Logística en LinkedIn; ofrecer benchmark gratuito"},
+
+  {id:4,exec:"Jose Guadalupe Castillo Olvera",empresa:"Gruma Logística",flota:2800,sector:"Distribución y Logística",ciudad:"Nuevo León",prioridad:"Media",contacto:"Juan Antonio González Moreno (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Implementando flota eléctrica (reducción 4% carbono)","Distribución mixta: flota propia + tercerización","Regulación RNDC aplica a su flota primaria","Base en Monterrey — Expo Proveedores MTY mayo 20-22"],angulo:"Nearshoring impulsa expansión logística de Gruma. Necesitan integrar flota propia + tercerizada. Oportunidad: Expo Proveedores MTY.",accion:"Stand en Expo MTY + contacto Director de Logística Monterrey"},
+
+  {id:5,exec:"Jose Guadalupe Castillo Olvera",empresa:"Transportes Monterrey",flota:2800,sector:"Autotransporte de Carga",ciudad:"Nuevo León",prioridad:"Media",contacto:"Sergio Morales (Grupo La Florida)",email:"smoralesm@grupolaflorida.com",tel:"(554) 448-9549",proveedor:"No identificado",senales:["Mismo contacto que Transportes Frontera y del Norte → Grupo La Florida","3 transportistas con ~9,600 unidades bajo mismo decisor operativo","Llamada única = propuesta de grupo","Nearshoring en NL impulsa demanda de carga"],angulo:"Si Sergio Morales decide operativamente las 3 empresas de Grupo La Florida, una sola reunión puede abrir 9,600 unidades en 3 contratos.",accion:"🔥 LLAMAR ESTA SEMANA a Sergio Morales — propuesta grupal La Florida"},
+
+  // ── PABLO CASELLAS ──
+  {id:6,exec:"Pablo Casellas",empresa:"GEPP (PepsiCo México)",flota:6000,sector:"Distribución FMCG",ciudad:"CDMX",prioridad:"Alta",contacto:"Oscar Piñon Arredondo (Ops)",email:"Oscar.PinonArredondo@gepp.com",tel:"",proveedor:"GEOTAB (alianza global 2015, 20,000+ vehículos, videotelemática 100% flota primaria 2024)",senales:["Escalando videotelemática a flota secundaria (2024-2026)","320 camionetas EV en CDMX — ampliando flota eléctrica","Oscar Piñon es el contacto operativo directo","Flota secundaria de distribución = punto débil de Geotab"],angulo:"La flota secundaria (distribución última milla) es el punto débil de Geotab. GEPP planea extender videotelemática — si Numaris llega antes con propuesta para flota secundaria, puede entrar.",accion:"Email a Oscar Piñon esta semana — propuesta módulo flota secundaria"},
+
+  {id:7,exec:"Pablo Casellas",empresa:"Grupo Modelo Logística",flota:4500,sector:"Distribución y Logística",ciudad:"CDMX",prioridad:"Alta",contacto:"Germán Rivera (Ops)",email:"german.rivera@ab-inbev.lat",tel:"",proveedor:"Múltiple: 1,500 unidades tercerizadas con diferentes GPS; BYD propio con telemetría",senales:["Meta: 500 camiones EV (15% de flota) para 2025 — nueva tecnología entrando","1,500 unidades tercerizadas con 230+ destinos y múltiples GPS — caos operativo","Primera flotilla eléctrica pesada en México (BYD) con telemetría embarcada","LinkedIn: AB InBev MX muy activo"],angulo:"El caos de múltiples GPS en flota tercerizada es la oportunidad. Numaris puede unificar visibilidad en una sola plataforma. Pitch: 'Control Tower único para flota propia + tercerizada'.",accion:"Email Germán Rivera esta semana + demo Control Tower unificada"},
+
+  {id:8,exec:"Pablo Casellas",empresa:"Penske México",flota:4000,sector:"Logística 3PL",ciudad:"Edo. de México",prioridad:"Media",contacto:"Roger Penske (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora + 3PL — gestión de activos crítica","Operaciones en zona CDMX/Toluca (corredor nearshoring)","Mercado de arrendadoras en crecimiento por nearshoring"],angulo:"Arrendadoras necesitan rastreo de activos + facturación de km/horas a clientes. Módulo específico arrendadora + telemática integrada.",accion:"Buscar Director de Operaciones MX en LinkedIn — propuesta módulo arrendadora"},
+
+  {id:9,exec:"Pablo Casellas",empresa:"Grupo Televisa Fleet",flota:3800,sector:"Flota Ejecutiva",ciudad:"CDMX",prioridad:"Media",contacto:"Alfonso de Angoitia (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Flota ejecutiva + unidades de producción (OB trucks, transmisión)","Fusión con Univision → TelevisaUnivision — posible consolidación de flota","Flota diversa: autos ejecutivos, camiones de producción, generadores"],angulo:"Flota diversa en proceso de consolidación post-fusión TelevisaUnivision. Oportunidad en gestión de flota ejecutiva + activos de producción en una plataforma.",accion:"LinkedIn a Director de Compras TelevisaUnivision — propuesta consolidación"},
+
+  {id:10,exec:"Pablo Casellas",empresa:"DHL Express México",flota:3600,sector:"Distribución y Logística",ciudad:"Edo. de México",prioridad:"Media",contacto:"Adolfo Eletvan Chavez (Ops)",email:"adolfo.chavez@dhl.com",tel:"",proveedor:"Sistema global DHL (parcialmente)",senales:["Sistemas globales DHL no siempre cubren normativa RNDC local","Contacto operativo directo: Adolfo Eletvan Chavez","Crecimiento de e-commerce impulsa expansión flota last-mile"],angulo:"El sistema global de DHL tiene gaps en compliance local mexicano (RNDC, NOM). Propuesta específica RNDC compliance + gestión de conductores.",accion:"Email a Adolfo Eletvan: RNDC compliance + módulo last-mile"},
+
+  // ── MARIO RINCÓN ──
+  {id:11,exec:"Mario Rincón",empresa:"FEMSA Logística (Solistica)",flota:12000,sector:"Logística 3PL",ciudad:"Nuevo León",prioridad:"Alta",contacto:"Jorge M. Sampedro (Ops)",email:"jorge.sampedro@fl.com.mx",tel:"(555) 353-...",proveedor:"Sistema propio Solistica (Centro de Monitoreo interno)",senales:["Gestiona distribución primaria de Coca-Cola FEMSA y Heineken MX","100% telemetría en flota de distribución secundaria","FEMSA planea 45% electrificación flota para 2030 → evaluando tecnología","Expo Proveedores MTY: presencia muy probable (base en NL)"],angulo:"Sistema propio pero el plan de electrificación 45% al 2030 requiere plataforma de gestión EV que su sistema actual no tiene. Ángulo: gestión de flota mixta EV+diésel.",accion:"Email Jorge Sampedro + agenda en Expo MTY 20-22 Mayo"},
+
+  {id:12,exec:"Mario Rincón",empresa:"Arca Continental Logística",flota:8500,sector:"Distribución FMCG",ciudad:"Nuevo León",prioridad:"Alta",contacto:"Carlos Lozano (Ops)",email:"",tel:"",proveedor:"GEOTAB (casi 20,000 vehículos, 5 países, $2M USD ahorrados en año 1)",senales:["Expansión activa: nueva flota en Ecuador (marzo 2026) y Perú (feb 2026)","Dow Jones Sustainability Index 7° año consecutivo → presión ESG","Geotab muy arraigado en MX — oportunidad en países de expansión","Necesidades de compliance local en Ecuador/Perú que Geotab puede no cubrir"],angulo:"Geotab consolidado en MX. La oportunidad está en los países en expansión. Propuesta: Numaris como solución para operaciones en Sudamérica o módulos específicos.",accion:"Contactar Carlos Lozano — ángulo ESG + expansión regional"},
+
+  {id:13,exec:"Mario Rincón",empresa:"Pac Lease México",flota:6000,sector:"Arrendadora",ciudad:"Nuevo León",prioridad:"Media",contacto:"Iván Buitrón Pérez (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora de equipo pesado — 6,000 unidades en NL","Nearshoring dispara demanda de arrendamiento corredor NL-CDMX","Necesita rastreo de activos + módulo de billing por km","Expo Proveedores MTY: cliente y expositor probable"],angulo:"Las arrendadoras necesitan: (1) rastreo de activos en tiempo real, (2) reporte de km/horas para facturación, (3) alertas de mantenimiento. Propuesta módulo específico arrendadora.",accion:"Buscar a Iván Buitrón en LinkedIn — propuesta módulo arrendadora"},
+
+  {id:14,exec:"Mario Rincón",empresa:"Transportes Frontera",flota:3800,sector:"Autotransporte de Carga",ciudad:"Tamaulipas",prioridad:"Media",contacto:"Sergio Morales (Grupo La Florida)",email:"smoralesm@grupolaflorida.com",tel:"(554) 448-9549",proveedor:"No identificado",senales:["Mismo grupo operativo que Transportes Monterrey y del Norte (La Florida)","Tamaulipas: corredor de alto riesgo → seguridad y rastreo críticos","RNDC mandatory en rutas internacionales frontera","3 empresas = ~9,600 unidades con UN decisor"],angulo:"Grupo La Florida es una oportunidad de grupo. Sergio Morales decide operativamente las 3. Ángulo: seguridad en corredor Tamaulipas + RNDC para frontera.",accion:"🔥 Llamada URGENTE a Sergio Morales — propuesta grupal La Florida"},
+
+  {id:15,exec:"Mario Rincón",empresa:"Transportes del Norte",flota:2600,sector:"Autotransporte de Carga",ciudad:"Nuevo León",prioridad:"Media",contacto:"Sergio Morales (Grupo La Florida)",email:"smoralesm@grupolaflorida.com",tel:"(554) 448-9549",proveedor:"No identificado",senales:["Tercer empresa de Grupo La Florida (ver Transportes Frontera)","Base en NL — Expo Proveedores MTY relevante","Nearshoring en NL = crecimiento de carga automotriz"],angulo:"Ver Transportes Frontera — misma estrategia grupal. Si se cierra Grupo La Florida completo: ~9,600 unidades en 3 contratos.",accion:"Incluir en propuesta grupal La Florida — misma llamada a Sergio Morales"},
+
+  // ── JOEL ARAIZA ──
+  {id:16,exec:"Joel Araiza",empresa:"DHL Supply Chain MX",flota:6000,sector:"Logística 3PL",ciudad:"Edo. de México",prioridad:"Alta",contacto:"Antonio Arranz (CEO)",email:"",tel:"",proveedor:"Sistema global DHL (robótica + tracking de activos propio)",senales:["Asociación con Walmart MX para distribución → crecimiento de flota","Sistema global DHL no cubre compliance RNDC México adecuadamente","Innovaciones en robótica y wearables en almacén — abiertos a tech","Buscar Director de Flota o Transporte MX en LinkedIn"],angulo:"Supply Chain más abierto a proveedores locales. RNDC compliance + gestión de conductores son gaps del sistema global. Propuesta técnica específica.",accion:"Buscar Director de Transporte DHL Supply Chain MX en LinkedIn"},
+
+  {id:17,exec:"Joel Araiza",empresa:"FedEx México",flota:3000,sector:"Distribución y Logística",ciudad:"CDMX",prioridad:"Media",contacto:"Vincent Vu (CEO)",email:"",tel:"",proveedor:"Sistema global FedEx (parcialmente)",senales:["Crecimiento de e-commerce: expansión de flota last-mile","Sistema global pero gaps en normativa local MX (RNDC)","Buscar Gerente de Flota México — no el CEO"],angulo:"E-commerce impulsa expansión last-mile. Gaps en RNDC y gestión de conductores locales. Contactar nivel Gerente de Flota.",accion:"LinkedIn a Gerente/Director de Flota FedEx México"},
+
+  {id:18,exec:"Joel Araiza",empresa:"Cargill México",flota:1800,sector:"Alimentos y Bebidas",ciudad:"CDMX",prioridad:"Media",contacto:"Localiza Portal (Ops)",email:"localiza@numaris.com",tel:"",proveedor:"Localiza/Numaris (¡ya es cliente!)",senales:["¡YA USA NUMARIS! (portal Localiza) — cliente existente a expandir","Oportunidad INMEDIATA: upsell de módulos adicionales","1,800 unidades — potencial de expansión significativo","Multinacional: abiertos a soluciones avanzadas con ROI demostrado"],angulo:"¡CUENTA EXISTENTE! Prioridad de upsell. Contactar al usuario del portal Localiza para revisar qué módulos no están usando. Propuesta de expansión de servicios.",accion:"🔥 URGENTE: Llamar a Localiza Portal esta semana — upsell Cargill"},
+
+  {id:19,exec:"Joel Araiza",empresa:"FEMSA Comercio (OXXO)",flota:0,sector:"Comercio Minorista",ciudad:"Nuevo León",prioridad:"Baja",contacto:"Asier Garaialde (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["20,000+ tiendas OXXO — flota de distribución interna real","Flota registrada en cero pero operación logística existe","Nearshoring impulsa crecimiento de puntos de venta"],angulo:"Cuenta estratégica a largo plazo. Primero establecer contacto a nivel Gerente de Logística/Distribución.",accion:"Investigar estructura logística OXXO — buscar Director de Distribución"},
+
+  {id:20,exec:"Joel Araiza",empresa:"Grupo Comercial Chedraui",flota:0,sector:"Comercio Minorista",ciudad:"Veracruz",prioridad:"Baja",contacto:"José Antonio Chedraui Eguía (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Expansión activa en MX y EUA (Smart & Final)","Flota de distribución propia + tercerizada","Sector retail: altas exigencias de trazabilidad de entrega"],angulo:"Similar a Walmart: exigen rastreo a proveedores de transporte. Coordinar con Lorena Bolaños sobre Chedraui Logística primero.",accion:"Coordinar con Lorena Bolaños sobre Chedraui Logística"},
+
+  // ── LORENA BOLAÑOS CACHO ──
+  {id:21,exec:"Lorena Bolaños Cacho",empresa:"Bachoco Logística",flota:3200,sector:"Distribución y Logística",ciudad:"Sonora",prioridad:"Alta",contacto:"Rodolfo Ramos Arvizu (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Sector agroalimentario — NOM-012 y trazabilidad de cadena fría crítica","Flota de distribución nacional de aves y productos refrigerados","Cadena fría: telemetría de temperatura en tiempo real es diferenciador","LinkedIn: directivos identificables"],angulo:"La cadena fría es el pain point. Numaris puede ofrecer telemetría de temperatura + rastreo en tiempo real para cumplimiento de NOM en cadena alimentaria. Diferenciador vs Geotab.",accion:"LinkedIn a Director de Logística Bachoco + propuesta cadena fría"},
+
+  {id:22,exec:"Lorena Bolaños Cacho",empresa:"Walmart Logística MX",flota:11000,sector:"Distribución y Logística",ciudad:"CDMX",prioridad:"Media",contacto:"Ignacio Caride (CEO)",email:"",tel:"",proveedor:"No identificado (usa DHL como partner + sistema interno)",senales:["Invierte $6,000 MDD en 2025 en logística y nuevas tiendas","EXIGE rastreo satelital + geocercas a todos sus proveedores de transporte","Implementando IA y ML en planificación de rutas","Flota EV en expansión + optimización rutas por sostenibilidad"],angulo:"Dos ángulos: (1) Flota propia 11,000 unidades con inversión activa, (2) Red de proveedores que deben usar rastreo Walmart-compatible. Buscar Director de Transporte.",accion:"LinkedIn a Director de Transporte Walmart MX — propuesta sostenibilidad"},
+
+  {id:23,exec:"Lorena Bolaños Cacho",empresa:"Chedraui Logística",flota:3500,sector:"Distribución y Logística",ciudad:"Veracruz",prioridad:"Media",contacto:"Carlos Eduardo Smith (CFO)",email:"",tel:"",proveedor:"No identificado",senales:["Expansión de tiendas en EUA (Smart & Final) → flota crossborder","Requiere trazabilidad + RNDC para rutas internacionales","Logística de distribución en crecimiento"],angulo:"Chedraui cruza a EUA con Smart & Final. RNDC + crossborder compliance es el ángulo.",accion:"Contactar a Jose Santiago (OP) — propuesta crossborder compliance"},
+
+  {id:24,exec:"Lorena Bolaños Cacho",empresa:"Castores",flota:3500,sector:"Autotransporte de Carga",ciudad:"Aguascalientes",prioridad:"Media",contacto:"Enrique Ramirez (Ops GPS)",email:"coordinadorgps@castores.com.mx",tel:"",proveedor:"Sistema propio (GPS + IAVE + satelital + Centro de Control)",senales:["Ya tienen sistema de rastreo propio — posiblemente desactualizado","Contacto operativo GPS identificado: Enrique Ramirez","Sistema actual NO tiene videotelemática IA ni RNDC integrado","Corredor Aguascalientes-CDMX: alto tráfico de robo"],angulo:"Tienen sistema pero sin videotelemática IA. Enrique Ramirez decide el upgrade. Propuesta: modernización con videotelemática + RNDC. ROI en reducción de siniestros.",accion:"Email a Enrique Ramirez (coordinadorgps) — propuesta modernización + videotelemática"},
+
+  {id:25,exec:"Lorena Bolaños Cacho",empresa:"Flecha Amarilla",flota:3200,sector:"Transporte de Pasajeros",ciudad:"Guanajuato",prioridad:"Media",contacto:"Edgar Jimenez (Ops)",email:"edgar.jimenez@daimlertruck.com",tel:"",proveedor:"No identificado",senales:["Autobús de pasajeros interprovincial — NOM-087 aplica","Contacto vía Daimler Truck — puede ser gestor de flota","Guanajuato: corredor industrial activo por nearshoring"],angulo:"Contacto vía Daimler puede ser aliado para co-vender telemática. Pitch: gestión de conductores + seguridad vial + NOM-087.",accion:"Email a Edgar Jimenez (Daimler/FA) — propuesta seguridad pasajeros"},
+
+  // ── JUAN ALEJANDRO DUARTE DELGADILLO ──
+  {id:26,exec:"Juan Alejandro Duarte Delgadillo",empresa:"Nestlé México",flota:5500,sector:"Distribución FMCG",ciudad:"CDMX",prioridad:"Alta",contacto:"Carlos Castillo Gomez (Ops)",email:"carlos.castillo1@mx.nestle.com",tel:"",proveedor:"No identificado (posible sistema legacy)",senales:["Invirtió $150 MDD en modernización logística en 2024","Meta: 30% de flota sostenible para 2026 → evaluando proveedores AHORA","14 fábricas, 8 centros de distribución, 200,000+ puntos de venta","Carlos Castillo es el contacto operativo directo — persona clave"],angulo:"La meta de 30% flota sostenible para 2026 y la inversión activa significa que ESTÁN evaluando tecnología ahora. Propuesta: plataforma de gestión EV + reporting de emisiones CO2 (ESG compliance).",accion:"📧 EMAIL URGENTE a carlos.castillo1@mx.nestle.com — propuesta ESG + gestión flota EV"},
+
+  {id:27,exec:"Juan Alejandro Duarte Delgadillo",empresa:"Jumex Distribución",flota:3500,sector:"Distribución y Logística",ciudad:"Edo. de México",prioridad:"Media",contacto:"Eugenio López Rodea (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Distribución de jugos y bebidas — similar a Arca Continental","Flota de distribución primaria y secundaria","Sector beverages con alta frecuencia de rutas urbanas","Oportunidad de first-mover (sin Geotab identificado)"],angulo:"Perfil similar a Arca Continental pero sin Geotab identificado. Oportunidad de first-mover. Buscar Director de Logística en LinkedIn.",accion:"LinkedIn a Director de Logística Jumex + reunión de diagnóstico"},
+
+  {id:28,exec:"Juan Alejandro Duarte Delgadillo",empresa:"Grupo Financiero Banorte",flota:0,sector:"Banca y Servicios Financieros",ciudad:"Nuevo León",prioridad:"Baja",contacto:"Marcos Ramírez Miguel (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Banco con flota ejecutiva + flota de servicio de cajeros","Flota de vehículos de servicio técnico ATM — alta seguridad","Expo MTY: Banorte tiene presencia en NL"],angulo:"Dos segmentos: flota ejecutiva corporativa + vehículos de servicio técnico ATM. El segundo es más interesante por seguridad y compliance.",accion:"LinkedIn a Director de Servicios Generales Banorte"},
+
+  {id:29,exec:"Juan Alejandro Duarte Delgadillo",empresa:"Liverpool Logística",flota:0,sector:"Distribución Retail",ciudad:"CDMX",prioridad:"Baja",contacto:"Jose Santiago (Ops)",email:"",tel:"",proveedor:"No identificado",senales:["E-commerce Liverpool en fuerte crecimiento → más entregas last-mile","Distribución de productos de alto valor — seguridad crítica"],angulo:"Coordinar con Elizabeth Cortes — Liverpool Logística es su cuenta. Un acuerdo en logística puede escalar a Liverpool retail.",accion:"Coordinar con Elizabeth Cortes sobre Liverpool Logística"},
+
+  // ── GUILLERMO QUIJANO GOMEZ ──
+  {id:30,exec:"Guillermo Quijano Gomez",empresa:"General Motors de México",flota:3000,sector:"OEM Automotriz",ciudad:"Edo. de México",prioridad:"Alta",contacto:"Francisco Garza (CEO)",email:"",tel:"",proveedor:"GEOTAB (primera integración OEM para vehículos ligeros MX — marzo 2025, via OnStar)",senales:["Alianza GM-Geotab anunciada marzo 2025: telemática nativa via OnStar sin hardware externo","Chevrolet, Buick, GMC, Cadillac con Geotab nativo","La flota INTERNA de GM no necesariamente usa Geotab para todo","Buscar Director de Flota Interna GM MX en LinkedIn"],angulo:"La alianza GM-Geotab afecta a clientes de GM, no a la flota operativa de GM México. La flota interna de GM (distribución de partes, ejecutivos, planta) puede tener necesidades que Geotab OEM no cubre.",accion:"LinkedIn a Director de Flota / Servicios Generales GM MX — pitch diferenciado"},
+
+  {id:31,exec:"Guillermo Quijano Gomez",empresa:"Kavak",flota:3000,sector:"Marketplace Automotriz",ciudad:"CDMX",prioridad:"Media",contacto:"Carlos García Ottati (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Kavak mueve miles de vehículos usados entre hubs — flota de traslado masiva","Tech company: muy abiertos a soluciones digitales e innovadoras","Expansión agresiva en LatAm → necesita escalar gestión de activos","LinkedIn: equipo muy activo — buscar Head of Operations o Fleet"],angulo:"Kavak no es empresa de transporte tradicional — es una tech company con flota. Vender como 'asset tracking platform' no como telemática. Pitch moderno con API/dashboard.",accion:"LinkedIn a Head of Operations Kavak — propuesta asset tracking"},
+
+  {id:32,exec:"Guillermo Quijano Gomez",empresa:"P&G México",flota:2700,sector:"Flota Ejecutiva",ciudad:"CDMX",prioridad:"Media",contacto:"Alejandro Rodríguez Bas (CEO)",email:"",tel:"",proveedor:"Probable sistema corporativo global P&G",senales:["Multinacional con sistema global — gaps locales en RNDC","Flota ejecutiva + distribución de productos de consumo","RNDC compliance para rutas de distribución"],angulo:"Sistema global con gaps locales. El ángulo es RNDC compliance que el sistema global no cubre. Buscar Fleet Manager México.",accion:"LinkedIn a Fleet Manager P&G México"},
+
+  {id:33,exec:"Guillermo Quijano Gomez",empresa:"SIXT México",flota:2500,sector:"Arrendadora",ciudad:"Quintana Roo",prioridad:"Media",contacto:"Alexander Sixt (CEO global)",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora premium — segmento de lujo y ejecutivo","Base en Q. Roo (turismo) → flota de autos premium","Expansión de presencia en México"],angulo:"Arrendadoras premium necesitan rastreo fino de activos + experiencia de conductor. Módulo de arrendadora con integración CRM.",accion:"Buscar Director de Operaciones SIXT México en LinkedIn"},
+
+  {id:34,exec:"Guillermo Quijano Gomez",empresa:"Ford Motor Company MX",flota:2500,sector:"OEM Automotriz",ciudad:"Edo. de México",prioridad:"Media",contacto:"Cynthia Williams (CEO global)",email:"",tel:"",proveedor:"Ford Pro (telemática propia para fleet)",senales:["Ford Pro: división de vehículos comerciales con telemática propia","Cuautitlán Izcalli: planta principal MX — flota de planta significativa","Buscar Director de Flota / Servicios Generales MX"],angulo:"Ford tiene Ford Pro para fleet, pero la flota operativa de planta puede necesitar soluciones locales con RNDC.",accion:"LinkedIn a Fleet Manager Ford MX — pitch planta y distribución de unidades"},
+
+  // ── ELIZABETH CORTES AGUIRRE ──
+  {id:35,exec:"Elizabeth Cortes Aguirre",empresa:"Autobuses de Oriente (ADO)",flota:7500,sector:"Transporte de Pasajeros",ciudad:"CDMX",prioridad:"Alta",contacto:"Joaquín Coldwell Lara-Ramos (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Mayor empresa de autobuses de México (primera clase/ejecutivo)","NOM-087 y regulación de pasajeros: gestión de conductores obligatoria","Expo Foro Movilidad 2026: ADO es participante clave","Alta presión por seguridad vial de pasajeros post-accidentes en MX"],angulo:"ADO es el referente del transporte de pasajeros. La regulación NOM-087 es el ángulo principal. Gestión de conductores, control de velocidad, cámaras internas. Mencionar competidores modernizándose.",accion:"Contactar Director de Operaciones ADO — pitch seguridad pasajeros + NOM-087"},
+
+  {id:36,exec:"Elizabeth Cortes Aguirre",empresa:"Liverpool Logística",flota:1800,sector:"Distribución Retail",ciudad:"CDMX",prioridad:"Media",contacto:"Jose Santiago (Ops)",email:"",tel:"",proveedor:"No identificado",senales:["E-commerce Liverpool en fuerte crecimiento → más entregas last-mile","Distribución de productos de alto valor — seguridad crítica","Coordinar con Juan Alejandro Duarte (Liverpool retail)"],angulo:"E-commerce impulsa expansión. Jose Santiago es el contacto directo. Pitch: trazabilidad last-mile productos de valor.",accion:"Contactar a Jose Santiago — propuesta trazabilidad last-mile"},
+
+  {id:37,exec:"Elizabeth Cortes Aguirre",empresa:"Redpack",flota:1500,sector:"Paquetería y Mensajería",ciudad:"CDMX",prioridad:"Media",contacto:"Miguel Gutierrez (Ops)",email:"redesgdl@redpack.com.mx",tel:"(449) 105-2299",proveedor:"No identificado",senales:["Paquetería: alta frecuencia de entregas → optimización de rutas crítica","Competencia de FedEx/DHL presiona eficiencia operativa","Contacto directo disponible (Guadalajara)","Sector paquetería creciendo por e-commerce"],angulo:"La paquetería necesita optimización de rutas + comprobante digital de entrega. Numaris puede ofrecer módulo de last-mile con firma digital.",accion:"Llamar al (449) 105-2299 — propuesta optimización rutas + last-mile digital"},
+
+  {id:38,exec:"Elizabeth Cortes Aguirre",empresa:"Grupo TMM",flota:1500,sector:"Transporte Multimodal",ciudad:"CDMX",prioridad:"Baja",contacto:"José Francisco Serrano Segovia (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Transporte multimodal (marítimo + terrestre)","Operaciones en puertos + flota terrestre","Segmento nicho con necesidades específicas de tracking"],angulo:"Trazabilidad de carga multimodal (puerto → destino). Integración con sistemas portuarios.",accion:"LinkedIn a Director de Operaciones Terrestres TMM"},
+
+  {id:39,exec:"Elizabeth Cortes Aguirre",empresa:"Scania México",flota:1000,sector:"OEM Camiones",ciudad:"Querétaro",prioridad:"Baja",contacto:"Angelo Rios (Ops)",email:"angelo.rios@scania.com",tel:"5540-76-8455",proveedor:"Scania Fleet Management (sistema OEM propio)",senales:["Scania tiene telemática propia integrada en sus vehículos","Angelo Rios es contacto directo accesible","Scania puede ser CANAL de distribución de Numaris a sus clientes"],angulo:"Scania puede ser CANAL más que cliente: sus clientes de camiones podrían usar Numaris. Contactar a Angelo Rios para explorar alianza comercial.",accion:"Email a Angelo Rios — propuesta alianza canal Scania-Numaris"},
+
+  // ── MIGUEL ANGEL NAVARRO NAVARRO ──
+  {id:40,exec:"Miguel Angel Navarro Navarro",empresa:"Grupo México Fleet",flota:7500,sector:"Flota Ejecutiva / Minería",ciudad:"CDMX",prioridad:"Alta",contacto:"Germán Larrea Mota Velasco (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Minería + cobre: operaciones en zonas remotas → rastreo crítico","Flota mixta: ejecutiva (oficinas) + pesada (minas Sonora/Chihuahua)","Alta exigencia de seguridad en zonas de extracción","Presencia en Sonora/Chihuahua/CDMX → dispersión geográfica"],angulo:"Flota en zonas mineras remotas (sin señal celular) requiere rastreo satelital puro. El diferenciador de Numaris en cobertura satelital vs solo celular es el ángulo.",accion:"LinkedIn a Director de Flota / Servicios Generales Grupo México"},
+
+  {id:41,exec:"Miguel Angel Navarro Navarro",empresa:"América Móvil (Telcel/Claro)",flota:0,sector:"Telecomunicaciones",ciudad:"CDMX",prioridad:"Baja",contacto:"Daniel Hajj Aboumrad (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Miles de técnicos de campo con vehículos (instalación/reparación)","Sector telco con alta inversión en IoT y conectividad","Coordinar con Jesus Trillo Albarran (Telmex Fleet)"],angulo:"La flota de técnicos de campo es enorme. Gestión de productividad de técnicos + rastreo. Coordinar con Telmex para propuesta grupo América Móvil.",accion:"Coordinar con Jesus Trillo sobre propuesta grupo América Móvil"},
+
+  {id:42,exec:"Miguel Angel Navarro Navarro",empresa:"Banco Santander México",flota:0,sector:"Banca y Servicios Financieros",ciudad:"CDMX",prioridad:"Baja",contacto:"Andrey González (Ops)",email:"",tel:"",proveedor:"No identificado",senales:["Flota ejecutiva + vehículos de servicio bancario","Andrey González es contacto operativo identificado"],angulo:"Flota ejecutiva + vehículos de servicio. Pitch gestión flota ejecutiva.",accion:"Contactar a Andrey González — propuesta flota ejecutiva"},
+
+  // ── ORLAK EFRAIN CASTAÑEDA DIAZ ──
+  {id:43,exec:"Orlak Efrain Castañeda Diaz",empresa:"Enterprise Rent-A-Car MX",flota:15000,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Alta",contacto:"Chrissy Taylor (CEO global)",email:"",tel:"",proveedor:"No identificado",senales:["Mayor arrendadora en México con 15,000 unidades","Pertenece al grupo Enterprise Holdings (también opera Alamo y National)","Grupo gestiona Alamo MX → doble oportunidad (19,000 unidades)","Necesidad crítica: rastreo de activos, gestión de siniestros, mantenimiento"],angulo:"Enterprise + Alamo son del mismo grupo. Un contrato puede cubrir ambas marcas (19,000 unidades). Ángulo: reducción de robo + gestión de siniestros + mantenimiento predictivo.",accion:"LinkedIn a Director de Operaciones Enterprise MX — propuesta grupal Enterprise+Alamo"},
+
+  {id:44,exec:"Orlak Efrain Castañeda Diaz",empresa:"Alamo Rent A Car MX",flota:4000,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"(mismo grupo Enterprise)",email:"",tel:"",proveedor:"No identificado",senales:["Mismo holding que Enterprise MX → contrato grupal posible","Base CDMX + destinos turísticos (Cancún, GDL)","Flota de autos de alquiler: rastreo básico pero necesitan más"],angulo:"Incluir en propuesta grupal Enterprise Holdings. Una negociación, dos contratos.",accion:"Incluir en misma propuesta que Enterprise MX"},
+
+  {id:45,exec:"Orlak Efrain Castañeda Diaz",empresa:"Jet Van Car Rental",flota:3500,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora mediana — vans y vehículos comerciales","Segmento de flota utilitaria"],angulo:"Vans de trabajo: necesita rastreo + control de conductores externos.",accion:"Investigar contacto Jet Van + propuesta arrendadora comercial"},
+
+  // ── ALAN BADILLO ──
+  {id:46,exec:"Alan Badillo",empresa:"Europcar México",flota:10000,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"Antonio Ponce (Ops)",email:"antonio.ponce@europcar.com.mx",tel:"",proveedor:"No identificado",senales:["10,000 vehículos — arrendadora grande en MX","Antonio Ponce es contacto operativo directo","Europcar global en proceso de reestructura — MX puede tomar decisiones locales","Segmento: corporativo + turismo"],angulo:"Reestructura de Europcar global crea ventana: la operación MX puede seleccionar proveedores localmente. Antonio Ponce es el punto de entrada.",accion:"Email a antonio.ponce@europcar.com.mx — propuesta arrendadora + reducción siniestros"},
+
+  {id:47,exec:"Alan Badillo",empresa:"AVIS México",flota:10000,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"Joe Ferraro (CEO global)",email:"",tel:"",proveedor:"No identificado",senales:["AVIS Budget Group también opera Budget en MX → propuesta grupal","10,000 unidades en MX","Decisiones de tecnología probablemente a nivel regional LatAm"],angulo:"AVIS + Budget son del mismo grupo. Propuesta grupal. Buscar nivel local (México/LatAm).",accion:"LinkedIn a Fleet Manager AVIS México — propuesta AVIS+Budget"},
+
+  {id:48,exec:"Alan Badillo",empresa:"Mex Rent A Car",flota:2200,sector:"Arrendadora",ciudad:"Quintana Roo",prioridad:"Media",contacto:"Javier Garcia Gonzalez (Ops)",email:"",tel:"33 4624 2114",proveedor:"No identificado",senales:["Arrendadora local (Q. Roo = Cancún/Riviera Maya)","Empresa local → decisiones ágiles","Javier Garcia con número directo","Robo de vehículos en destinos turísticos: problema real"],angulo:"Arrendadora local = decisiones rápidas. El robo de autos en zonas turísticas es el pain point. Llamar directamente a Javier.",accion:"Llamar al 33 4624 2114 — Javier Garcia — propuesta anti-robo turismo"},
+
+  {id:49,exec:"Alan Badillo",empresa:"Turbofin Arrendadora",flota:1500,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"Jesús Varguez (Ops)",email:"jesus.varguez@turbofin.com.mx",tel:"(555) 555-5555",proveedor:"No identificado",senales:["Arrendadora mediana — segmento ejecutivo","Contacto directo disponible (email + tel)","Empresa local → ciclo de venta más corto"],angulo:"Contacto directo disponible. Empresa local = ciclo de venta corto. Llamar esta semana.",accion:"Email + llamada a Jesús Varguez esta semana"},
+
+  {id:50,exec:"Alan Badillo",empresa:"Bayer de México",flota:1500,sector:"Flota Ejecutiva",ciudad:"CDMX",prioridad:"Media",contacto:"Hugo Paz Aguilar (Ops)",email:"hugo.paz@bayer.com",tel:"(555) 457-...",proveedor:"No identificado",senales:["Flota ejecutiva + representantes médicos en campo","Hugo Paz Aguilar es contacto operativo (email disponible)","Numaris puede ofrecer gestión de productividad de fuerza de ventas médica"],angulo:"La flota de representantes médicos es el nicho. Numaris puede ofrecer gestión de productividad (visitas a clientes, km recorridos, tiempo en zona). Diferenciador vs telemática genérica.",accion:"Email a hugo.paz@bayer.com — propuesta gestión fuerza de ventas médica"},
+
+  // ── ALEJANDRO SALAZAR ──
+  {id:51,exec:"Alejandro Salazar",empresa:"Grupo BAL",flota:0,sector:"Conglomerado Industrial",ciudad:"CDMX",prioridad:"Baja",contacto:"Marco Antonio Gallardo (Ops)",email:"",tel:"55 43 71 33 66",proveedor:"No identificado",senales:["Grupo BAL: Peñoles (minería), Palacio de Hierro, BAL-Ondeo","Flota dispersa en múltiples subsidiarias","Teléfono de Marco Antonio Gallardo disponible"],angulo:"Abordar a nivel corporativo para acuerdo marco que cubra todas las subsidiarias. Pitch de ahorro por consolidación de proveedores.",accion:"Llamar a Marco Gallardo (55 43 71 33 66) — propuesta acuerdo marco Grupo BAL"},
+
+  {id:52,exec:"Alejandro Salazar",empresa:"Quálitas Controladora",flota:0,sector:"Seguros",ciudad:"CDMX",prioridad:"Baja",contacto:"Miguel Angel Ramírez (Ops)",email:"",tel:"",proveedor:"No identificado",senales:["Aseguradora automotriz líder en MX — asegura FLOTAS de clientes","La telemática de Numaris puede reducir siniestros → beneficia a Quálitas","Oportunidad UBI (Usage-Based Insurance): tendencia global","Quálitas puede recomendar Numaris a sus clientes flotilleros"],angulo:"Quálitas no necesita telemática para su flota — la oportunidad es UBI: alianza donde Numaris provee datos telemáticos que permiten a Quálitas ofrecer seguros variables por comportamiento. Canal de distribución enorme.",accion:"Reunión con Quálitas sobre alianza estratégica UBI — pitch canal"},
+
+  {id:53,exec:"Alejandro Salazar",empresa:"GNP Seguros",flota:0,sector:"Seguros",ciudad:"CDMX",prioridad:"Baja",contacto:"Mario Vela Berrondo (CEO)",email:"",tel:"",proveedor:"SAMSARA (reportado como cliente nuevo 2024)",senales:["ALERTA: Samsara reportó a GNP como cliente nuevo en 2024","Si GNP ya usa Samsara para flota interna — oportunidad de desplazamiento","Alianza UBI similar a Quálitas"],angulo:"Verificar si GNP usa Samsara. Si es así, proponer alternativa con mejor precio y funcionalidad local. O bien, alianza UBI.",accion:"Investigar uso de Samsara en GNP — luego definir estrategia"},
+
+  {id:54,exec:"Alejandro Salazar",empresa:"MetLife México",flota:0,sector:"Seguros",ciudad:"CDMX",prioridad:"Baja",contacto:"Luis Bolaños Bolaños (Ops)",email:"l.bolanos@metlife.com",tel:"",proveedor:"No identificado",senales:["Aseguradora con flota ejecutiva y de ventas","Contacto operativo identificado con email","Multinacional con sistema posiblemente centralizado"],angulo:"Flota ejecutiva + representantes de ventas en campo (similar a Bayer).",accion:"Contactar a Luis Bolaños — propuesta gestión fuerza de ventas"},
+
+  // ── MARLEEM HERNANDEZ MARTINEZ ──
+  {id:55,exec:"Marleem Hernandez Martinez",empresa:"Integra Arrendadora",flota:1600,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"Norma Morales (Ops)",email:"noredy2006@gmail.com",tel:"",proveedor:"No identificado",senales:["Arrendadora mediana — segmento empresarial","Email personal → empresa familiar/mediana → decisiones rápidas","Ciclo de venta corto"],angulo:"Email personal sugiere empresa mediana con decisiones rápidas. Propuesta directa con ROI claro.",accion:"Email a Norma Morales — propuesta arrendadora + demo rápida"},
+
+  {id:56,exec:"Marleem Hernandez Martinez",empresa:"Arrendadora Actinver",flota:1500,sector:"Arrendadora Financiera",ciudad:"CDMX",prioridad:"Media",contacto:"Juan Carlos Diaz (Ops)",email:"jdiazg@actinver.com.mx",tel:"",proveedor:"No identificado",senales:["Parte del grupo financiero Actinver","Juan Carlos Diaz es contacto operativo (email disponible)","Módulo de arrendamiento con telemática integrada"],angulo:"Email directo disponible. Actinver es grupo financiero serio. Ángulo: módulo de arrendamiento financiero integrado con telemática (facturación por km, valor residual, mantenimiento).",accion:"Email a jdiazg@actinver.com.mx — propuesta módulo arrendamiento financiero"},
+
+  {id:57,exec:"Marleem Hernandez Martinez",empresa:"Colgate-Palmolive MX",flota:1400,sector:"Flota Ejecutiva",ciudad:"CDMX",prioridad:"Baja",contacto:"Issam Bachaalani (CEO)",email:"",tel:"",proveedor:"Probable sistema global Colgate",senales:["Multinacional con sistema corporativo global","Flota de representantes de ventas + distribución","Gap local en RNDC"],angulo:"Flota de representantes de ventas — gestión de productividad en campo. Buscar Fleet Manager México.",accion:"LinkedIn a Fleet Manager Colgate-Palmolive MX"},
+
+  // ── URIEL SAN PEDRO ──
+  {id:58,exec:"Uriel San Pedro",empresa:"Holcim México Fleet",flota:5200,sector:"Flota Ejecutiva / Construcción",ciudad:"Nuevo León",prioridad:"Alta",contacto:"Alfonso Gómez Aguirre (Ops)",email:"alfonso.gomez@lafargeholcim.com",tel:"",proveedor:"No identificado (flota ~1,500 tercerizadas + ejecutiva propia)",senales:["~1,500 camiones tercerizados con múltiples GPS distintos — caos operativo","Digitalizó logística con optimizadores de red y rutas propios","NL base → Expo Proveedores MTY: presencia muy probable mayo 20-22","Nearshoring en NL: aumento de demanda de cemento y materiales"],angulo:"La flota tercerizada con múltiples GPS es el caos que Numaris puede resolver. Pitch: 'Control Tower único para flota propia + tercerizada'. Alfonso Gómez es el contacto. Expo MTY es la oportunidad.",accion:"Agenda en Expo Proveedores MTY 20-22 Mayo + email a Alfonso Gómez"},
+
+  {id:59,exec:"Uriel San Pedro",empresa:"Estrella Blanca",flota:4500,sector:"Transporte de Pasajeros",ciudad:"CDMX",prioridad:"Media",contacto:"A. Contreras (Ops)",email:"acontreras@estrellablanca.com",tel:"(662) 353-8325",proveedor:"No identificado",senales:["Grupo de autobuses: Estrella Blanca, Futura, Elite, Chihuahuenses, Turistar","4,500 unidades — gran flota de pasajeros","Contacto operativo con email y teléfono","Alta presión regulatoria NOM-087"],angulo:"Contacto operativo accesible. Pitch: NOM-087 compliance + gestión de conductores + control de velocidad.",accion:"Email a acontreras@estrellablanca.com + llamada (662) 353-8325"},
+
+  {id:60,exec:"Uriel San Pedro",empresa:"Autobuses Estrella de Oro",flota:900,sector:"Transporte de Pasajeros",ciudad:"CDMX",prioridad:"Baja",contacto:"",email:"",tel:"",proveedor:"No identificado",senales:["Rutas principalmente sur de MX (Guerrero, Oaxaca)","Flota mediana de pasajeros","NOM-087 como ángulo estándar"],angulo:"NOM-087 como ángulo estándar de pasajeros.",accion:"Buscar Gerente de Flota Estrella de Oro en LinkedIn"},
+
+  // ── IRIS MORALES ──
+  {id:61,exec:"Iris Morales",empresa:"BBVA Leasing México",flota:5000,sector:"Arrendadora Financiera",ciudad:"CDMX",prioridad:"Media",contacto:"Cuauhtemoc Rivera (Ops)",email:"segparquesg1.mx@bbva.com",tel:"",proveedor:"No identificado",senales:["BBVA Leasing es la arrendadora del grupo BBVA MX (mayor banco en MX)","Cuauhtemoc Rivera tiene email directo","5,000 vehículos en cartera de arrendamiento","Coordinar con Alejandro Salazar (BBVA Seguros) para entrada grupal"],angulo:"BBVA Leasing + BBVA Seguros = un grupo. Propuesta conjunta con Alejandro Salazar. Módulo de arrendamiento (billing por km, valor residual, mantenimiento predictivo).",accion:"Email a segparquesg1.mx@bbva.com + coord. con Alejandro Salazar — propuesta BBVA grupo"},
+
+  {id:62,exec:"Iris Morales",empresa:"Mondelez México",flota:2000,sector:"Distribución FMCG",ciudad:"CDMX",prioridad:"Media",contacto:"Adriana Naar (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Oreo, Ritz, Chips Ahoy — distribución masiva de snacks","Misma CEO que cuenta de Israel Hernandez → coordinar","Flota de distribución a tiendas y supermercados"],angulo:"Coordinar con Israel Hernandez Ricalde — mismo CEO, misma empresa. Una sola propuesta para 2,000 vehículos.",accion:"Coord. con Israel Hernandez — propuesta única Mondelez MX"},
+
+  // ── ISRAEL HERNANDEZ RICALDE ──
+  {id:63,exec:"Israel Hernandez Ricalde",empresa:"Organización Soriana",flota:0,sector:"Comercio Minorista",ciudad:"Nuevo León",prioridad:"Baja",contacto:"Ricardo Martín Bringas (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Retail con flota de distribución propia + proveedores de transporte","NL base → Expo Proveedores MTY","Similar a Walmart/Chedraui: exigen rastreo a proveedores"],angulo:"Flota de distribución propia + exigencia a proveedores de rastreo. Expo MTY como punto de contacto.",accion:"Expo MTY + buscar Director de Logística Soriana"},
+
+  {id:64,exec:"Israel Hernandez Ricalde",empresa:"Alsea",flota:0,sector:"Restaurantes",ciudad:"CDMX",prioridad:"Baja",contacto:"Armando Torrado Martínez (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["Domino's, Starbucks, Burger King, Chili's, Vips en MX","Distribución de insumos a cientos de restaurantes","Reconfiguró estrategia logística recientemente (TyT 2025)"],angulo:"Distribución de insumos a red de restaurantes — alta frecuencia, last-mile urbano. Reconfiguración logística = oportunidad de entrada.",accion:"LinkedIn a Director de Cadena de Suministro Alsea — pitch last-mile"},
+
+  // ── KAREN ANDREA GONZALEZ RAMIREZ ──
+  {id:65,exec:"Karen Andrea Gonzalez Ramirez",empresa:"Heineken México Fleet",flota:7000,sector:"Distribución y Logística",ciudad:"Nuevo León",prioridad:"Alta",contacto:"Luiz Edmond (CEO)",email:"",tel:"",proveedor:"SOLISTICA (Coca-Cola FEMSA gestiona distribución primaria y secundaria)",senales:["Heineken tiene estrategia activa de digitalización logística cervecera (2024)","Solistica (FEMSA) gestiona su distribución — posible tensión si Heineken quiere control propio","NL base → Expo Proveedores MTY","Portfolio amplio: Dos Equis, Tecate, Sol, Amstel — más rutas"],angulo:"Si Heineken quiere visibilidad propia de su distribución independiente de Solistica, Numaris puede ofrecer plataforma de monitoreo de terceros. Buscar Director de Supply Chain Heineken MX.",accion:"LinkedIn a Director de Supply Chain Heineken MX + Expo MTY"},
+
+  // ── JESUS TRILLO ALBARRAN ──
+  {id:66,exec:"Jesus Trillo Albarran",empresa:"Telmex Fleet",flota:9000,sector:"Telecomunicaciones",ciudad:"CDMX",prioridad:"Alta",contacto:"Héctor Slim Seade (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["9,000 unidades de técnicos de campo (instalación/reparación de telecomunicaciones)","Pertenece al grupo América Móvil (Slim) — coordinar con Miguel Angel Navarro","Gestión de productividad de técnicos: el pain point principal","LinkedIn: directivos de Telmex activos"],angulo:"Telmex Fleet = flota de técnicos de campo. El valor de Numaris: (1) rastreo de técnicos, (2) gestión de productividad (visitas por día, km, tiempo en cliente), (3) control de activos. Coordinar con Miguel Angel para propuesta grupo América Móvil.",accion:"Buscar Director de Operaciones de Campo Telmex + coordinar con Miguel Angel Navarro"},
+
+  // ── FERNANDO RODRIGUEZ ──
+  {id:67,exec:"Fernando Rodriguez",empresa:"Grupo Lala Distribución",flota:6500,sector:"Distribución y Logística",ciudad:"Coahuila",prioridad:"Media",contacto:"Felipe Osornio (Ops)",email:"",tel:"4989-3911",proveedor:"No identificado",senales:["Mayor empresa láctea de MX — distribución refrigerada","6,500 unidades de distribución (leche, yogurt, quesos)","Cadena fría: telemetría de temperatura crítica","Felipe Osornio tiene teléfono directo"],angulo:"La cadena fría es el diferenciador. Numaris puede ofrecer telemetría de temperatura en tiempo real para camiones refrigerados. Llamar a Felipe Osornio directamente.",accion:"Llamar al 4989-3911 — Felipe Osornio — propuesta cadena fría Lala"},
+
+  {id:68,exec:"Fernando Rodriguez",empresa:"CFE (Comisión Federal Electricidad)",flota:0,sector:"Energía (Gobierno)",ciudad:"CDMX",prioridad:"Baja",contacto:"Riolan Garcia (Ops)",email:"riolan.garcia@cfe.gob.mx",tel:"",proveedor:"No identificado",senales:["CFE tiene miles de vehículos de campo (mantenimiento de redes)","Cuenta gubernamental → licitación pública (CompraNet)","Riolan Garcia tiene email directo","Coordinar con Germán Suarez (CFE Distribución)"],angulo:"Licitación pública: preparar propuesta técnica para CompraNet. Riolan Garcia es el punto de entrada técnico.",accion:"Email a riolan.garcia@cfe.gob.mx + buscar licitación en CompraNet"},
+
+  // ── HUVER ARROYO FRANCISCO ──
+  {id:69,exec:"Huver Arroyo Francisco",empresa:"Transportes Easo",flota:2000,sector:"Autotransporte de Carga",ciudad:"Sonora",prioridad:"Media",contacto:"Sergio Morales (Grupo La Florida)",email:"smoralesm@grupolaflorida.com",tel:"(554) 448-9549",proveedor:"No identificado",senales:["Mismo contacto operativo de Grupo La Florida","Sonora: corredor Nogales-CDMX de alta actividad","Nearshoring en Sonora (automotriz) impulsa carga","Incluir en propuesta grupal Grupo La Florida"],angulo:"Incluir en propuesta grupal Grupo La Florida con Mario Rincón. Sergio Morales decide por múltiples transportistas.",accion:"Coordinar con Mario Rincón — propuesta grupal La Florida incluye Easo"},
+
+  {id:70,exec:"Huver Arroyo Francisco",empresa:"Grupo Bafar",flota:0,sector:"Alimentos y Bebidas",ciudad:"Chihuahua",prioridad:"Baja",contacto:"Denise Widmar (Ops)",email:"dwidmar@bafar.com.mx",tel:"614 013 884...",proveedor:"No identificado",senales:["Embutidos y carne procesada — cadena fría crítica","Denise Widmar tiene email + teléfono","Chihuahua: corredor industrial con nearshoring"],angulo:"Cadena fría (similar a Lala y Bachoco). Email directo disponible.",accion:"Email a dwidmar@bafar.com.mx — propuesta cadena fría"},
+
+  // ── GERMÁN SUAREZ ──
+  {id:71,exec:"Germán Suarez",empresa:"CFE Distribución",flota:18000,sector:"Energía (Gobierno)",ciudad:"CDMX",prioridad:"Media",contacto:"Emilia Esther Calleja Alor (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["18,000 vehículos — una de las flotas más grandes de MX","Cuenta gubernamental → licitación CompraNet","Coordinar con Fernando Rodriguez (CFE corporate)","Rastreo satelital en zonas rurales sin cobertura celular"],angulo:"La flota más grande de una empresa pública en México. Licitación: propuesta técnica robusta para CompraNet. Ángulo: rastreo satelital en zonas sin cobertura celular donde CFE trabaja.",accion:"Buscar licitación activa CFE en CompraNet + contactar área de compras CFE"},
+
+  // ── ANDREA QUINONES ──
+  {id:72,exec:"Andrea Quinones",empresa:"Farmacias Guadalajara Fleet",flota:4000,sector:"Distribución y Logística",ciudad:"Jalisco",prioridad:"Media",contacto:"Javier Arroyo Chávez (CEO)",email:"",tel:"",proveedor:"No identificado",senales:["4,000 unidades de distribución de medicamentos y productos de salud","Cadena fría para medicamentos: altamente regulada por Cofepris","Guadalajara base: corredor logístico activo"],angulo:"La cadena de frío para medicamentos es altamente regulada (Cofepris). Numaris puede ofrecer telemetría de temperatura + trazabilidad de cadena de frío para compliance regulatorio. Diferenciador único.",accion:"LinkedIn a Director de Logística Farmacias Guadalajara — pitch cadena fría farmacéutica"},
+
+  // ── ANDREA SALVADOR ──
+  {id:73,exec:"Andrea Salvador",empresa:"Casanova Rent A Car",flota:2800,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora mediana-grande en MX","Segmento corporativo + turismo","Empresa local → decisiones ágiles"],angulo:"Arrendadora local = ciclo de venta corto. Pitch anti-robo + gestión de activos.",accion:"Investigar contacto Gerente de Operaciones Casanova + llamada directa"},
+
+  // ── DAVID URIETA ──
+  {id:74,exec:"David Urieta",empresa:"AB&C Leasing de México",flota:2000,sector:"Arrendadora",ciudad:"CDMX",prioridad:"Media",contacto:"",email:"",tel:"",proveedor:"No identificado",senales:["Arrendadora especializada en flota ejecutiva","Segmento premium — empresas que arrendan flotas ejecutivas"],angulo:"Módulo de arrendamiento + rastreo ejecutivo. Decisión local ágil.",accion:"Investigar contacto AB&C Leasing + propuesta arrendadora ejecutiva"},
+
+  // ── YULMA MALERVA ──
+  {id:75,exec:"Yulma Malerva",empresa:"Bepensa",flota:4000,sector:"Distribución y Logística",ciudad:"Yucatán",prioridad:"Media",contacto:"Jhonathan Reyes (Ops)",email:"jhonatan.reyes@madrilena.com",tel:"",proveedor:"No identificado",senales:["Embotelladora de Pepsi en el sureste (Yucatán, Campeche, QRoo, Tabasco, Chiapas)","4,000 unidades de distribución","Contacto operativo identificado: Jhonathan Reyes","Perfil idéntico a GEPP pero sin Geotab identificado — oportunidad de first-mover"],angulo:"Embotelladora de Pepsi regional — perfil idéntico a GEPP pero sin Geotab. Oportunidad de first-mover en sureste. Contactar a Jhonathan Reyes.",accion:"Email a jhonatan.reyes@madrilena.com — propuesta distribución bebidas sureste"},
+
+  // ── JAIME MORENO ──
+  {id:76,exec:"Jaime Moreno",empresa:"Traton Group de México",flota:0,sector:"Manufactura Automotriz",ciudad:"Querétaro",prioridad:"Baja",contacto:"",email:"",tel:"",proveedor:"Traton/VW (OEM propio)",senales:["Traton = grupo de camiones VW (MAN, Scania, VW Camiones, Navistar)","Potencial alianza canal: Traton puede recomendar Numaris a sus clientes","Planta VW Camiones en Querétaro"],angulo:"Explorar alianza canal con Traton MX para co-vender telemática a sus clientes de camiones pesados.",accion:"Reunión exploratoria Traton MX — propuesta alianza canal OEM"},
+
+  // ── MARLENE CEDILLO ──
+  {id:77,exec:"Marlene Cedillo Contreras",empresa:"Start Banregio Leasing",flota:1400,sector:"Arrendadora Financiera",ciudad:"Nuevo León",prioridad:"Baja",contacto:"Araceli Narvaez Mateos (Ops)",email:"araceli.narvaez@banregio.com",tel:"",proveedor:"No identificado",senales:["Arrendadora del banco regional Banregio (NL)","Araceli Narvaez tiene email identificado","NL base → Expo Proveedores MTY"],angulo:"Contacto directo disponible. Expo MTY como punto de encuentro. Módulo arrendadora financiera.",accion:"Email a Araceli Narvaez + agenda Expo MTY"},
+
+  // ── JOSE ANTONIO ──
+  {id:78,exec:"Jose Antonio",empresa:"Grupo Herdez Logística",flota:1200,sector:"Distribución y Logística",ciudad:"CDMX",prioridad:"Baja",contacto:"Jorge Contreras (Ops)",email:"",tel:"",proveedor:"No identificado",senales:["Herdez: alimentos en lata, salsas, guacamole — distribución nacional","Flota de distribución a tiendas y mayoristas","Trazabilidad de entrega + RNDC"],angulo:"Flota de distribución de alimentos — trazabilidad + RNDC.",accion:"Buscar contacto Jorge Contreras en LinkedIn"},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let statuses = JSON.parse(localStorage.getItem('abm_statuses') || '{}');
+let notes    = JSON.parse(localStorage.getItem('abm_notes') || '{}');
+let sortKey  = 'flota';
+let sortDir  = -1;
+let currentView = 'cards';
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  populateFilters();
+  renderCharts();
+  renderUrgency();
+  applyFilters();
+}
+
+function populateFilters() {
+  const execs   = [...new Set(ACCOUNTS.map(a => a.exec))].sort();
+  const sectors = [...new Set(ACCOUNTS.map(a => a.sector))].sort();
+  const fe = document.getElementById('f-exec');
+  const fs = document.getElementById('f-sector');
+  execs.forEach(e => {
+    const parts = e.split(' ');
+    const o = document.createElement('option');
+    o.value = e; o.textContent = `${parts[0]} ${parts[parts.length-1]}`;
+    fe.appendChild(o);
+  });
+  sectors.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    fs.appendChild(o);
+  });
+}
+
+function getFiltered() {
+  const q     = document.getElementById('search-box').value.toLowerCase().trim();
+  const exec  = document.getElementById('f-exec').value;
+  const pri   = document.getElementById('f-pri').value;
+  const sec   = document.getElementById('f-sector').value;
+  const comp  = document.getElementById('f-comp').value;
+  const stat  = document.getElementById('f-status').value;
+
+  return ACCOUNTS.filter(a => {
+    if (q && !a.empresa.toLowerCase().includes(q) &&
+             !a.exec.toLowerCase().includes(q) &&
+             !a.sector.toLowerCase().includes(q) &&
+             !a.ciudad.toLowerCase().includes(q)) return false;
+    if (exec && a.exec !== exec) return false;
+    if (pri  && a.prioridad !== pri) return false;
+    if (sec  && a.sector !== sec) return false;
+    if (comp) {
+      if (comp === 'OPEN') {
+        if (isCompetitor(a.proveedor)) return false;
+      } else {
+        if (!a.proveedor.toUpperCase().includes(comp)) return false;
+      }
+    }
+    if (stat) {
+      const s = statuses[a.id] || 'pendiente';
+      if (s !== stat) return false;
+    }
+    return true;
+  });
+}
+
+function isCompetitor(prov) {
+  return ['GEOTAB','SAMSARA','MOTIVE','MOTUM','WEBFLEET','SOLISTICA','FORD PRO']
+    .some(c => prov.toUpperCase().includes(c));
+}
+
+function applyFilters() {
+  const filtered = getFiltered();
+  document.getElementById('count-badge').textContent = `${filtered.length} cuenta${filtered.length!==1?'s':''}`;
+  updateKPIs(filtered);
+  if (currentView === 'cards') renderCards(filtered);
+  else renderTable(filtered);
+  document.getElementById('empty-state').style.display = filtered.length === 0 ? 'block' : 'none';
+}
+
+function updateKPIs(filtered) {
+  document.getElementById('kpi-total').textContent = filtered.length;
+  document.getElementById('kpi-alta').textContent  = filtered.filter(a=>a.prioridad==='Alta').length;
+  document.getElementById('kpi-media').textContent = filtered.filter(a=>a.prioridad==='Media').length;
+  const totalFlota = filtered.reduce((s,a)=>s+(a.flota||0),0);
+  document.getElementById('kpi-flota').textContent = totalFlota>=1000 ? (totalFlota/1000).toFixed(0)+'K' : totalFlota;
+  document.getElementById('kpi-comp').textContent  = filtered.filter(a=>isCompetitor(a.proveedor)).length;
+  document.getElementById('kpi-contact').textContent = filtered.filter(a=>a.email||a.tel).length;
+  const accionadas = filtered.filter(a=>statuses[a.id] && statuses[a.id]!=='pendiente').length;
+  document.getElementById('kpi-accionadas').textContent = accionadas;
+}
+
+// ── CARDS ─────────────────────────────────────────────────────────────────────
+function renderCards(data) {
+  const container = document.getElementById('cards-view');
+  const sorted = [...data].sort((a,b) => {
+    const p = {Alta:0,Media:1,Baja:2};
+    return (p[a.prioridad]||1) - (p[b.prioridad]||1) || (b.flota||0)-(a.flota||0);
+  });
+  container.innerHTML = sorted.map(a => cardHTML(a)).join('');
+}
+
+function cardHTML(a) {
+  const comp = isCompetitor(a.proveedor);
+  const status = statuses[a.id] || 'pendiente';
+  const execShort = a.exec.split(' ').slice(0,2).join(' ');
+  const seналes = a.senales.map(s=>`<div class="senal-item"><span class="senal-dot">◆</span><span>${s}</span></div>`).join('');
+  const contactLine = [
+    a.contacto ? `<strong>${a.contacto}</strong>` : '',
+    a.email ? `<a href="mailto:${a.email}">${a.email}</a>` : '',
+    a.tel ? `<a href="tel:${a.tel.replace(/[^0-9+]/g,'')}">${a.tel}</a>` : '',
+  ].filter(Boolean).join(' · ');
+
+  return `
+  <div class="account-card ${a.prioridad} status-${status}" onclick="openModal(${a.id})">
+    <div class="card-header">
+      <div>
+        <div class="card-empresa">${a.empresa}</div>
+      </div>
+      <div class="card-flota">
+        <div class="num">${a.flota>0?a.flota.toLocaleString():'—'}</div>
+        <div class="lbl">unidades</div>
+      </div>
+    </div>
+    <div class="card-meta">
+      <span class="tag ${a.prioridad}">${a.prioridad==='Alta'?'🔴':a.prioridad==='Media'?'🟡':'⚪'} ${a.prioridad}</span>
+      <span class="tag sector">${a.sector}</span>
+      <span class="tag ciudad">📍 ${a.ciudad}</span>
+      <span class="tag exec">👤 ${execShort}</span>
+    </div>
+    <div class="card-prov">
+      <span class="prov-label">Proveedor:</span>
+      <span class="prov-value ${comp?'competitor':'open'}">${comp?'⚠ ':'✓ '}${a.proveedor.length>60?a.proveedor.slice(0,60)+'…':a.proveedor}</span>
+    </div>
+    ${contactLine ? `<div class="card-contact">${contactLine}</div>` : ''}
+    <div class="card-senales">
+      <div class="senales-title">Señales ABM</div>
+      ${seналes}
+    </div>
+    <div class="card-footer" onclick="event.stopPropagation()">
+      <div class="card-accion">▶ ${a.accion}</div>
+      <select class="status-select s-${status}" onchange="setStatus(${a.id}, this.value, this)">
+        <option value="pendiente" ${status==='pendiente'?'selected':''}>● Pendiente</option>
+        <option value="contactado" ${status==='contactado'?'selected':''}>✅ Contactado</option>
+        <option value="en_proceso" ${status==='en_proceso'?'selected':''}>🔄 En proceso</option>
+        <option value="cerrado" ${status==='cerrado'?'selected':''}>🏁 Cerrado</option>
+      </select>
+    </div>
+  </div>`;
+}
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+let tableSortKey = 'prioridad', tableSortDir = 1;
+function sortTable(key) {
+  if (tableSortKey === key) tableSortDir *= -1;
+  else { tableSortKey = key; tableSortDir = 1; }
+  renderTable(getFiltered());
+}
+function renderTable(data) {
+  const pOrd = {Alta:0,Media:1,Baja:2};
+  const sorted = [...data].sort((a,b) => {
+    let va = a[tableSortKey]||'', vb = b[tableSortKey]||'';
+    if (tableSortKey === 'prioridad') { va = pOrd[va]||1; vb = pOrd[vb]||1; }
+    if (tableSortKey === 'flota') { va = va||0; vb = vb||0; }
+    return (va < vb ? -1 : va > vb ? 1 : 0) * tableSortDir;
+  });
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = sorted.map(a => {
+    const comp = isCompetitor(a.proveedor);
+    const status = statuses[a.id] || 'pendiente';
+    const execShort = a.exec.split(' ').slice(0,2).join(' ');
+    const contactMini = [
+      a.email ? `<a href="mailto:${a.email}">${a.email}</a>` : '',
+      a.tel ? `${a.tel}` : ''
+    ].filter(Boolean).join(' · ');
+    const senalKey = a.senales[0] || '';
+    return `<tr onclick="openModal(${a.id})" style="cursor:pointer">
+      <td><span class="pri-dot ${a.prioridad}"></span>${a.prioridad}</td>
+      <td class="empresa-col">${a.empresa}
+        ${contactMini ? `<div class="contact-mini">${contactMini}</div>` : ''}
+      </td>
+      <td class="num-col">${a.flota>0?a.flota.toLocaleString():'—'}</td>
+      <td>${a.sector}<br><small style="color:var(--slate)">${a.ciudad}</small></td>
+      <td>${execShort}</td>
+      <td style="font-size:11px;max-width:140px">${a.contacto||'—'}</td>
+      <td class="prov-col ${comp?'comp':'open'}">${comp?'⚠ ':comp===false?'✓ ':''}${a.proveedor.slice(0,45)}${a.proveedor.length>45?'…':''}</td>
+      <td style="font-size:11px;max-width:180px">${senalKey.slice(0,90)}${senalKey.length>90?'…':''}</td>
+      <td class="accion-col" style="font-size:11px">${a.accion.slice(0,80)}${a.accion.length>80?'…':''}</td>
+      <td onclick="event.stopPropagation()">
+        <select class="status-select s-${status}" style="font-size:10px" onchange="setStatus(${a.id}, this.value, this)">
+          <option value="pendiente" ${status==='pendiente'?'selected':''}>● Pendiente</option>
+          <option value="contactado" ${status==='contactado'?'selected':''}>✅ Contactado</option>
+          <option value="en_proceso" ${status==='en_proceso'?'selected':''}>🔄 En proceso</option>
+          <option value="cerrado" ${status==='cerrado'?'selected':''}>🏁 Cerrado</option>
+        </select>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── CHARTS ───────────────────────────────────────────────────────────────────
+function renderCharts() {
+  // Priority by fleet
+  const byPri = {Alta:0, Media:0, Baja:0};
+  ACCOUNTS.forEach(a => { byPri[a.prioridad] = (byPri[a.prioridad]||0) + (a.flota||0); });
+  const total = Object.values(byPri).reduce((s,v)=>s+v,0) || 1;
+  const priColors = {Alta:'#0B1D6E', Media:'#2452D0', Baja:'#5B8FFF'};
+  document.getElementById('chart-pri').innerHTML = Object.entries(byPri).map(([k,v]) => `
+    <div class="bar-item">
+      <div class="bar-label"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${priColors[k]};margin-right:5px;vertical-align:middle;"></span>${k}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/total*100)}%;background:${priColors[k]}"></div></div>
+      <div class="bar-val">${v>=1000?(v/1000).toFixed(0)+'K':v}</div>
+    </div>`).join('');
+
+  // Competitors
+  const compMap = {Geotab:0, Samsara:0, Solistica:0, 'Ford Pro':0, Otro:0, 'Sin identificar':0};
+  ACCOUNTS.forEach(a => {
+    const p = a.proveedor.toUpperCase();
+    if (p.includes('GEOTAB')) compMap.Geotab++;
+    else if (p.includes('SAMSARA')) compMap.Samsara++;
+    else if (p.includes('SOLISTICA')) compMap.Solistica++;
+    else if (p.includes('FORD PRO')) compMap['Ford Pro']++;
+    else if (p.includes('NO IDENTIFICADO') || p.includes('NO IDENT')) compMap['Sin identificar']++;
+    else compMap.Otro++;
+  });
+  const compColors = {Geotab:'#0B1D6E', Samsara:'#1A348F', Solistica:'#2452D0', 'Ford Pro':'#3B6FE8','Otro':'#5B8FFF','Sin identificar':'#7FB3FF'};
+  const compTotal = Object.values(compMap).reduce((s,v)=>s+v,0)||1;
+  document.getElementById('chart-comp').innerHTML = Object.entries(compMap)
+    .filter(([,v])=>v>0)
+    .sort(([,a],[,b])=>b-a)
+    .map(([k,v]) => `
+    <div class="bar-item">
+      <div class="bar-label" style="width:100px">${k}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/compTotal*100)}%;background:${compColors[k]||'#888'}"></div></div>
+      <div class="bar-val">${v}</div>
+    </div>`).join('');
+}
+
+// ── URGENCY ────────────────────────────────────────────────────────────────────
+function renderUrgency() {
+  const urgent = ACCOUNTS.filter(a =>
+    (a.email || a.tel) && (statuses[a.id]||'pendiente') === 'pendiente' &&
+    (a.prioridad === 'Alta' || a.flota >= 3000)
+  ).sort((a,b) => (b.flota||0)-(a.flota||0)).slice(0,10);
+
+  document.getElementById('urgency-list').innerHTML = urgent.map(a => {
+    const execShort = a.exec.split(' ').slice(0,2).join(' ');
+    const contact = a.email || a.tel;
+    return `<div class="urgency-item" onclick="openModal(${a.id})">
+      <div class="urg-empresa">${a.empresa} <span style="font-weight:400;color:var(--orange)">(${(a.flota||0).toLocaleString()} un.)</span></div>
+      <div class="urg-exec">👤 ${execShort} · ${contact}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── STATUS ─────────────────────────────────────────────────────────────────────
+function setStatus(id, val, sel) {
+  statuses[id] = val;
+  localStorage.setItem('abm_statuses', JSON.stringify(statuses));
+  sel.className = `status-select s-${val}`;
+  // Update card outline
+  const cards = document.querySelectorAll('.account-card');
+  cards.forEach(c => {
+    if (c.onclick && c.onclick.toString().includes(`(${id})`)) {
+      c.className = c.className.replace(/status-\w+/g,'').trim();
+      c.classList.add(`status-${val}`);
+    }
+  });
+  updateKPIs(getFiltered());
+  renderUrgency();
+}
+
+// ── MODAL ──────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const a = ACCOUNTS.find(x=>x.id===id);
+  if (!a) return;
+  const comp = isCompetitor(a.proveedor);
+  const status = statuses[a.id] || 'pendiente';
+  const savedNote = notes[a.id] || '';
+  const execShort = a.exec.split(' ').slice(0,2).join(' ');
+
+  document.getElementById('modal-title').textContent = a.empresa;
+  document.getElementById('modal-subtitle').textContent =
+    `${a.prioridad==='Alta'?'🔴':a.prioridad==='Media'?'🟡':'⚪'} ${a.prioridad} · ${a.flota>0?a.flota.toLocaleString()+' unidades':''} · ${a.sector} · ${a.ciudad}`;
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-section">
+      <h3>Información general</h3>
+      <div class="modal-grid">
+        <div class="modal-field"><div class="field-lbl">Ejecutivo asignado</div><div class="field-val">${a.exec}</div></div>
+        <div class="modal-field"><div class="field-lbl">Flota estimada</div><div class="field-val" style="font-size:20px;font-weight:800;color:var(--navy)">${a.flota>0?a.flota.toLocaleString():'No registrada'}</div></div>
+        <div class="modal-field full"><div class="field-lbl">Proveedor actual</div>
+          <div class="field-val" style="color:${comp?'var(--red)':'var(--green)'}">
+            ${comp?'⚠️ COMPETIDOR: ':'✅ '}${a.proveedor}</div></div>
+        ${a.contacto?`<div class="modal-field"><div class="field-lbl">Contacto</div><div class="field-val">${a.contacto}</div></div>`:''}
+        ${a.email?`<div class="modal-field"><div class="field-lbl">Email</div><div class="field-val"><a href="mailto:${a.email}" style="color:var(--teal)">${a.email}</a></div></div>`:''}
+        ${a.tel?`<div class="modal-field"><div class="field-lbl">Teléfono</div><div class="field-val"><a href="tel:${a.tel.replace(/[^0-9+]/g,'')}" style="color:var(--teal)">${a.tel}</a></div></div>`:''}
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Señales ABM</h3>
+      <ul class="senales-list">${a.senales.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="modal-section">
+      <h3>Ángulo de entrada</h3>
+      <div class="angulo-box">${a.angulo}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Acción recomendada</h3>
+      <div class="accion-box">${a.accion}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Estado y notas</h3>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        ${['pendiente','contactado','en_proceso','cerrado'].map(s=>`
+          <button onclick="setStatusModal(${a.id},'${s}',this)"
+            style="padding:6px 14px;border-radius:8px;border:2px solid ${s===status?'var(--navy)':'var(--gray-d)'};
+            background:${s===status?'var(--navy)':'#fff'};color:${s===status?'#fff':'var(--slate)'};
+            font-weight:700;font-size:11px;cursor:pointer;" data-st="${s}">
+            ${s==='pendiente'?'● Pendiente':s==='contactado'?'✅ Contactado':s==='en_proceso'?'🔄 En proceso':'🏁 Cerrado'}
+          </button>`).join('')}
+      </div>
+      <textarea class="notes-area" id="note-${a.id}" placeholder="Notas del ejecutivo... (se guardan automáticamente)" oninput="saveNote(${a.id})">${savedNote}</textarea>
+    </div>
+
+    <div class="modal-footer">
+      ${a.email?`<a href="mailto:${a.email}?subject=Numaris - Propuesta de telemática para ${a.empresa}" class="btn btn-primary">✉ Enviar email</a>`:''}
+      ${a.tel?`<a href="tel:${a.tel.replace(/[^0-9+]/g,'')}" class="btn btn-primary">📞 Llamar</a>`:''}
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cerrar</button>
+    </div>`;
+
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function setStatusModal(id, val, btn) {
+  statuses[id] = val;
+  localStorage.setItem('abm_statuses', JSON.stringify(statuses));
+  btn.closest('div').querySelectorAll('button').forEach(b => {
+    const s = b.dataset.st;
+    b.style.borderColor = s===val?'var(--navy)':'var(--gray-d)';
+    b.style.background  = s===val?'var(--navy)':'#fff';
+    b.style.color       = s===val?'#fff':'var(--slate)';
+  });
+  applyFilters();
+  renderUrgency();
+}
+
+function saveNote(id) {
+  const ta = document.getElementById(`note-${id}`);
+  if (ta) { notes[id] = ta.value; localStorage.setItem('abm_notes', JSON.stringify(notes)); }
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+// ── VIEW TOGGLE ──────────────────────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  document.getElementById('cards-view').style.display = v==='cards' ? 'grid' : 'none';
+  document.getElementById('table-view').style.display = v==='table' ? 'block' : 'none';
+  document.getElementById('btn-cards').classList.toggle('active', v==='cards');
+  document.getElementById('btn-table').classList.toggle('active', v==='table');
+  applyFilters();
+}
+
+function resetFilters() {
+  document.getElementById('search-box').value = '';
+  document.getElementById('f-exec').value = '';
+  document.getElementById('f-pri').value = '';
+  document.getElementById('f-sector').value = '';
+  document.getElementById('f-comp').value = '';
+  document.getElementById('f-status').value = '';
+  applyFilters();
+}
+
+// ── ESC KEY ──────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModalDirect(); });
+
+// ── START ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
