@@ -3,8 +3,9 @@ import https from "https";
 const ZOHO_ACCOUNTS_HOST = "accounts.zoho.com";
 const TOKEN_TTL_MS = 54 * 60 * 1000; // 54 min
 
-let _memCache = null;   // { token, expiresAt }
+let _memCache  = null;  // { token, expiresAt }
 let _inFlight  = null;  // dedup: only one OAuth call at a time
+const _v = 2;           // increment to bust warm-lambda cache
 
 function zohoPost(path, body) {
   return new Promise((resolve, reject) => {
