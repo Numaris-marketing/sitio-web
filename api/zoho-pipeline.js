@@ -187,7 +187,6 @@ export default async function handler(req, res) {
       "(Stage:equals:Prueba Demo)or" +
       "(Stage:equals:Negociación)or" +
       "(Stage:equals:Formalización)or" +
-      "(Stage:equals:Contrato firmado)or" +
       "(Stage:equals:En pausa))"
     );
 
@@ -254,11 +253,8 @@ export default async function handler(req, res) {
       };
     }
 
-    // Helper: industry from deal owner (propietario de oportunidad)
-    // Suscripciones: usa Cantidad_de_suscripciones si tiene valor, si no No_de_Veh_culos.
-    // No se suman porque son dos plantillas distintas; el valor que exista es el correcto.
     function dealSubs(d) {
-      return d.Cantidad_de_suscripciones || d.No_de_Veh_culos || 0;
+      return d.Cantidad_de_suscripciones || 0;
     }
 
     function dealIndustry(d) {
@@ -392,8 +388,6 @@ export default async function handler(req, res) {
       }
 
       const v = dealValue(d);
-      // Subs: usa Cantidad_de_suscripciones si tiene valor, si no No_de_Veh_culos.
-      // No se suman — son dos plantillas distintas de oportunidad.
       const s = dealSubs(d);
 
       byCampaign[campId].totalCount++;
