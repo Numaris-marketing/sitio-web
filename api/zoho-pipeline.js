@@ -254,7 +254,7 @@ export default async function handler(req, res) {
     }
 
     function dealSubs(d) {
-      return d.Cantidad_de_suscripciones || 0;
+      return d.Cantidad_de_suscripciones || d.No_de_Veh_culos || 0;
     }
 
     function dealIndustry(d) {
