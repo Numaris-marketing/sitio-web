@@ -201,7 +201,7 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad";
+    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad,Closing_Date";
     const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
     // Accounts with marketing source (Se_obtuvo_por) — all 12 classification values
@@ -427,6 +427,20 @@ export default async function handler(req, res) {
         marketingSubs: Object.values(byStage).reduce((acc, s) => acc + (s.subs || 0), 0),
         totalSubs: activeDeals.reduce((acc, d) => acc + dealSubs(d), 0),
       },
+      topMarketingDeals: marketingDeals
+        .filter(d => d.Closing_Date)
+        .sort((a, b) => new Date(a.Closing_Date) - new Date(b.Closing_Date))
+        .slice(0, 5)
+        .map(d => ({
+          name:        d.Deal_Name,
+          stage:       d.Stage,
+          value:       Math.round(dealValue(d)),
+          subs:        dealSubs(d),
+          closingDate: d.Closing_Date,
+          owner:       ownerName(d),
+          industry:    dealIndustry(d),
+          accountId:   getAccId(d),
+        })),
       byStage,
       totalByStage,
       bySource,
