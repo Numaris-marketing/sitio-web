@@ -428,8 +428,8 @@ export default async function handler(req, res) {
         totalSubs: activeDeals.reduce((acc, d) => acc + dealSubs(d), 0),
       },
       topMarketingDeals: marketingDeals
-        .filter(d => d.Closing_Date)
-        .sort((a, b) => new Date(a.Closing_Date) - new Date(b.Closing_Date))
+        .filter(d => dealValue(d) > 0)
+        .sort((a, b) => dealValue(b) - dealValue(a))
         .slice(0, 5)
         .map(d => ({
           name:        d.Deal_Name,
