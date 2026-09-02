@@ -163,7 +163,7 @@ async function zohoGetAll(module, fields, token) {
 }
 
 function dealValue(d) {
-  return d.Annual_Contract_Value || d.Amount || 0;
+  return d.Annual_Contract_Value || 0;
 }
 function getAccId(d) {
   return typeof d.Account_Name === "object" ? d.Account_Name?.id : null;
