@@ -163,7 +163,7 @@ async function zohoGetAll(module, fields, token) {
 }
 
 function dealValue(d) {
-  return d.Annual_Contract_Value || 0;
+  return d.Valor_Anual_de_contrato || 0;
 }
 function getAccId(d) {
   return typeof d.Account_Name === "object" ? d.Account_Name?.id : null;
@@ -201,8 +201,8 @@ export default async function handler(req, res) {
       "(Stage:equals:Venta realizada))"
     );
 
-    const dealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad,Closing_Date";
-    const campDealFields = "Deal_Name,Stage,Amount,Annual_Contract_Value,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
+    const dealFields = "Deal_Name,Stage,Amount,Valor_Anual_de_contrato,Account_Name,Campa_a,Cantidad_de_suscripciones,No_de_Veh_culos,Owner,Tipo_de_oportunidad,Closing_Date";
+    const campDealFields = "Deal_Name,Stage,Amount,Valor_Anual_de_contrato,Account_Name,Campa_a,Campaign_Source,Cantidad_de_suscripciones,No_de_Veh_culos,Closing_Date,Owner,Tipo_de_oportunidad";
 
     // Accounts with marketing source (Se_obtuvo_por) — all 12 classification values
     const accCriteria = encodeURIComponent(
