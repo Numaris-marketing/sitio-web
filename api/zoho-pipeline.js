@@ -261,19 +261,21 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName(d)] || "Sin asignar";
     }
 
-    // Total pipeline: todos los deals activos (solo excluye TIP AUTO y MSTAR)
+    // Total pipeline: active deals by the 19 included sellers
     const activeDeals = activeDealsRaw.filter((d) => {
-      return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
+      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
+      return INCLUDED_OWNER_NAMES.has(ownerName(d));
     });
 
-    // Campaign tracking: all deals linked to a campaign
+    // Campaign tracking: all deals linked to a campaign, regardless of seller
     const campDealsFiltered = campDealsRaw.filter((d) => {
       return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
-    // Marketing pipeline: todos los deals cuya cuenta tiene fuente de marketing (sin filtro de vendedor)
+    // Marketing pipeline: deals by included sellers whose account has a marketing source
     const marketingDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
+      if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
       return marketingAccIds.has(getAccId(d));
     });
 
