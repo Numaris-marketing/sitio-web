@@ -175,7 +175,7 @@ function ownerName(d) {
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
+  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
 
   try {
     const token = req.query.t || await getZohoToken();
@@ -261,22 +261,19 @@ export default async function handler(req, res) {
       return OWNER_TO_INDUSTRY[ownerName(d)] || "Sin asignar";
     }
 
-    // Total pipeline: active deals by the 13 included sellers
+    // Total pipeline: todos los deals activos (solo excluye TIP AUTO y MSTAR)
     const activeDeals = activeDealsRaw.filter((d) => {
-      if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      return INCLUDED_OWNER_NAMES.has(ownerName(d));
+      return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
-    // Campaign tracking: all deals linked to a campaign, regardless of seller or deal type
-    // (ROI of an event = all results from it, not just the 13-seller pipeline subset)
+    // Campaign tracking: all deals linked to a campaign
     const campDealsFiltered = campDealsRaw.filter((d) => {
       return !EXCLUDED_ACCOUNT_IDS.has(getAccId(d));
     });
 
-    // Marketing pipeline: deals by included sellers whose account has a marketing source
+    // Marketing pipeline: todos los deals cuya cuenta tiene fuente de marketing (sin filtro de vendedor)
     const marketingDeals = activeDealsRaw.filter((d) => {
       if (EXCLUDED_ACCOUNT_IDS.has(getAccId(d))) return false;
-      if (!INCLUDED_OWNER_NAMES.has(ownerName(d))) return false;
       return marketingAccIds.has(getAccId(d));
     });
 
