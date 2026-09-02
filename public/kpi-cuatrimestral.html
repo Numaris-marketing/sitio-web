@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPI Cuatrimestral · 2do Cuatrimestre 2026 · Numaris</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Montserrat:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eff3f6;--surface:#fff;--surface-alt:#eaf5fc;
+  --border:#e3e8ef;--border-mid:#cdd8e4;
+  --navy:#002753;--blue:#235fa4;--blue-mid:#5b94cc;--blue-light:#92bae7;
+  --green:#4ed08a;--green-dim:#dff7ec;
+  --amber:#edb32e;--amber-dim:#fef6e4;--red:#bc364c;
+  --text-1:#0b1b34;--text-2:#173458;--text-3:#5b94cc;--bar-bg:#d8e6f4;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1b34;--surface:#1d2f4b;--surface-alt:#132540;
+  --border:#1e3558;--border-mid:#2a4a70;
+  --navy:#eaf5fc;--blue:#5b94cc;--blue-mid:#92bae7;
+  --green:#4ed08a;--green-dim:#0d3d22;
+  --amber:#edb32e;--amber-dim:#3a2800;--red:#e05060;
+  --text-1:#eaf5fc;--text-2:#92bae7;--text-3:#5b94cc;--bar-bg:#162d48;
+}}
+:root[data-theme="dark"]{
+  --bg:#0b1b34;--surface:#1d2f4b;--surface-alt:#132540;
+  --border:#1e3558;--border-mid:#2a4a70;
+  --navy:#eaf5fc;--blue:#5b94cc;--blue-mid:#92bae7;
+  --green:#4ed08a;--green-dim:#0d3d22;
+  --amber:#edb32e;--amber-dim:#3a2800;--red:#e05060;
+  --text-1:#eaf5fc;--text-2:#92bae7;--text-3:#5b94cc;--bar-bg:#162d48;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Montserrat",system-ui,sans-serif;background:var(--bg);color:var(--text-1);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+
+/* BRAND STRIP */
+.brand-strip{background:#002753;padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;}
+.brand-logo{height:26px;width:auto;}
+.brand-tag{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:500;color:#92bae7;letter-spacing:.08em;text-transform:uppercase;}
+.brand-refresh{background:none;border:1px solid rgba(146,186,231,.3);color:#92bae7;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:500;padding:4px 10px;border-radius:3px;cursor:pointer;transition:all .2s;letter-spacing:.06em;}
+.brand-refresh:hover{background:rgba(146,186,231,.1);}
+.brand-refresh.loading{opacity:.5;pointer-events:none;}
+
+/* STATUS BAR */
+.status-bar{background:rgba(78,208,138,.08);border-bottom:1px solid rgba(78,208,138,.2);padding:7px 32px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;margin-right:6px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.status-text{font-family:"Montserrat",sans-serif;font-size:11px;color:var(--text-2);font-weight:500;}
+.status-ts{font-family:"Montserrat",sans-serif;font-size:10px;color:var(--text-3);}
+
+/* COVER */
+.cover{background:#002753;padding:40px 32px 0;}
+.cover-inner{max-width:960px;margin:0 auto;}
+.cover-label{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#92bae7;margin-bottom:10px;}
+.cover-title{font-family:"Raleway",sans-serif;font-weight:800;font-size:clamp(24px,4vw,42px);line-height:1.05;letter-spacing:-0.025em;color:#fff;margin-bottom:6px;}
+.cover-sub{font-family:"Montserrat",sans-serif;font-size:13px;color:#92bae7;margin-bottom:20px;font-weight:500;}
+.acv-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(78,208,138,.15);border:1px solid rgba(78,208,138,.3);border-radius:4px;padding:5px 10px;margin-bottom:28px;}
+.acv-badge-label{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4ed08a;}
+.acv-badge-text{font-family:"Montserrat",sans-serif;font-size:11px;color:rgba(255,255,255,.7);}
+.part-row{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.12);}
+@media(max-width:580px){.part-row{grid-template-columns:1fr;}}
+.part-item{padding:24px 0 28px 28px;border-left:1px solid rgba(255,255,255,.1);}
+.part-item:first-child{border-left:none;padding-left:0;}
+.part-label{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5b94cc;margin-bottom:8px;}
+.part-pct{font-family:"Raleway",sans-serif;font-weight:800;font-size:clamp(32px,5vw,48px);line-height:1;letter-spacing:-0.03em;color:#4ed08a;font-variant-numeric:tabular-nums;margin-bottom:6px;}
+.part-detail{font-family:"Montserrat",sans-serif;font-size:11px;color:#92bae7;line-height:1.5;}
+.part-detail strong{color:#fff;font-weight:600;}
+
+/* LAYOUT */
+.wrap{max-width:960px;margin:0 auto;padding:0 24px 80px;}
+.section{margin:44px 0 0;}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.section-num{font-family:"Raleway",sans-serif;font-weight:700;font-size:11px;color:var(--blue);letter-spacing:.04em;border:1px solid var(--border-mid);border-radius:3px;padding:2px 7px;font-variant-numeric:tabular-nums;flex-shrink:0;}
+.section-title{font-family:"Raleway",sans-serif;font-weight:700;font-size:15px;letter-spacing:-0.015em;color:var(--text-1);}
+.section-badge{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1a8a50;background:var(--green-dim);border-radius:3px;padding:2px 7px;white-space:nowrap;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .section-badge{color:var(--green);}}
+:root[data-theme="dark"] .section-badge{color:var(--green);}
+
+/* FUNNEL */
+.funnel-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:640px){.funnel-grid{grid-template-columns:1fr;}}
+.funnel-card{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:18px;}
+.funnel-card-head{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:14px;}
+.f-row{display:grid;grid-template-columns:130px 1fr 70px;align-items:center;gap:8px;margin-bottom:10px;}
+.f-name{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:500;color:var(--text-2);text-align:right;line-height:1.3;}
+.f-bar-wrap{height:20px;background:var(--bar-bg);border-radius:3px;overflow:hidden;position:relative;}
+.f-bar-total{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--blue);}
+.f-bar-mkt{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--green);}
+.f-meta{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:600;color:var(--text-1);text-align:right;font-variant-numeric:tabular-nums;}
+.f-meta .mkt{color:var(--green);}
+.f-bar-pause{opacity:.6;background:var(--blue-mid);}
+.f-row-pause{opacity:.65;}
+.funnel-total{border-top:1px solid var(--border);margin-top:12px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;}
+.ft-label{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;}
+.ft-value{font-family:"Raleway",sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.02em;color:var(--text-1);font-variant-numeric:tabular-nums;}
+
+/* CLOSING BOX */
+.closing-box{background:var(--amber-dim);border:1px solid var(--amber);border-radius:5px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px;margin-top:14px;}
+.closing-icon{width:34px;height:34px;border-radius:4px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.closing-label{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8a6000;margin-bottom:3px;}
+.closing-val{font-family:"Raleway",sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.02em;color:#3a2800;font-variant-numeric:tabular-nums;display:block;margin-bottom:2px;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .closing-val{color:var(--amber);}:root:not([data-theme="light"]) .closing-label{color:var(--amber);}}
+:root[data-theme="dark"] .closing-val{color:var(--amber);}:root[data-theme="dark"] .closing-label{color:var(--amber);}
+.closing-note{font-family:"Montserrat",sans-serif;font-size:12px;color:var(--text-2);}
+
+/* TABLE */
+.t-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);text-align:left;padding:0 10px 9px;white-space:nowrap;border-bottom:1px solid var(--border-mid);}
+thead th:first-child{padding-left:0;}
+thead th.r{text-align:right;}
+tbody td{padding:11px 10px;border-top:1px solid var(--border);font-family:"Montserrat",sans-serif;font-size:13px;vertical-align:middle;}
+tbody td:first-child{padding-left:0;}
+tbody td.r{text-align:right;font-variant-numeric:tabular-nums;}
+tbody tr:hover td{background:var(--surface-alt);}
+tfoot td{padding:11px 10px;border-top:2px solid var(--border-mid);font-family:"Montserrat",sans-serif;font-size:13px;background:var(--surface-alt);}
+tfoot td:first-child{padding-left:0;}
+tfoot td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+
+.stage-pill{display:inline-flex;align-items:center;font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:3px;white-space:nowrap;}
+.p-lev{background:#eaf5fc;color:#173458;}.p-pre{background:#e0ebf8;color:#235fa4;}.p-pru{background:#dbeaf8;color:#1e5490;}.p-neg{background:var(--amber-dim);color:#7a5200;}.p-for{background:var(--green-dim);color:#0d5e2a;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .p-lev{background:#122540;color:#92bae7;}:root:not([data-theme="light"]) .p-neg{background:var(--amber-dim);color:var(--amber);}:root:not([data-theme="light"]) .p-for{background:var(--green-dim);color:var(--green);}}
+:root[data-theme="dark"] .p-lev{background:#122540;color:#92bae7;}
+
+.mkt-dot{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:4px;}
+.pct-pill{display:inline-flex;align-items:center;justify-content:center;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px;min-width:52px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ph{background:var(--green-dim);color:#1a8a50;}.pm{background:var(--surface-alt);color:var(--text-2);}.pl{background:var(--bar-bg);color:var(--text-3);}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ph{color:var(--green);}:root:not([data-theme="light"]) .pm{color:#92bae7;}}
+:root[data-theme="dark"] .ph{color:var(--green);}
+
+.src-row{display:grid;grid-template-columns:180px 1fr 40px;align-items:center;gap:8px;margin-bottom:9px;}
+.src-name{font-family:"Montserrat",sans-serif;font-size:12px;font-weight:500;color:var(--text-2);text-align:right;}
+.src-bar-wrap{height:18px;background:var(--bar-bg);border-radius:3px;overflow:hidden;}
+.src-bar{height:100%;border-radius:3px;}
+.src-count{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:600;color:var(--text-1);text-align:right;font-variant-numeric:tabular-nums;}
+
+.insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:580px){.insights-grid{grid-template-columns:1fr;}}
+.insight{background:var(--surface);border:1px solid var(--border);border-top:2px solid;border-radius:4px;padding:14px;}
+.insight.green{border-top-color:var(--green);}.insight.amber{border-top-color:var(--amber);}.insight.blue{border-top-color:var(--blue);}
+.insight-head{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.insight.green .insight-head{color:#1a8a50;}.insight.amber .insight-head{color:#8a6000;}.insight.blue .insight-head{color:var(--blue);}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .insight.green .insight-head{color:var(--green);}:root:not([data-theme="light"]) .insight.amber .insight-head{color:var(--amber);}}
+:root[data-theme="dark"] .insight.green .insight-head{color:var(--green);}:root[data-theme="dark"] .insight.amber .insight-head{color:var(--amber);}
+.insight-text{font-family:"Montserrat",sans-serif;font-size:12px;color:var(--text-1);line-height:1.5;}
+.insight-text strong{font-weight:600;}
+
+/* LOADING/ERROR */
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;color:var(--text-3);}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.error-state{background:var(--surface);border:1px solid var(--red);border-radius:5px;padding:24px;max-width:480px;margin:40px auto;}
+
+.doc-footer{max-width:960px;margin:56px auto 0;padding:16px 24px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.footer-logo{height:18px;width:auto;opacity:.5;}
+.footer-note{font-family:"Montserrat",sans-serif;font-size:10px;color:var(--text-3);}
+
+@media print{.brand-strip,.cover{background:#002753!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}body{background:#fff;}.brand-refresh,.status-bar{display:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- BRAND STRIP -->
+<div class="brand-strip">
+  <img class="brand-logo" src="/numaris-blanco.png" alt="Numaris">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="brand-tag">KPI · 2do Cuatrimestre · 2026</span>
+    <button class="brand-refresh" id="btn-refresh" onclick="loadData()">↻ Actualizar</button>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar" id="status-bar" style="display:none;">
+  <span><span class="status-dot"></span><span class="status-text" id="status-text">Conectado a Zoho CRM · Datos en vivo</span></span>
+  <span class="status-ts" id="status-ts"></span>
+</div>
+
+<!-- LOADING STATE -->
+<div class="loading-state" id="loading-state">
+  <div class="spinner"></div>
+  <span style="font-family:'Montserrat',sans-serif;font-size:13px;">Consultando Zoho CRM…</span>
+</div>
+
+<!-- ERROR STATE -->
+<div class="error-state" id="error-state" style="display:none;">
+  <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--red);margin-bottom:8px;">Error al cargar datos</div>
+  <div style="font-family:'Montserrat',sans-serif;font-size:12px;color:var(--text-2);" id="error-msg"></div>
+  <button onclick="loadData()" style="margin-top:12px;background:var(--blue);color:#fff;border:none;padding:6px 14px;border-radius:3px;font-family:'Montserrat',sans-serif;font-size:11px;cursor:pointer;">Reintentar</button>
+</div>
+
+<!-- MAIN CONTENT (hidden until data loads) -->
+<div id="main-content" style="display:none;">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-label">2do Cuatrimestre · Mayo – Agosto 2026</div>
+    <h1 class="cover-title">Pipeline de Nuevos Negocios<br>KPI de Cierre Cuatrimestral</h1>
+    <div class="cover-sub">Datos al <span id="cover-date">—</span> · Fuente: Zoho CRM en vivo</div>
+    <div class="acv-badge">
+      <span class="acv-badge-label">ACV · Valor Anual de Contrato</span>
+      <span class="acv-badge-text">Montos = primeros 12 meses — comparación homogénea entre contratos de 12, 24 y 36 meses</span>
+    </div>
+    <div class="part-row">
+      <div class="part-item">
+        <div class="part-label">Por número de oportunidades</div>
+        <div class="part-pct" id="pct-ops">—</div>
+        <div class="part-detail" id="det-ops">—</div>
+      </div>
+      <div class="part-item">
+        <div class="part-label">Por número de suscripciones</div>
+        <div class="part-pct" id="pct-subs">—</div>
+        <div class="part-detail" id="det-subs">—</div>
+      </div>
+      <div class="part-item">
+        <div class="part-label">Por valor anual de contrato</div>
+        <div class="part-pct" id="pct-acv">—</div>
+        <div class="part-detail" id="det-acv">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="wrap">
+
+  <!-- 01 PIPELINE POR ETAPA -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">Pipeline por Etapa — Conteo y ACV</span>
+      <span class="section-badge">Valor Anual de Contrato</span>
+    </div>
+    <div class="funnel-grid">
+      <div class="funnel-card">
+        <div class="funnel-card-head">Oportunidades por etapa · total vs marketing</div>
+        <div id="ops-bars"></div>
+        <div class="funnel-total">
+          <span class="ft-label">Total activo</span>
+          <span class="ft-value" id="total-ops-label">—</span>
+        </div>
+      </div>
+      <div class="funnel-card">
+        <div class="funnel-card-head">ACV total por etapa (primeros 12 meses)</div>
+        <div id="acv-bars"></div>
+        <div class="funnel-total">
+          <span class="ft-label">ACV total pipeline</span>
+          <span class="ft-value" id="total-acv-label">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="closing-box">
+      <div class="closing-icon">⚡</div>
+      <div>
+        <div class="closing-label">Pipeline en Etapas de Cierre — Negociación + Formalización</div>
+        <span class="closing-val" id="closing-val">—</span>
+        <div class="closing-note" id="closing-note">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 MARKETING POR ETAPA -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Marketing — Desglose por Etapa</span>
+      <span class="section-badge" id="mkt-badge">—</span>
+    </div>
+    <div class="t-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Etapa</th>
+          <th class="r">Ops. Mkt</th>
+          <th class="r">% de Mkt</th>
+          <th class="r">Subs.</th>
+          <th class="r">ACV (12 m.)</th>
+          <th class="r">% ACV Mkt</th>
+        </tr>
+      </thead>
+      <tbody id="mkt-stage-table"></tbody>
+      <tfoot id="mkt-stage-foot"></tfoot>
+    </table>
+    </div>
+  </div>
+
+  <!-- 03 FUENTES DE CAPTACIÓN -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">Fuentes de Captación Marketing</span>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:18px;max-width:560px;">
+      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:16px;">Oportunidades por fuente</div>
+      <div id="source-bars"></div>
+    </div>
+  </div>
+
+  <!-- 04 TOP DEALS -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Top Oportunidades Marketing</span>
+      <span class="section-badge">ACV · 12 meses</span>
+    </div>
+    <div class="t-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Oportunidad</th>
+          <th>Etapa</th>
+          <th class="r">ACV (12 m.)</th>
+          <th class="r">Subs.</th>
+          <th>Responsable</th>
+          <th>Cierre</th>
+        </tr>
+      </thead>
+      <tbody id="top-deals-table"></tbody>
+    </table>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<div class="doc-footer">
+  <img class="footer-logo" src="/numaris-color.png" alt="Numaris">
+  <span class="footer-note">Fuente: Zoho CRM en vivo · 2do Cuatrimestre 2026 · Montos = ACV (primeros 12 meses) · Subs. = Cantidad de Suscripciones + No. de Vehículos</span>
+</div>
+
+</div><!-- /main-content -->
+
+<script>
+const STAGE_ORDER = [
+  "Levantamiento de necesidades",
+  "Presentación con enfoque a solicitud",
+  "Prueba Demo",
+  "Negociación",
+  "Formalización",
+  "En pausa",
+];
+const STAGE_SHORT = {
+  "Levantamiento de necesidades": "Levantamiento",
+  "Presentación con enfoque a solicitud": "Presentación",
+  "Prueba Demo": "Prueba Demo",
+  "Negociación": "Negociación",
+  "Formalización": "Formalización",
+  "En pausa": "En pausa",
+};
+const STAGE_PILL = {
+  "Levantamiento de necesidades": "p-lev",
+  "Presentación con enfoque a solicitud": "p-pre",
+  "Prueba Demo": "p-pru",
+  "Negociación": "p-neg",
+  "Formalización": "p-for",
+  "En pausa": "p-lev",
+};
+const CLOSING_STAGES = ["Negociación", "Formalización"];
+
+const SOURCE_LABELS = {
+  "Google Ads": "Google Ads · Pauta",
+  "Expo Visitante": "Expo",
+  "Expo Expositor": "Expo",
+  "LinkedIn": "LinkedIn",
+  "LinkedIn Pauta": "LinkedIn",
+  "LinkedIn Sales Navigator": "LinkedIn",
+  "Newsletter LinkedIn": "Newsletter LinkedIn",
+  "Formulario Website": "Formulario Website",
+  "Meta": "Meta · Pauta",
+  "Meta Pauta": "Meta · Pauta",
+  "Calendly": "Calendly",
+  "Mailing Numaris": "Mailing Numaris",
+};
+
+function fmt(n){
+  if(n>=1e6) return `MX$ ${(n/1e6).toFixed(1)} M`;
+  if(n>=1e3) return `MX$ ${(n/1e3).toFixed(0)} K`;
+  return `MX$ ${n.toFixed(0)}`;
+}
+function fmtN(n){return n.toLocaleString('es-MX');}
+function pct(a,b){return b?((a/b)*100).toFixed(1):'0.0';}
+function pill(p){
+  if(p>=35) return 'ph';
+  if(p>=20) return 'pm';
+  return 'pl';
+}
+function stageDate(d){
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+function isClose(stageName){
+  return stageName.toLowerCase().includes('negoci') || stageName.toLowerCase().includes('formaliz');
+}
+function isPause(stageName){
+  return stageName.toLowerCase().includes('pausa');
+}
+
+async function loadData(){
+  const btn = document.getElementById('btn-refresh');
+  btn.classList.add('loading');
+  document.getElementById('loading-state').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'none';
+  document.getElementById('error-state').style.display = 'none';
+  document.getElementById('status-bar').style.display = 'none';
+
+  try {
+    const res = await fetch('/api/zoho-pipeline?t=' + Date.now());
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderPage(data);
+  } catch(err) {
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('error-state').style.display = 'block';
+    document.getElementById('error-msg').textContent = err.message;
+  } finally {
+    btn.classList.remove('loading');
+  }
+}
+
+function renderPage(data){
+  const s = data.summary;
+  const now = new Date(data.generatedAt);
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dateStr = `${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
+
+  // Status bar
+  document.getElementById('status-bar').style.display = 'flex';
+  document.getElementById('status-ts').textContent = `Actualizado: ${now.toLocaleDateString('es-MX', {day:'numeric',month:'short',year:'numeric'})} ${now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}`;
+
+  // Cover
+  document.getElementById('cover-date').textContent = dateStr;
+
+  const subsPct = pct(s.marketingSubs, s.totalSubs);
+
+  document.getElementById('pct-ops').textContent  = pct(s.marketingDeals, s.totalActiveDeals) + ' %';
+  document.getElementById('pct-subs').textContent = subsPct + ' %';
+  document.getElementById('pct-acv').textContent  = s.marketingValPct.toFixed(1) + ' %';
+
+  document.getElementById('det-ops').innerHTML  = `<strong>${fmtN(s.marketingDeals)}</strong> de ${fmtN(s.totalActiveDeals)} oportunidades captadas por marketing`;
+  document.getElementById('det-subs').innerHTML = `<strong>${fmtN(s.marketingSubs)}</strong> de ${fmtN(s.totalSubs)} suscripciones en pipeline`;
+  document.getElementById('det-acv').innerHTML  = `<strong>${fmt(s.marketingPipelineValue)}</strong> ACV de ${fmt(s.totalPipelineValue)} pipeline total`;
+
+  // Stage bars
+  const byStage = data.byStage || {};
+  const totalByStage = data.totalByStage || {};
+
+  // Collect all stages from both
+  const allStages = [...new Set([...Object.keys(totalByStage), ...Object.keys(byStage)])];
+  const orderedStages = STAGE_ORDER.filter(s => allStages.some(k => k.toLowerCase().includes(s.split(' ')[0].toLowerCase())));
+  // Also add any stage not in STAGE_ORDER
+  allStages.forEach(s => { if(!orderedStages.find(o => s.toLowerCase().includes(o.split(' ')[0].toLowerCase()))) orderedStages.push(s); });
+
+  const maxOps = Math.max(...orderedStages.map(s => (totalByStage[s]||{count:0}).count), 1);
+  const maxAcv = Math.max(...orderedStages.map(s => (totalByStage[s]||{value:0}).value), 1);
+
+  let opsBarsHtml = '';
+  let acvBarsHtml = '';
+
+  orderedStages.forEach(stage => {
+    const tot = totalByStage[stage] || {count:0, value:0, subs:0};
+    const mkt = byStage[stage] || {count:0, value:0, subs:0};
+    const pause = isPause(stage);
+    const shortName = STAGE_SHORT[stage] || stage.split(' ')[0];
+
+    const tw = (tot.count / maxOps * 100).toFixed(1);
+    const mw = (mkt.count / maxOps * 100).toFixed(1);
+    const av = (tot.value / maxAcv * 100).toFixed(1);
+
+    const rowCls = pause ? ' f-row-pause' : '';
+    const nc = pause ? 'color:var(--text-3)' : '';
+    const barCls = pause ? ' f-bar-pause' : '';
+
+    opsBarsHtml += `<div class="f-row${rowCls}">
+      <div class="f-name" style="${nc}">${shortName}</div>
+      <div class="f-bar-wrap">
+        <div class="f-bar-total${barCls}" style="width:${tw}%"></div>
+        <div class="f-bar-mkt${pause?' style=opacity:.5':''}" style="width:${mw}%"></div>
+      </div>
+      <div class="f-meta" style="${nc}"><span class="${pause?'':'mkt'}">${mkt.count}</span> / ${tot.count}</div>
+    </div>`;
+
+    acvBarsHtml += `<div class="f-row${rowCls}">
+      <div class="f-name" style="${nc}">${shortName}</div>
+      <div class="f-bar-wrap">
+        <div class="f-bar-total${barCls}" style="width:${av}%"></div>
+      </div>
+      <div class="f-meta" style="${nc}">${fmt(tot.value)}</div>
+    </div>`;
+  });
+
+  document.getElementById('ops-bars').innerHTML = opsBarsHtml;
+  document.getElementById('acv-bars').innerHTML = acvBarsHtml;
+  document.getElementById('total-ops-label').textContent = `${fmtN(s.totalActiveDeals)} oportunidades`;
+  document.getElementById('total-acv-label').textContent = fmt(s.totalPipelineValue);
+
+  // Closing box
+  let closeOps=0, closeOpsMkt=0, closeAcv=0, closeAcvMkt=0;
+  orderedStages.forEach(stage => {
+    if(isClose(stage)){
+      closeOps += (totalByStage[stage]||{count:0}).count;
+      closeOpsMkt += (byStage[stage]||{count:0}).count;
+      closeAcv += (totalByStage[stage]||{value:0}).value;
+      closeAcvMkt += (byStage[stage]||{value:0}).value;
+    }
+  });
+  const closePct = pct(closeOps, s.totalActiveDeals);
+  document.getElementById('closing-val').textContent = `${fmt(closeAcv)} ACV · ${fmtN(closeOps)} oportunidades · ${closePct} % del total`;
+  document.getElementById('closing-note').innerHTML = `De estas, <strong>${closeOpsMkt} son de captación marketing</strong> (${fmt(closeAcvMkt)} ACV) con cierre proyectado próximo.`;
+
+  // Section 02 – Marketing stage table
+  let tableRows = '';
+  orderedStages.forEach(stage => {
+    const mkt = byStage[stage] || {count:0, value:0, subs:0};
+    if(!mkt.count && !mkt.value) return;
+    const pctOps = pct(mkt.count, s.marketingDeals);
+    const pctVal = pct(mkt.value, s.marketingPipelineValue);
+    const pillCls = parseFloat(pctVal) >= 30 ? 'ph' : parseFloat(pctVal) >= 10 ? 'pm' : 'pl';
+    const opPillCls = parseFloat(pctOps) >= 25 ? 'ph' : parseFloat(pctOps) >= 10 ? 'pm' : 'pl';
+    const shortName = STAGE_SHORT[stage] || stage;
+    const pause = isPause(stage);
+    tableRows += `<tr${pause?' style="opacity:.65"':''}>
+      <td style="font-weight:600;color:${pause?'var(--text-3)':''}">${shortName}</td>
+      <td class="r">${mkt.count}</td>
+      <td class="r"><span class="pct-pill ${opPillCls}">${pctOps} %</span></td>
+      <td class="r">${fmtN(mkt.subs)}</td>
+      <td class="r">${fmt(mkt.value)}</td>
+      <td class="r"><span class="pct-pill ${pillCls}">${pctVal} %</span></td>
+    </tr>`;
+  });
+  document.getElementById('mkt-stage-table').innerHTML = tableRows;
+  document.getElementById('mkt-stage-foot').innerHTML = `<tr>
+    <td style="font-weight:600">Total Marketing</td>
+    <td class="r">${fmtN(s.marketingDeals)}</td>
+    <td class="r">100 %</td>
+    <td class="r">${fmtN(s.marketingSubs)}</td>
+    <td class="r">${fmt(s.marketingPipelineValue)}</td>
+    <td class="r">100 %</td>
+  </tr>`;
+  document.getElementById('mkt-badge').textContent = `${fmtN(s.marketingDeals)} ops · ${fmt(s.marketingPipelineValue)} ACV`;
+
+  // Section 03 – Sources
+  const bySource = data.bySource || {};
+  const merged = {};
+  Object.entries(bySource).forEach(([src, v]) => {
+    const label = SOURCE_LABELS[src] || src;
+    if(!merged[label]) merged[label] = {count:0, value:0};
+    merged[label].count += v.count;
+    merged[label].value += v.value;
+  });
+  const srcSorted = Object.entries(merged).sort((a,b) => b[1].count - a[1].count);
+  const maxSrc = srcSorted[0]?.[1].count || 1;
+  let srcHtml = '';
+  srcSorted.forEach(([label, v]) => {
+    const w = (v.count / maxSrc * 100).toFixed(1);
+    srcHtml += `<div class="src-row">
+      <div class="src-name">${label}</div>
+      <div class="src-bar-wrap"><div class="src-bar" style="width:${w}%;background:${w==='100.0'?'var(--blue)':'var(--blue-mid)'}"></div></div>
+      <div class="src-count">${v.count}</div>
+    </div>`;
+  });
+  document.getElementById('source-bars').innerHTML = srcHtml;
+
+  // Section 04 – Top deals
+  const topDeals = data.topMarketingDeals || [];
+  let dealsHtml = '';
+  topDeals.forEach((d, i) => {
+    const stagePill = Object.entries(STAGE_PILL).find(([k]) => d.stage && d.stage.toLowerCase().includes(k.split(' ')[0].toLowerCase()));
+    const pillCls = stagePill ? stagePill[1] : 'p-lev';
+    const shortStage = STAGE_SHORT[d.stage] || (d.stage||'').split(' ')[0];
+    const initials = (d.owner||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    dealsHtml += `<tr>
+      <td style="color:var(--text-3);font-weight:600;font-size:12px">${i+1}</td>
+      <td><div style="font-weight:600;font-size:13px">${d.name||'—'}</div><div style="font-size:11px;color:var(--text-3)">${d.industry||''}</div></td>
+      <td><span class="stage-pill ${pillCls}">${shortStage}</span></td>
+      <td class="r">${fmt(d.value)}</td>
+      <td class="r">${fmtN(d.subs)}</td>
+      <td><div style="font-size:11px;color:var(--text-2);display:flex;align-items:center;gap:5px;"><span style="width:20px;height:20px;border-radius:50%;background:var(--bar-bg);color:var(--blue);font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${initials}</span>${d.owner||''}</div></td>
+      <td><span style="font-size:11px;color:var(--text-2);">${stageDate(d.closingDate)}</span></td>
+    </tr>`;
+  });
+  document.getElementById('top-deals-table').innerHTML = dealsHtml || '<tr><td colspan="7" style="color:var(--text-3);text-align:center;padding:20px;">Sin datos</td></tr>';
+
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('main-content').style.display = 'block';
+}
+
+loadData();
+</script>
+
+</body>
+</html>
