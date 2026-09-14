@@ -606,9 +606,9 @@ const DATA = {
   oneT:'Nuestro ADN cultural es la base para actuar como One Numaris',
   oneD:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con la meta de septiembre.',
   proyectos:[   // top 3 de agosto · logo:'' → iniciales (ej. '/all-hands-img/cliente.png')
-    {n:'01', cliente:'Latina Leasing',           lugar:'', sol:'Servicios Financieros',     unidades:250, suf:'unidades mensuales', resp:'Orlak Castañeda', logo:'', detalle:''},
-    {n:'02', cliente:'Farmacias del Ahorro',     lugar:'', sol:'Gestión de Flotas',         unidades:300, suf:'vehículos', resp:'Iris Morales', logo:'', detalle:'Potencial: 2,000 motos 🛵'},
-    {n:'03', cliente:'Abastecedora del Centro',  lugar:'', sol:'Logística y Distribución',  pre:'+', unidades:200, suf:'unidades', resp:'Joel Araiza', logo:'', detalle:''}
+    {n:'01', cliente:'Latina Leasing',           lugar:'', sol:'Servicios Financieros',     unidades:250, suf:'unidades mensuales', vert:'Servicios Financieros', logo:'', detalle:''},
+    {n:'02', cliente:'Farmacias del Ahorro',     lugar:'', sol:'Gestión de Flotas',         unidades:300, suf:'vehículos', vert:'Gestión de Activos', logo:'', detalle:'Potencial: 2,000 motos 🛵'},
+    {n:'03', cliente:'Abastecedora del Centro',  lugar:'', sol:'Logística y Distribución',  pre:'+', unidades:200, suf:'unidades', vert:'Logística y Distribución', logo:'', detalle:''}
   ],
   // Historia de éxito · KonektiVan (NUMARNET agosto)
   hCliente:'KonektiVan · Video IA + SAFE GPT', hMeta:'Transporte de pasajeros · +300 unidades · 10,000 pasajeros diarios',
@@ -724,8 +724,8 @@ document.getElementById('proyectos').innerHTML=top3.map((p,i)=>{
     </div>`:`<div style="color:${first?'#8FA5C4':'var(--gray)'};font-size:12px;font-weight:700;background:${first?'rgba(255,255,255,.08)':'#F2F5FA'};border-radius:8px;padding:8px 12px">Unidades / alcance: por confirmar</div>`}
     ${p.detalle?`<div style="color:${first?'#BCCEE8':'var(--ink-body)'};font-size:13px;line-height:1.55">${p.detalle}</div>`:''}
     <div style="border-top:1.5px solid ${first?'rgba(255,255,255,.14)':'#EDF2F8'};padding-top:12px;margin-top:auto;display:flex;align-items:center;gap:10px">
-      <span class="avatar" style="width:34px;height:34px;font-size:12px;background:${first?'#4D9FE8':'var(--blue)'}">${p.resp.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
-      <div><div style="color:${first?'#fff':'var(--navy)'};font-weight:700;font-size:13.5px">${p.resp}</div><div style="color:${first?'#8FA5C4':'var(--gray)'};font-size:11.5px;font-weight:600">${p.resp.includes(' y ')?'Responsables':'Responsable'} del proyecto</div></div>
+      <span class="avatar" style="width:34px;height:34px;font-size:12px;background:${first?'#4D9FE8':'var(--blue)'}">${p.vert.split(' ').filter(w=>w.length>2).map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
+      <div><div style="color:${first?'#fff':'var(--navy)'};font-weight:700;font-size:13.5px">${p.vert}</div><div style="color:${first?'#8FA5C4':'var(--gray)'};font-size:11.5px;font-weight:600">Vertical de negocio</div></div>
     </div>
   </div>`}).join('');
 })();
