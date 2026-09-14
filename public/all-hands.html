@@ -472,7 +472,6 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
         </div>
       </div>
       <div id="hubPilares" style="margin-top:18px;display:grid;gap:9px;max-width:400px"></div>
-      <div class="anim" id="hubStats" style="margin-top:16px;display:flex;gap:26px"></div>
     </div>
     <div class="anim" style="position:relative;border-radius:20px;overflow:hidden;border:1.5px solid #E5EBF3;box-shadow:0 28px 64px -30px rgba(15,40,80,.55);background:#0F1B2D">
       <video src="/all-hands-img/hub-demo.mp4" autoplay muted loop playsinline style="width:100%;display:block"></video>
@@ -651,10 +650,6 @@ const DATA = {
       {icon:'🎨', c:'#7C4DD8', bg:'#EDE4FB', t:'Campañas y manual', d:'Las 6 campañas activas y el manual de marca v2026 — todo el equipo con la misma historia y el mismo diseño frente al cliente.', tag:'🧩 Una sola voz'},
       {icon:'⚡', c:'#2E8B4F', bg:'#E3F4E9', t:'Autoservicio total', d:'Entra, consulta y descarga el kit sin depender de nadie: más información y más recursos, en un solo lugar.', tag:'🚀 Para todo el equipo'}
     ],
-    stats:[
-      {v:'275+', label:'archivos y assets de marca'},
-      {v:'6', label:'campañas activas'}
-    ]
   },
   agosto:[   // 3 cosas importantes para septiembre — alineadas al tono de resultados
     {n:'1', t:'Cierre de proyectos', d:'Aterrizar las cuentas del pipeline: cada cierre cuenta para recuperar la cuota', area:'Comercial', c:'#2E75B6'},
@@ -801,8 +796,6 @@ document.getElementById('hubPilares').innerHTML=DATA.hub.pilares.map(pl=>
     <span style="width:34px;height:34px;border-radius:9px;background:${pl.bg};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${pl.icon}</span>
     <span class="mont" style="font-weight:800;font-size:14.5px;color:var(--navy)">${pl.t}</span>
   </div>`).join('');
-document.getElementById('hubStats').innerHTML=DATA.hub.stats.map(s=>
-  `<div><span class="mont" style="font-weight:800;font-size:24px;color:var(--blue)">${s.v}</span> <span style="color:var(--gray-2);font-size:12px;font-weight:700">${s.label}</span></div>`).join('');
 // resultados: anillo de cuota + promedio mensual + avance anual
 const C=1005.3;
 document.getElementById('cuotaRing').dataset.off=(C*(1-Math.min(DATA.vsCuota,100)/100)).toFixed(1);
