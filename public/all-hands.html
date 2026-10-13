@@ -190,6 +190,14 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 .ekg{stroke-dasharray:420;stroke-dashoffset:420}
 .slide.inview .ekg{animation:ekgDraw 2.4s ease-out .5s forwards}
 @keyframes ekgDraw{to{stroke-dashoffset:0}}
+.live-dot{width:13px;height:13px;border-radius:50%;background:#5BD680;box-shadow:0 0 0 0 rgba(91,214,128,.55);animation:ldot 1.8s ease-out infinite;flex-shrink:0}
+@keyframes ldot{0%{box-shadow:0 0 0 0 rgba(91,214,128,.55)}70%{box-shadow:0 0 0 15px rgba(91,214,128,0)}100%{box-shadow:0 0 0 0 rgba(91,214,128,0)}}
+.rule-stage{animation:rsIn .55s cubic-bezier(.22,.8,.3,1)}
+@keyframes rsIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.rl{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:11px;padding:9px 14px;font-weight:700;font-size:12.5px;color:var(--dk-mut);cursor:pointer;transition:all .4s ease}
+.tick-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.tick{display:inline-flex;gap:60px;white-space:nowrap;animation:tickmv 30s linear infinite;will-change:transform;padding-right:60px}
+@keyframes tickmv{to{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
@@ -197,41 +205,29 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 <nav class="dots" id="dots"></nav>
 <main id="deck">
 
-<!-- 4 · OBJETIVO ANUAL -->
+<!-- 4 · SALA DE ESPERA -->
 <section class="slide dk" id="s4">
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
   <div class="orb o1"></div><div class="orb o2"></div>
-  <div class="wait-line"><i></i><span data-bind="preShowMsg">La sesión comienza en unos minutos…</span></div>
-  <div class="grid-2" style="display:grid;grid-template-columns:1.3fr .85fr;gap:5vw;align-items:center;position:relative;z-index:1">
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;height:100%;justify-content:center;gap:22px">
     <div>
-      <div class="anim" style="color:var(--blue-lt);font-weight:700;font-size:clamp(17px,1.8vw,22px);font-family:'Montserrat'">Objetivo Anual de Ventas <span data-bind="anio">2026</span></div>
-      <div class="anim" style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin:12px 0 30px">
-        <span class="mont num-glow" style="font-weight:800;font-size:clamp(62px,7.6vw,110px);color:#fff;letter-spacing:-.02em">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</span>
-        <span class="mont" style="font-weight:700;font-size:clamp(26px,3vw,44px);color:#6B84A8">/ $<span data-bind="objetivoAnual">940</span>M</span>
-      </div>
-      <div class="anim">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
-          <span style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Progreso del año</span>
-          <span style="color:var(--blue-lt);font-weight:800;font-size:14.5px"><span data-bind="progresoAnio">65</span>% completado</span>
-        </div>
-        <div class="track"><div class="fill shimmer" id="annualFill" style="--w:65%"></div></div>
-        <div class="months" id="months"></div>
+      <span class="anim adn-pill">All Hands · <span data-bind="mesTag">SEPTIEMBRE · 2026</span></span>
+      <div class="anim" style="display:flex;align-items:center;gap:15px;margin-top:16px">
+        <span class="live-dot"></span>
+        <h2 class="mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:-.02em;line-height:1.1"><span data-bind="preShowMsg">La sesión comienza en unos minutos…</span></h2>
       </div>
     </div>
-    <div class="anim">
-      <div class="gauge pop">
-        <svg viewBox="0 0 340 340">
-          <circle class="ring-track" cx="170" cy="170" r="160" style="stroke:rgba(255,255,255,.1)"></circle>
-          <circle class="ring-prog" id="anioRing" cx="170" cy="170" r="160" style="stroke:#4D9FE8" stroke-dasharray="1005.3" stroke-dashoffset="1005.3"></circle>
-        </svg>
-        <div class="inner" style="background:#152A47">
-          <span class="mont" style="font-weight:800;font-size:clamp(42px,4.6vw,60px);color:#fff"><span data-cnt-bind="progresoAnio">0</span>%</span>
-          <span style="color:#A9C4E4;font-size:13px;font-weight:600;margin-top:4px">del objetivo anual</span>
-        </div>
+    <div class="grid-2" style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr);gap:2.6vw;align-items:stretch">
+      <div id="ruleStage" class="rule-stage" style="background:rgba(255,255,255,.055);border:1px solid rgba(125,187,242,.25);border-radius:20px;padding:30px 34px;display:flex;flex-direction:column;gap:12px;min-height:250px;position:relative;overflow:hidden"></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px">Reglas de la reunión</div>
+        <div id="ruleList" style="display:flex;flex-direction:column;gap:7px"></div>
       </div>
+    </div>
+    <div class="tick-wrap anim" style="border-top:1px solid rgba(255,255,255,.12);padding-top:16px">
+      <div class="tick" id="tick"></div>
     </div>
   </div>
-  <div class="anim grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px;position:relative;z-index:1" id="highlights"></div>
 </section>
 
 <!-- 1 · PORTADA -->
@@ -332,49 +328,106 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 <!-- CIERRES CLAVE · FIN DE AÑO -->
 <section class="slide dk" id="scierres" style="background:linear-gradient(150deg,#0D1A2E,#14263F 55%,#1E4373)">
   <div class="orb o1"></div><div class="orb o2"></div>
-  <span class="mont" style="position:absolute;right:-14px;top:-52px;font-weight:800;font-size:310px;line-height:1;color:rgba(255,255,255,.035);pointer-events:none;z-index:0">10</span>
+  <span class="mont" style="position:absolute;right:-24px;bottom:-70px;font-weight:800;font-size:300px;line-height:1;color:rgba(255,255,255,.03);pointer-events:none">2026</span>
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="grid-2" style="display:grid;grid-template-columns:minmax(280px,350px) minmax(0,1fr);gap:2.5vw;align-items:stretch;position:relative;z-index:1">
-    <div style="display:flex;flex-direction:column;gap:17px">
-      <span class="anim adn-pill" style="align-self:flex-start">Tablero Comercial · Cierre de Año</span>
-      <div class="anim">
-        <div class="mont" style="font-weight:800;font-size:clamp(54px,5.8vw,80px);color:#7DBBF2;line-height:.95;letter-spacing:-.03em">$<span data-cnt="34.5" data-dec="1">0</span>M</div>
-        <div style="color:var(--dk-mut);font-size:14.5px;font-weight:700;margin-top:9px;line-height:1.5">en juego en las 10 oportunidades más relevantes de octubre y noviembre</div>
-      </div>
-      <div class="anim" style="display:flex;gap:28px">
-        <div style="border-top:3px solid var(--blue-lt);padding-top:9px"><div class="mont" style="font-weight:800;font-size:23px;color:#fff">10</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:700">oportunidades</div></div>
-        <div style="border-top:3px solid rgba(255,255,255,.4);padding-top:9px"><div class="mont" style="font-weight:800;font-size:23px;color:#fff">3,230</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:700">unidades</div></div>
-      </div>
-      <div class="anim">
-        <div style="display:flex;height:13px;border-radius:7px;overflow:hidden">
-          <span style="width:78.3%;background:#4D9FE8"></span><span style="width:21.7%;background:#9D7FE8"></span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px;margin-top:9px;font-size:11.5px;font-weight:700;color:var(--dk-mut)">
-          <span><i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#4D9FE8;margin-right:6px"></i>Transporte Pesado · $27.0M · 7 oportunidades</span>
-          <span><i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#9D7FE8;margin-right:6px"></i>Distribución y Última Milla · $7.5M · 3 oportunidades</span>
-        </div>
-      </div>
-      <div class="anim" style="margin-top:auto;padding:19px 22px;border-radius:14px;background:rgba(77,159,232,.12);border:1px solid rgba(77,159,232,.35)">
-        <div class="mont" style="font-weight:800;font-size:16.5px;color:#fff;line-height:1.35">¿Cómo apretamos para cerrarlas?</div>
-        <div style="color:#A9C4E4;font-size:12px;font-weight:600;margin-top:5px">La conversación de hoy: cada vertical empuja las suyas.</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span class="mont" style="font-weight:800;font-size:clamp(64px,6.4vw,96px);line-height:.85;background:linear-gradient(120deg,#7DBBF2,#FFFFFF 70%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em">13</span>
+      <div>
+        <span class="anim adn-pill">Tablero Comercial · Cierre de Año</span>
+        <h2 class="anim mont" style="font-weight:800;font-size:clamp(22px,2.4vw,33px);color:#fff;letter-spacing:-.02em;line-height:1.15;margin-top:10px">proyectos para cerrar el <span style="color:#7DBBF2">2026</span></h2>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:13px">
-      <div>
-        <div class="anim" style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
-          <span style="background:rgba(58,164,94,.18);color:#5BD680;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid rgba(91,214,128,.3)">En Formalización</span>
-          <span style="color:var(--dk-mut);font-size:12px;font-weight:700">a un paso de la firma</span>
-        </div>
-        <div id="cierresForm" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px"></div>
-      </div>
-      <div>
-        <div class="anim" style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
-          <span style="background:rgba(232,149,47,.16);color:#F2B04C;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid rgba(242,176,76,.3)">En Negociación</span>
-          <span style="color:var(--dk-mut);font-size:12px;font-weight:700">donde hay que apretar</span>
-        </div>
-        <div id="cierresNeg" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px 12px"></div>
-      </div>
+    <div class="anim" style="background:rgba(77,159,232,.12);border:1px solid rgba(77,159,232,.35);border-radius:14px;padding:13px 20px">
+      <div class="mont" style="font-weight:800;font-size:15px;color:#fff">Estamos aquí para apoyarlos</div>
+      <div style="color:#A9C4E4;font-size:11.5px;font-weight:600;margin-top:3px">En equipo llegamos más lejos — nuestro valor 04 en acción.</div>
     </div>
+  </div>
+  <div style="position:relative;z-index:1">
+      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
+        <div style="border-left:3px solid #F2B04C;padding-left:13px">
+          <div class="mont" style="color:#F2B04C;font-weight:800;font-size:13px;line-height:1.3">Servicios Financieros</div>
+          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Monte de Piedad</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Reiniciamos instalaciones en octubre</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Nexum</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Compromiso de 500 equipos mensuales durante los próximos 3 meses</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Crédito Go</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 unidades al mes en noviembre y diciembre</div>
+        </div>
+        </div>
+      </div>
+      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
+        <div style="border-left:3px solid #7DBBF2;padding-left:13px">
+          <div class="mont" style="color:#7DBBF2;font-weight:800;font-size:13px;line-height:1.3">Transporte Pesado</div>
+          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">LALA</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,500 servicios de videotelemetría</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">LIPU</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Proyectos independientes que representan 500 servicios</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Tropper</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 unidades en los próximos 3 meses</div>
+        </div>
+        </div>
+      </div>
+      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
+        <div style="border-left:3px solid #5BD680;padding-left:13px">
+          <div class="mont" style="color:#5BD680;font-weight:800;font-size:13px;line-height:1.3">Admón. de Activos</div>
+          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">4 proyectos</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Farmacias del Ahorro</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">250 unidades en noviembre</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Saguayo</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,300 vehículos para noviembre — implementación desde septiembre</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">All Parts</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,200 unidades en los próximos 3 meses</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Mstar</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 vehículos para diagnósticos en noviembre</div>
+        </div>
+        </div>
+      </div>
+      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
+        <div style="border-left:3px solid #B49BF2;padding-left:13px">
+          <div class="mont" style="color:#B49BF2;font-weight:800;font-size:13px;line-height:1.3">Distribución y Última Milla</div>
+          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Grupo Pecuario San Antonio</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 315 unidades en todo el país — instalaciones nov–dic (Veracruz, CDMX y Puebla)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Gas Noel</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 135 unidades en SLP — instalación la 1ª semana de diciembre al firmar contrato</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Morsa Group</div>
+          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 130 ligeras de última milla y motos de reparto en Jalisco, Nayarit y Colima</div>
+        </div>
+        </div>
+      </div>
   </div>
 </section>
 
@@ -385,6 +438,72 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 
 
 
+
+<!-- CLIENTES CLAVE -->
+<section class="slide" id="sclientes" style="background:linear-gradient(160deg,#FFFFFF 40%,#EEF3FB)">
+  <span class="mont" style="position:absolute;right:-20px;bottom:-80px;font-weight:800;font-size:300px;line-height:1;color:rgba(30,58,102,.045);pointer-events:none">53</span>
+  <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:26px">
+  <div style="position:relative;z-index:1">
+    <span class="anim" style="display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border-radius:999px;margin-bottom:16px">Nuestra Base de Clientes</span>
+    <h2 class="anim mont" style="font-weight:800;font-size:clamp(28px,3.2vw,44px);color:var(--navy);letter-spacing:-.02em;line-height:1.12">Ellos ya confían en <span style="color:var(--blue)">Numaris</span></h2>
+    <div class="anim" style="color:var(--gray-2);font-size:14px;font-weight:600;line-height:1.6;margin:10px 0 20px;max-width:720px">Recordemos quiénes ya están con nosotros — <b style="color:var(--navy)">mantenerlos es tarea de todos</b>.</div>
+    <div style="display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px">
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Bafar"><img src="/all-hands-img/cli-01_intercarnes.png" alt="Grupo Bafar" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Pemex"><img src="/all-hands-img/cli-02_pemex.png" alt="Pemex" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Navistar"><img src="/all-hands-img/cli-03_navistar.png" alt="Navistar" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="LIPU"><img src="/all-hands-img/cli-04_lipu.png" alt="LIPU" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Traxion"><img src="/all-hands-img/cli-05_traxion.png" alt="Traxion" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="API Trucking"><img src="/all-hands-img/cli-06_api-trucking.png" alt="API Trucking" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Nacional Monte de Piedad"><img src="/all-hands-img/cli-07_nacional-monte-de-piedad.png" alt="Nacional Monte de Piedad" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Fomepade"><img src="/all-hands-img/cli-08_fomepade-aprecia.png" alt="Fomepade" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Válvulas Urrea"><img src="/all-hands-img/cli-09_urrea.png" alt="Válvulas Urrea" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="AVASA · Hertz México"><img src="/all-hands-img/cli-10_avasa-hertz-mexico.png" alt="AVASA · Hertz México" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Fundación Rafael Dondé"><img src="/all-hands-img/cli-11_fundacion-donde.png" alt="Fundación Rafael Dondé" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Coppel"><img src="/all-hands-img/cli-12_coppel.png" alt="Coppel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CA Soluciones Financieras"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">CA Soluciones Financieras</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Distribución y Logística de Alimentos"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Distribución y Logística de Alimentos</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="TIP México"><img src="/all-hands-img/cli-15_tip-mexico.png" alt="TIP México" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Camionera Catosa"><img src="/all-hands-img/cli-16_camionera-catosa.png" alt="Camionera Catosa" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Mstar Innovation"><img src="/all-hands-img/cli-17_mstar.png" alt="Mstar Innovation" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="First Call"><img src="/all-hands-img/cli-18_first-call-steele.png" alt="First Call" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Transportes Marva"><img src="/all-hands-img/cli-19_transportes-marva.png" alt="Transportes Marva" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Enlaces"><img src="/all-hands-img/cli-20_enlaces.png" alt="Enlaces" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Arrendadora Coppel"><img src="/all-hands-img/cli-21_arrendadora-coppel.png" alt="Arrendadora Coppel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Carso · CICSA"><img src="/all-hands-img/cli-22_carso-infraestructura-cicsa.png" alt="Carso · CICSA" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:var(--navy);border:1px solid var(--navy);border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="UNNE"><img src="/all-hands-img/cli-23_unne.png" alt="UNNE" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Casanova Rent"><img src="/all-hands-img/cli-24_casanova-rent.png" alt="Casanova Rent" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Levic"><img src="/all-hands-img/cli-25_levic.png" alt="Levic" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Compañía Mexicana de Radiología"><img src="/all-hands-img/cli-26_compania-mexicana-de-radiologia.png" alt="Compañía Mexicana de Radiología" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Trasein"><img src="/all-hands-img/cli-27_trasein-grupo-simsa.png" alt="Trasein" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Clear Leasing"><img src="/all-hands-img/cli-28_clear-leasing-central-leasing.png" alt="Clear Leasing" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Pecuario San Antonio"><img src="/all-hands-img/cli-29_grupo-pecuario-san-antonio-porres.png" alt="Grupo Pecuario San Antonio" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Centrum Promotora Internacional"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Centrum Promotora Internacional</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Gas Noel"><img src="/all-hands-img/cli-31_gas-noel.png" alt="Gas Noel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Ecolab"><img src="/all-hands-img/cli-32_ecolab.png" alt="Ecolab" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Seguros Banorte"><img src="/all-hands-img/cli-33_seguros-banorte.png" alt="Seguros Banorte" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Cementos Españoles de Bombeo"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Cementos Españoles de Bombeo</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CKD Activos 10"><img src="/all-hands-img/cli-35_ckd-activos-10-rapidauto.png" alt="CKD Activos 10" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Muvu"><img src="/all-hands-img/cli-36_muvu.png" alt="Muvu" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Axionex Financiera"><img src="/all-hands-img/cli-37_axionex-financiera.png" alt="Axionex Financiera" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Lease & Fleet Solutions"><img src="/all-hands-img/cli-38_lease-and-fleet-solutions.png" alt="Lease & Fleet Solutions" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CISA"><img src="/all-hands-img/cli-39_cisa.png" alt="CISA" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Gusi"><img src="/all-hands-img/cli-40_grupo-gusi.png" alt="Grupo Gusi" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Solucionika"><img src="/all-hands-img/cli-41_solucionika.png" alt="Solucionika" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Solufi"><img src="/all-hands-img/cli-42_grupo-solufi.png" alt="Grupo Solufi" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Empacadora Celaya"><img src="/all-hands-img/cli-43_empacadora-celaya-capistrano.png" alt="Empacadora Celaya" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Invarat"><img src="/all-hands-img/cli-44_invarat.png" alt="Invarat" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Alas del Monte"><img src="/all-hands-img/cli-45_alas-del-monte.png" alt="Alas del Monte" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Elektrafin"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Grupo Elektrafin</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CHG-Meridian"><img src="/all-hands-img/cli-47_chg-meridian.png" alt="CHG-Meridian" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="GSA Leasing"><img src="/all-hands-img/cli-48_gsa-leasing.png" alt="GSA Leasing" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Quirán"><img src="/all-hands-img/cli-49_grupo-quiran.png" alt="Grupo Quirán" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Proan"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Proan</span></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Finactiv"><img src="/all-hands-img/cli-51_finactiv.png" alt="Finactiv" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Petro Express"><img src="/all-hands-img/cli-52_petro-express-grupo-petro.png" alt="Petro Express" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Movex"><img src="/all-hands-img/cli-53_movex-compromiso-en-movilidad-excelencia.png" alt="Movex" style="max-height:42px;max-width:100%;object-fit:contain"></div>
+    </div>
+  </div>
+</section>
 
 <!-- 8B · HISTORIA DE ÉXITO · ALIANZA MAS SEGUROS -->
 <section class="slide dk" id="s8b" style="background:linear-gradient(150deg,#0D1A2E,#14263F 55%,#2A2410)">
@@ -728,20 +847,6 @@ const DATA = {
     {n:'02', cliente:'PBOX', lugar:'', sol:'Rastreo + CMI Sequence + Video + Combustible', unidades:50, suf:'+ suscripciones', vert:'Distribución y Última Milla', logo:'', detalle:''},
     {n:'03', cliente:'Latina Leasing', lugar:'', sol:'GA Digital + Mantenimiento', unidades:600, suf:'vehículos', vert:'Admón. de Activos', logo:'', detalle:'Cross selling — ya es cliente de Servicios Financieros, con potencial de crecer al ser arrendadora.'}
   ],
-  cierres:[   // top 10 oportunidades oct–nov (CRM) · acv = Valor Anual de Contrato en $M
-    {cuenta:'Camiones, Repuestos y Accesorios', sol:'Telemetría + Movon', un:'200 unidades', tipo:'Cross selling', acv:12.6, fase:'Formalización', mes:'Nov', vert:'TP'},
-    {cuenta:'LIPU Monterrey · Settepi',         sol:'AD-Plus',            un:'200 unidades', tipo:'Cross selling', acv:3.7,  fase:'Formalización', mes:'Oct', vert:'TP'},
-    {cuenta:'Transportadora GEOS',              sol:'Video',              un:'364 unidades', tipo:'Cliente nuevo', acv:3.3,  fase:'Negociación',   mes:'Oct', vert:'TP'},
-    {cuenta:'Repartos Rápidos de Jalisco',      sol:'Rastreo',            un:'613 unidades', tipo:'Cross selling', acv:3.0,  fase:'Negociación',   mes:'Oct', vert:'DUM'},
-    {cuenta:'Sabro Pollo',                      sol:'Rastreo',            un:'625 unidades', tipo:'Cliente nuevo', acv:3.0,  fase:'Negociación',   mes:'Oct', vert:'DUM'},
-    {cuenta:'Delectrico / Marva',               sol:'Telemetría',         un:'300 unidades', tipo:'Cliente nuevo', acv:2.9,  fase:'Negociación',   mes:'Oct', vert:'TP'},
-    {cuenta:'Tropper International',            sol:'Telemetría',         un:'217 unidades', tipo:'Cross selling', acv:1.7,  fase:'Formalización', mes:'Oct', vert:'TP'},
-    {cuenta:'Grupo Pecuario San Antonio',       sol:'Rastreo',            un:'315 unidades', tipo:'Up selling',    acv:1.5,  fase:'Negociación',   mes:'Oct', vert:'DUM'},
-    {cuenta:'Farmacias del Ahorro',             sol:'Gestión de Flotas',  un:'395 unidades', tipo:'Cliente nuevo', acv:1.5,  fase:'Negociación',   mes:'Oct', vert:'TP'},
-    {cuenta:'Dicka Logistics',                  sol:'CMI',                un:'Estación de monitoreo dedicada', tipo:'Cliente nuevo', acv:1.4, fase:'Negociación', mes:'Nov', vert:'TP'}
-  ],
-  cierresUnidades:3230, cierresACV:34.5,   // suma exacta del CRM ($34,521,429)
-  verticales:{TP:{n:'Transporte Pesado', c:'#7DBBF2', bg:'rgba(77,159,232,.14)', bd:'rgba(125,187,242,.3)'}, DUM:{n:'Distribución y Última Milla', c:'#B49BF2', bg:'rgba(157,127,232,.16)', bd:'rgba(180,155,242,.3)'}},
   nuevos:[   // ingresos de septiembre (XLSX Capital Humano) · foto:'' → iniciales
     {foto:'/all-hands-img/ni3-paola.jpg', ini:'PM', nombre:'Paola Muñoz Ortega Mondragón',           puesto:'Gerente de Customer Value',            area:'Numaris · Comercial',                      ciudad:'CDMX',      c:'#2E75B6'},
     {foto:'/all-hands-img/ni3-mariano.jpg', ini:'MR', nombre:'Carlos Mariano Revello',                 puesto:'AI Lead',                              area:'Numaris · Tecnologías',                    ciudad:'Argentina', c:'#D97B29'},
@@ -809,46 +914,48 @@ document.getElementById('chartMeses').innerHTML=DATA.grafMeses.map(x=>{
 }).join('');
 })();
 
-// cierres clave fin de año
-(()=>{
-const V=DATA.verticales;
-const rk=c=>String(DATA.cierres.indexOf(c)+1).padStart(2,'0');
-const vpill=c=>`<span style="background:${V[c.vert].bg};color:${V[c.vert].c};border:1px solid ${V[c.vert].bd};font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap">${V[c.vert].n}</span>`;
-document.getElementById('cierresForm').innerHTML=DATA.cierres.filter(c=>c.fase==='Formalización').map(c=>{
-  return `<div class="anim" style="position:relative;overflow:hidden;background:rgba(255,255,255,.055);border:1px solid rgba(91,214,128,.22);border-top:4px solid #3AA45E;border-radius:16px;padding:15px 17px;display:flex;flex-direction:column;gap:7px">
-    <span class="mont" style="position:absolute;right:0;bottom:-26px;font-weight:800;font-size:92px;color:rgba(91,214,128,.07);line-height:1;pointer-events:none">${rk(c)}</span>
-    <div class="mont" style="font-weight:800;font-size:14.5px;color:#fff;line-height:1.25">${c.cuenta}</div>
-    <div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.5">${c.sol} · ${c.un}<br>${c.tipo}</div>
-    <div style="position:relative">${vpill(c)}</div>
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;position:relative">
-      <span class="mont" style="font-weight:800;font-size:23px;color:#5BD680">$${c.acv.toFixed(1)}M</span>
-      <span style="background:rgba(58,164,94,.18);color:#5BD680;font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:999px">Cierre ${c.mes}</span>
-    </div>
-  </div>`;
-}).join('');
-document.getElementById('cierresNeg').innerHTML=DATA.cierres.filter(c=>c.fase==='Negociación').map(c=>{
-  return `<div class="anim" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid #E8952F;border-radius:12px;padding:10px 15px">
-    <span class="mont" style="font-weight:800;font-size:12px;color:var(--dk-mut2)">${rk(c)}</span>
-    <div style="flex:1;min-width:0">
-      <div class="mont" style="font-weight:800;font-size:13px;color:#fff;line-height:1.25">${c.cuenta}</div>
-      <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;margin:2px 0 3px">${c.sol} · ${c.un} · ${c.tipo}</div>
-      ${vpill(c)}
-    </div>
-    <div style="text-align:right">
-      <div class="mont" style="font-weight:800;font-size:15.5px;color:#F6C95B">$${c.acv.toFixed(1)}M</div>
-      <div style="color:#F2B04C;font-size:9px;font-weight:800;text-transform:uppercase">${c.mes} 2026</div>
-    </div>
-  </div>`;
-}).join('');
-})();
 
-document.getElementById('highlights').innerHTML=DATA.highlights.map(h=>
-  `<div class="hcard anim"><div class="em">${h.icon}</div><div class="n">${h.pre||''}<span data-cnt="${h.v}" data-sep="1">0</span></div><div class="l">${h.label}<br><small>${h.sub}</small></div></div>`).join('');
+
+(()=>{
+const R=[
+ {e:'📸',t:'Cámaras encendidas',d:'Para vernos las caras, sentirnos cerca y conectar mejor.',b:''},
+ {e:'💬',t:'Chat activo',d:'Reacciona, manda buenas vibras, comparte links o da un +1 sin interrumpir a quien habla.',b:''},
+ {e:'🔇',t:'Mics en silencio',d:'Mantén tu micrófono apagado por defecto para evitar ruidos de fondo.',b:''},
+ {e:'✋',t:'Levanta la mano',d:'Si quieres comentar o preguntar en vivo, usa el botón de levantar la mano y el moderador te dará el paso.',b:''},
+ {e:'❓',t:'Preguntas estructuradas',d:'Escribe tus dudas en el chat durante la sesión o guárdalas para el espacio final de Q&A.',b:'¡Nueva sección!'},
+ {e:'🧠',t:'Atención plena',d:'Démosle su espacio a la reunión: mails y Slack pueden esperar.',b:''},
+ {e:'👏',t:'Cultura de apoyo',d:'Respetemos todas las opiniones y celebremos los logros del equipo con aplausos digitales y emojis.',b:''}
+];
+const stage=document.getElementById('ruleStage'), list=document.getElementById('ruleList');
+if(!stage||!list) return;
+list.innerHTML=R.map((r,i)=>`<div class="rl" data-i="${i}"><span style="font-size:15px">${r.e}</span>${r.t}</div>`).join('');
+let idx=0, timer=null;
+function show(i){
+  idx=i; const r=R[i];
+  stage.classList.remove('rule-stage'); void stage.offsetWidth; stage.classList.add('rule-stage');
+  stage.innerHTML=`
+    <span class="mont" style="position:absolute;right:6px;bottom:-30px;font-weight:800;font-size:120px;color:rgba(125,187,242,.07);line-height:1;pointer-events:none">0${i+1}</span>
+    <div style="display:flex;align-items:center;gap:14px"><span style="font-size:46px">${r.e}</span>${r.b?`<span style="background:#F6C95B;color:#10233C;font-weight:800;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:999px">${r.b}</span>`:''}</div>
+    <div class="mont" style="color:#fff;font-weight:800;font-size:clamp(22px,2.3vw,32px);line-height:1.2">${r.t}</div>
+    <div style="color:var(--dk-mut);font-size:15px;font-weight:600;line-height:1.6;max-width:520px">${r.d}</div>
+    <div style="display:flex;gap:7px;margin-top:auto;position:relative">${R.map((_,k)=>`<i style="width:${k===i?'26px':'8px'};height:8px;border-radius:4px;background:${k===i?'#4D9FE8':'rgba(255,255,255,.18)'};display:inline-block;transition:all .4s ease"></i>`).join('')}</div>`;
+  [...list.children].forEach((c,k)=>{
+    c.style.background=k===i?'rgba(77,159,232,.18)':'rgba(255,255,255,.05)';
+    c.style.borderColor=k===i?'rgba(125,187,242,.55)':'rgba(255,255,255,.1)';
+    c.style.color=k===i?'#fff':'var(--dk-mut)';
+  });
+}
+function arm(){clearInterval(timer); timer=setInterval(()=>show((idx+1)%R.length),5000);}
+show(0); arm();
+list.addEventListener('click',e=>{const el=e.target.closest('.rl'); if(el){show(+el.dataset.i); arm();}});
+})();
+const _tick=document.getElementById('tick');
+if(_tick){
+  const half=DATA.highlights.map(h=>`<span style="display:inline-flex;align-items:baseline;gap:9px;font-weight:600;font-size:14px;color:var(--dk-mut)"><span style="font-size:17px">${h.icon}</span><b class="mont" style="color:#fff;font-size:19px">${h.v.toLocaleString('en-US')}</b> ${h.label.toLowerCase()} <span style="color:var(--dk-mut2)">· ${h.sub}</span></span>`).join('<span style="color:rgba(125,187,242,.5);font-size:13px">✦</span>');
+  _tick.innerHTML=half+'<span style="color:rgba(125,187,242,.5);font-size:13px">✦</span>'+half;
+}
 if(DATA.encuestaQR){document.getElementById('encuestaQR').outerHTML=`<img src="${DATA.encuestaQR}" alt="QR encuesta" style="width:210px;height:210px;border-radius:12px;display:block;margin:0 auto">`;}
 // barra anual + meses
-const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-document.getElementById('annualFill').style.setProperty('--w', DATA.progresoAnio+'%');
-document.getElementById('months').innerHTML=MESES.map((m,i)=>`<span class="${i+1<DATA.mesIndex?'on':i+1===DATA.mesIndex?'now':''}">${m}</span>`).join('');
 document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]));
 
 document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((p,i)=>
@@ -861,7 +968,6 @@ document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((p,i)=
 // resultados: anillo de cuota + promedio mensual + avance anual
 const C=1005.3;
 document.getElementById('cuotaRing').dataset.off=(C*(1-Math.min(DATA.vsCuota,100)/100)).toFixed(1);
-document.getElementById('anioRing').dataset.off=(C*(1-Math.min(DATA.progresoAnio,100)/100)).toFixed(1);
 document.getElementById('promMes').textContent=Math.round(DATA.ventasAcum/DATA.mesIndex);
 document.getElementById('anualMini').style.setProperty('--w',(DATA.ventasAcum/DATA.objetivoAnual*100).toFixed(1)+'%');
 document.getElementById('anualPct').textContent=Math.round(DATA.ventasAcum/DATA.objetivoAnual*100);
