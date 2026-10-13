@@ -1012,7 +1012,7 @@ const io=new IntersectionObserver(es=>{es.forEach(e=>{
 slides.forEach(s=>io.observe(s));
 slides[0].classList.add('inview'); runCounters(slides[0]); links[0].classList.add('on'); pbar.style.width=(1/slides.length*100)+'%';
 
-slides.forEach(s=>{if(['s4','s1','sgracias'].includes(s.id))return;const f=document.createElement('div');f.className='foot-tag';f.textContent='All Hands · Numaris · Septiembre 2026';s.appendChild(f);});
+slides.forEach(s=>{if(['s4','s1','sgracias'].includes(s.id))return;const f=document.createElement('div');f.className='foot-tag';f.textContent='All Hands · Numaris · Octubre 2026';s.appendChild(f);});
 document.addEventListener('keydown',e=>{
   const cur=links.findIndex(l=>l.classList.contains('on'));
   if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,slides.length-1)].scrollIntoView({behavior:'smooth'})}
