@@ -276,9 +276,24 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 .tv-burst i{position:absolute;left:50%;top:40%;width:9px;height:14px;border-radius:2px;animation:tvBoom 1.4s cubic-bezier(.15,.7,.3,1) forwards}
 @keyframes tvBoom{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
 
+
+/* versión visual: chips y tarjetas compactas */
+.vx-card{position:relative;overflow:hidden;background:linear-gradient(160deg,color-mix(in srgb,var(--oc) 14%,transparent),rgba(255,255,255,.03) 70%);border:1px solid color-mix(in srgb,var(--oc) 40%,transparent);border-radius:18px;padding:22px 22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.vx-top{display:flex;align-items:center;gap:12px}
+.vx-ic{width:54px;height:54px;border-radius:14px;background:color-mix(in srgb,var(--oc) 22%,transparent);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.vx-k{font-family:"Montserrat";font-weight:800;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--oc)}
+.vx-t{font-family:"Montserrat";font-weight:800;font-size:clamp(15px,1.5vw,20px);color:#fff;line-height:1.2}
+.vx-chips{display:flex;flex-wrap:wrap;gap:7px}
+.vx-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 14px;color:#fff;font-weight:700;font-size:clamp(12px,1.05vw,14px);white-space:nowrap}
+.vx-chip i{font-style:normal;color:var(--oc);font-size:12px}
+.vx-ghost{position:absolute;right:-6px;bottom:-26px;font-family:"Montserrat";font-weight:800;font-size:96px;line-height:1;color:color-mix(in srgb,var(--oc) 10%,transparent);pointer-events:none}
+.vx-flow{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.vx-flow span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:5px 9px;color:#fff;font-weight:800;font-size:11px}
+.vx-flow b{color:var(--oc);font-size:12px}
 </style>
 </head>
 <body>
+
 <div id="pbar"></div>
 <nav class="dots" id="dots"></nav>
 <main id="deck">
@@ -330,7 +345,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
             </div>
             <span style="margin-left:auto;font-size:28px">🤖</span>
           </div>
-          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrolló la <b style="color:#fff">Encuesta de Clima Laboral</b>.</div>
+          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrolló la <b style="color:#fff">Encuesta de Clima Laboral</b> ella misma, solo con ayuda de AI, asegurando la confidencialidad de las respuestas y con estándares de las plataformas de encuestas líderes del mercado.</div>
         </div>
         <div class="anim" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;background:linear-gradient(155deg,rgba(246,201,91,.14),rgba(255,255,255,.03) 65%);border:1px solid rgba(246,201,91,.42);border-radius:20px;padding:22px 24px;box-shadow:0 26px 60px -34px rgba(0,0,0,.8)">
           <div style="display:flex;align-items:center;gap:14px">
@@ -341,7 +356,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
             </div>
             <span style="margin-left:auto;font-size:28px">🚀</span>
           </div>
-          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrollo de <b style="color:#fff">widgets</b>: actitud positiva, horas extra y compromiso con entregar en tiempo y forma.</div>
+          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrollo de <b style="color:#fff">widgets</b></div>
         </div>
     </div>
   </div>
@@ -593,31 +608,37 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
       <div><div class="mont" style="color:#fff;font-weight:800;font-size:13px">Marcos Vargas</div><div style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Consolidación del área de Operaciones</div></div>
     </div>
   </div>
-  <div class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;margin:-6px 0 14px;position:relative;z-index:1">La operación como el corazón de confianza de Numaris: alineando la entrega de valor a cada grupo de interés.</div>
-  <div class="ops-grid">
-      <div class="ops-card anim" style="--oc:#7DBBF2;">
-        <div class="ops-h"><span class="ops-ic">🌎</span><div><div class="ops-k">01 · Externos</div><div class="ops-t">Clientes</div></div></div>
-        <div class="ops-li"><div><b>Cumplimiento riguroso de SLAs:</b> entregas a tiempo, sin retrasos sorpresivos.</div><div><b>Cero fricción y alta calidad:</b> servicios estables y libres de errores.</div><div><b>Visibilidad y proactividad:</b> estatus en tiempo real y anticipación ante desvíos.</div></div>
+  <div class="anim" style="color:#CFE0F5;font-size:14px;font-weight:700;margin:-4px 0 18px;position:relative;z-index:1">💙 La operación es el corazón de confianza de Numaris</div>
+  <div class="ops-grid" style="gap:16px">
+      <div class="vx-card anim" style="--oc:#7DBBF2">
+        <span class="vx-ghost">01</span>
+        <div class="vx-top"><span class="vx-ic">🌎</span><div><div class="vx-k">01 · Externos</div><div class="vx-t">Clientes</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>SLAs cumplidos</span><span class="vx-chip"><i>✓</i>Cero fricción</span><span class="vx-chip"><i>✓</i>Proactividad</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#F6C95B;">
-        <div class="ops-h"><span class="ops-ic">🤝</span><div><div class="ops-k">02 · Interno</div><div class="ops-t">Área Comercial</div></div></div>
-        <div class="ops-li"><div><b>Factibilidad ágil:</b> validaciones rápidas para cotizar y cerrar negocios viables.</div><div><b>Respaldo a la promesa de venta:</b> ejecución impecable que construya reputación.</div><div><b>Flexibilidad controlada:</b> atender cuentas estratégicas con orden.</div></div>
+      <div class="vx-card anim" style="--oc:#F6C95B">
+        <span class="vx-ghost">02</span>
+        <div class="vx-top"><span class="vx-ic">🤝</span><div><div class="vx-k">02 · Interno</div><div class="vx-t">Área Comercial</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Factibilidad ágil</span><span class="vx-chip"><i>✓</i>Promesa cumplida</span><span class="vx-chip"><i>✓</i>Flexibilidad con orden</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#B49BF2;">
-        <div class="ops-h"><span class="ops-ic">💬</span><div><div class="ops-k">03 · Interno</div><div class="ops-t">Post Venta / Éxito del Cliente</div></div></div>
-        <div class="ops-li"><div><b>Handoff sin fisuras:</b> traspasos de cuenta sin pérdida de información.</div><div><b>Resolución por causa raíz:</b> erradicar incidencias crónicas, no poner curitas.</div><div><b>Datos para retención:</b> insumos para blindar renovaciones y subir NPS.</div></div>
+      <div class="vx-card anim" style="--oc:#B49BF2">
+        <span class="vx-ghost">03</span>
+        <div class="vx-top"><span class="vx-ic">💬</span><div><div class="vx-k">03 · Interno</div><div class="vx-t">Post Venta / CS</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Handoff sin fisuras</span><span class="vx-chip"><i>✓</i>Causa raíz</span><span class="vx-chip"><i>✓</i>Datos para retener</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#F2B04C;">
-        <div class="ops-h"><span class="ops-ic">💰</span><div><div class="ops-k">04 · Interno</div><div class="ops-t">Finanzas</div></div></div>
-        <div class="ops-li"><div><b>Unit economics saludables:</b> control estricto del costo por servicio.</div><div><b>Aprovechamiento de capacidad:</b> máxima eficiencia por recurso asignado.</div><div><b>Cero desperdicios:</b> eliminar retrabajos que consumen margen.</div></div>
+      <div class="vx-card anim" style="--oc:#F2B04C">
+        <span class="vx-ghost">04</span>
+        <div class="vx-top"><span class="vx-ic">💰</span><div><div class="vx-k">04 · Interno</div><div class="vx-t">Finanzas</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Unit economics sanos</span><span class="vx-chip"><i>✓</i>Capacidad eficiente</span><span class="vx-chip"><i>✓</i>Cero desperdicio</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#4FD1E0;">
-        <div class="ops-h"><span class="ops-ic">💻</span><div><div class="ops-k">05 · Interno</div><div class="ops-t">TI / Desarrollo de Producto</div></div></div>
-        <div class="ops-li"><div><b>Requerimientos claros:</b> historias de usuario bien estructuradas.</div><div><b>Adopción disciplinada:</b> uso consistente de sistemas y herramientas.</div><div><b>Priorización con datos:</b> justificación cuantitativa de cada automatización.</div></div>
+      <div class="vx-card anim" style="--oc:#4FD1E0">
+        <span class="vx-ghost">05</span>
+        <div class="vx-top"><span class="vx-ic">💻</span><div><div class="vx-k">05 · Interno</div><div class="vx-t">TI / Producto</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Requerimientos claros</span><span class="vx-chip"><i>✓</i>Adopción disciplinada</span><span class="vx-chip"><i>✓</i>Priorizar con datos</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#FFFFFF;">
-        <div class="ops-h"><span class="ops-ic">⚙️</span><div><div class="ops-k">06 · Hacia adentro</div><div class="ops-t">Operaciones</div></div></div>
-        <div class="ops-li"><div><b>Estandarización viva (SOPs):</b> procesos claros, sin depender de héroes.</div><div><b>Carga balanceada:</b> planeación predecible, adiós al "modo bombero".</div><div><b>Espacio estratégico:</b> tiempo protegido para innovar y optimizar.</div></div>
+      <div class="vx-card anim" style="--oc:#FFFFFF">
+        <span class="vx-ghost">06</span>
+        <div class="vx-top"><span class="vx-ic">⚙️</span><div><div class="vx-k">06 · Hacia adentro</div><div class="vx-t">Operaciones</div></div></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>SOPs vivos</span><span class="vx-chip"><i>✓</i>Carga balanceada</span><span class="vx-chip"><i>✓</i>Tiempo estratégico</span></div>
       </div>
   </div>
   <div class="value-tag anim"><span class="adn-pill">01 · Vivimos para el cliente</span></div>
@@ -631,42 +652,37 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
       <span class="anim adn-pill" style="align-self:flex-start">Operaciones · Datos y gobernanza</span>
       <h2 class="anim mont" style="font-weight:800;font-size:clamp(22px,2.5vw,34px);color:#fff;letter-spacing:-.02em;line-height:1.12">Trazabilidad punta a punta: <span style="color:#7DBBF2">la fuente única de verdad</span></h2>
-      <p class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.5">Un ecosistema integrado de datos para eliminar silos, predecir cuellos de botella y gobernar con métricas.</p>
+      
     </div>
     <div class="anim" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:9px 15px">
       <span class="mont" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7DBBF2,#2D6DB5);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">MV</span>
       <div><div class="mont" style="color:#fff;font-weight:800;font-size:13px">Marcos Vargas</div><div style="color:var(--dk-mut);font-size:10.5px;font-weight:700">3 pilares · plan a 90 días</div></div>
     </div>
   </div>
-  <div class="ops-grid">
-      <div class="ops-card anim" style="--oc:#7DBBF2;">
-        <div class="ops-h"><span class="ops-ic">🔗</span><div><div class="ops-k">Pilar 1</div><div class="ops-t">Flujo integral estandarizado</div></div></div>
-        <div class="ops-li"><div>Ciclo punta a punta trazable: <b>Cierre Comercial → Onboarding → Operación → Facturación</b>.</div><div>Campos obligatorios en cada fase: <b>sin datos completos, el flujo no avanza</b>.</div><div>Erradicación de tareas y autorizaciones por chats informales o WhatsApp.</div></div>
+  <div class="ops-grid" style="gap:16px">
+      <div class="vx-card anim" style="--oc:#7DBBF2"><span class="vx-ghost">1</span>
+        <div class="vx-top"><span class="vx-ic">🔗</span><div><div class="vx-k">Pilar 1</div><div class="vx-t">Flujo integral estandarizado</div></div></div>
+        <div class="vx-flow"><span>Cierre</span><b>→</b><span>Onboarding</span><b>→</b><span>Operación</span><b>→</b><span>Facturación</span></div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Campos obligatorios</span><span class="vx-chip"><i>✓</i>Adiós WhatsApp</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#FFFFFF;">
-        <div class="ops-h"><span class="ops-ic">🗄️</span><div><div class="ops-k">Pilar 2</div><div class="ops-t">Single Source of Truth</div></div></div>
-        <div class="ops-li"><div>Plataforma central unificada donde vive <b>todo el historial del cliente y del servicio</b>.</div><div>Trazabilidad por ticket/orden con sellos de tiempo y responsables claros (RACI).</div><div>Eliminación definitiva de hojas de cálculo aisladas y versiones contradictorias.</div></div>
+      <div class="vx-card anim" style="--oc:#FFFFFF"><span class="vx-ghost">2</span>
+        <div class="vx-top"><span class="vx-ic">🗄️</span><div><div class="vx-k">Pilar 2</div><div class="vx-t">Single Source of Truth</div></div></div>
+        <div class="mont" style="color:#CFE0F5;font-weight:800;font-size:13px">Una sola plataforma con todo el historial</div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Trazabilidad RACI</span><span class="vx-chip"><i>✓</i>Adiós Excel aislados</span></div>
       </div>
-      <div class="ops-card anim" style="--oc:#FF8A7D;">
-        <div class="ops-h"><span class="ops-ic">📊</span><div><div class="ops-k">Pilar 3</div><div class="ops-t">Dashboards y alertas en vivo</div></div></div>
-        <div class="ops-li"><div>Tableros ejecutivos: <b>SLAs por cliente, tiempos de ciclo y cuellos de botella</b>.</div><div>Alertas tempranas automatizadas antes de que se venza un compromiso de entrega.</div><div>Visibilidad compartida entre Comercial, CS, Finanzas y Dirección General.</div></div>
+      <div class="vx-card anim" style="--oc:#FF8A7D"><span class="vx-ghost">3</span>
+        <div class="vx-top"><span class="vx-ic">📊</span><div><div class="vx-k">Pilar 3</div><div class="vx-t">Dashboards y alertas en vivo</div></div></div>
+        <div class="mont" style="color:#CFE0F5;font-weight:800;font-size:13px">SLAs · tiempos de ciclo · cuellos de botella</div>
+        <div class="vx-chips"><span class="vx-chip"><i>✓</i>Alertas tempranas</span><span class="vx-chip"><i>✓</i>Visibilidad compartida</span></div>
       </div>
   </div>
-  <div class="anim" style="position:relative;z-index:1;margin-top:14px;background:rgba(4,11,21,.45);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px">
-    <div class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px">⏱️ Plan de ejecución: de la ceguera a la trazabilidad total · 90 días</div>
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
-        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px"><span style="position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:16px;z-index:2">▶</span>
-          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#7DBBF2;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 1</span><span style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 1–30</span></div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Mapeo y reglas</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Mapeo detallado del flujo actual e identificación de pérdidas de información.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Acuerdo de campos mandatorios y <i>Definition of Ready</i> (DoR) para handoffs.</div>
-        </div>
-        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #B49BF2;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px"><span style="position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:16px;z-index:2">▶</span>
-          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#B49BF2;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 2</span><span style="color:#B49BF2;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 31–60</span></div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Centralización</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Configuración de la herramienta central y cierre de canales informales.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Capacitación conjunta a Comercial, Post Venta y Operaciones en el sistema unificado.</div>
-        </div>
-        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #5BD680;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px">
-          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#5BD680;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 3</span><span style="color:#5BD680;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 61–90</span></div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Gobernanza</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Dashboards ejecutivos en tiempo real y alertas automáticas.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Mesa quincenal de métricas operativas y mejora continua.</div>
-        </div>
+  <div class="anim" style="position:relative;z-index:1;margin-top:20px">
+    <div class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px">⏱️ Plan a 90 días · de la ceguera a la trazabilidad total</div>
+    <div style="position:relative;height:8px;border-radius:6px;background:linear-gradient(90deg,#7DBBF2 0 33.3%,#B49BF2 33.3% 66.6%,#5BD680 66.6%);margin-bottom:12px"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+      <div><div style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.1em">DÍAS 1–30</div><div class="mont" style="color:#fff;font-weight:800;font-size:16px">🗺️ Mapeo y reglas</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:600">Flujo actual + campos y DoR acordados</div></div>
+      <div><div style="color:#B49BF2;font-weight:800;font-size:10.5px;letter-spacing:.1em">DÍAS 31–60</div><div class="mont" style="color:#fff;font-weight:800;font-size:16px">🧩 Centralización</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:600">Herramienta central + capacitación conjunta</div></div>
+      <div><div style="color:#5BD680;font-weight:800;font-size:10.5px;letter-spacing:.1em">DÍAS 61–90</div><div class="mont" style="color:#fff;font-weight:800;font-size:16px">📈 Gobernanza</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:600">Dashboards en vivo + mesa quincenal</div></div>
     </div>
   </div>
   <div class="value-tag anim"><span class="adn-pill">03 · TecnologIA como multiplicador</span></div>
@@ -681,11 +697,11 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     <div style="display:flex;flex-direction:column;gap:11px">
       <div class="anim"><span style="background:rgba(77,159,232,.12);border:1.5px solid rgba(77,159,232,.4);color:#7DBBF2;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border-radius:999px">Próximo lanzamiento · Marketing</span></div>
       <h2 class="anim mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;line-height:1.08;letter-spacing:-.02em">La nueva <span style="background:linear-gradient(100deg,#7DBBF2,#FFFFFF 70%);-webkit-background-clip:text;background-clip:text;color:transparent">página web</span><br>de Numaris</h2>
-      <p class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.5;max-width:460px">En 2027 estrenamos casa digital: una web pensada para contar quiénes somos hoy — <b style="color:#fff">One Numaris</b> — y convertir visitas en oportunidades.</p>
+      <p class="anim" style="color:var(--dk-mut);font-size:14px;font-weight:700;line-height:1.5;max-width:440px">Nuestra nueva casa digital: <b style="color:#fff">One Numaris</b> 🏠</p>
       <div class="anim" style="display:flex;flex-direction:column;gap:9px">
-        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🎨</span><span style="color:#fff;font-weight:700;font-size:12.5px">Nueva identidad digital, a la altura de la marca</span></div>
-        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🧭</span><span style="color:#fff;font-weight:700;font-size:12.5px">Estructurada por sector: comunicamos cómo resolvemos los retos de cada industria</span></div>
-        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">⚡</span><span style="color:#fff;font-weight:700;font-size:12.5px">Hecha para generar demanda y nuevos negocios</span></div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🎨</span><span style="color:#fff;font-weight:700;font-size:12.5px">Nueva identidad digital</span></div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🧭</span><span style="color:#fff;font-weight:700;font-size:12.5px">Retos resueltos por sector</span></div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">⚡</span><span style="color:#fff;font-weight:700;font-size:12.5px">Hecha para generar demanda</span></div>
       </div>
       <div class="anim" style="border:1px solid rgba(246,201,91,.35);background:rgba(246,201,91,.06);border-radius:14px;padding:11px 14px;display:flex;flex-direction:column;gap:8px">
         <span class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase">Nuestro principal medio para cada punto de contacto</span>
@@ -728,23 +744,18 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
       <span class="anim adn-pill" style="align-self:flex-start">Visita a partners · Octubre 2026</span>
       <h2 class="anim mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:-.02em;line-height:1.05">✈️ Israel <span style="color:var(--dk-mut2)">→</span> <span style="background:linear-gradient(100deg,#7DBBF2,#F6C95B);-webkit-background-clip:text;background-clip:text;color:transparent">China</span></h2>
       <div class="anim" style="color:var(--dk-mut);font-size:12px;font-weight:700">Herzliya, Israel · Shenzhen, China — preparando el roadmap tecnológico de Numaris para 2027</div>
-      <div class="anim" style="background:linear-gradient(150deg,rgba(125,187,242,.14),rgba(255,255,255,.03) 70%);border:1px solid rgba(125,187,242,.35);border-radius:16px;padding:13px 16px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span class="mont" style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 1 · ISRAEL</span><b class="mont" style="color:#fff;font-size:14px">Questar</b></div>
-        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;color:#CFE0F5;font-size:11.5px;font-weight:600;line-height:1.4">
-          <div>① Comunicamos los problemas reales del mercado mexicano</div>
-          <div>② Fortalecimos la relación estratégica</div>
-          <div>③ Planeamos cómo crecer de manera conjunta</div>
-          <div>④ Nos presentaron su roadmap 2027 para Numaris</div>
-        </div>
+      <div class="anim vx-card" style="--oc:#7DBBF2;padding:13px 16px;gap:9px">
+        <div style="display:flex;align-items:center;gap:10px"><span class="mont" style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 1 · 🇮🇱 ISRAEL</span><b class="mont" style="color:#fff;font-size:15px">Questar</b></div>
+        <div class="vx-chips"><span class="vx-chip" style="--oc:#7DBBF2"><i>🇲🇽</i>Retos del mercado MX</span><span class="vx-chip" style="--oc:#7DBBF2"><i>🤝</i>Relación estratégica</span><span class="vx-chip" style="--oc:#7DBBF2"><i>📈</i>Crecimiento conjunto</span><span class="vx-chip" style="--oc:#7DBBF2"><i>🗺️</i>Roadmap 2027</span></div>
       </div>
-      <div class="anim" style="display:flex;align-items:center;gap:10px"><span class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 2 · SHENZHEN</span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(246,201,91,.45),transparent)"></span><span style="color:var(--dk-mut2);font-size:10.5px;font-weight:700">4 partners · fábricas, R&amp;D y roadmaps</span></div>
+      <div class="anim" style="display:flex;align-items:center;gap:10px"><span class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 2 · 🇨🇳 SHENZHEN</span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(246,201,91,.45),transparent)"></span><span style="color:var(--dk-mut2);font-size:10.5px;font-weight:700">4 partners</span></div>
       <div class="anim" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
-        <div class="trip-pt"><b>Streamax</b><span>Alianza fortalecida, roadmap conjunto 2027 y acciones de marketing en conjunto</span></div>
-        <div class="trip-pt"><b>JimiIoT</b><span>Fábrica en Huizhou, sesiones con R&amp;D y roadmap de producto 2027</span></div>
-        <div class="trip-pt"><b>BSJ Technology</b><span>Video con IA: ADAS, DMS, video multicanal e integración FOTA</span></div>
-        <div class="trip-pt"><b>Yuwei Technologies</b><span>Videotelemática: dashcam AI, MDVR, T-BOX; capacidad y calidad</span></div>
+        <div class="trip-pt"><b>Streamax</b><span>🗺️ Roadmap + marketing 2027</span></div>
+        <div class="trip-pt"><b>JimiIoT</b><span>🏭 Fábrica + R&amp;D</span></div>
+        <div class="trip-pt"><b>BSJ Technology</b><span>🎥 Video IA · ADAS / DMS</span></div>
+        <div class="trip-pt"><b>Yuwei Technologies</b><span>📹 Dashcam AI · MDVR</span></div>
       </div>
-      <div class="anim" style="color:#F6C95B;font-size:12px;font-weight:800">🌎 Validamos la importancia de LATAM para los principales players tecnológicos de China</div>
+      <div class="anim" style="color:#F6C95B;font-size:12px;font-weight:800">🌎 LATAM es prioridad para los grandes players tecnológicos de China</div>
     </div>
     <div class="anim" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:10px">
       <div class="trip-ph" style="grid-column:span 2;aspect-ratio:16/10"><img src="/all-hands-img/viaje-questar.jpg" alt="Equipo Numaris con Questar en Israel"><span>🇮🇱 Questar</span></div>
@@ -860,8 +871,8 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
       <div class="mont" style="font-weight:800;font-size:clamp(17px,1.9vw,25px);color:var(--blue-lt);margin-top:5px">objetivo de <span data-bind="mesSigCorto">noviembre</span></div>
     </div>
     <div class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;max-width:760px">Faltan <b style="color:#fff">$177M</b> para el objetivo anual de <b style="color:#fff">$940M</b> — dos meses, dos cierres. <span style="color:#F6C95B;font-weight:800">Nov + Dic cumplidos = año al 100% 🎯</span></div>
-    <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:10px">3 cosas importantes para <span data-bind="mesSigCorto2">noviembre</span></div>
-    <div id="agosto" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;max-width:1080px"></div>
+    <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:10px">2 cosas importantes para <span data-bind="mesSigCorto2">noviembre</span></div>
+    <div id="agosto" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:100%;max-width:900px"></div>
 </div>
   </div>
 </section>
@@ -943,7 +954,7 @@ const DATA = {
     {t:'En equipo llegamos más lejos',   ej:'Comparte lo que sabes: una respuesta tuya puede ahorrarle horas a otra área.'}
   ],
   trivia:[   // trivia del mes récord — click para revelar
-    {q:'¿Cuáles son los 4 valores de Numaris?', hint:'Pista: los repasamos en cada All Hands 😉', c:'#7DBBF2', ans:['01 · Vivimos para el cliente','02 · Operamos con iniciativa','03 · TecnologIA como multiplicador','04 · En equipo llegamos más lejos']},
+    {q:'¿Cuál es el valor de Numaris que nos propone considerar el error honesto y la toma de riesgos como parte del camino?', hint:'Pista: va de no esperar a que alguien más dé el primer paso 🚀', c:'#7DBBF2', ans:['02 · Operamos con iniciativa']},
     {q:'¿Cuál es nuestro objetivo anual de ventas?', hint:'Pista: ya recorrimos el 81% del camino 🏔', c:'#F6C95B', ans:['$940M en 2026','Llevamos $763M acumulados — noviembre y diciembre definen el 100%']},
     {q:'¿Cuáles son las verticales de Numaris?', hint:'Pista: son 4 🚀', c:'#F28CB8', ans:['Servicios Financieros y Movilidad','Transporte Pesado','Administración de Activos','Logística, Distribución y Última Milla']}
   ],
@@ -972,10 +983,9 @@ const DATA = {
     {foto:'/all-hands-img/ni4-alan.jpg',     ini:'AV', nombre:'Alan Eduardo Vázquez Rehlander',   puesto:'Instalador Planta',                 area:'Transporte Pesado · Operaciones',          ciudad:'Nuevo León', c:'#D97B29'},
     {foto:'/all-hands-img/ni4-victor.jpg',   ini:'VB', nombre:'Víctor Barranco Portillo',         puesto:'Técnico Instalador',                area:'Serv. Financieros y Flotas · Operaciones', ciudad:'Puebla',     c:'#2E8B4F'}
   ],
-  agosto:[   // 3 cosas importantes para octubre — ⚠️ confirmar con dirección
-    {n:'1', t:'Cierre de proyectos', d:'Aterrizar las cuentas del pipeline: cada cierre cuenta para recuperar la cuota', area:'Comercial', c:'#2E75B6'},
-    {n:'2', t:'Foco en los proyectos para cerrar el año', d:'Todos enfocados en los proyectos del tablero Nov–Dic: cada uno que cerremos nos acerca a terminar el 2026 al 100%', area:'Todos', c:'#2E8B4F'},
-    {n:'3', t:'Nuestro ADN cultural es la base para actuar como One Numaris', d:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con cerrar el año al 100%.', area:'One Numaris', c:'#E8762D', logo:true}
+  agosto:[   // 2 cosas importantes para octubre — ⚠️ confirmar con dirección
+    {n:'1', t:'Foco en los proyectos para cerrar el año', d:'Todos enfocados en los proyectos del tablero Nov–Dic: cada uno que cerremos nos acerca a terminar el 2026 al 100%', area:'Todos', c:'#2E8B4F'},
+    {n:'2', t:'Nuestro ADN cultural es la base para actuar como One Numaris', d:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con cerrar el año al 100%.', area:'One Numaris', c:'#E8762D', logo:true}
   ],
   encuestaQR:'/all-hands-img/qr-encuesta.png', encuestaUrl:'https://zfrmz.com/z3iIf4dBwSYEB1aslKnf',
   objetivoAgosto:85.3,   // cuota de noviembre (dashboard)
