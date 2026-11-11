@@ -345,7 +345,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
             </div>
             <span style="margin-left:auto;font-size:28px">🤖</span>
           </div>
-          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrolló la <b style="color:#fff">Encuesta de Clima Laboral</b> ella misma, solo con ayuda de AI, asegurando la confidencialidad de las respuestas y con estándares de las plataformas de encuestas líderes del mercado.</div>
+          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrolló la <b style="color:#fff">Encuesta de Clima Laboral</b> con ayuda de AI, asegurando la confidencialidad de las respuestas y con estándares de las plataformas de encuestas líderes del mercado.</div>
         </div>
         <div class="anim" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;background:linear-gradient(155deg,rgba(246,201,91,.14),rgba(255,255,255,.03) 65%);border:1px solid rgba(246,201,91,.42);border-radius:20px;padding:22px 24px;box-shadow:0 26px 60px -34px rgba(0,0,0,.8)">
           <div style="display:flex;align-items:center;gap:14px">
@@ -867,12 +867,12 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
     <span class="anim adn-pill">Cierre · Lo que viene en <span data-bind="mesSig">Noviembre 2026</span></span>
     <div class="anim">
-      <span class="mont num-glow" style="font-weight:800;font-size:clamp(68px,8.4vw,120px);letter-spacing:-.03em;line-height:.95;display:block;background:linear-gradient(110deg,#7DBBF2,#FFFFFF 60%);-webkit-background-clip:text;background-clip:text;color:transparent">$<span data-cnt-bind="objetivoAgosto" data-dec="1">0</span>M</span>
+      <span class="mont num-glow" style="font-weight:800;font-size:clamp(54px,6.2vw,92px);letter-spacing:-.03em;line-height:.95;display:block;background:linear-gradient(110deg,#7DBBF2,#FFFFFF 60%);-webkit-background-clip:text;background-clip:text;color:transparent">$<span data-cnt-bind="objetivoAgosto" data-dec="1">0</span>M</span>
       <div class="mont" style="font-weight:800;font-size:clamp(17px,1.9vw,25px);color:var(--blue-lt);margin-top:5px">objetivo de <span data-bind="mesSigCorto">noviembre</span></div>
     </div>
     <div class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;max-width:760px">Faltan <b style="color:#fff">$177M</b> para el objetivo anual de <b style="color:#fff">$940M</b> — dos meses, dos cierres. <span style="color:#F6C95B;font-weight:800">Nov + Dic cumplidos = año al 100% 🎯</span></div>
-    <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:10px">2 cosas importantes para <span data-bind="mesSigCorto2">noviembre</span></div>
-    <div id="agosto" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:100%;max-width:900px"></div>
+    <div class="anim" style="display:flex;align-items:center;gap:14px;width:100%;max-width:1180px;margin-top:14px"><span style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(246,201,91,.55))"></span><span class="mont" style="color:#F6C95B;font-weight:800;font-size:clamp(15px,1.5vw,20px);letter-spacing:.12em;text-transform:uppercase">⚡ 2 cosas importantes para <span data-bind="mesSigCorto2">noviembre</span></span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(246,201,91,.55),transparent)"></span></div>
+    <div id="agosto" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;width:100%;max-width:1180px"></div>
 </div>
   </div>
 </section>
@@ -984,7 +984,7 @@ const DATA = {
     {foto:'/all-hands-img/ni4-victor.jpg',   ini:'VB', nombre:'Víctor Barranco Portillo',         puesto:'Técnico Instalador',                area:'Serv. Financieros y Flotas · Operaciones', ciudad:'Puebla',     c:'#2E8B4F'}
   ],
   agosto:[   // 2 cosas importantes para octubre — ⚠️ confirmar con dirección
-    {n:'1', t:'Foco en los proyectos para cerrar el año', d:'Todos enfocados en los proyectos del tablero Nov–Dic: cada uno que cerremos nos acerca a terminar el 2026 al 100%', area:'Todos', c:'#2E8B4F'},
+    {n:'1', t:'Foco en los proyectos para cerrar el año', d:'Todos enfocados en los proyectos del tablero Nov–Dic: cada uno que cerremos nos acerca a terminar el 2026 al 100%', area:'Todos', c:'#F2B04C'},
     {n:'2', t:'Nuestro ADN cultural es la base para actuar como One Numaris', d:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con cerrar el año al 100%.', area:'One Numaris', c:'#E8762D', logo:true}
   ],
   encuestaQR:'/all-hands-img/qr-encuesta.png', encuestaUrl:'https://zfrmz.com/z3iIf4dBwSYEB1aslKnf',
@@ -1020,14 +1020,15 @@ document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>{
   </div>`}).join('');
 const ONELOGO="/all-hands-img/one-numaris.png";
 document.getElementById('agosto').innerHTML=DATA.agosto.map(a=>
-  `<div class="anim" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-top:4px solid ${a.c};border-radius:16px;padding:15px 18px;display:flex;flex-direction:column;gap:7px;text-align:left">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-      <span class="mont" style="width:32px;height:32px;border-radius:50%;background:${a.c};color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${a.n}</span>
-      <span class="area-pill" style="color:${a.c==='#2E75B6'?'#7DBBF2':a.c==='#D64545'?'#FF9A8C':'#F5A96B'};background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)">${a.area}</span>
+  `<div class="anim" style="position:relative;overflow:hidden;background:linear-gradient(155deg,color-mix(in srgb,${a.c} 22%,transparent),rgba(255,255,255,.04) 70%);border:1.5px solid color-mix(in srgb,${a.c} 55%,transparent);border-radius:22px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;text-align:left;box-shadow:0 22px 50px -24px color-mix(in srgb,${a.c} 70%,transparent)">
+    <span class="mont" style="position:absolute;right:-4px;bottom:-40px;font-weight:800;font-size:170px;line-height:1;color:color-mix(in srgb,${a.c} 13%,transparent);pointer-events:none">${a.n}</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative">
+      <span class="mont" style="width:54px;height:54px;border-radius:50%;background:${a.c};color:#0D1A2E;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 0 7px color-mix(in srgb,${a.c} 20%,transparent)">${a.n}</span>
+      <span class="area-pill" style="color:${a.c};background:rgba(255,255,255,.08);border:1px solid color-mix(in srgb,${a.c} 45%,transparent);font-size:13px">${a.area}</span>
     </div>
-    <div class="mont" style="color:#fff;font-weight:800;font-size:15px;line-height:1.3">${a.t}</div>
-    <div class="l" style="font-size:11.5px">${a.d}</div>
-    ${a.logo?`<img src="${ONELOGO}" alt="One Numaris" style="height:30px;align-self:flex-start;margin-top:auto;padding-top:4px">`:''}
+    <div class="mont" style="position:relative;color:#fff;font-weight:800;font-size:clamp(20px,2.1vw,28px);line-height:1.2;letter-spacing:-.01em">${a.t}</div>
+    <div class="l" style="position:relative;font-size:clamp(13.5px,1.2vw,16px);line-height:1.5;color:#CFE0F5">${a.d}</div>
+    ${a.logo?`<img src="${ONELOGO}" alt="One Numaris" style="position:relative;height:34px;align-self:flex-start;margin-top:auto;padding-top:4px">`:''}
   </div>`).join('');
 (()=>{
 const MX=Math.max(...DATA.grafMeses.map(x=>Math.max(x.real||0,x.cuota)));
@@ -1123,7 +1124,7 @@ if(document.getElementById('adnPrincipios'))document.getElementById('adnPrincipi
         <span class="tv-ghost">?</span>
         <span class="tv-lbl">${Q.length} PREGUNTAS · ${SECS} SEGUNDOS CADA UNA</span>
         <div class="big">¿Listos? 🎯</div>
-        <div class="tv-hint" style="max-width:560px">Una pregunta a la vez: nadie ve la siguiente hasta que revelemos la respuesta. Contesta en el chat antes de que se acabe el tiempo.</div>
+        <div class="tv-hint" style="max-width:560px">Una pregunta a la vez: nadie ve la siguiente hasta que revelemos la respuesta.</div>
         <button class="tv-btn" data-act="next" style="margin-top:8px">Empezar trivia →</button>
       </div>`; return;
     }
