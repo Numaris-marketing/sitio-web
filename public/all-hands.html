@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Hands Numaris · Septiembre 2026</title>
+<title>All Hands Numaris · Noviembre 2026</title>
 <link rel="icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -190,14 +190,92 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 .ekg{stroke-dasharray:420;stroke-dashoffset:420}
 .slide.inview .ekg{animation:ekgDraw 2.4s ease-out .5s forwards}
 @keyframes ekgDraw{to{stroke-dashoffset:0}}
-.live-dot{width:13px;height:13px;border-radius:50%;background:#5BD680;box-shadow:0 0 0 0 rgba(91,214,128,.55);animation:ldot 1.8s ease-out infinite;flex-shrink:0}
-@keyframes ldot{0%{box-shadow:0 0 0 0 rgba(91,214,128,.55)}70%{box-shadow:0 0 0 15px rgba(91,214,128,0)}100%{box-shadow:0 0 0 0 rgba(91,214,128,0)}}
+.live-dot{width:13px;height:13px;border-radius:50%;background:#F6C95B;box-shadow:0 0 0 0 rgba(246,201,91,.55);animation:ldot 1.8s ease-out infinite;flex-shrink:0}
+@keyframes ldot{0%{box-shadow:0 0 0 0 rgba(246,201,91,.55)}70%{box-shadow:0 0 0 15px rgba(246,201,91,0)}100%{box-shadow:0 0 0 0 rgba(246,201,91,0)}}
 .rule-stage{animation:rsIn .55s cubic-bezier(.22,.8,.3,1)}
 @keyframes rsIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .rl{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:11px;padding:9px 14px;font-weight:700;font-size:12.5px;color:var(--dk-mut);cursor:pointer;transition:all .4s ease}
 .tick-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .tick{display:inline-flex;gap:60px;white-space:nowrap;animation:tickmv 30s linear infinite;will-change:transform;padding-right:60px}
 @keyframes tickmv{to{transform:translateX(-50%)}}
+.triv-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:11px;cursor:pointer;transition:transform .35s ease,border-color .35s ease;position:relative;overflow:hidden}
+.triv-card:hover{transform:translateY(-4px);border-color:rgba(125,187,242,.5)}
+.triv-card .ta{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,.8,.3,1)}
+.triv-card.on .ta{opacity:1;transform:none}
+.triv-card .hint{transition:opacity .3s ease}
+.triv-card.on .hint{opacity:0}
+.skel{position:relative;overflow:hidden;background:rgba(255,255,255,.09);border-radius:7px}
+.skel::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:skmv 2.2s ease-in-out infinite}
+@keyframes skmv{to{transform:translateX(100%)}}
+@keyframes caret{0%,100%{opacity:1}50%{opacity:0}}
+/* operaciones · expectativas y acuerdos */
+.ops-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative;z-index:1}
+.ops-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-top:3px solid var(--oc);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:9px;min-width:0}
+.ops-h{display:flex;align-items:center;gap:10px}
+.ops-ic{width:32px;height:32px;border-radius:10px;background:color-mix(in srgb,var(--oc) 18%,transparent);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ops-t{font-family:"Montserrat";font-weight:800;font-size:13.5px;color:#fff;line-height:1.2}
+.ops-k{font-family:"Montserrat";font-weight:800;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--oc)}
+.ops-li{display:flex;flex-direction:column;gap:7px}
+.ops-li div{color:var(--dk-mut);font-size:11.5px;font-weight:600;line-height:1.42;padding-left:12px;border-left:2px solid color-mix(in srgb,var(--oc) 45%,transparent)}
+.ops-li b{color:#fff;font-weight:800}
+/* viaje israel / china */
+.trip-ph{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.14);position:relative;box-shadow:0 20px 40px -24px rgba(0,0,0,.8)}
+.trip-ph img{display:block;width:100%;height:100%;object-fit:cover}
+.trip-ph span{position:absolute;left:10px;bottom:9px;background:rgba(13,26,46,.82);color:#fff;font-weight:800;font-size:10px;letter-spacing:.06em;padding:4px 10px;border-radius:999px}
+.trip-pt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:10px 13px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.trip-pt b{font-family:"Montserrat";font-weight:800;font-size:13px;color:#fff}
+.trip-pt span{color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.4}
+/* tablero de salidas · cierres */
+.brd{background:rgba(4,11,21,.55);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(0,0,0,.9);position:relative;z-index:1}
+.brd-top{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 22px;background:rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.09)}
+.brd-cols,.brd-row{display:grid;grid-template-columns:46px minmax(200px,230px) minmax(0,1fr) 158px;gap:16px;align-items:center;padding:4px 20px}
+.brd-cols{font-family:"Montserrat";font-weight:800;font-size:9.5px;letter-spacing:.2em;color:var(--dk-mut2);padding:8px 20px;border-bottom:1px solid rgba(255,255,255,.09)}
+.brd-row{min-height:33px;border-top:1px solid rgba(255,255,255,.045)}
+.brd-row:nth-child(even){background:rgba(255,255,255,.025)}
+.brd-num{font-family:"Montserrat";font-weight:800;font-size:11.5px;color:#0D1A2E;background:var(--vc);border-radius:6px;width:28px;height:21px;display:flex;align-items:center;justify-content:center}
+.brd-name{font-family:"Montserrat";font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#fff;line-height:1.25}
+.brd-det{color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.35}
+.brd-pill{justify-self:start;font-family:"Montserrat";font-weight:800;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--vc);border:1px solid;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.blinkdot{width:8px;height:8px;border-radius:50%;background:#F6C95B;box-shadow:0 0 10px #F6C95B;animation:caret 1.4s step-end infinite;display:inline-block}
+/* trivia show · pregunta por pregunta */
+.tv-stage{position:relative;max-width:1080px;margin:0 auto;min-height:56vh;display:flex;flex-direction:column}
+.tv-steps{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:22px}
+.tv-steps b{width:38px;height:6px;border-radius:4px;background:rgba(255,255,255,.12);transition:all .5s ease}
+.tv-steps b.done{background:rgba(255,255,255,.45)}
+.tv-steps b.cur{width:64px;background:var(--qc,#7DBBF2);box-shadow:0 0 14px var(--qc,#7DBBF2)}
+.tv-card{position:relative;flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:clamp(24px,3.4vw,46px);overflow:hidden;display:flex;flex-direction:column;gap:18px;animation:tvIn .6s cubic-bezier(.22,.8,.3,1)}
+.tv-card::before{content:'';position:absolute;inset:0 0 auto 0;height:5px;background:var(--qc)}
+@keyframes tvIn{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+.tv-ghost{position:absolute;right:-1vw;bottom:-6vh;font-family:"Montserrat";font-weight:800;font-size:clamp(150px,26vh,280px);line-height:1;color:rgba(255,255,255,.04);pointer-events:none}
+.tv-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.tv-lbl{font-family:"Montserrat";font-weight:800;font-size:13px;letter-spacing:.16em;color:var(--qc)}
+.tv-q{font-family:"Montserrat";font-weight:800;color:#fff;font-size:clamp(26px,3.6vw,52px);line-height:1.12;letter-spacing:-.02em;max-width:880px;position:relative;z-index:1}
+.tv-hint{color:var(--dk-mut);font-weight:700;font-size:clamp(13px,1.2vw,16px)}
+.tv-timer{position:relative;width:86px;height:86px;flex-shrink:0;cursor:pointer}
+.tv-timer svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.tv-timer circle{fill:none;stroke-width:7}
+.tv-timer .tt{stroke:rgba(255,255,255,.1)}
+.tv-timer .tp{stroke:var(--qc);stroke-linecap:round;stroke-dasharray:226;transition:stroke-dashoffset 1s linear,stroke .3s}
+.tv-timer span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Montserrat";font-weight:800;font-size:28px;color:#fff}
+.tv-timer.hot .tp{stroke:#FF6B5B}.tv-timer.hot span{color:#FF8A7D;animation:tvBeat 1s ease-in-out infinite}
+@keyframes tvBeat{50%{transform:scale(1.18)}}
+.tv-timer.paused span::after{content:'❚❚';position:absolute;bottom:14px;font-size:9px;color:var(--dk-mut2)}
+.tv-up{color:#FF8A7D;font-family:"Montserrat";font-weight:800;font-size:clamp(18px,2vw,26px);animation:tvIn .5s ease}
+.tv-ans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;position:relative;z-index:1}
+.tv-a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-left:4px solid var(--qc);border-radius:14px;padding:14px 18px;color:#fff;font-weight:800;font-size:clamp(14px,1.4vw,18px);line-height:1.35;opacity:0;transform:rotateX(80deg);transform-origin:top;animation:tvFlip .6s cubic-bezier(.22,.8,.3,1) forwards}
+.tv-a.note{grid-column:1/-1;background:transparent;border:none;border-left:3px solid rgba(255,255,255,.25);font-weight:700;color:var(--dk-mut);font-size:clamp(13px,1.2vw,15px)}
+@keyframes tvFlip{to{opacity:1;transform:none}}
+.tv-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:6px;position:relative;z-index:1;flex-wrap:wrap}
+.tv-btn{font-family:"Montserrat";font-weight:800;font-size:14px;border:none;border-radius:999px;padding:13px 24px;cursor:pointer;background:var(--qc,#7DBBF2);color:#0D1A2E;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 10px 26px -10px var(--qc,#7DBBF2)}
+.tv-btn:hover{transform:translateY(-2px)}
+.tv-btn.ghost{background:transparent;color:var(--dk-mut);border:1px solid rgba(255,255,255,.18);box-shadow:none}
+.tv-keys{color:var(--dk-mut2);font-size:11.5px;font-weight:700}
+.tv-intro{align-items:center;justify-content:center;text-align:center}
+.tv-intro .big{font-family:"Montserrat";font-weight:800;font-size:clamp(40px,6vw,84px);color:#fff;letter-spacing:-.03em;line-height:1}
+.tv-burst{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.tv-burst i{position:absolute;left:50%;top:40%;width:9px;height:14px;border-radius:2px;animation:tvBoom 1.4s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes tvBoom{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+
 </style>
 </head>
 <body>
@@ -211,7 +289,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="orb o1"></div><div class="orb o2"></div>
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;height:100%;justify-content:center;gap:22px">
     <div>
-      <span class="anim adn-pill">All Hands · OCTUBRE · 2026</span>
+      <span class="anim adn-pill">All Hands · NOVIEMBRE · 2026</span>
       <div class="anim" style="display:flex;align-items:center;gap:15px;margin-top:16px">
         <span class="live-dot"></span>
         <h2 class="mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:-.02em;line-height:1.1"><span data-bind="preShowMsg">La sesión comienza en unos minutos…</span></h2>
@@ -226,6 +304,45 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
     </div>
     <div class="tick-wrap anim" style="border-top:1px solid rgba(255,255,255,.12);padding-top:16px">
       <div class="tick" id="tick"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADN NUMARIS -->
+<section class="slide dk" id="sadn">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="orb o1"></div>
+  <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">ADN Numaris</div>
+  <h2 class="anim" style="font-size:clamp(18px,2.1vw,27px);font-weight:700;color:rgba(255,255,255,.88);line-height:1.35;letter-spacing:-.01em;max-width:860px">"<span data-bind="adnFrase">Cambiamos todos los días, para que el cliente no tenga que hacerlo</span>."</h2>
+  <div style="display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:3vw;margin-top:28px;align-items:start">
+    <div style="display:flex;flex-direction:column">
+      <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px">Nuestros valores</div>
+      <div id="adnPrincipios"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="anim" style="color:#F6C95B;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">⭐ Casos reales del mes · así se vive el ADN</div>
+        <div class="anim" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;background:linear-gradient(155deg,rgba(246,201,91,.14),rgba(255,255,255,.03) 65%);border:1px solid rgba(246,201,91,.42);border-radius:20px;padding:22px 24px;box-shadow:0 26px 60px -34px rgba(0,0,0,.8)">
+          <div style="display:flex;align-items:center;gap:14px">
+            <img src="/all-hands-img/adn-diana.jpg" alt="Diana Hernández" style="width:78px;height:78px;border-radius:50%;object-fit:cover;flex-shrink:0;border:3px solid #F6C95B;box-shadow:0 0 0 6px rgba(246,201,91,.15),0 10px 24px -8px rgba(0,0,0,.7)">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div class="mont" style="color:#fff;font-weight:800;font-size:clamp(18px,1.8vw,23px);line-height:1.1">Diana Hernández</div>
+              <span class="adn-pill" style="align-self:flex-start">03 · TecnologIA como multiplicador</span>
+            </div>
+            <span style="margin-left:auto;font-size:28px">🤖</span>
+          </div>
+          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrolló la <b style="color:#fff">Encuesta de Clima Laboral</b>.</div>
+        </div>
+        <div class="anim" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;background:linear-gradient(155deg,rgba(246,201,91,.14),rgba(255,255,255,.03) 65%);border:1px solid rgba(246,201,91,.42);border-radius:20px;padding:22px 24px;box-shadow:0 26px 60px -34px rgba(0,0,0,.8)">
+          <div style="display:flex;align-items:center;gap:14px">
+            <img src="/all-hands-img/adn-luis.jpg" alt="Luis Bobadilla" style="width:78px;height:78px;border-radius:50%;object-fit:cover;flex-shrink:0;border:3px solid #F6C95B;box-shadow:0 0 0 6px rgba(246,201,91,.15),0 10px 24px -8px rgba(0,0,0,.7)">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div class="mont" style="color:#fff;font-weight:800;font-size:clamp(18px,1.8vw,23px);line-height:1.1">Luis Bobadilla</div>
+              <span class="adn-pill" style="align-self:flex-start">02 · Operamos con iniciativa</span>
+            </div>
+            <span style="margin-left:auto;font-size:28px">🚀</span>
+          </div>
+          <div style="color:#CFE0F5;font-size:clamp(13.5px,1.25vw,16px);font-weight:600;line-height:1.55;border-left:3px solid rgba(246,201,91,.6);padding-left:14px">Desarrollo de <b style="color:#fff">widgets</b>: actitud positiva, horas extra y compromiso con entregar en tiempo y forma.</div>
+        </div>
     </div>
   </div>
 </section>
@@ -247,18 +364,10 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
       <path fill="url(#mFront)" d="M0,300 L0,240 L150,148 L320,238 L465,165 L615,245 L775,150 L1000,245 L1000,300 Z"/>
     </svg>
   </div>
-  <div class="mes-tag mont" data-bind="mesTag">OCTUBRE · 2026</div>
+  <div class="mes-tag mont" data-bind="mesTag">NOVIEMBRE · 2026</div>
 </section>
 
-<!-- ADN NUMARIS -->
-<section class="slide dk" id="sadn">
-  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="orb o1"></div>
-  <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">ADN Numaris</div>
-  <h2 class="anim" style="font-size:clamp(19px,2.3vw,30px);font-weight:700;color:rgba(255,255,255,.88);line-height:1.35;letter-spacing:-.01em;max-width:860px">"<span data-bind="adnFrase">Cambiamos todos los días, para que el cliente no tenga que hacerlo</span>."</h2>
-  <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 14px">Nuestros principios</div>
-  <div class="anim grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px" id="adnPrincipios"></div>
-</section>
+
 
 
 
@@ -270,49 +379,49 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
 
 
 <!-- 5 · RESULTADOS DEL MES -->
-<section class="slide dk" id="s5" style="background:linear-gradient(150deg,#2B1708,#4E2C10 55%,#69430F)">
+<section class="slide dk" id="s5" style="background:linear-gradient(150deg,#0D1A2E,#13283F 55%,#4A3A1A)">
   <div class="pgh" style="border-bottom-color:rgba(255,255,255,.14)"><h2 style="color:#fff">Resultados Mensuales · <span data-bind="mesLabelTit">Agosto 2026</span></h2><img src="/numaris-blanco.png" alt="Numaris" style="height:22px"></div>
-  <div class="glow-bg" style="background:radial-gradient(circle,rgba(240,150,50,.22),transparent 65%)"></div>
+  <div class="glow-bg" style="background:radial-gradient(circle,rgba(246,201,91,.16),transparent 65%)"></div>
   <div style="display:grid;grid-template-columns:.92fr 1.25fr;gap:4vw;align-items:center;margin-top:22px" class="grid-2">
     <div style="text-align:center">
       <div class="gauge pop">
         <svg viewBox="0 0 340 340">
           <circle class="ring-track" cx="170" cy="170" r="160" style="stroke:rgba(255,255,255,.13)"></circle>
-          <circle class="ring-prog" id="cuotaRing" cx="170" cy="170" r="160" style="stroke:#E8952F" stroke-dasharray="1005.3" stroke-dashoffset="1005.3"></circle>
+          <circle class="ring-prog" id="cuotaRing" cx="170" cy="170" r="160" style="stroke:#F2B04C" stroke-dasharray="1005.3" stroke-dashoffset="1005.3"></circle>
         </svg>
         <div class="inner">
           <span class="mont" style="font-weight:800;font-size:clamp(38px,4.4vw,56px);color:#F6C95B">$<span data-cnt-bind="ingresosMes" data-dec="1">0</span>M</span>
-          <span style="color:#D5B0B4;font-size:13.5px;font-weight:600;margin-top:4px">Ingresos del Mes</span>
+          <span style="color:#A9C4E4;font-size:13.5px;font-weight:600;margin-top:4px">Ingresos del Mes · 🏆 Récord 2026</span>
         </div>
-        <span class="cap" style="background:#D64545;color:#fff"><span data-bind="vsCuota">90.9</span>% DE LA CUOTA · NO CUMPLIDA</span>
+        <span class="cap" style="background:#E8952F;color:#10233C"><span data-bind="vsCuota">90.9</span>% DE LA CUOTA · A $4.5M</span>
       </div>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px">
-        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#F6C95B">+<span data-bind="vsAnio">19.4</span>%</span><span class="b" style="color:#CDA6A9">vs Año Anterior</span></span>
-        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#FF8A7A"><span data-bind="gapMes">−$7.6M</span></span><span class="b" style="color:#CDA6A9">vs cuota del mes</span></span>
-        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#fff">$<span id="promMes">76</span>M</span><span class="b" style="color:#CDA6A9">promedio mensual 2026</span></span>
+        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#F6C95B">+<span data-bind="vsAnio">19.4</span>%</span><span class="b" style="color:#8FA5C4">vs Año Anterior</span></span>
+        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#F2B04C"><span data-bind="gapMes">−$7.6M</span></span><span class="b" style="color:#8FA5C4">vs cuota del mes</span></span>
+        <span class="chip anim" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)"><span class="a" style="color:#fff">$<span id="promMes">76</span>M</span><span class="b" style="color:#8FA5C4">promedio mensual 2026</span></span>
       </div>
     </div>
     <div style="display:grid;gap:16px">
-      <div class="navy-card anim" style="padding:22px 24px;border:1px solid rgba(255,255,255,.1);background:#250E12">
+      <div class="navy-card anim" style="padding:22px 24px;border:1px solid rgba(255,255,255,.1);background:#12263E">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-          <div><div class="lbl-b" style="color:#D5B0B4">Acumulado <span data-bind="anio2">2026</span></div><div class="mont" style="font-weight:800;font-size:clamp(30px,3.2vw,42px);margin-top:4px;color:#F6C95B">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</div></div>
+          <div><div class="lbl-b" style="color:#A9C4E4">Acumulado <span data-bind="anio2">2026</span></div><div class="mont" style="font-weight:800;font-size:clamp(30px,3.2vw,42px);margin-top:4px;color:#F6C95B">$<span data-cnt-bind="ventasAcum" data-dec="0">0</span>M</div></div>
           <div style="display:flex;gap:16px;align-items:center">
-            <div style="text-align:center"><div style="color:#F6C95B;font-weight:800;font-size:19px">+<span data-bind="acumVs2025">33.4</span>%</div><div style="color:#CDA6A9;font-size:11px;font-weight:600">vs 2025</div></div>
+            <div style="text-align:center"><div style="color:#F6C95B;font-weight:800;font-size:19px">+<span data-bind="acumVs2025">33.4</span>%</div><div style="color:#8FA5C4;font-size:11px;font-weight:600">vs 2025</div></div>
             <div style="text-align:center;background:rgba(246,201,91,.13);border:1px solid rgba(246,201,91,.45);border-radius:12px;padding:8px 18px"><div class="mont" style="color:#F6C95B;font-weight:800;font-size:clamp(23px,2.2vw,29px);line-height:1"><span data-bind="acumVsCuota">100</span>%</div><div style="color:#F6C95B;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:3px">de la cuota YTD</div></div>
           </div>
         </div>
-        <div class="mini-track"><div class="fill" id="anualMini" style="--w:58%;background:linear-gradient(90deg,#E8952F,#F6C95B)"></div></div>
-        <div style="display:flex;justify-content:space-between;color:#CDA6A9;font-size:11px;font-weight:600;margin-top:6px"><span><span id="anualPct">58</span>% del objetivo anual</span><span>$<span data-bind="objetivoAnual2">940</span>M</span></div>
+        <div class="mini-track"><div class="fill" id="anualMini" style="--w:58%;background:linear-gradient(90deg,#2D6DB5,#F6C95B)"></div></div>
+        <div style="display:flex;justify-content:space-between;color:#8FA5C4;font-size:11px;font-weight:600;margin-top:6px"><span><span id="anualPct">58</span>% del objetivo anual</span><span>$<span data-bind="objetivoAnual2">940</span>M</span></div>
         <div style="margin-top:12px;padding-top:11px;border-top:1px dashed rgba(246,201,91,.35);display:flex;align-items:center;gap:10px">
           <span style="font-size:16px">🎯</span>
-          <span style="color:#F6C95B;font-size:13px;font-weight:700;line-height:1.45">Seguimos al 100% de la cuota acumulada: <span style="color:#fff">si cumplimos los próximos 3 meses, cerramos el año al 100% de la cuota anual.</span></span>
+          <span style="color:#F6C95B;font-size:13px;font-weight:700;line-height:1.45">A $4.7M de la cuota acumulada (99.4%): <span style="color:#fff">noviembre y diciembre definen cerrar el año al 100%.</span></span>
         </div>
       </div>
       <div class="anim" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:13px 18px 9px">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-          <span class="mont" style="font-weight:800;font-size:13.5px;color:#F6C95B">⚠ 5 meses seguidos sin cumplir la cuota</span>
+          <span class="mont" style="font-weight:800;font-size:13.5px;color:#F6C95B">🏆 Octubre: $83.9M — el mejor mes de 2026, pero aún no llegamos a la cuota</span>
           <span style="display:flex;gap:11px;font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">
-            <span><i class="lg" style="background:#3AA45E"></i>Cuota cumplida</span>
+            <span><i class="lg" style="background:#FFE3A3"></i>Cuota cumplida</span>
             <span><i class="lg" style="background:#E8952F"></i>No cumplida</span>
             <span><i class="lg" style="background:#4D9FE8"></i>Cuota</span>
             <span><i class="lg" style="border:1.5px dashed #4D9FE8;background:rgba(77,159,232,.15)"></i>Por jugar</span>
@@ -325,252 +434,326 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="value-tag anim"><span class="adn-pill">02 · Operamos con iniciativa</span></div>
 </section>
 
-<!-- CIERRES CLAVE · FIN DE AÑO -->
-<section class="slide dk" id="scierres" style="background:linear-gradient(150deg,#0D1A2E,#14263F 55%,#1E4373)">
+<!-- TRIVIA NUMARIS -->
+<section class="slide dk" id="strivia" style="background:linear-gradient(140deg,#0D1A2E,#14263F 55%,#1E4373)">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
   <div class="orb o1"></div><div class="orb o2"></div>
-  <span class="mont" style="position:absolute;right:-24px;bottom:-70px;font-weight:800;font-size:300px;line-height:1;color:rgba(255,255,255,.03);pointer-events:none">2026</span>
+  <span class="mont" style="position:absolute;right:4vw;top:9vh;font-weight:800;font-size:130px;color:rgba(125,187,242,.07);transform:rotate(10deg);pointer-events:none">?</span>
+  <span class="mont" style="position:absolute;left:2vw;bottom:6vh;font-weight:800;font-size:170px;color:rgba(255,255,255,.045);transform:rotate(-10deg);pointer-events:none">?</span>
+  <div style="position:relative;z-index:1">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px">
+      <div>
+        <span class="anim adn-pill">Mes récord · Nos lo ganamos 🏆</span>
+        <h2 class="anim mont" style="font-weight:800;font-size:clamp(28px,3.4vw,48px);color:#fff;letter-spacing:-.02em;margin-top:12px;line-height:1.05">Trivia <span style="background:linear-gradient(100deg,#7DBBF2,#F6C95B);-webkit-background-clip:text;background-clip:text;color:transparent">Numaris</span></h2>
+      </div>
+      <div class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:700;text-align:right">3 preguntas · una a la vez · contesta en el chat o levanta la mano ✋💬<br><span style="color:var(--dk-mut2);font-size:11.5px">Premio: aplausos digitales garantizados 👏</span></div>
+    </div>
+    <div class="tv-stage anim" id="trivStage"></div>
+  </div>
+</section>
+
+
+
+<!-- CIERRES CLAVE · FIN DE AÑO -->
+<section class="slide dk" id="scierres" style="background:linear-gradient(150deg,#0C1726,#101F33 55%,#17304E)">
+  <div class="orb o1"></div>
+  <span class="mont" style="position:absolute;left:-20px;top:-70px;font-weight:800;font-size:260px;line-height:1;color:rgba(255,255,255,.03);pointer-events:none">13</span>
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:14px">
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <span class="anim adn-pill" style="align-self:flex-start">Tablero Comercial · La recta final</span>
+      <h2 class="anim mont" style="font-weight:800;font-size:clamp(24px,2.7vw,38px);color:#fff;letter-spacing:-.02em;line-height:1.1">13 proyectos <span style="background:linear-gradient(100deg,#7DBBF2,#FFFFFF 75%);-webkit-background-clip:text;background-clip:text;color:transparent">en ruta al cierre 2026</span> 🛫</h2>
+    </div>
+    <div class="anim" style="background:rgba(77,159,232,.12);border:1px solid rgba(77,159,232,.35);border-radius:14px;padding:12px 18px">
+      <div class="mont" style="font-weight:800;font-size:14px;color:#fff">Estamos aquí para apoyarlos</div>
+      <div style="color:#A9C4E4;font-size:11px;font-weight:600;margin-top:3px">En equipo llegamos más lejos — nuestro valor 04 en acción.</div>
+    </div>
+  </div>
+  <div class="brd anim">
+    <div class="brd-top">
+      <span class="mont" style="font-weight:800;font-size:12px;letter-spacing:.22em;color:#F6C95B">SALIDAS · NOV — DIC 2026</span>
+      <span style="display:flex;align-items:center;gap:8px;color:var(--dk-mut);font-size:10.5px;font-weight:800;letter-spacing:.14em" class="mont"><span class="blinkdot"></span>TABLERO EN VIVO</span>
+    </div>
+    <div class="brd-cols"><span>N.º</span><span>PROYECTO</span><span>COMPROMISO</span><span>VERTICAL</span></div>
+      <div class="brd-row anim" style="--vc:#F2B04C;transition-delay:0.35s">
+        <span class="brd-num">01</span>
+        <span class="brd-name">Monte de Piedad</span>
+        <span class="brd-det">Reiniciamos instalaciones en octubre</span>
+        <span class="brd-pill" style="border-color:#F2B04C55;background:#F2B04C14">Serv. Financieros</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F2B04C;transition-delay:0.40s">
+        <span class="brd-num">02</span>
+        <span class="brd-name">Nexu</span>
+        <span class="brd-det">Compromiso de 500 equipos mensuales durante los próximos 3 meses</span>
+        <span class="brd-pill" style="border-color:#F2B04C55;background:#F2B04C14">Serv. Financieros</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F2B04C;transition-delay:0.46s">
+        <span class="brd-num">03</span>
+        <span class="brd-name">Crédito Go</span>
+        <span class="brd-det">200 unidades al mes en noviembre y diciembre</span>
+        <span class="brd-pill" style="border-color:#F2B04C55;background:#F2B04C14">Serv. Financieros</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#7DBBF2;transition-delay:0.52s">
+        <span class="brd-num">04</span>
+        <span class="brd-name">LALA</span>
+        <span class="brd-det">1,500 servicios de videotelemetría</span>
+        <span class="brd-pill" style="border-color:#7DBBF255;background:#7DBBF214">Transporte Pesado</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#7DBBF2;transition-delay:0.57s">
+        <span class="brd-num">05</span>
+        <span class="brd-name">LIPU</span>
+        <span class="brd-det">Proyectos independientes que representan 500 servicios</span>
+        <span class="brd-pill" style="border-color:#7DBBF255;background:#7DBBF214">Transporte Pesado</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#7DBBF2;transition-delay:0.62s">
+        <span class="brd-num">06</span>
+        <span class="brd-name">Tropper</span>
+        <span class="brd-det">200 unidades en los próximos 3 meses</span>
+        <span class="brd-pill" style="border-color:#7DBBF255;background:#7DBBF214">Transporte Pesado</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F28CB8;transition-delay:0.68s">
+        <span class="brd-num">07</span>
+        <span class="brd-name">Farmacias del Ahorro</span>
+        <span class="brd-det">250 unidades en noviembre</span>
+        <span class="brd-pill" style="border-color:#F28CB855;background:#F28CB814">Admón. de Activos</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F28CB8;transition-delay:0.73s">
+        <span class="brd-num">08</span>
+        <span class="brd-name">Saguayo</span>
+        <span class="brd-det">1,300 vehículos para noviembre — implementación desde septiembre</span>
+        <span class="brd-pill" style="border-color:#F28CB855;background:#F28CB814">Admón. de Activos</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F28CB8;transition-delay:0.79s">
+        <span class="brd-num">09</span>
+        <span class="brd-name">COMSYS</span>
+        <span class="brd-det">Prueba piloto arrancada con 50 vehículos — potencial de más de 30,000</span>
+        <span class="brd-pill" style="border-color:#F28CB855;background:#F28CB814">Admón. de Activos</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#F28CB8;transition-delay:0.84s">
+        <span class="brd-num">10</span>
+        <span class="brd-name">Mstar</span>
+        <span class="brd-det">200 vehículos para diagnósticos en noviembre</span>
+        <span class="brd-pill" style="border-color:#F28CB855;background:#F28CB814">Admón. de Activos</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#B49BF2;transition-delay:0.90s">
+        <span class="brd-num">11</span>
+        <span class="brd-name">Grupo Pecuario San Antonio</span>
+        <span class="brd-det">Rastreo · 315 unidades en todo el país — instalaciones nov–dic (Veracruz, CDMX y Puebla)</span>
+        <span class="brd-pill" style="border-color:#B49BF255;background:#B49BF214">Dist. · Última Milla</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#B49BF2;transition-delay:0.95s">
+        <span class="brd-num">12</span>
+        <span class="brd-name">Gas Noel</span>
+        <span class="brd-det">Rastreo · 135 unidades en SLP — instalación la 1ª semana de diciembre al firmar contrato</span>
+        <span class="brd-pill" style="border-color:#B49BF255;background:#B49BF214">Dist. · Última Milla</span>
+      </div>
+      <div class="brd-row anim" style="--vc:#B49BF2;transition-delay:1.01s">
+        <span class="brd-num">13</span>
+        <span class="brd-name">Morsa Group</span>
+        <span class="brd-det">Rastreo · 130 ligeras de última milla y motos de reparto en Jalisco, Nayarit y Colima</span>
+        <span class="brd-pill" style="border-color:#B49BF255;background:#B49BF214">Dist. · Última Milla</span>
+      </div>
+  </div>
+  <div class="anim" style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:1;color:var(--dk-mut2);font-size:11px;font-weight:700">
+    <span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#F2B04C;margin-right:6px"></i>Servicios Financieros · 3</span>
+    <span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#7DBBF2;margin-right:6px"></i>Transporte Pesado · 3</span>
+    <span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#F28CB8;margin-right:6px"></i>Admón. de Activos · 4</span>
+    <span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#B49BF2;margin-right:6px"></i>Distribución y Última Milla · 3</span>
+    <span style="margin-left:auto;color:#F6C95B;font-weight:800">🏁 Destino: cerrar el 2026 al 100%</span>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- OPERACIONES 1 · EXPECTATIVAS -->
+<section class="slide dk" id="sops1" style="background:linear-gradient(145deg,#0D1A2E,#14263F 55%,#1E4373)">
+  <div class="orb o1"></div>
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
   <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:16px">
-    <div style="display:flex;align-items:center;gap:20px">
-      <span class="mont" style="font-weight:800;font-size:clamp(64px,6.4vw,96px);line-height:.85;background:linear-gradient(120deg,#7DBBF2,#FFFFFF 70%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em">13</span>
-      <div>
-        <span class="anim adn-pill">Tablero Comercial · Cierre de Año</span>
-        <h2 class="anim mont" style="font-weight:800;font-size:clamp(22px,2.4vw,33px);color:#fff;letter-spacing:-.02em;line-height:1.15;margin-top:10px">proyectos para cerrar el <span style="color:#7DBBF2">2026</span></h2>
-      </div>
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
+      <span class="anim adn-pill" style="align-self:flex-start">Operaciones · Diagnóstico y expectativas</span>
+      <h2 class="anim mont" style="font-weight:800;font-size:clamp(22px,2.5vw,34px);color:#fff;letter-spacing:-.02em;line-height:1.12">¿Qué esperan de <span style="color:#7DBBF2">Operaciones</span> nuestros clientes internos y externos?</h2>
     </div>
-    <div class="anim" style="background:rgba(77,159,232,.12);border:1px solid rgba(77,159,232,.35);border-radius:14px;padding:13px 20px">
-      <div class="mont" style="font-weight:800;font-size:15px;color:#fff">Estamos aquí para apoyarlos</div>
-      <div style="color:#A9C4E4;font-size:11.5px;font-weight:600;margin-top:3px">En equipo llegamos más lejos — nuestro valor 04 en acción.</div>
+    <div class="anim" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:9px 15px">
+      <span class="mont" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7DBBF2,#2D6DB5);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">MV</span>
+      <div><div class="mont" style="color:#fff;font-weight:800;font-size:13px">Marcos Vargas</div><div style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Consolidación del área de Operaciones</div></div>
     </div>
   </div>
-  <div style="position:relative;z-index:1">
-      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
-        <div style="border-left:3px solid #F2B04C;padding-left:13px">
-          <div class="mont" style="color:#F2B04C;font-weight:800;font-size:13px;line-height:1.3">Servicios Financieros</div>
-          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Monte de Piedad</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Reiniciamos instalaciones en octubre</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Nexu</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Compromiso de 500 equipos mensuales durante los próximos 3 meses</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #F2B04C;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Crédito Go</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 unidades al mes en noviembre y diciembre</div>
-        </div>
-        </div>
+  <div class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;margin:-6px 0 14px;position:relative;z-index:1">La operación como el corazón de confianza de Numaris: alineando la entrega de valor a cada grupo de interés.</div>
+  <div class="ops-grid">
+      <div class="ops-card anim" style="--oc:#7DBBF2;">
+        <div class="ops-h"><span class="ops-ic">🌎</span><div><div class="ops-k">01 · Externos</div><div class="ops-t">Clientes</div></div></div>
+        <div class="ops-li"><div><b>Cumplimiento riguroso de SLAs:</b> entregas a tiempo, sin retrasos sorpresivos.</div><div><b>Cero fricción y alta calidad:</b> servicios estables y libres de errores.</div><div><b>Visibilidad y proactividad:</b> estatus en tiempo real y anticipación ante desvíos.</div></div>
       </div>
-      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
-        <div style="border-left:3px solid #7DBBF2;padding-left:13px">
-          <div class="mont" style="color:#7DBBF2;font-weight:800;font-size:13px;line-height:1.3">Transporte Pesado</div>
-          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">LALA</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,500 servicios de videotelemetría</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">LIPU</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Proyectos independientes que representan 500 servicios</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Tropper</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 unidades en los próximos 3 meses</div>
-        </div>
-        </div>
+      <div class="ops-card anim" style="--oc:#F6C95B;">
+        <div class="ops-h"><span class="ops-ic">🤝</span><div><div class="ops-k">02 · Interno</div><div class="ops-t">Área Comercial</div></div></div>
+        <div class="ops-li"><div><b>Factibilidad ágil:</b> validaciones rápidas para cotizar y cerrar negocios viables.</div><div><b>Respaldo a la promesa de venta:</b> ejecución impecable que construya reputación.</div><div><b>Flexibilidad controlada:</b> atender cuentas estratégicas con orden.</div></div>
       </div>
-      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
-        <div style="border-left:3px solid #5BD680;padding-left:13px">
-          <div class="mont" style="color:#5BD680;font-weight:800;font-size:13px;line-height:1.3">Admón. de Activos</div>
-          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">4 proyectos</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Farmacias del Ahorro</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">250 unidades en noviembre</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Saguayo</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,300 vehículos para noviembre — implementación desde septiembre</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">All Parts</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">1,200 unidades en los próximos 3 meses</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #5BD680;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Mstar</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">200 vehículos para diagnósticos en noviembre</div>
-        </div>
-        </div>
+      <div class="ops-card anim" style="--oc:#B49BF2;">
+        <div class="ops-h"><span class="ops-ic">💬</span><div><div class="ops-k">03 · Interno</div><div class="ops-t">Post Venta / Éxito del Cliente</div></div></div>
+        <div class="ops-li"><div><b>Handoff sin fisuras:</b> traspasos de cuenta sin pérdida de información.</div><div><b>Resolución por causa raíz:</b> erradicar incidencias crónicas, no poner curitas.</div><div><b>Datos para retención:</b> insumos para blindar renovaciones y subir NPS.</div></div>
       </div>
-      <div class="anim" style="display:grid;grid-template-columns:168px 1fr;gap:20px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)">
-        <div style="border-left:3px solid #B49BF2;padding-left:13px">
-          <div class="mont" style="color:#B49BF2;font-weight:800;font-size:13px;line-height:1.3">Distribución y Última Milla</div>
-          <div style="color:var(--dk-mut2);font-size:10.5px;font-weight:700;margin-top:3px">3 proyectos</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Grupo Pecuario San Antonio</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 315 unidades en todo el país — instalaciones nov–dic (Veracruz, CDMX y Puebla)</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Gas Noel</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 135 unidades en SLP — instalación la 1ª semana de diciembre al firmar contrato</div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top:3px solid #B49BF2;border-radius:12px;padding:11px 14px;min-width:0">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:13.5px;line-height:1.3">Morsa Group</div>
-          <div style="color:var(--dk-mut);font-size:10.5px;font-weight:600;line-height:1.5;margin-top:3px">Rastreo · 130 ligeras de última milla y motos de reparto en Jalisco, Nayarit y Colima</div>
-        </div>
-        </div>
+      <div class="ops-card anim" style="--oc:#F2B04C;">
+        <div class="ops-h"><span class="ops-ic">💰</span><div><div class="ops-k">04 · Interno</div><div class="ops-t">Finanzas</div></div></div>
+        <div class="ops-li"><div><b>Unit economics saludables:</b> control estricto del costo por servicio.</div><div><b>Aprovechamiento de capacidad:</b> máxima eficiencia por recurso asignado.</div><div><b>Cero desperdicios:</b> eliminar retrabajos que consumen margen.</div></div>
       </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-<!-- CLIENTES CLAVE -->
-<section class="slide" id="sclientes" style="background:linear-gradient(160deg,#FFFFFF 40%,#EEF3FB)">
-  <span class="mont" style="position:absolute;right:-20px;bottom:-80px;font-weight:800;font-size:300px;line-height:1;color:rgba(30,58,102,.045);pointer-events:none">53</span>
-  <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:26px">
-  <div style="position:relative;z-index:1">
-    <span class="anim" style="display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border-radius:999px;margin-bottom:16px">Nuestra Base de Clientes</span>
-    <h2 class="anim mont" style="font-weight:800;font-size:clamp(28px,3.2vw,44px);color:var(--navy);letter-spacing:-.02em;line-height:1.12">Ellos ya confían en <span style="color:var(--blue)">Numaris</span></h2>
-    <div class="anim" style="color:var(--gray-2);font-size:14px;font-weight:600;line-height:1.6;margin:10px 0 20px;max-width:720px">Recordemos quiénes ya están con nosotros — <b style="color:var(--navy)">mantenerlos es tarea de todos</b>.</div>
-    <div style="display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px">
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Bafar"><img src="/all-hands-img/cli-01_intercarnes.png" alt="Grupo Bafar" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Pemex"><img src="/all-hands-img/cli-02_pemex.png" alt="Pemex" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Navistar"><img src="/all-hands-img/cli-03_navistar.png" alt="Navistar" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="LIPU"><img src="/all-hands-img/cli-04_lipu.png" alt="LIPU" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Traxion"><img src="/all-hands-img/cli-05_traxion.png" alt="Traxion" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="API Trucking"><img src="/all-hands-img/cli-06_api-trucking.png" alt="API Trucking" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Nacional Monte de Piedad"><img src="/all-hands-img/cli-07_nacional-monte-de-piedad.png" alt="Nacional Monte de Piedad" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Fomepade"><img src="/all-hands-img/cli-08_fomepade-aprecia.png" alt="Fomepade" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Válvulas Urrea"><img src="/all-hands-img/cli-09_urrea.png" alt="Válvulas Urrea" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="AVASA · Hertz México"><img src="/all-hands-img/cli-10_avasa-hertz-mexico.png" alt="AVASA · Hertz México" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Fundación Rafael Dondé"><img src="/all-hands-img/cli-11_fundacion-donde.png" alt="Fundación Rafael Dondé" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Coppel"><img src="/all-hands-img/cli-12_coppel.png" alt="Coppel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CA Soluciones Financieras"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">CA Soluciones Financieras</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Distribución y Logística de Alimentos"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Distribución y Logística de Alimentos</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="TIP México"><img src="/all-hands-img/cli-15_tip-mexico.png" alt="TIP México" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Camionera Catosa"><img src="/all-hands-img/cli-16_camionera-catosa.png" alt="Camionera Catosa" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Mstar Innovation"><img src="/all-hands-img/cli-17_mstar.png" alt="Mstar Innovation" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="First Call"><img src="/all-hands-img/cli-18_first-call-steele.png" alt="First Call" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Transportes Marva"><img src="/all-hands-img/cli-19_transportes-marva.png" alt="Transportes Marva" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Enlaces"><img src="/all-hands-img/cli-20_enlaces.png" alt="Enlaces" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Arrendadora Coppel"><img src="/all-hands-img/cli-21_arrendadora-coppel.png" alt="Arrendadora Coppel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Carso · CICSA"><img src="/all-hands-img/cli-22_carso-infraestructura-cicsa.png" alt="Carso · CICSA" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:var(--navy);border:1px solid var(--navy);border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="UNNE"><img src="/all-hands-img/cli-23_unne.png" alt="UNNE" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Casanova Rent"><img src="/all-hands-img/cli-24_casanova-rent.png" alt="Casanova Rent" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Levic"><img src="/all-hands-img/cli-25_levic.png" alt="Levic" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Compañía Mexicana de Radiología"><img src="/all-hands-img/cli-26_compania-mexicana-de-radiologia.png" alt="Compañía Mexicana de Radiología" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Trasein"><img src="/all-hands-img/cli-27_trasein-grupo-simsa.png" alt="Trasein" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Clear Leasing"><img src="/all-hands-img/cli-28_clear-leasing-central-leasing.png" alt="Clear Leasing" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Pecuario San Antonio"><img src="/all-hands-img/cli-29_grupo-pecuario-san-antonio-porres.png" alt="Grupo Pecuario San Antonio" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Centrum Promotora Internacional"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Centrum Promotora Internacional</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Gas Noel"><img src="/all-hands-img/cli-31_gas-noel.png" alt="Gas Noel" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Ecolab"><img src="/all-hands-img/cli-32_ecolab.png" alt="Ecolab" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Seguros Banorte"><img src="/all-hands-img/cli-33_seguros-banorte.png" alt="Seguros Banorte" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Cementos Españoles de Bombeo"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Cementos Españoles de Bombeo</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CKD Activos 10"><img src="/all-hands-img/cli-35_ckd-activos-10-rapidauto.png" alt="CKD Activos 10" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Muvu"><img src="/all-hands-img/cli-36_muvu.png" alt="Muvu" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Axionex Financiera"><img src="/all-hands-img/cli-37_axionex-financiera.png" alt="Axionex Financiera" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Lease & Fleet Solutions"><img src="/all-hands-img/cli-38_lease-and-fleet-solutions.png" alt="Lease & Fleet Solutions" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CISA"><img src="/all-hands-img/cli-39_cisa.png" alt="CISA" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Gusi"><img src="/all-hands-img/cli-40_grupo-gusi.png" alt="Grupo Gusi" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Solucionika"><img src="/all-hands-img/cli-41_solucionika.png" alt="Solucionika" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Solufi"><img src="/all-hands-img/cli-42_grupo-solufi.png" alt="Grupo Solufi" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Empacadora Celaya"><img src="/all-hands-img/cli-43_empacadora-celaya-capistrano.png" alt="Empacadora Celaya" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Invarat"><img src="/all-hands-img/cli-44_invarat.png" alt="Invarat" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Alas del Monte"><img src="/all-hands-img/cli-45_alas-del-monte.png" alt="Alas del Monte" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Elektrafin"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Grupo Elektrafin</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="CHG-Meridian"><img src="/all-hands-img/cli-47_chg-meridian.png" alt="CHG-Meridian" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="GSA Leasing"><img src="/all-hands-img/cli-48_gsa-leasing.png" alt="GSA Leasing" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Grupo Quirán"><img src="/all-hands-img/cli-49_grupo-quiran.png" alt="Grupo Quirán" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Proan"><span class="mont" style="color:var(--navy);font-weight:800;font-size:11px;text-align:center;line-height:1.3">Proan</span></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Finactiv"><img src="/all-hands-img/cli-51_finactiv.png" alt="Finactiv" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Petro Express"><img src="/all-hands-img/cli-52_petro-express-grupo-petro.png" alt="Petro Express" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-      <div class="anim" style="background:#fff;border:1px solid #E0E9F3;border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;padding:9px 13px;box-shadow:0 2px 8px rgba(16,35,60,.04)" title="Movex"><img src="/all-hands-img/cli-53_movex-compromiso-en-movilidad-excelencia.png" alt="Movex" style="max-height:42px;max-width:100%;object-fit:contain"></div>
-    </div>
-  </div>
-</section>
-
-<!-- 8B · HISTORIA DE ÉXITO · ALIANZA MAS SEGUROS -->
-<section class="slide dk" id="s8b" style="background:linear-gradient(150deg,#0D1A2E,#14263F 55%,#2A2410)">
-  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="orb o1"></div>
-  <div class="orb o2" style="background:radial-gradient(circle,#E8A01344,transparent 65%)"></div>
-  <div class="grid-2" style="display:grid;grid-template-columns:1.25fr 460px;gap:3.5vw;align-items:center;position:relative;z-index:1">
-    <div>
-      <div class="anim" style="color:var(--blue-lt);font-weight:800;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px">Historia de Éxito · La alianza del mes</div>
-      <div class="anim" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <span style="background:#fff;border-radius:12px;padding:9px 18px;display:flex;align-items:center"><img src="/numaris-color.png" alt="Numaris" style="height:24px"></span>
-        <span class="mont" style="font-weight:800;font-size:34px;color:#F2B01E;text-shadow:0 0 22px rgba(242,176,30,.6)">+</span>
-        <span style="background:#FFC72C;border-radius:12px;padding:6px 12px;display:flex;align-items:center"><img src="/all-hands-img/mas-seguros.png" alt="MAS Seguros" style="height:32px;border-radius:7px"></span>
+      <div class="ops-card anim" style="--oc:#4FD1E0;">
+        <div class="ops-h"><span class="ops-ic">💻</span><div><div class="ops-k">05 · Interno</div><div class="ops-t">TI / Desarrollo de Producto</div></div></div>
+        <div class="ops-li"><div><b>Requerimientos claros:</b> historias de usuario bien estructuradas.</div><div><b>Adopción disciplinada:</b> uso consistente de sistemas y herramientas.</div><div><b>Priorización con datos:</b> justificación cuantitativa de cada automatización.</div></div>
       </div>
-      <h2 class="anim mont" style="font-weight:800;font-size:clamp(24px,2.7vw,38px);color:#fff;margin-top:14px;letter-spacing:-.01em">La mejor protección es la prevención<span style="color:#F2B01E">.</span></h2>
-      <p class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;margin-top:5px;max-width:560px">Póliza + monitoreo como un solo servicio: los datos de los vehículos conectados para anticipar y prevenir siniestros.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
-        <div class="anim hcard" style="border-top:3px solid var(--blue-lt);padding:14px 18px">
-          <div class="mont" style="font-weight:800;font-size:13.5px;color:var(--blue-lt)">Lo que pone Numaris</div>
-          <div style="display:grid;gap:5px;margin-top:8px">
-            <div class="l" style="font-size:12px">· Monitoreo y visibilidad en tiempo real</div>
-            <div class="l" style="font-size:12px">· Alertas que anticipan el riesgo</div>
-            <div class="l" style="font-size:12px">· Reacción y recuperación ante robos</div>
-          </div>
-        </div>
-        <div class="anim hcard" style="border-top:3px solid #F2B01E;padding:14px 18px">
-          <div class="mont" style="font-weight:800;font-size:13.5px;color:#F6C95B">Lo que pone MAS Seguros</div>
-          <div style="display:grid;gap:5px;margin-top:8px">
-            <div class="l" style="font-size:12px">· Bróker #1 de equipo pesado · 30+ años</div>
-            <div class="l" style="font-size:12px">· Red legal nacional con +180 abogados</div>
-            <div class="l" style="font-size:12px">· Siniestros 24/7 y consultoría en campo</div>
-          </div>
-        </div>
+      <div class="ops-card anim" style="--oc:#FFFFFF;">
+        <div class="ops-h"><span class="ops-ic">⚙️</span><div><div class="ops-k">06 · Hacia adentro</div><div class="ops-t">Operaciones</div></div></div>
+        <div class="ops-li"><div><b>Estandarización viva (SOPs):</b> procesos claros, sin depender de héroes.</div><div><b>Carga balanceada:</b> planeación predecible, adiós al "modo bombero".</div><div><b>Espacio estratégico:</b> tiempo protegido para innovar y optimizar.</div></div>
       </div>
-      <div class="anim" style="margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="color:var(--dk-mut);font-weight:800;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-right:2px">Protegido en 4 momentos</span>
-        <span class="mont" style="background:rgba(77,159,232,.14);border:1px solid rgba(77,159,232,.45);color:#7DBBF2;font-weight:800;font-size:11.5px;padding:5px 12px;border-radius:999px">Prevención</span>
-        <span class="flow-arrow" style="color:var(--blue-lt);font-weight:800">→</span>
-        <span class="mont" style="background:rgba(77,159,232,.14);border:1px solid rgba(77,159,232,.45);color:#7DBBF2;font-weight:800;font-size:11.5px;padding:5px 12px;border-radius:999px">Visibilidad</span>
-        <span class="flow-arrow" style="color:var(--blue-lt);font-weight:800;animation-delay:.35s">→</span>
-        <span class="mont" style="background:rgba(242,176,30,.14);border:1px solid rgba(242,176,30,.5);color:#F6C95B;font-weight:800;font-size:11.5px;padding:5px 12px;border-radius:999px">Respuesta</span>
-        <span class="flow-arrow" style="color:#F6C95B;font-weight:800;animation-delay:.7s">→</span>
-        <span class="mont" style="background:linear-gradient(135deg,#2E75B6,#D99812);color:#fff;font-weight:800;font-size:11.5px;padding:5px 14px;border-radius:999px">Respaldo</span>
-      </div>
-      <div class="anim" style="margin-top:14px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:8px 22px 8px 8px;max-width:620px">
-        <span class="avatar" style="width:40px;height:40px;font-size:14px;background:var(--blue)">LR</span>
-        <div>
-          <div class="mont" style="color:#fff;font-weight:700;font-size:12.5px;line-height:1.4">"La tecnología que ya tienen nuestros clientes puede anticiparse a la pérdida."</div>
-          <div style="color:#A9C4E4;font-size:10.5px;font-weight:700;margin-top:2px">Lorena Ruiz · Directora de la vertical de Seguros, Numaris</div>
-        </div>
-      </div>
-    </div>
-    <div class="anim" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:20px;overflow:hidden;box-shadow:0 28px 64px -30px rgba(0,0,0,.6)">
-      <div style="position:relative">
-        <img src="/all-hands-img/press-cota-tyt.jpg" alt="Carlos Cota en Cabina TyT" style="width:100%;display:block">
-        <span style="position:absolute;top:12px;left:12px;background:rgba(15,27,45,.8);color:#fff;font-weight:800;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;border-radius:999px">🎙 En vivo · Cabina TyT</span>
-      </div>
-      <div style="padding:16px 20px">
-        <div class="mont" style="font-weight:800;font-size:15.5px;color:#fff">Carlos Cota presenta la alianza en Revista TyT</div>
-        <div style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:5px">"Numaris busca reducir siniestralidad en el transporte": la vertical que hace que aseguradoras y transportistas hablen el mismo lenguaje a través de los datos.</div>
-        <div style="color:#8FA5C4;font-size:11px;font-weight:700;margin-top:7px">Director de OEMs y Aseguradoras · Revista Transportes y Turismo</div>
-      </div>
-    </div>
   </div>
   <div class="value-tag anim"><span class="adn-pill">01 · Vivimos para el cliente</span></div>
 </section>
 
+<!-- OPERACIONES 2 · TRAZABILIDAD -->
+<section class="slide dk" id="sops2" style="background:linear-gradient(145deg,#0D1A2E,#14263F 55%,#1E4373)">
+  <div class="orb o2"></div>
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:14px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
+      <span class="anim adn-pill" style="align-self:flex-start">Operaciones · Datos y gobernanza</span>
+      <h2 class="anim mont" style="font-weight:800;font-size:clamp(22px,2.5vw,34px);color:#fff;letter-spacing:-.02em;line-height:1.12">Trazabilidad punta a punta: <span style="color:#7DBBF2">la fuente única de verdad</span></h2>
+      <p class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.5">Un ecosistema integrado de datos para eliminar silos, predecir cuellos de botella y gobernar con métricas.</p>
+    </div>
+    <div class="anim" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:9px 15px">
+      <span class="mont" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7DBBF2,#2D6DB5);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">MV</span>
+      <div><div class="mont" style="color:#fff;font-weight:800;font-size:13px">Marcos Vargas</div><div style="color:var(--dk-mut);font-size:10.5px;font-weight:700">3 pilares · plan a 90 días</div></div>
+    </div>
+  </div>
+  <div class="ops-grid">
+      <div class="ops-card anim" style="--oc:#7DBBF2;">
+        <div class="ops-h"><span class="ops-ic">🔗</span><div><div class="ops-k">Pilar 1</div><div class="ops-t">Flujo integral estandarizado</div></div></div>
+        <div class="ops-li"><div>Ciclo punta a punta trazable: <b>Cierre Comercial → Onboarding → Operación → Facturación</b>.</div><div>Campos obligatorios en cada fase: <b>sin datos completos, el flujo no avanza</b>.</div><div>Erradicación de tareas y autorizaciones por chats informales o WhatsApp.</div></div>
+      </div>
+      <div class="ops-card anim" style="--oc:#FFFFFF;">
+        <div class="ops-h"><span class="ops-ic">🗄️</span><div><div class="ops-k">Pilar 2</div><div class="ops-t">Single Source of Truth</div></div></div>
+        <div class="ops-li"><div>Plataforma central unificada donde vive <b>todo el historial del cliente y del servicio</b>.</div><div>Trazabilidad por ticket/orden con sellos de tiempo y responsables claros (RACI).</div><div>Eliminación definitiva de hojas de cálculo aisladas y versiones contradictorias.</div></div>
+      </div>
+      <div class="ops-card anim" style="--oc:#FF8A7D;">
+        <div class="ops-h"><span class="ops-ic">📊</span><div><div class="ops-k">Pilar 3</div><div class="ops-t">Dashboards y alertas en vivo</div></div></div>
+        <div class="ops-li"><div>Tableros ejecutivos: <b>SLAs por cliente, tiempos de ciclo y cuellos de botella</b>.</div><div>Alertas tempranas automatizadas antes de que se venza un compromiso de entrega.</div><div>Visibilidad compartida entre Comercial, CS, Finanzas y Dirección General.</div></div>
+      </div>
+  </div>
+  <div class="anim" style="position:relative;z-index:1;margin-top:14px;background:rgba(4,11,21,.45);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px">
+    <div class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px">⏱️ Plan de ejecución: de la ceguera a la trazabilidad total · 90 días</div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
+        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #7DBBF2;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px"><span style="position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:16px;z-index:2">▶</span>
+          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#7DBBF2;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 1</span><span style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 1–30</span></div>
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Mapeo y reglas</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Mapeo detallado del flujo actual e identificación de pérdidas de información.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Acuerdo de campos mandatorios y <i>Definition of Ready</i> (DoR) para handoffs.</div>
+        </div>
+        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #B49BF2;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px"><span style="position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:16px;z-index:2">▶</span>
+          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#B49BF2;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 2</span><span style="color:#B49BF2;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 31–60</span></div>
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Centralización</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Configuración de la herramienta central y cierre de canales informales.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Capacitación conjunta a Comercial, Post Venta y Operaciones en el sistema unificado.</div>
+        </div>
+        <div style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid #5BD680;border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;align-items:center;gap:8px"><span class="mont" style="background:#5BD680;color:#0D1A2E;font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 9px;border-radius:999px">Fase 3</span><span style="color:#5BD680;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Días 61–90</span></div>
+          <div class="mont" style="color:#fff;font-weight:800;font-size:13px">Gobernanza</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Dashboards ejecutivos en tiempo real y alertas automáticas.</div><div style="color:var(--dk-mut);font-size:11px;font-weight:600;line-height:1.42">• Mesa quincenal de métricas operativas y mejora continua.</div>
+        </div>
+    </div>
+  </div>
+  <div class="value-tag anim"><span class="adn-pill">03 · TecnologIA como multiplicador</span></div>
+</section>
+
+<!-- LANZAMIENTO · WEB 2027 -->
+<section class="slide dk" id="slanza" style="background:linear-gradient(140deg,#0D1A2E,#13283F 50%,#1E4373)">
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <span class="mont" style="position:absolute;left:-30px;bottom:-90px;font-weight:800;font-size:320px;line-height:1;color:rgba(255,255,255,.03);pointer-events:none">2027</span>
+  <div class="grid-2" style="display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:3.5vw;align-items:center;position:relative;z-index:1">
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div class="anim"><span style="background:rgba(77,159,232,.12);border:1.5px solid rgba(77,159,232,.4);color:#7DBBF2;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border-radius:999px">Próximo lanzamiento · Marketing</span></div>
+      <h2 class="anim mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;line-height:1.08;letter-spacing:-.02em">La nueva <span style="background:linear-gradient(100deg,#7DBBF2,#FFFFFF 70%);-webkit-background-clip:text;background-clip:text;color:transparent">página web</span><br>de Numaris</h2>
+      <p class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.5;max-width:460px">En 2027 estrenamos casa digital: una web pensada para contar quiénes somos hoy — <b style="color:#fff">One Numaris</b> — y convertir visitas en oportunidades.</p>
+      <div class="anim" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🎨</span><span style="color:#fff;font-weight:700;font-size:12.5px">Nueva identidad digital, a la altura de la marca</span></div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">🧭</span><span style="color:#fff;font-weight:700;font-size:12.5px">Estructurada por sector: comunicamos cómo resolvemos los retos de cada industria</span></div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:7px 14px"><span style="font-size:15px">⚡</span><span style="color:#fff;font-weight:700;font-size:12.5px">Hecha para generar demanda y nuevos negocios</span></div>
+      </div>
+      <div class="anim" style="border:1px solid rgba(246,201,91,.35);background:rgba(246,201,91,.06);border-radius:14px;padding:11px 14px;display:flex;flex-direction:column;gap:8px">
+        <span class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase">Nuestro principal medio para cada punto de contacto</span>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px"><span style="font-size:17px">🤝</span><b class="mont" style="color:#fff;font-size:12.5px">Ventas</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Nuevos negocios</span></div>
+          <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px"><span style="font-size:17px">👥</span><b class="mont" style="color:#fff;font-size:12.5px">Capital Humano</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Contrataciones</span></div>
+          <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px"><span style="font-size:17px">💬</span><b class="mont" style="color:#fff;font-size:12.5px">Atención al cliente</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Soporte y servicio</span></div>
+        </div>
+      </div>
+      <div class="anim" style="color:var(--dk-mut2);font-size:12px;font-weight:700">🚧 Vista previa real del nuevo numaris.com — en construcción, más detalles muy pronto</div>
+    </div>
+    <div class="anim" style="background:#0C1830;border:1px solid rgba(125,187,242,.3);border-radius:16px;overflow:hidden;box-shadow:0 34px 80px -34px rgba(0,0,0,.8)">
+      <div style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.08)">
+        <span style="width:11px;height:11px;border-radius:50%;background:#FF5F57"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#FEBC2E"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#28C840"></span>
+        <div style="flex:1;margin-left:10px;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 14px;color:#A9C4E4;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px">🔒 numaris.com<span class="mont" style="margin-left:auto;background:rgba(246,201,91,.15);border:1px solid rgba(246,201,91,.4);color:#F6C95B;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 9px;border-radius:999px">EDICIÓN 2027</span></div>
+      </div>
+      <div style="position:relative;background:#0A1526">
+        <img src="/all-hands-img/web-numaris-preview.jpg" alt="Vista previa del nuevo numaris.com" style="display:block;width:100%;height:auto">
+        <span class="mont" style="position:absolute;top:12px;right:12px;background:rgba(13,26,46,.85);border:1px solid rgba(246,201,91,.45);color:#F6C95B;font-size:9.5px;font-weight:800;letter-spacing:.1em;padding:4px 11px;border-radius:999px">✨ VISTA PREVIA</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:10px 16px;background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.08)">
+        <span style="color:var(--dk-mut);font-size:10.5px;font-weight:700;white-space:nowrap">Cargando la nueva experiencia Numaris…</span>
+        <div class="track" style="height:7px;flex:1"><div class="fill shimmer" style="--w:87%;background:linear-gradient(90deg,#2D6DB5,#7DBBF2)"></div></div>
+        <span class="mont" style="color:#7DBBF2;font-size:10.5px;font-weight:800;white-space:nowrap">rumbo a 2027</span>
+      </div>
+    </div>
+  </div>
+  <div class="value-tag anim"><span class="adn-pill">03 · TecnologIA como multiplicador</span></div>
+</section>
+
+<!-- VIAJE ISRAEL / CHINA -->
+<section class="slide dk" id="sviaje" style="background:linear-gradient(150deg,#0D1A2E,#15233A 55%,#3A1F3F)">
+  <div class="orb o1"></div>
+  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
+  <span class="mont" style="position:absolute;right:-20px;bottom:-80px;font-weight:800;font-size:280px;line-height:1;color:rgba(255,255,255,.03);pointer-events:none">2027</span>
+  <div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:3vw;align-items:center;position:relative;z-index:1">
+    <div style="display:flex;flex-direction:column;gap:13px;min-width:0">
+      <span class="anim adn-pill" style="align-self:flex-start">Visita a partners · Octubre 2026</span>
+      <h2 class="anim mont" style="font-weight:800;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:-.02em;line-height:1.05">✈️ Israel <span style="color:var(--dk-mut2)">→</span> <span style="background:linear-gradient(100deg,#7DBBF2,#F6C95B);-webkit-background-clip:text;background-clip:text;color:transparent">China</span></h2>
+      <div class="anim" style="color:var(--dk-mut);font-size:12px;font-weight:700">Herzliya, Israel · Shenzhen, China — preparando el roadmap tecnológico de Numaris para 2027</div>
+      <div class="anim" style="background:linear-gradient(150deg,rgba(125,187,242,.14),rgba(255,255,255,.03) 70%);border:1px solid rgba(125,187,242,.35);border-radius:16px;padding:13px 16px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span class="mont" style="color:#7DBBF2;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 1 · ISRAEL</span><b class="mont" style="color:#fff;font-size:14px">Questar</b></div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;color:#CFE0F5;font-size:11.5px;font-weight:600;line-height:1.4">
+          <div>① Comunicamos los problemas reales del mercado mexicano</div>
+          <div>② Fortalecimos la relación estratégica</div>
+          <div>③ Planeamos cómo crecer de manera conjunta</div>
+          <div>④ Nos presentaron su roadmap 2027 para Numaris</div>
+        </div>
+      </div>
+      <div class="anim" style="display:flex;align-items:center;gap:10px"><span class="mont" style="color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.14em">FASE 2 · SHENZHEN</span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(246,201,91,.45),transparent)"></span><span style="color:var(--dk-mut2);font-size:10.5px;font-weight:700">4 partners · fábricas, R&amp;D y roadmaps</span></div>
+      <div class="anim" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
+        <div class="trip-pt"><b>Streamax</b><span>Alianza fortalecida, roadmap conjunto 2027 y acciones de marketing en conjunto</span></div>
+        <div class="trip-pt"><b>JimiIoT</b><span>Fábrica en Huizhou, sesiones con R&amp;D y roadmap de producto 2027</span></div>
+        <div class="trip-pt"><b>BSJ Technology</b><span>Video con IA: ADAS, DMS, video multicanal e integración FOTA</span></div>
+        <div class="trip-pt"><b>Yuwei Technologies</b><span>Videotelemática: dashcam AI, MDVR, T-BOX; capacidad y calidad</span></div>
+      </div>
+      <div class="anim" style="color:#F6C95B;font-size:12px;font-weight:800">🌎 Validamos la importancia de LATAM para los principales players tecnológicos de China</div>
+    </div>
+    <div class="anim" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:10px">
+      <div class="trip-ph" style="grid-column:span 2;aspect-ratio:16/10"><img src="/all-hands-img/viaje-questar.jpg" alt="Equipo Numaris con Questar en Israel"><span>🇮🇱 Questar</span></div>
+      <div class="trip-ph" style="aspect-ratio:16/10"><img src="/all-hands-img/viaje-streamax.jpg" alt="Bienvenida a Numaris en Streamax"><span>🇨🇳 Streamax</span></div>
+      <div class="trip-ph" style="aspect-ratio:16/10"><img src="/all-hands-img/viaje-jimi.jpg" alt="Bienvenida a Numaris en JimiIoT"><span>🇨🇳 JimiIoT</span></div>
+    </div>
+  </div>
+  <div class="value-tag anim"><span class="adn-pill">03 · TecnologIA como multiplicador</span></div>
+</section>
 
 
 <!-- 9 · BIENVENIDOS -->
@@ -593,149 +776,93 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <div class="value-tag anim"><span class="adn-pill">04 · En equipo llegamos más lejos</span></div>
 </section>
 
-<!-- ESTRUCTURA OPERATIVA -->
-<section class="slide dk" id="sestructura" style="background:linear-gradient(145deg,#0D1A2E,#14263F 55%,#1E4373)">
-  <div class="orb o1"></div><div class="orb o2"></div>
-  <span class="mont" style="position:absolute;right:-30px;bottom:-110px;font-weight:800;font-size:400px;line-height:1;color:rgba(255,255,255,.035);pointer-events:none">1</span>
-  <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="grid-2" style="display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:3vw;align-items:stretch;position:relative;z-index:1">
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <span class="anim adn-pill" style="align-self:flex-start">Evolución Organizacional · One Numaris</span>
-      <div class="anim" style="display:flex;align-items:center;gap:18px">
-        <span class="mont" style="font-weight:800;font-size:clamp(90px,9vw,150px);line-height:.85;background:linear-gradient(120deg,#7DBBF2,#FFFFFF 70%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em">1</span>
-        <h2 class="mont" style="font-size:clamp(23px,2.5vw,34px);font-weight:800;color:#fff;line-height:1.18;letter-spacing:-.02em">sola estructura<br>de <span style="color:#7DBBF2">Operaciones</span></h2>
-      </div>
-      <div class="anim" style="display:flex;align-items:center">
-        <span style="background:rgba(77,159,232,.14);border:1px solid rgba(125,187,242,.35);color:#7DBBF2;font-weight:800;font-size:12px;padding:7px 14px;border-radius:999px;white-space:nowrap">IoT</span>
-        <span style="flex:1;height:2px;background:linear-gradient(90deg,rgba(125,187,242,.4),#fff);min-width:24px"></span>
-        <span class="mont" style="background:#fff;color:var(--navy);font-weight:800;font-size:12.5px;padding:8px 16px;border-radius:999px;white-space:nowrap;box-shadow:0 0 26px rgba(125,187,242,.4)">Operaciones</span>
-        <span style="flex:1;height:2px;background:linear-gradient(90deg,#fff,rgba(125,187,242,.4));min-width:24px"></span>
-        <span style="background:rgba(77,159,232,.14);border:1px solid rgba(125,187,242,.35);color:#7DBBF2;font-weight:800;font-size:12px;padding:7px 14px;border-radius:999px;white-space:nowrap">Fleet Mgmt</span>
-      </div>
-      <div class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;line-height:1.65">Unificamos ambas operaciones bajo una misma estructura: <b style="color:#fff">más sinergias</b>, una operación <b style="color:#fff">más simple</b> y una organización <b style="color:#fff">más sólida y escalable</b>.</div>
-      <div class="anim" style="margin-top:auto;background:rgba(77,159,232,.1);border:1px solid rgba(77,159,232,.3);border-radius:14px;padding:14px 18px;color:#CFE0F5;font-size:12.5px;font-weight:600;line-height:1.6">Luego de un análisis preliminar, encontramos muchas similitudes en la forma de operar ambos negocios y oportunidades para eficientar nuestros procesos. ¡El desafío requerirá el apoyo de todos!</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div class="anim" style="background:linear-gradient(150deg,#234C80,#10233C);border:1px solid rgba(125,187,242,.3);border-radius:18px;padding:21px 24px;display:flex;align-items:center;gap:18px;box-shadow:0 20px 44px -20px rgba(10,25,50,.7)">
-        <img src="/all-hands-img/lider-marcos.jpg" alt="Marcos Vargas" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(125,187,242,.55);flex-shrink:0">
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="mont" style="color:#fff;font-weight:800;font-size:20px">Marcos Vargas</span><span style="background:rgba(125,187,242,.18);color:#7DBBF2;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap">Desde el 1 · Oct</span></div>
-          <div style="color:#A9C4E4;font-size:13px;font-weight:700;margin-top:5px;line-height:1.5">Lidera la nueva estructura de Operaciones · Servicios Financieros y Distribución-Última Milla</div>
-          <div style="color:var(--dk-mut);font-size:12px;font-weight:600;margin-top:3px">Sigue también al frente de la vertical de Admón. de Activos</div>
-        </div>
-      </div>
-      <div class="anim" style="width:2px;height:16px;background:rgba(125,187,242,.45);margin:0 auto"></div>
-      <div class="anim" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
-        <div style="background:rgba(77,159,232,.1);border:1px solid rgba(77,159,232,.32);border-top:3px solid #4D9FE8;border-radius:12px;padding:13px 16px">
-          <div style="color:#7DBBF2;font-weight:800;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase">Nueva estructura</div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:14px;line-height:1.3;margin-top:5px">Operaciones · Servicios Financieros</div>
-        </div>
-        <div style="background:rgba(77,159,232,.1);border:1px solid rgba(77,159,232,.32);border-top:3px solid #4D9FE8;border-radius:12px;padding:13px 16px">
-          <div style="color:#7DBBF2;font-weight:800;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase">Nueva estructura</div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:14px;line-height:1.3;margin-top:5px">Operaciones · Distribución y Última Milla</div>
-        </div>
-        <div style="background:rgba(255,255,255,.03);border:1.5px dashed rgba(255,255,255,.28);border-radius:12px;padding:13px 16px">
-          <div style="color:var(--dk-mut);font-weight:800;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase">Sigue a su cargo</div>
-          <div class="mont" style="color:#fff;font-weight:800;font-size:14px;line-height:1.3;margin-top:5px">Vertical de Admón. de Activos</div>
-        </div>
-      </div>
-      <div class="anim" style="margin-top:auto;color:var(--dk-mut2);font-weight:800;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase">En paralelo</div>
-      <div class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.65;padding-left:14px;border-left:2px solid rgba(255,255,255,.2)">Las Operaciones de <b style="color:#fff">Transporte Pesado y OEMs</b> continúan bajo el liderazgo de <b style="color:#fff">Avihai Armon</b>, en una estructura independiente.</div>
-      <div class="anim" style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.65;padding-left:14px;border-left:2px solid rgba(255,255,255,.2)"><b style="color:#fff">Miguel Ángel Navarro</b> estará acompañando muy de cerca esta transición para asegurar la continuidad de la operación y que nuestros clientes sigan recibiendo el nivel de servicio.</div>
-      
-    </div>
-  </div>
-</section>
 
-<!-- TOTAL PASS -->
-<section class="slide dk" id="stotal">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- NUMARIS DAY + CLIMA LABORAL -->
+<section class="slide dk" id="snday" style="background:linear-gradient(150deg,#0D1A2E,#11263F 50%,#17315A)">
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
-  <div class="orb o1" style="background:radial-gradient(circle,#3DBA5C55,transparent 65%)"></div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;position:relative;z-index:1">
-    <div>
-      <div class="anim"><span style="background:rgba(61,186,92,.14);border:1.5px solid rgba(61,186,92,.45);color:#5BD680;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border-radius:999px">¡Ya es oficial! · Nuevo beneficio Numaris</span></div>
-      <div class="anim mont" style="font-weight:800;font-size:clamp(46px,5.6vw,76px);letter-spacing:-.02em;margin-top:16px;line-height:1"><span style="color:#3DBA5C">Total</span><span style="color:#fff">Pass</span></div>
-      <svg class="anim" width="300" height="36" viewBox="0 0 300 36" style="display:block;margin-top:6px">
-        <polyline class="ekg" points="0,18 96,18 112,18 124,4 138,32 150,9 160,25 170,18 300,18" fill="none" stroke="#3DBA5C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+  <div class="orb o1" style="background:radial-gradient(circle,rgba(246,201,91,.16),transparent 65%)"></div>
+  <div class="orb o2"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:18px">
+    <div class="anim" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+      <div>
+        <span style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border-radius:999px">Capital Humano · 2 anuncios para todo el equipo</span>
+        <h2 class="mont" style="font-weight:800;font-size:clamp(30px,3.6vw,50px);color:#fff;letter-spacing:-.02em;line-height:1.05;margin-top:12px"><span style="background:linear-gradient(100deg,#F6C95B,#FFE3A3);-webkit-background-clip:text;background-clip:text;color:transparent">Celebramos</span> juntos y <span style="background:linear-gradient(100deg,#B49BF2,#D9CCFF);-webkit-background-clip:text;background-clip:text;color:transparent">te escuchamos</span></h2>
+      </div>
+      <div style="color:var(--dk-mut);font-size:12.5px;font-weight:700;max-width:330px;text-align:right">Dos momentos para cerrar el año como <b style="color:#fff">One Numaris</b></div>
     </div>
-    <p class="anim" style="color:var(--dk-mut);font-size:14.5px;font-weight:600;line-height:1.6;max-width:460px">TotalPass ya es parte de nuestros beneficios: una nueva forma de cuidar tu bienestar físico, mental y nutricional — muévete, actívate y cuida de ti.</p>
-  </div>
-  <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px;position:relative;z-index:1">
-    <div class="anim hcard" style="border-top:3px solid #5BD680;display:flex;flex-direction:column;gap:9px">
-      <div style="display:flex;align-items:center;gap:11px"><span style="width:40px;height:40px;border-radius:11px;background:rgba(61,186,92,.16);display:flex;align-items:center;justify-content:center;font-size:19px">🏋️</span><span class="mont" style="font-weight:800;font-size:16.5px;color:#5BD680">Total Fit</span></div>
-      <div class="l">Red de gimnasios, estudios y actividades — más entrenamientos digitales flexibles.</div>
-    </div>
-    <div class="anim hcard" style="border-top:3px solid #B49BF2;display:flex;flex-direction:column;gap:9px">
-      <div style="display:flex;align-items:center;gap:11px"><span style="width:40px;height:40px;border-radius:11px;background:rgba(140,100,235,.18);display:flex;align-items:center;justify-content:center;font-size:19px">🧘</span><span class="mont" style="font-weight:800;font-size:16.5px;color:#B49BF2">Total Mind</span></div>
-      <div class="l">Terapia en línea y app de mindfulness para cuidar también tu salud mental.</div>
-    </div>
-    <div class="anim hcard" style="border-top:3px solid #F6C95B;display:flex;flex-direction:column;gap:9px">
-      <div style="display:flex;align-items:center;gap:11px"><span style="width:40px;height:40px;border-radius:11px;background:rgba(246,185,59,.16);display:flex;align-items:center;justify-content:center;font-size:19px">🥗</span><span class="mont" style="font-weight:800;font-size:16.5px;color:#F6C95B">Total Nutri</span></div>
-      <div class="l">Programas y acompañamiento nutricional de la mano de expertos.</div>
-    </div>
-  </div>
-  <div style="margin-top:14px;position:relative;z-index:1">
-    <div class="anim" style="background:linear-gradient(135deg,#1F6B3E,#2E8B4F);border-radius:16px;padding:18px 24px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-      <div class="mont" style="font-weight:800;font-size:clamp(15px,1.6vw,20px)">Un nuevo hábito puede cambiar tu rutina 🏃</div>
-      <div style="color:#DDF0E2;font-size:12.5px;font-weight:600">¡Anímate a empezar! · #NumarisNosPoneEnMovimiento</div>
-    </div>
-    <div class="anim" style="display:flex;align-items:center;gap:9px;margin-top:11px;color:var(--dk-mut);font-size:12px;font-weight:600;flex-wrap:wrap">
-      <span style="font-size:14px">ℹ️</span> La información a detalle de esta iniciativa está en el canal
-      <span class="mont" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#fff;font-weight:700;font-size:11.5px;padding:4px 11px;border-radius:7px"># numaris-comunicación-institucional</span>
-      <a class="mont" href="https://drive.google.com/file/d/1zeAleUj5QR-swDXK4BjzyYS3FdLW5Ohc/view?usp=sharing" target="_blank" style="background:#2E8B4F;color:#fff;font-weight:800;font-size:11.5px;padding:5px 14px;border-radius:999px;text-decoration:none">▶ Ver grabación de la sesión</a>
+    <div class="grid-2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch">
+      <div class="anim" style="position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(246,201,91,.13),rgba(255,255,255,.03) 60%);border:1px solid rgba(246,201,91,.4);border-radius:22px;padding:24px;display:flex;gap:18px">
+        <span class="mont" style="position:absolute;right:-10px;top:-34px;font-weight:800;font-size:150px;color:rgba(246,201,91,.06);line-height:1;pointer-events:none">01</span>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1;min-width:0">
+          <span class="mont" style="color:#F6C95B;font-weight:800;font-size:11px;letter-spacing:.14em">01 · ¡APARTA LA FECHA!</span>
+          <div class="mont" style="color:#fff;font-weight:800;font-size:clamp(26px,2.6vw,36px);line-height:1.05">Numaris Day 🎄</div>
+          <p style="color:var(--dk-mut);font-size:12.5px;font-weight:600;line-height:1.55">Cerramos el año celebrando lo que compartimos, los retos que superamos y los logros que construimos como equipo.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-left:3px solid #7DBBF2;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:11px"><span class="mont" style="color:#fff;font-weight:800;font-size:28px;line-height:1;min-width:34px">3</span><span style="display:flex;flex-direction:column;gap:1px"><b style="color:#7DBBF2;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase">📍 Cuernavaca</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Jueves · Diciembre</span></span></div><div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-left:3px solid #F6C95B;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:11px"><span class="mont" style="color:#fff;font-weight:800;font-size:28px;line-height:1;min-width:34px">4</span><span style="display:flex;flex-direction:column;gap:1px"><b style="color:#F6C95B;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase">📍 CDMX</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Viernes · Diciembre</span></span></div><div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-left:3px solid #F28CB8;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:11px"><span class="mont" style="color:#fff;font-weight:800;font-size:28px;line-height:1;min-width:34px">10</span><span style="display:flex;flex-direction:column;gap:1px"><b style="color:#F28CB8;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase">📍 Guadalajara</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Jueves · Diciembre</span></span></div><div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-left:3px solid #B49BF2;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:11px"><span class="mont" style="color:#fff;font-weight:800;font-size:28px;line-height:1;min-width:34px">11</span><span style="display:flex;flex-direction:column;gap:1px"><b style="color:#B49BF2;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase">🌎 Internacional</b><span style="color:var(--dk-mut);font-size:10.5px;font-weight:700">Viernes · Diciembre</span></span></div></div>
+          <div style="color:var(--dk-mut2);font-size:11.5px;font-weight:700;margin-top:auto">🎁 Muy pronto compartiremos más detalles</div>
+        </div>
+        <img src="/all-hands-img/numaris-day.jpg" alt="Numaris Day" style="width:clamp(120px,11vw,170px);align-self:center;border-radius:12px;box-shadow:0 20px 40px -18px rgba(0,0,0,.8);transform:rotate(3deg);position:relative;z-index:1">
+      </div>
+      <div class="anim" style="position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(180,155,242,.18),rgba(255,255,255,.03) 60%);border:1px solid rgba(180,155,242,.45);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <span class="mont" style="position:absolute;right:-10px;top:-34px;font-weight:800;font-size:150px;color:rgba(180,155,242,.07);line-height:1;pointer-events:none">02</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1">
+          <span class="mont" style="color:#B49BF2;font-weight:800;font-size:11px;letter-spacing:.14em">02 · TU VOZ CUENTA</span>
+          <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(246,201,91,.12);border:1px solid rgba(246,201,91,.45);color:#F6C95B;font-weight:800;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px"><span class="live-dot" style="width:8px;height:8px"></span>Ya está activa</span>
+        </div>
+        <div class="mont" style="color:#fff;font-weight:800;font-size:clamp(26px,2.6vw,36px);line-height:1.05;position:relative;z-index:1">Encuesta de Clima Laboral 📋</div>
+        <div style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 14px;position:relative;z-index:1">
+          <div style="background:#fff;border-radius:10px;overflow:hidden;text-align:center;min-width:58px;box-shadow:0 8px 18px -8px rgba(0,0,0,.6)">
+            <div style="background:#B49BF2;color:#fff;font-weight:800;font-size:9.5px;letter-spacing:.12em;padding:3px 0">NOV</div>
+            <div class="mont" style="color:var(--navy);font-weight:800;font-size:26px;line-height:1.1;padding:2px 0 4px">09</div>
+          </div>
+          <div><div class="mont" style="color:#fff;font-weight:800;font-size:14px">Enviada el lunes 9 de noviembre</div><div style="color:var(--dk-mut);font-size:11.5px;font-weight:700;margin-top:2px">Búscala en tu correo y en el canal institucional</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;position:relative;z-index:1">
+          <div style="display:flex;gap:10px;align-items:center;color:#fff;font-weight:700;font-size:12.5px"><span style="width:24px;height:24px;border-radius:50%;background:rgba(180,155,242,.25);color:#D9CCFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0">1</span>Abre el correo de la encuesta</div>
+          <div style="display:flex;gap:10px;align-items:center;color:#fff;font-weight:700;font-size:12.5px"><span style="width:24px;height:24px;border-radius:50%;background:rgba(180,155,242,.25);color:#D9CCFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0">2</span>Contesta con total sinceridad: toma solo unos minutos</div>
+          <div style="display:flex;gap:10px;align-items:center;color:#fff;font-weight:700;font-size:12.5px"><span style="width:24px;height:24px;border-radius:50%;background:rgba(180,155,242,.25);color:#D9CCFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0">3</span>Con tu opinión construimos el Numaris que queremos ser</div>
+        </div>
+        <div class="mont" style="margin-top:auto;color:#D9CCFF;font-weight:800;font-size:13px;position:relative;z-index:1">Participar cuenta muchísimo 💜</div>
+      </div>
     </div>
   </div>
   <div class="value-tag anim"><span class="adn-pill">04 · En equipo llegamos más lejos</span></div>
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 10 · CIERRE -->
-<section class="slide dk" id="s10" style="background:linear-gradient(145deg,#0D1A2E 30%,#16325A 72%,#1E4373)">
+<section class="slide dk" id="s10" style="background:radial-gradient(1200px 620px at 50% -14%,#1E4373,#16325A 48%,#0D1A2E 100%)">
   <img class="logo-corner" src="/numaris-blanco.png" alt="Numaris" style="height:24px">
   <div class="orb o2"></div>
-  <div class="grid-2" style="display:grid;grid-template-columns:minmax(300px,400px) minmax(0,1fr);gap:3vw;align-items:stretch;position:relative;z-index:1">
-    <div style="display:flex;flex-direction:column;gap:18px">
-      <span class="anim adn-pill" style="align-self:flex-start">Cierre · Lo que viene en <span data-bind="mesSig">Octubre 2026</span></span>
-      <div class="anim">
-        <span class="mont num-glow" style="font-weight:800;font-size:clamp(64px,7vw,104px);color:#fff;letter-spacing:-.03em;line-height:.95;display:block">$<span data-cnt-bind="objetivoAgosto" data-dec="1">0</span>M</span>
-        <div class="mont" style="font-weight:800;font-size:clamp(20px,2.1vw,29px);color:var(--blue-lt);margin-top:8px">objetivo de <span data-bind="mesSigCorto">octubre</span></div>
-      </div>
-      <div class="anim" style="border-top:1px solid rgba(255,255,255,.14);padding-top:14px;color:var(--dk-mut);font-size:13px;font-weight:600;line-height:1.6">
-        Faltan <b style="color:#fff">$260M</b> para el objetivo anual de <b style="color:#fff">$940M</b> — tres meses, tres cierres.
-      </div>
-      <div class="anim" style="margin-top:auto;background:rgba(246,201,91,.1);border:1px solid rgba(246,201,91,.35);border-radius:14px;padding:15px 19px">
-        <div class="mont" style="color:#F6C95B;font-weight:800;font-size:14.5px;line-height:1.4">Oct + Nov + Dic cumplidos<br>= año al 100% de la cuota 🎯</div>
-      </div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
+    <span class="anim adn-pill">Cierre · Lo que viene en <span data-bind="mesSig">Noviembre 2026</span></span>
+    <div class="anim">
+      <span class="mont num-glow" style="font-weight:800;font-size:clamp(68px,8.4vw,120px);letter-spacing:-.03em;line-height:.95;display:block;background:linear-gradient(110deg,#7DBBF2,#FFFFFF 60%);-webkit-background-clip:text;background-clip:text;color:transparent">$<span data-cnt-bind="objetivoAgosto" data-dec="1">0</span>M</span>
+      <div class="mont" style="font-weight:800;font-size:clamp(17px,1.9vw,25px);color:var(--blue-lt);margin-top:5px">objetivo de <span data-bind="mesSigCorto">noviembre</span></div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">3 cosas importantes para <span data-bind="mesSigCorto2">octubre</span></div>
-      <div style="display:flex;flex-direction:column;gap:11px" id="agosto"></div>
-      <div class="anim" style="margin-top:auto;background:linear-gradient(90deg,rgba(46,117,182,.25),rgba(232,118,45,.18));border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:15px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <div style="flex:1;min-width:260px">
-          <div class="mont" style="color:#fff;font-weight:800;font-size:15.5px" data-bind="oneT">Nuestro ADN cultural es la base para actuar como One Numaris</div>
-          <div style="color:#CFE0F5;font-size:12px;font-weight:600;line-height:1.55;margin-top:3px" data-bind="oneD">Somos una sola empresa.</div>
-        </div>
-        <img src="/all-hands-img/one-numaris.png" alt="One Numaris" style="height:48px;flex-shrink:0">
-      </div>
-    </div>
+    <div class="anim" style="color:var(--dk-mut);font-size:13px;font-weight:600;max-width:760px">Faltan <b style="color:#fff">$177M</b> para el objetivo anual de <b style="color:#fff">$940M</b> — dos meses, dos cierres. <span style="color:#F6C95B;font-weight:800">Nov + Dic cumplidos = año al 100% 🎯</span></div>
+    <div class="anim" style="color:var(--dk-mut);font-weight:800;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:10px">3 cosas importantes para <span data-bind="mesSigCorto2">noviembre</span></div>
+    <div id="agosto" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;max-width:1080px"></div>
+</div>
   </div>
 </section>
 <!-- Q&A -->
@@ -759,7 +886,7 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
   <img class="logo-corner" src="/numaris-color.png" alt="Numaris" style="height:30px">
   <div class="grid-2" style="display:grid;grid-template-columns:1.2fr .8fr;gap:4vw;align-items:center;margin-bottom:12vh;position:relative;z-index:2">
     <div>
-      <div class="anim" style="color:var(--blue);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">All Hands · Septiembre 2026</div>
+      <div class="anim" style="color:var(--blue);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">All Hands · Noviembre 2026</div>
       <h1 class="anim" style="font-size:clamp(48px,6.4vw,88px);font-weight:800;color:var(--navy);line-height:1.02;letter-spacing:-.02em">¡Gracias!</h1>
       <p class="anim" style="color:var(--gray-2);font-size:clamp(15px,1.7vw,21px);font-weight:600;margin-top:14px">Nos vemos en la próxima sesión. 👋</p>
       <p class="anim" style="color:var(--ink-body);font-size:14px;font-weight:600;margin-top:18px;max-width:440px">Antes de irte: <b style="color:var(--navy)">cuéntanos cómo estuvo la sesión</b> — 3 minutos, desde tu cel.</p>
@@ -792,22 +919,22 @@ tbody tr:nth-child(even){background:var(--bg-lt2)}
    ============================================================ */
 const DATA = {
   anio:'2026', anio2:'2026', anio3:'2026',
-  mesTag:'OCTUBRE · 2026',
-  mesLabelTit:'Septiembre 2026', mesLabelTit2:'Septiembre 2026', mesLabelTit3:'Septiembre 2026', mesLabelTit4:'Septiembre 2026',
-  mesSig:'Octubre 2026', mesSigCorto:'octubre', mesSigCorto2:'octubre',
-  mesIndex:9,
+  mesTag:'NOVIEMBRE · 2026',
+  mesLabelTit:'Octubre 2026', mesLabelTit2:'Octubre 2026', mesLabelTit3:'Octubre 2026', mesLabelTit4:'Octubre 2026',
+  mesSig:'Noviembre 2026', mesSigCorto:'noviembre', mesSigCorto2:'noviembre',
+  mesIndex:10,
   preShowMsg:'La sesión comienza en unos minutos…',
   objetivoAnual:940,
-  highlights:[   // destacados de septiembre
-    {icon:'🏆', v:4128, label:'Actividades', sub:'completadas en septiembre'},
-    {icon:'🔌', v:238370, label:'Unidades conectadas', sub:'en toda la operación'},
-    {icon:'🆕', v:34, label:'Clientes nuevos', sub:'facturaron por primera vez en septiembre'},
-    {icon:'💪', v:58, label:'Unidades recuperadas', sub:'en el mes'}
+  highlights:[   // ⚠️ POR CONFIRMAR — destacados de octubre
+    {icon:'🏆', v:0, label:'Actividades', sub:'por confirmar'},
+    {icon:'🔌', v:0, label:'Unidades conectadas', sub:'por confirmar'},
+    {icon:'🆕', v:0, label:'Clientes nuevos', sub:'por confirmar'},
+    {icon:'💪', v:0, label:'Unidades recuperadas', sub:'por confirmar'}
   ],
-  ventasAcum:680,      // acumulado al cierre de septiembre: $679,517,009
-  progresoAnio:72,     // 679.5/940
+  ventasAcum:763,      // acumulado al cierre de octubre: $763,442,977
+  progresoAnio:81,     // 763.4/940
   // resultados de agosto: real $75,931,282 · cuota $83,502,571 · acum $608.4M vs cuota $597.7M
-  ingresosMes:71.2, vsAnio:20.3, vsCuota:86.8, acumVs2025:30.2, acumVsCuota:100, gapMes:'−$10.8M',
+  ingresosMes:83.9, vsAnio:22.1, vsCuota:94.9, acumVs2025:29.3, acumVsCuota:99.4, gapMes:'−$4.5M',
   adnFrase:'Cambiamos todos los días, para que el cliente no tenga que hacerlo',
   adnPrincipios:[
     {t:'Vivimos para el cliente',        ej:'Entiende su operación antes de ofrecer la solución: cada cliente mide el éxito distinto.'},
@@ -815,32 +942,43 @@ const DATA = {
     {t:'TecnologIA como multiplicador',  ej:'Si lo haces dos veces igual, automatízalo: deja lo repetitivo a la tecnología.'},
     {t:'En equipo llegamos más lejos',   ej:'Comparte lo que sabes: una respuesta tuya puede ahorrarle horas a otra área.'}
   ],
+  trivia:[   // trivia del mes récord — click para revelar
+    {q:'¿Cuáles son los 4 valores de Numaris?', hint:'Pista: los repasamos en cada All Hands 😉', c:'#7DBBF2', ans:['01 · Vivimos para el cliente','02 · Operamos con iniciativa','03 · TecnologIA como multiplicador','04 · En equipo llegamos más lejos']},
+    {q:'¿Cuál es nuestro objetivo anual de ventas?', hint:'Pista: ya recorrimos el 81% del camino 🏔', c:'#F6C95B', ans:['$940M en 2026','Llevamos $763M acumulados — noviembre y diciembre definen el 100%']},
+    {q:'¿Cuáles son las verticales de Numaris?', hint:'Pista: son 4 🚀', c:'#F28CB8', ans:['Servicios Financieros y Movilidad','Transporte Pesado','Administración de Activos','Logística, Distribución y Última Milla']}
+  ],
   preguntaMes:'Se nos acabó el colchón: el acumulado quedó justo en 100% — ¿cómo ganamos el último trimestre?',
   oneT:'Nuestro ADN cultural es la base para actuar como One Numaris',
-  oneD:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con la meta de octubre.',
+  oneD:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con cerrar el año al 100%.',
   proyectos:[   // top 3 de septiembre · logo:'' → iniciales
     {n:'01', cliente:'COMSYS', lugar:'', sol:'Gestión de Activos · Digital', unidades:100, suf:'vehículos en prueba', vert:'Admón. de Activos', logo:'', detalle:'Arrancamos la prueba con un potencial de más de 30,000 vehículos.'},
     {n:'02', cliente:'PBOX', lugar:'', sol:'Rastreo + CMI Sequence + Video + Combustible', unidades:50, suf:'+ suscripciones', vert:'Distribución y Última Milla', logo:'', detalle:''},
     {n:'03', cliente:'Latina Leasing', lugar:'', sol:'GA Digital + Mantenimiento', unidades:600, suf:'vehículos', vert:'Admón. de Activos', logo:'', detalle:'Cross selling — ya es cliente de Servicios Financieros, con potencial de crecer al ser arrendadora.'}
   ],
-  nuevos:[   // ingresos de septiembre (XLSX Capital Humano) · foto:'' → iniciales
-    {foto:'/all-hands-img/ni3-paola.jpg', ini:'PM', nombre:'Paola Muñoz Ortega Mondragón',           puesto:'Gerente de Customer Value',            area:'Numaris · Comercial',                      ciudad:'CDMX',      c:'#2E75B6'},
-    {foto:'/all-hands-img/ni3-mariano.jpg', ini:'MR', nombre:'Carlos Mariano Revello',                 puesto:'AI Lead',                              area:'Numaris · Tecnologías',                    ciudad:'Argentina', c:'#D97B29'},
-    {foto:'/all-hands-img/ni3-sandra.jpg', ini:'SA', nombre:'Sandra Arroyo Molina',                   puesto:'Jefa de Desarrollo de Proveedores',    area:'Admón. de Activos · Operaciones',          ciudad:'CDMX',      c:'#2E8B4F'},
-    {foto:'/all-hands-img/ni3-alejandro.jpg', ini:'AB', nombre:'Alejandro Barrera Fernández',            puesto:'Data Analyst',                         area:'Numaris · Tecnologías',                    ciudad:'Colombia',  c:'#2E75B6'},
-    {foto:'/all-hands-img/ni3-miguel.jpg', ini:'MC', nombre:'Miguel Eduardo Cañas Castillo',          puesto:'Ejecutivo de Operaciones',             area:'Admón. de Activos · Operaciones',          ciudad:'CDMX',      c:'#D97B29'},
-    {foto:'/all-hands-img/ni3-axl.jpg', ini:'AH', nombre:'Axl Angélica Caroline Hernández Muñoz',  puesto:'Ejecutiva de Monitoreo',               area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',   c:'#2E8B4F'},
-    {foto:'/all-hands-img/ni3-valeria.jpg', ini:'VS', nombre:'Valeria Guadalupe Silva García',         puesto:'Especialista de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',   c:'#2E75B6'},
-    {foto:'/all-hands-img/ni3-andrea.jpg', ini:'DM', nombre:'Andrea Daniela Mata Serrano',            puesto:'Ejecutiva de Monitoreo',               area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',   c:'#D97B29'},
-    {foto:'/all-hands-img/ni3-jireh.jpg', ini:'JB', nombre:'Jireh Monserrat Bustos Herrera',         puesto:'Ejecutiva de Monitoreo',               area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',   c:'#2E8B4F'}
+  nuevos:[   // ingresos de octubre (PPTX Capital Humano) · foto:'' → iniciales
+    {foto:'/all-hands-img/ni4-jesus.jpg',    ini:'JS', nombre:'Jesús Sánchez Zapata',             puesto:'Gerente de Cuentas Clave',          area:'Admón. de Activos · Comercial',            ciudad:'CDMX',       c:'#2E75B6'},
+    {foto:'/all-hands-img/ni4-eder.jpg',     ini:'EM', nombre:'Éder Alejandro Martínez Pérez',    puesto:'Auditor Interno',                   area:'Numaris · Finanzas',                       ciudad:'CDMX',       c:'#D97B29'},
+    {foto:'/all-hands-img/ni4-janet.jpg',    ini:'JM', nombre:'Janet Valeria Macías Ibarra',      puesto:'Especialista de Nuevos Negocios',   area:'Serv. Financieros y Flotas · Comercial',   ciudad:'CDMX',       c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni4-eduardo.jpg',  ini:'EA', nombre:'Eduardo Amaro Velázquez',          puesto:'Ejecutivo de Nuevos Negocios',      area:'Admón. de Activos · Comercial',            ciudad:'CDMX',       c:'#2E75B6'},
+    {foto:'/all-hands-img/ni4-tadeo.jpg',    ini:'TP', nombre:'Tadeo Javier Pérez García',        puesto:'Ejecutivo de Operaciones',          area:'Admón. de Activos · Operaciones',          ciudad:'CDMX',       c:'#D97B29'},
+    {foto:'/all-hands-img/ni4-gerardo.jpg',  ini:'GJ', nombre:'Gerardo Jiménez Rivero',           puesto:'Ejecutivo de Operaciones',          area:'Admón. de Activos · Operaciones',          ciudad:'CDMX',       c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni4-martin.jpg',   ini:'MO', nombre:'Martín Emmanuel Orendain López',   puesto:'Ejecutivo de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#2E75B6'},
+    {foto:'/all-hands-img/ni4-andrea-c.jpg', ini:'AC', nombre:'Andrea Cuecuecha Sánchez',         puesto:'Ejecutiva de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#D97B29'},
+    {foto:'/all-hands-img/ni4-karol.jpg',    ini:'KC', nombre:'Karol Gabriel Cervantes García',   puesto:'Ejecutivo de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni4-juanpablo.jpg',ini:'JA', nombre:'Juan Pablo Arias Martínez',        puesto:'Ejecutivo de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#2E75B6'},
+    {foto:'/all-hands-img/ni4-annie.jpg',    ini:'AG', nombre:'Annie Sabine Gómez Miranda',       puesto:'Ejecutiva de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#D97B29'},
+    {foto:'/all-hands-img/ni4-carlos-r.jpg', ini:'CR', nombre:'Carlos Antonio Ramos Ceja',        puesto:'Ejecutivo de Monitoreo',            area:'Distribución y Última Milla · CMI',        ciudad:'Zapopan',    c:'#2E8B4F'},
+    {foto:'/all-hands-img/ni4-diego.jpg',    ini:'DS', nombre:'Diego Solorio Leyva',              puesto:'Auxiliar de Operaciones',           area:'Admón. de Activos · Operaciones',          ciudad:'CDMX',       c:'#2E75B6'},
+    {foto:'/all-hands-img/ni4-alan.jpg',     ini:'AV', nombre:'Alan Eduardo Vázquez Rehlander',   puesto:'Instalador Planta',                 area:'Transporte Pesado · Operaciones',          ciudad:'Nuevo León', c:'#D97B29'},
+    {foto:'/all-hands-img/ni4-victor.jpg',   ini:'VB', nombre:'Víctor Barranco Portillo',         puesto:'Técnico Instalador',                area:'Serv. Financieros y Flotas · Operaciones', ciudad:'Puebla',     c:'#2E8B4F'}
   ],
   agosto:[   // 3 cosas importantes para octubre — ⚠️ confirmar con dirección
     {n:'1', t:'Cierre de proyectos', d:'Aterrizar las cuentas del pipeline: cada cierre cuenta para recuperar la cuota', area:'Comercial', c:'#2E75B6'},
-    {n:'2', t:'Cuidar mucho los gastos', d:'Disciplina en cada peso: el resultado también se defiende desde el gasto', area:'Todos', c:'#D64545'},
-    {n:'3', t:'Integración entre verticales', d:'Operar como una sola compañía: la integración es la que nos lleva, en consecuencia, a trabajar en equipo como uno solo', area:'One Numaris', c:'#E8762D'}
+    {n:'2', t:'Foco en los proyectos para cerrar el año', d:'Todos enfocados en los proyectos del tablero Nov–Dic: cada uno que cerremos nos acerca a terminar el 2026 al 100%', area:'Todos', c:'#2E8B4F'},
+    {n:'3', t:'Nuestro ADN cultural es la base para actuar como One Numaris', d:'Cambiamos todos los días, para que el cliente no tenga que hacerlo: un equipo, una cultura y un mismo objetivo — todos comprometidos con cerrar el año al 100%.', area:'One Numaris', c:'#E8762D', logo:true}
   ],
   encuestaQR:'/all-hands-img/qr-encuesta.png', encuestaUrl:'https://zfrmz.com/z3iIf4dBwSYEB1aslKnf',
-  objetivoAgosto:88.4,   // cuota de octubre (dashboard)
+  objetivoAgosto:85.3,   // cuota de noviembre (dashboard)
   grafMeses:[   // real vs cuota mensual 2026 (dashboard)
     {m:'Ene', real:74.8, cuota:66.5},
     {m:'Feb', real:69.6, cuota:64.1},
@@ -851,7 +989,7 @@ const DATA = {
     {m:'Jul', real:80.5, cuota:82.5},
     {m:'Ago', real:75.9, cuota:83.5},
     {m:'Sep', real:71.2, cuota:81.9},
-    {m:'Oct', real:null, cuota:88.4},
+    {m:'Oct', real:83.9, cuota:88.4},
     {m:'Nov', real:null, cuota:85.3},
     {m:'Dic', real:null, cuota:86.7}
   ]
@@ -870,21 +1008,23 @@ document.getElementById('nuevos').innerHTML=DATA.nuevos.map(n=>{
     <div style="color:${n.c};font-weight:700;font-size:11px;margin-top:2px;line-height:1.3">${n.puesto}</div>
     ${meta?`<div style="color:var(--gray);font-size:10px;font-weight:600;margin-top:3px">${meta}</div>`:''}
   </div>`}).join('');
+const ONELOGO="/all-hands-img/one-numaris.png";
 document.getElementById('agosto').innerHTML=DATA.agosto.map(a=>
-  `<div class="anim" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid ${a.c};border-radius:14px;padding:15px 20px">
-    <span class="mont" style="width:38px;height:38px;border-radius:50%;background:${a.c};color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${a.n}</span>
-    <div style="flex:1;min-width:0">
-      <div class="mont" style="color:#fff;font-weight:800;font-size:16.5px;line-height:1.3">${a.t}</div>
-      <div class="l" style="font-size:12.5px;margin-top:2px">${a.d}</div>
+  `<div class="anim" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-top:4px solid ${a.c};border-radius:16px;padding:15px 18px;display:flex;flex-direction:column;gap:7px;text-align:left">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <span class="mont" style="width:32px;height:32px;border-radius:50%;background:${a.c};color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${a.n}</span>
+      <span class="area-pill" style="color:${a.c==='#2E75B6'?'#7DBBF2':a.c==='#D64545'?'#FF9A8C':'#F5A96B'};background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)">${a.area}</span>
     </div>
-    <span class="area-pill" style="color:${a.c==='#2E75B6'?'#7DBBF2':a.c==='#D64545'?'#FF9A8C':'#F5A96B'};background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)">${a.area}</span>
+    <div class="mont" style="color:#fff;font-weight:800;font-size:15px;line-height:1.3">${a.t}</div>
+    <div class="l" style="font-size:11.5px">${a.d}</div>
+    ${a.logo?`<img src="${ONELOGO}" alt="One Numaris" style="height:30px;align-self:flex-start;margin-top:auto;padding-top:4px">`:''}
   </div>`).join('');
 (()=>{
 const MX=Math.max(...DATA.grafMeses.map(x=>Math.max(x.real||0,x.cuota)));
 document.getElementById('chartMeses').innerHTML=DATA.grafMeses.map(x=>{
   const fut=x.real==null, hit=!fut&&x.real>=x.cuota;
   const lbl=fut?`<b style="color:#7DBBF2">$${x.cuota}M</b>`:(!hit?`<b style="color:#F6C95B">$${x.real}M</b>`:'<b></b>');
-  const rb=fut?'':`<i style="height:${(x.real/MX*100).toFixed(1)}%;background:${hit?'#3AA45E':'#E8952F'}"></i>`;
+  const rb=fut?'':`<i style="height:${(x.real/MX*100).toFixed(1)}%;background:${hit?'#FFE3A3':'#E8952F'}"></i>`;
   const cb=`<i style="height:${(x.cuota/MX*100).toFixed(1)}%;${fut?'background:rgba(77,159,232,.15);border:1.5px dashed #4D9FE8':'background:#4D9FE8'}"></i>`;
   return `<div class="cm-col">${lbl}<div class="cm-bars">${rb}${cb}</div><span>${x.m}</span></div>`;
 }).join('');
@@ -927,15 +1067,99 @@ list.addEventListener('click',e=>{const el=e.target.closest('.rl'); if(el){show(
 })();
 const _tick=document.getElementById('tick');
 if(_tick){
-  const half=DATA.highlights.map(h=>`<span style="display:inline-flex;align-items:baseline;gap:9px;font-weight:600;font-size:14px;color:var(--dk-mut)"><span style="font-size:17px">${h.icon}</span><b class="mont" style="color:#fff;font-size:19px">${h.v.toLocaleString('en-US')}</b> ${h.label.toLowerCase()} <span style="color:var(--dk-mut2)">· ${h.sub}</span></span>`).join('<span style="color:rgba(125,187,242,.5);font-size:13px">✦</span>');
+  const _hs=DATA.highlights.filter(h=>h.v>0);
+  const half=_hs.length? _hs.map(h=>`<span style="display:inline-flex;align-items:baseline;gap:9px;font-weight:600;font-size:14px;color:var(--dk-mut)"><span style="font-size:17px">${h.icon}</span><b class="mont" style="color:#fff;font-size:19px">${h.v.toLocaleString('en-US')}</b> ${h.label.toLowerCase()} <span style="color:var(--dk-mut2)">· ${h.sub}</span></span>`).join('<span style="color:rgba(125,187,242,.5);font-size:13px">✦</span>') : '<span style="font-weight:700;font-size:14px;color:var(--dk-mut)">Bienvenidos al All Hands de Numaris · Noviembre 2026 💙</span>';
   _tick.innerHTML=half+'<span style="color:rgba(125,187,242,.5);font-size:13px">✦</span>'+half;
 }
 if(DATA.encuestaQR){document.getElementById('encuestaQR').outerHTML=`<img src="${DATA.encuestaQR}" alt="QR encuesta" style="width:210px;height:210px;border-radius:12px;display:block;margin:0 auto">`;}
 // barra anual + meses
 document.querySelectorAll('[data-cnt-bind]').forEach(sp=>sp.setAttribute('data-cnt', DATA[sp.dataset.cntBind]));
 
-document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((p,i)=>
-  `<div class="adn-card"><span class="mont" style="font-weight:800;font-size:16px;color:var(--blue-lt)">0${i+1}</span><div class="mont" style="font-weight:800;font-size:18px;color:#fff;line-height:1.3">${p.t}</div><div style="color:var(--dk-mut);font-size:13.5px;font-weight:600;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:10px"><span style="color:var(--blue-lt);font-weight:800;font-size:11px;letter-spacing:.1em;text-transform:uppercase">En la práctica</span><br>${p.ej}</div></div>`).join('');
+if(document.getElementById('adnPrincipios'))document.getElementById('adnPrincipios').innerHTML=DATA.adnPrincipios.map((p,i)=>{
+  const hit=[2,3].includes(i+1);
+  return `<div class="anim" style="display:flex;align-items:center;gap:16px;padding:15px 0;border-top:1px solid rgba(255,255,255,.09)">
+    <span class="mont" style="font-weight:800;font-size:clamp(22px,2.4vw,32px);color:${hit?'#F6C95B':'var(--blue-lt)'};opacity:.95;min-width:46px">0${i+1}</span>
+    <div class="mont" style="font-weight:800;font-size:clamp(16px,1.8vw,23px);color:#fff;line-height:1.25;flex:1">${p.t}</div>
+    ${hit?'<span style="color:#F6C95B;font-size:16px" title="Caso real del mes">⭐</span>':''}
+  </div>`}).join('');
+
+// trivia · una pregunta a la vez (intro → pregunta + cronómetro → revelar → siguiente → cierre)
+(function(){
+  const st=document.getElementById('trivStage'); if(!st) return;
+  const Q=DATA.trivia, SECS=30, sec=document.getElementById('strivia');
+  let i=-1, phase='intro', left=SECS, tmr=null, paused=false;
+  const steps=()=>`<div class="tv-steps">${Q.map((q,k)=>`<b class="${k<i||(k===i&&phase==='reveal')?'done':''} ${k===i?'cur':''}" style="--qc:${q.c}"></b>`).join('')}</div>`;
+  function stop(){clearInterval(tmr);tmr=null}
+  function tick(){
+    const el=st.querySelector('.tv-timer'); if(!el) return;
+    el.querySelector('span').textContent=left;
+    el.querySelector('.tp').style.strokeDashoffset=226*(1-left/SECS);
+    el.classList.toggle('hot',left<=5&&left>0); el.classList.toggle('paused',paused);
+    if(left===0){stop(); el.classList.remove('hot'); const u=st.querySelector('.tv-up'); if(u) u.hidden=false;}
+  }
+  function startTimer(){stop(); paused=false; left=SECS; tick(); tmr=setInterval(()=>{if(!paused&&left>0){left--;tick()}},1000)}
+  function burst(c){
+    const b=document.createElement('div'); b.className='tv-burst';
+    const cols=[c,'#F6C95B','#7DBBF2','#F28CB8','#fff'];
+    b.innerHTML=Array.from({length:46},()=>{const a=Math.random()*Math.PI*2,d=180+Math.random()*380;
+      return `<i style="background:${cols[Math.random()*cols.length|0]};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d*.7+120}px;--r:${Math.random()*720-360}deg"></i>`}).join('');
+    st.querySelector('.tv-card').appendChild(b); setTimeout(()=>b.remove(),1600);
+  }
+  function render(){
+    stop();
+    if(phase==='intro'){
+      st.style.removeProperty('--qc');
+      st.innerHTML=`<div class="tv-card tv-intro" style="--qc:#7DBBF2">
+        <span class="tv-ghost">?</span>
+        <span class="tv-lbl">${Q.length} PREGUNTAS · ${SECS} SEGUNDOS CADA UNA</span>
+        <div class="big">¿Listos? 🎯</div>
+        <div class="tv-hint" style="max-width:560px">Una pregunta a la vez: nadie ve la siguiente hasta que revelemos la respuesta. Contesta en el chat antes de que se acabe el tiempo.</div>
+        <button class="tv-btn" data-act="next" style="margin-top:8px">Empezar trivia →</button>
+      </div>`; return;
+    }
+    if(phase==='end'){
+      st.innerHTML=`${steps()}<div class="tv-card tv-intro" style="--qc:#F6C95B">
+        <span class="tv-ghost">👏</span>
+        <span class="tv-lbl">TRIVIA COMPLETADA</span>
+        <div class="big">¡Aplausos para todos! 👏</div>
+        <div class="tv-hint">¿Quién contestó las ${Q.length} primero? Que lo diga en el chat 🏆</div>
+        <button class="tv-btn ghost" data-act="restart" style="margin-top:8px">↺ Repetir trivia</button>
+      </div>`; burst('#F6C95B'); return;
+    }
+    const q=Q[i], rev=phase==='reveal', last=i===Q.length-1;
+    st.innerHTML=`${steps()}<div class="tv-card" style="--qc:${q.c}">
+      <span class="tv-ghost">0${i+1}</span>
+      <div class="tv-top"><span class="tv-lbl">PREGUNTA 0${i+1} DE 0${Q.length}</span>
+        ${rev?`<span class="tv-lbl" style="color:#F6C95B">✓ RESPUESTA</span>`:`<div class="tv-timer" data-act="pause" title="Pausar / reanudar"><svg viewBox="0 0 86 86"><circle class="tt" cx="43" cy="43" r="36"/><circle class="tp" cx="43" cy="43" r="36"/></svg><span>${SECS}</span></div>`}
+      </div>
+      <div class="tv-q">${q.q}</div>
+      ${rev?`<div class="tv-ans">${q.ans.map((a,k)=>`<div class="tv-a ${k>0&&/—/.test(a)?'note':''}" style="animation-delay:${.15+k*.22}s">${a}</div>`).join('')}</div>`
+           :`<div class="tv-hint">${q.hint}</div><div class="tv-up" hidden>⏰ ¡Se acabó el tiempo! ¿Quién la tiene?</div>`}
+      <div class="tv-bar"><span class="tv-keys">Presentador: Enter o → para avanzar · clic en el reloj para pausar</span>
+        ${rev?`<button class="tv-btn" data-act="next">${last?'Terminar trivia 🏁':'Siguiente pregunta →'}</button>`
+             :`<button class="tv-btn" data-act="next">Revelar respuesta 👀</button>`}
+      </div></div>`;
+    if(rev) burst(q.c); else startTimer();
+  }
+  function next(){
+    if(phase==='intro'){i=0;phase='ask'}
+    else if(phase==='ask'){phase='reveal'}
+    else if(phase==='reveal'){ if(i<Q.length-1){i++;phase='ask'} else phase='end'}
+    else return;
+    render();
+  }
+  st.addEventListener('click',e=>{const a=e.target.closest('[data-act]'); if(!a) return;
+    const act=a.dataset.act;
+    if(act==='next') next();
+    else if(act==='restart'){i=-1;phase='intro';render()}
+    else if(act==='pause'&&left>0){paused=!paused;tick()}
+  });
+  document.addEventListener('keydown',e=>{
+    const r=sec.getBoundingClientRect(); if(Math.abs(r.top)>innerHeight*.4) return;
+    if(e.key==='Enter'||e.key==='ArrowRight'){e.preventDefault();next()}
+  });
+  render();
+})();
 
 // total pass
 
@@ -988,7 +1212,7 @@ const io=new IntersectionObserver(es=>{es.forEach(e=>{
 slides.forEach(s=>io.observe(s));
 slides[0].classList.add('inview'); runCounters(slides[0]); links[0].classList.add('on'); pbar.style.width=(1/slides.length*100)+'%';
 
-slides.forEach(s=>{if(['s4','s1','sgracias'].includes(s.id))return;const f=document.createElement('div');f.className='foot-tag';f.textContent='All Hands · Numaris · Octubre 2026';s.appendChild(f);});
+slides.forEach(s=>{if(['s4','s1','sgracias'].includes(s.id))return;const f=document.createElement('div');f.className='foot-tag';f.textContent='All Hands · Numaris · Noviembre 2026';s.appendChild(f);});
 document.addEventListener('keydown',e=>{
   const cur=links.findIndex(l=>l.classList.contains('on'));
   if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,slides.length-1)].scrollIntoView({behavior:'smooth'})}
