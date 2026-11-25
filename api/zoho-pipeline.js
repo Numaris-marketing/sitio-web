@@ -13,10 +13,8 @@ const EXCLUDED_ACCOUNT_IDS = new Set([
   "5991927000065276241", // MSTAR INNOVATION
 ]);
 
-// Pipeline includes these 19 commercial sellers
+// Pipeline includes these 16 commercial sellers
 const INCLUDED_OWNER_NAMES = new Set([
-  "Lorena Bolaños Cacho",
-  "Mario Rincón",
   "Elizabeth Cortes Aguirre",
   "Uriel San Pedro Lopez",
   "Karen Andrea Gonzalez Ramirez",
@@ -24,7 +22,6 @@ const INCLUDED_OWNER_NAMES = new Set([
   "Andrea Quinones",
   "Orlak Efrain Castañeda Diaz",
   "Alan Badillo",
-  "Marleem Hernandez Martinez",
   "Hanna Vazquez",
   "David Urieta",
   "Gabriela Abigail Juarez Perez",
@@ -33,7 +30,6 @@ const INCLUDED_OWNER_NAMES = new Set([
   "Daniel Ocampo",
   "Diana Aylin Rodriguez Ornelas",
   "Guillermo Quijano Gómez",
-  "Jose Guadalupe Castillo Olvera",
 ]);
 
 // Industry classification by Account Owner (Propietario de la cuenta)
@@ -182,22 +178,23 @@ export default async function handler(req, res) {
 
     // Pre-filter at Zoho API level — stage criteria only (safe, known to work)
     const dealCriteria = encodeURIComponent(
-      "((Stage:equals:Levantamiento de necesidades)or" +
-      "(Stage:equals:Presentación con enfoque a solicitud)or" +
-      "(Stage:equals:Prueba Demo)or" +
-      "(Stage:equals:Negociación)or" +
-      "(Stage:equals:Formalización)or" +
+      "((Stage:equals:Oportunidad Identificada)or" +
+      "(Stage:equals:Desarrollo de la solución)or" +
+      "(Stage:equals:Pricing)or" +
+      "(Stage:equals:Plan de Implementación)or" +
+      "(Stage:equals:Propuesta)or" +
+      "(Stage:equals:Firma de contrato)or" +
       "(Stage:equals:En pausa))"
     );
 
     // Campaign deals: all stages (Opportunity_Type filter applied in JS below)
     const campDealCriteria = encodeURIComponent(
-      "((Stage:equals:Levantamiento de necesidades)or" +
-      "(Stage:equals:Presentación con enfoque a solicitud)or" +
-      "(Stage:equals:Prueba Demo)or" +
-      "(Stage:equals:Negociación)or" +
-      "(Stage:equals:Formalización)or" +
-      "(Stage:equals:Contrato firmado)or" +
+      "((Stage:equals:Oportunidad Identificada)or" +
+      "(Stage:equals:Desarrollo de la solución)or" +
+      "(Stage:equals:Pricing)or" +
+      "(Stage:equals:Plan de Implementación)or" +
+      "(Stage:equals:Propuesta)or" +
+      "(Stage:equals:Firma de contrato)or" +
       "(Stage:equals:Venta realizada))"
     );
 
@@ -352,12 +349,12 @@ export default async function handler(req, res) {
     // so expo deals are captured regardless of current stage.
     // Campaign catalog is derived directly from Campa_a objects on deals (no module fetch needed).
     const ACTIVE_STAGES = new Set([
-      "Levantamiento de necesidades",
-      "Presentación con enfoque a solicitud",
-      "Prueba Demo",
-      "Negociación",
-      "Formalización",
-      "Contrato firmado",
+      "Oportunidad Identificada",
+      "Desarrollo de la solución",
+      "Pricing",
+      "Plan de Implementación",
+      "Propuesta",
+      "Firma de contrato",
     ]);
 
     const byCampaign = {};
@@ -386,7 +383,8 @@ export default async function handler(req, res) {
         };
       }
 
-      const v = dealValue(d);
+      // Events use full contract value (Amount) for ROI; ACV only for main pipeline
+      const v = d.Amount || 0;
       const s = dealSubs(d);
 
       byCampaign[campId].totalCount++;

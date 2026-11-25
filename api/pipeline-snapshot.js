@@ -18,13 +18,32 @@ const MAX_DAYS = 90;
 
 // Stage label mapping — Zoho names → display names
 const STAGE_DISPLAY = {
-  "Levantamiento de necesidades":          "Levantamiento",
-  "Presentación con enfoque a solicitud":  "Presentación",
-  "Prueba Demo":                           "Prueba Demo",
-  "Negociación":                           "Negociación",
-  "Formalización":                         "Formalización",
-  "Contrato firmado":                      "Contrato firmado",
+  "Oportunidad Identificada":  "Oportunidad",
+  "Desarrollo de la solución": "Desarrollo",
+  "Pricing":                   "Pricing",
+  "Plan de Implementación":    "Plan Impl.",
+  "Propuesta":                 "Propuesta",
+  "Firma de contrato":         "Firma de contrato",
+  "En pausa":                  "En pausa",
 };
+// Sellers included in the pipeline
+const SNAP_OWNER_NAMES = new Set([
+  "Elizabeth Cortes Aguirre",
+  "Uriel San Pedro Lopez",
+  "Karen Andrea Gonzalez Ramirez",
+  "Elizabeth Alejandra Pineda Gonzalez",
+  "Andrea Quinones",
+  "Orlak Efrain Castañeda Diaz",
+  "Alan Badillo",
+  "Hanna Vazquez",
+  "David Urieta",
+  "Gabriela Abigail Juarez Perez",
+  "Joel Araiza",
+  "Juan Alejandro Duarte Delgadillo",
+  "Daniel Ocampo",
+  "Diana Aylin Rodriguez Ornelas",
+  "Guillermo Quijano Gómez",
+]);
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 function todayKey() {
@@ -102,21 +121,24 @@ function fetchDeals(token, criteria, fields) {
 async function buildTodaySnapshot() {
   const token = await fetchZohoToken();
   const stages = Object.keys(STAGE_DISPLAY);
-  const criteria =
+  const criteria = encodeURIComponent(
     "(" +
     stages.map((s) => `(Stage:equals:${s})`).join("or") +
-    ")";
+    ")"
+  );
 
   const deals = await fetchDeals(
     token,
     criteria,
-    "Deal_Name,Stage,Amount,Annual_Contract_Value"
+    "Deal_Name,Stage,Amount,Annual_Contract_Value,Owner"
   );
 
   const byStage = {};
   for (const s of stages) byStage[s] = 0;
 
   for (const d of deals) {
+    const ownerName = typeof d.Owner === "object" ? (d.Owner?.name || "") : (d.Owner || "");
+    if (!SNAP_OWNER_NAMES.has(ownerName)) continue;
     const v = (d.Annual_Contract_Value || d.Amount || 0);
     if (byStage[d.Stage] !== undefined) byStage[d.Stage] += v;
   }
@@ -147,7 +169,8 @@ export default async function handler(req, res) {
         if (values[idx]) snapMap[k] = values[idx];
       });
     } catch (e) {
-      return res.status(500).json({ error: "KV read failed: " + e.message });
+      console.warn("KV read failed:", e.message);
+      return res.json({ timeline: [] });
     }
 
     // Build ordered timeline (only dates that have data)

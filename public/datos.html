@@ -741,7 +741,7 @@
         <!-- TREND CHART -->
         <div class="trend-card">
           <div class="trend-header">
-            <div class="trend-title">Pipeline ACV Trend — Valor por etapa (MX$M · placeholder)</div>
+            <div class="trend-title">Pipeline ACV Trend — Valor por etapa (MX$M)</div>
             <div class="trend-legend" id="trend-legend"></div>
           </div>
           <canvas id="trend-chart" height="220" style="max-height:220px;"></canvas>
@@ -799,7 +799,7 @@
         <!-- DESGLOSE POR ETAPA -->
         <div class="sec-head">
           <h2>Desglose por Etapa</h2>
-          <p>Solo etapas activas (Levantamiento → Formalización) · Contrato firmado excluido del cálculo de participación</p>
+          <p>Etapas activas incluyendo En pausa · Contrato firmado excluido del cálculo de participación</p>
         </div>
 
         <div class="funnel-card">
@@ -1677,6 +1677,7 @@
       const res = await fetch('/api/zoho-pipeline' + (t ? '?t=' + encodeURIComponent(t) : ''));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
+      lastPipelineData = d;
       if (d.error) throw new Error(d.error);
 
       const s = d.summary;
@@ -1869,13 +1870,15 @@
 
     // ── Funnel por etapa ──
     const STAGE_ORDER = [
-      'Levantamiento de necesidades',
-      'Presentación con enfoque a solicitud',
-      'Prueba Demo',
-      'Negociación',
-      'Formalización',
+      'Oportunidad Identificada',
+      'Desarrollo de la solución',
+      'Pricing',
+      'Plan de Implementación',
+      'Propuesta',
+      'Firma de contrato',
+      'En pausa',
     ];
-    const SHORT = ['Levanta-<br/>miento','Presenta-<br/>ción','Prueba<br/>Demo','Negocia-<br/>ción','Formali-<br/>zación'];
+    const SHORT = ['Oport.<br/>Ident.','Desarro-<br/>llo','Pricing','Plan<br/>Impl.','Pro-<br/>puesta','Firma<br/>contrato','En<br/>pausa'];
 
     const stageContainer    = document.getElementById('stage-breakdown-container');
     const timelineContainer = document.getElementById('stage-timeline-container');
@@ -2896,15 +2899,27 @@
 
   // ── TREND CHART (Pipeline ACV — live from /api/pipeline-snapshot) ───────────
   const TREND_STAGES = [
-    { label: 'Contrato firmado', color: '#10b981' },
-    { label: 'Formalización',    color: '#3b82f6' },
-    { label: 'Negociación',      color: '#f59e0b' },
-    { label: 'Prueba Demo',      color: '#8b5cf6' },
-    { label: 'Presentación',     color: '#ec4899' },
-    { label: 'Levantamiento',    color: '#06b6d4' },
+    { label: 'Firma de contrato', color: '#10b981' },
+    { label: 'Propuesta',         color: '#3b82f6' },
+    { label: 'Plan Impl.',        color: '#f59e0b' },
+    { label: 'Pricing',           color: '#8b5cf6' },
+    { label: 'Desarrollo',        color: '#ec4899' },
+    { label: 'Oportunidad',       color: '#06b6d4' },
+    { label: 'En pausa',          color: '#94a3b8' },
   ];
 
+  const STAGE_TO_TREND = {
+    'Oportunidad Identificada':  'Oportunidad',
+    'Desarrollo de la solución': 'Desarrollo',
+    'Pricing':                   'Pricing',
+    'Plan de Implementación':    'Plan Impl.',
+    'Propuesta':                 'Propuesta',
+    'Firma de contrato':         'Firma de contrato',
+    'En pausa':                  'En pausa',
+  };
+
   let trendChartInstance = null;
+  let lastPipelineData = null;
 
   function renderTrendChart(timeline) {
     const canvas = document.getElementById('trend-chart');
@@ -2979,41 +2994,82 @@
     });
   }
 
+  function snapshotFromPipeline(d) {
+    const tbs = (d && d.totalByStage) || {};
+    const stages = {};
+    for (const [zohoName, dispName] of Object.entries(STAGE_TO_TREND)) {
+      const val = (tbs[zohoName] && tbs[zohoName].value) || 0;
+      stages[dispName] = Math.round((val / 1e6) * 10) / 10;
+    }
+    const now = new Date();
+    const monthNames = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return {
+      dateKey: now.toISOString().slice(0, 10),
+      label: monthNames[now.getMonth()] + ' ' + now.getDate(),
+      stages,
+    };
+  }
+
+  const SNAPS_VERSION = 'v2'; // bump when stages change to clear old data
+  function getLocalTimeline(snap) {
+    let stored = {};
+    try {
+      const raw = JSON.parse(localStorage.getItem('np_snaps') || '{}');
+      stored = (raw._v === SNAPS_VERSION) ? raw : {};
+    } catch {}
+    stored._v = SNAPS_VERSION;
+    stored[snap.dateKey] = { label: snap.label, stages: snap.stages };
+    const keys = Object.keys(stored).filter(k => k !== '_v').sort();
+    if (keys.length > 90) keys.slice(0, keys.length - 90).forEach(k => delete stored[k]);
+    try { localStorage.setItem('np_snaps', JSON.stringify(stored)); } catch {}
+    return keys.sort().map(k => stored[k]);
+  }
+
   async function loadTrendChart() {
     const canvas = document.getElementById('trend-chart');
     if (!canvas) return;
-
-    // Show a loading state on first call
     const wrap = canvas.closest('.chart-wrap') || canvas.parentElement;
-    if (!trendChartInstance) {
-      wrap && (wrap.style.opacity = '0.4');
-    }
+    if (!trendChartInstance) wrap && (wrap.style.opacity = '0.4');
 
+    let usedKV = false;
     try {
       const res = await fetch('/api/pipeline-snapshot');
       const json = await res.json();
-      wrap && (wrap.style.opacity = '1');
-
       if (json.timeline && json.timeline.length > 0) {
+        wrap && (wrap.style.opacity = '1');
+        document.querySelector('.trend-title') &&
+          (document.querySelector('.trend-title').textContent = 'Pipeline ACV Trend — Valor por etapa (MX$M)');
         renderTrendChart(json.timeline);
-      } else {
-        // No history yet — render empty chart with today's label as placeholder
-        const today = new Date();
-        const months = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        const lbl = months[today.getMonth() + 1] + ' ' + today.getDate();
-        const empty = [{ label: lbl, stages: {} }];
-        renderTrendChart(empty);
-        // Show a hint
-        const legendEl = document.getElementById('trend-legend');
-        if (legendEl) {
-          legendEl.insertAdjacentHTML('beforeend',
-            '<span style="color:#94a3b8;font-size:11px;margin-left:12px;">· Acumulando histórico diario…</span>'
-          );
-        }
+        usedKV = true;
       }
     } catch (e) {
-      wrap && (wrap.style.opacity = '1');
       console.warn('pipeline-snapshot fetch failed', e);
+    }
+
+    if (!usedKV) {
+      wrap && (wrap.style.opacity = '1');
+      try {
+        let pd = lastPipelineData;
+        if (!pd) {
+          const r = await fetch('/api/zoho-pipeline');
+          if (r.ok) pd = await r.json();
+        }
+        if (pd && !pd.error) {
+          const snap = snapshotFromPipeline(pd);
+          const timeline = getLocalTimeline(snap);
+          document.querySelector('.trend-title') &&
+            (document.querySelector('.trend-title').textContent = 'Pipeline ACV Trend — Valor por etapa (MX$M)');
+          renderTrendChart(timeline);
+          if (timeline.length <= 1) {
+            const legendEl = document.getElementById('trend-legend');
+            if (legendEl) legendEl.insertAdjacentHTML('beforeend',
+              '<span style="color:#94a3b8;font-size:11px;margin-left:12px;">· Histórico acumulándose diariamente</span>'
+            );
+          }
+        }
+      } catch (e) {
+        console.warn('buildTodaySnapshot failed', e);
+      }
     }
   }
 
